@@ -33,7 +33,7 @@ export function HeroSection({ cmsData }: HeroProps) {
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-10">
           {/* Left Column: Editorial Content */}
           <div className="lg:col-span-7 space-y-6">
-            <div className="inline-flex items-center gap-2.5 rounded-full mrm-glass-panel px-4 py-1.5">
+            <div className="inline-flex items-center gap-2.5 rounded-full px-4 py-1.5 backdrop-blur-xl bg-white/70 dark:bg-white/[0.08] border border-white/80 dark:border-white/15 shadow-xs transition-colors">
               <span
                 className="h-2 w-2 rounded-full"
                 style={{ backgroundColor: "var(--brand-cyan)" }}
@@ -75,7 +75,7 @@ export function HeroSection({ cmsData }: HeroProps) {
 
               <Link
                 href={content.secondaryCtaHref}
-                className="inline-flex items-center justify-center gap-2 rounded-xl mrm-glass-panel px-7 py-4 text-sm font-semibold transition-all duration-200 hover:-translate-y-0.5"
+                className="inline-flex items-center justify-center gap-2 rounded-xl px-7 py-4 text-sm font-semibold backdrop-blur-xl bg-white/75 hover:bg-white/90 dark:bg-white/10 dark:hover:bg-white/15 border border-slate-200/80 dark:border-white/20 shadow-xs transition-all duration-200 hover:-translate-y-0.5"
                 style={{ color: "var(--text-primary)" }}
               >
                 <span>{content.secondaryCtaLabel}</span>
@@ -96,7 +96,7 @@ export function HeroSection({ cmsData }: HeroProps) {
           <div className="relative lg:col-span-5">
             <div className="relative mx-auto max-w-md lg:max-w-none min-h-[420px] flex items-center justify-center">
               {/* Central Architectural Core Panel */}
-              <div className="mrm-glass-panel relative z-10 w-full rounded-2xl p-6 sm:p-8 space-y-6">
+              <div className="relative z-10 w-full rounded-2xl p-6 sm:p-8 space-y-6 backdrop-blur-xl md:backdrop-blur-2xl bg-white/70 dark:bg-[#0B1D31]/75 border border-white/80 dark:border-white/15 shadow-xl shadow-[#071A35]/5 dark:shadow-black/40 ring-1 ring-black/5 dark:ring-white/5 transition-all duration-300">
                 <div className="flex items-center justify-between border-b pb-4" style={{ borderColor: "var(--border-subtle)" }}>
                   <div>
                     <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--brand-cyan)" }}>
@@ -107,8 +107,8 @@ export function HeroSection({ cmsData }: HeroProps) {
                     </h2>
                   </div>
                   <div
-                    className="flex h-10 w-10 items-center justify-center rounded-xl"
-                    style={{ backgroundColor: "rgba(8, 127, 196, 0.12)", color: "var(--brand-blue)" }}
+                    className="flex h-10 w-10 items-center justify-center rounded-xl backdrop-blur-md bg-white/80 dark:bg-white/10 border border-white/60 dark:border-white/10"
+                    style={{ color: "var(--brand-blue)" }}
                   >
                     <Layers className="h-5 w-5" />
                   </div>
@@ -116,7 +116,7 @@ export function HeroSection({ cmsData }: HeroProps) {
 
                 {/* 3 Real Domain Identities */}
                 <div className="space-y-3">
-                  <div className="rounded-xl p-3.5 transition-colors" style={{ backgroundColor: "var(--bg-secondary)" }}>
+                  <div className="rounded-xl p-3.5 backdrop-blur-md bg-white/60 dark:bg-white/[0.05] border border-white/70 dark:border-white/10 shadow-xs transition-all duration-200 hover:border-[#087FC4]/30 dark:hover:border-[#20B8D5]/30">
                     <div className="flex items-center gap-3">
                       <span className="h-2.5 w-2.5 rounded-full bg-[#087FC4]" />
                       <div>
@@ -130,7 +130,7 @@ export function HeroSection({ cmsData }: HeroProps) {
                     </div>
                   </div>
 
-                  <div className="rounded-xl p-3.5 transition-colors" style={{ backgroundColor: "var(--bg-secondary)" }}>
+                  <div className="rounded-xl p-3.5 backdrop-blur-md bg-white/60 dark:bg-white/[0.05] border border-white/70 dark:border-white/10 shadow-xs transition-all duration-200 hover:border-[#20B8D5]/30 dark:hover:border-[#20B8D5]/30">
                     <div className="flex items-center gap-3">
                       <span className="h-2.5 w-2.5 rounded-full bg-[#20B8D5]" />
                       <div>
@@ -144,7 +144,7 @@ export function HeroSection({ cmsData }: HeroProps) {
                     </div>
                   </div>
 
-                  <div className="rounded-xl p-3.5 transition-colors" style={{ backgroundColor: "var(--bg-secondary)" }}>
+                  <div className="rounded-xl p-3.5 backdrop-blur-md bg-white/60 dark:bg-white/[0.05] border border-white/70 dark:border-white/10 shadow-xs transition-all duration-200 hover:border-[#103B68]/30 dark:hover:border-sky-400/30">
                     <div className="flex items-center gap-3">
                       <span className="h-2.5 w-2.5 rounded-full bg-[#103B68] dark:bg-sky-400" />
                       <div>
@@ -161,7 +161,7 @@ export function HeroSection({ cmsData }: HeroProps) {
 
                 {/* Bottom Pillar Footer */}
                 <div className="grid grid-cols-2 gap-3 pt-2">
-                  <div className="rounded-lg border p-3" style={{ borderColor: "var(--border-subtle)" }}>
+                  <div className="rounded-lg border border-slate-200/70 dark:border-white/10 backdrop-blur-md bg-white/50 dark:bg-white/[0.04] p-3 transition-colors">
                     <div className="flex items-center gap-2 text-xs font-semibold" style={{ color: "var(--brand-blue)" }}>
                       <Cpu className="h-3.5 w-3.5" />
                       <span>SaaS Products</span>
@@ -170,7 +170,7 @@ export function HeroSection({ cmsData }: HeroProps) {
                       Built for long-term industry scale
                     </p>
                   </div>
-                  <div className="rounded-lg border p-3" style={{ borderColor: "var(--border-subtle)" }}>
+                  <div className="rounded-lg border border-slate-200/70 dark:border-white/10 backdrop-blur-md bg-white/50 dark:bg-white/[0.04] p-3 transition-colors">
                     <div className="flex items-center gap-2 text-xs font-semibold" style={{ color: "var(--brand-cyan)" }}>
                       <ShieldCheck className="h-3.5 w-3.5" />
                       <span>Client Engineering</span>
@@ -183,7 +183,7 @@ export function HeroSection({ cmsData }: HeroProps) {
               </div>
 
               {/* Floating Top-Right Glass Pill */}
-              <div className="mrm-glass-panel animate-float-subtle hidden sm:flex items-center gap-2.5 rounded-xl px-4 py-2.5 absolute -top-5 -right-4 z-20">
+              <div className="animate-float-subtle hidden sm:flex items-center gap-2.5 rounded-xl px-4 py-2.5 absolute -top-5 -right-4 z-20 backdrop-blur-xl md:backdrop-blur-2xl bg-white/80 dark:bg-[#10243B]/80 border border-white/90 dark:border-white/20 shadow-lg shadow-[#071A35]/8 dark:shadow-black/50 ring-1 ring-black/5 dark:ring-white/10">
                 <Sparkles className="h-4 w-4" style={{ color: "var(--brand-cyan)" }} />
                 <span className="text-xs font-semibold" style={{ color: "var(--text-primary)" }}>
                   Production-Grade Architecture
