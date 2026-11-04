@@ -79,7 +79,13 @@ export function ServicesOverview({ services }: ServicesOverviewProps) {
         {hasServices ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {services!.slice(0, 6).map((item) => {
-              const name = item.name || item.title || 'Engineering Service';
+              const name =
+                item.name ||
+                item.title ||
+                item.slug
+                  .split('-')
+                  .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+                  .join(' ');
               const slug = item.slug;
               const summary = item.summary || 'Enterprise digital engineering and software services.';
               const Icon = getServiceIcon(slug);

@@ -25,8 +25,18 @@ export const metadata: Metadata = {
 };
 
 export default async function ServicesPage() {
-  const services = await PublicApiService.getServices('en');
-  const hasServices = Boolean(services && services.length > 0);
+  const rawServices = await PublicApiService.getServices('en');
+  const servicesList = Array.isArray(rawServices)
+    ? rawServices
+    : (rawServices as unknown as { data?: unknown[] })?.data || [];
+  
+  const sortedServices = [...(servicesList as Array<{ slug: string; name?: string; title?: string; summary?: string; sortOrder?: number; order?: number }>)].sort((a, b) => {
+    const orderA = typeof a.sortOrder === 'number' ? a.sortOrder : (typeof a.order === 'number' ? a.order : 999);
+    const orderB = typeof b.sortOrder === 'number' ? b.sortOrder : (typeof b.order === 'number' ? b.order : 999);
+    return orderA - orderB;
+  });
+
+  const hasServices = sortedServices.length > 0;
 
   const getServiceIcon = (slug: string) => {
     if (slug.includes('web') || slug.includes('frontend')) return Code2;
@@ -66,19 +76,34 @@ export default async function ServicesPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {hasServices ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {services.map((service: { slug: string; name?: string; summary?: string }) => {
+              {sortedServices.map((service, index) => {
                 const Icon = getServiceIcon(service.slug);
-                const name = service.name || 'Engineering Discipline';
+                const name =
+                  service.name ||
+                  service.title ||
+                  service.slug
+                    .split('-')
+                    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+                    .join(' ');
                 const summary = service.summary || 'Enterprise digital engineering and software services.';
+                const displayNum = String(service.order || service.sortOrder || index + 1).padStart(2, '0');
 
                 return (
                   <div
                     key={service.slug}
-                    className="liquid-glass-card rounded-2xl p-7 flex flex-col justify-between group"
+                    className="liquid-glass-card rounded-2xl p-7 flex flex-col justify-between group hover:border-[#087FC4] dark:hover:border-[#20B8D5] transition-all duration-300 relative overflow-hidden"
                   >
+                    {/* Hover Glow */}
+                    <div className="absolute -right-12 -top-12 w-32 h-32 rounded-full bg-[#087FC4]/10 dark:bg-[#20B8D5]/10 blur-2xl group-hover:scale-150 transition-transform duration-500 pointer-events-none" />
+
                     <div className="space-y-4">
-                      <div className="w-12 h-12 rounded-xl bg-[#087FC4]/10 dark:bg-[#20B8D5]/15 text-[#087FC4] dark:text-[#20B8D5] flex items-center justify-center group-hover:scale-105 transition-transform">
-                        <Icon className="w-6 h-6" />
+                      <div className="flex items-center justify-between">
+                        <div className="w-12 h-12 rounded-xl bg-[#087FC4]/10 dark:bg-[#20B8D5]/15 text-[#087FC4] dark:text-[#20B8D5] flex items-center justify-center group-hover:scale-105 transition-transform">
+                          <Icon className="w-6 h-6" />
+                        </div>
+                        <span className="text-xs font-mono font-black px-2.5 py-1 rounded-lg bg-[#087FC4]/10 text-[#087FC4] dark:text-[#20B8D5]">
+                          {displayNum}
+                        </span>
                       </div>
 
                       <div>

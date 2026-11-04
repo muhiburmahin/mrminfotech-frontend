@@ -66,7 +66,7 @@ export const PublicApiService = {
     return fetchBackend<T>(`/products/${encodeURIComponent(slug)}?locale=${locale}`, null as unknown as T);
   },
   getServices<T = any>(locale = 'en'): Promise<T> {
-    return fetchBackend<T>(`/services?locale=${locale}`, [] as unknown as T);
+    return fetchBackend<T>(`/services?locale=${locale}&limit=50&sort=sortOrder&order=asc`, [] as unknown as T);
   },
   getServiceBySlug<T = any>(slug: string, locale = 'en'): Promise<T> {
     return fetchBackend<T>(`/services/${encodeURIComponent(slug)}?locale=${locale}`, null as unknown as T);

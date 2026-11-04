@@ -99,8 +99,46 @@ export async function deleteAdminProject(id: string) {
   return res.data;
 }
 
+export interface AdminServicePayload {
+  title?: string;
+  name?: string;
+  slug: string;
+  summary?: string;
+  description?: string;
+  icon?: string | null;
+  sortOrder?: number;
+  order?: number;
+  isActive?: boolean;
+  isPublished?: boolean;
+  status?: string;
+}
+
 export async function getAdminServices() {
-  return fetchApi('/admin/services');
+  const res = await authRequest<{ data: Array<Record<string, unknown>> }>('/admin/services?limit=100&sort=sortOrder&order=asc');
+  return res.data;
+}
+
+export async function createAdminService(payload: AdminServicePayload) {
+  const res = await authRequest('/admin/services', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  return res.data;
+}
+
+export async function updateAdminService(id: string, payload: Partial<AdminServicePayload>) {
+  const res = await authRequest('/admin/services/' + encodeURIComponent(id), {
+    method: 'PATCH',
+    body: JSON.stringify(payload),
+  });
+  return res.data;
+}
+
+export async function deleteAdminService(id: string) {
+  const res = await authRequest('/admin/services/' + encodeURIComponent(id), {
+    method: 'DELETE',
+  });
+  return res.data;
 }
 
 export async function getAdminBlogPosts() {

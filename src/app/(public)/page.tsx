@@ -76,10 +76,15 @@ interface ProductItem {
 
 interface PublishedServiceRaw {
   slug: string;
+  name?: string;
   title?: string;
   summary?: string;
   description?: string;
+  icon?: string | null;
+  sortOrder?: number;
+  order?: number;
   translations?: Array<{
+    name?: string;
     title?: string;
     summary?: string;
     description?: string;
@@ -90,6 +95,9 @@ interface ServiceItem {
   slug: string;
   title: string;
   summary: string;
+  sortOrder?: number;
+  order?: number;
+  icon?: string | null;
 }
 
 interface PublishedProject {
@@ -357,7 +365,7 @@ export default async function HomePage() {
     apiFaqs,
   ] = await Promise.all([
     fetchBackendList<PublishedProductRaw>('/products?locale=en&sortBy=sortOrder&order=asc'),
-    fetchBackendList<PublishedServiceRaw>('/services?locale=en'),
+    fetchBackendList<PublishedServiceRaw>('/services?locale=en&limit=50&sort=sortOrder&order=asc'),
     fetchBackendList<PublishedProject>('/projects?locale=en'),
     fetchBackendList<PublishedCaseStudy>('/case-studies?locale=en'),
     fetchBackendList<PublishedTeamMember>('/team?locale=en'),
@@ -388,17 +396,39 @@ export default async function HomePage() {
         }))
       : FALLBACK_PRODUCTS;
 
+  const sortedApiServices = [...apiServices].sort((a, b) => {
+    const orderA = typeof a.sortOrder === 'number' ? a.sortOrder : (typeof a.order === 'number' ? a.order : 999);
+    const orderB = typeof b.sortOrder === 'number' ? b.sortOrder : (typeof b.order === 'number' ? b.order : 999);
+    return orderA - orderB;
+  });
+
   const services: ServiceItem[] =
-    apiServices.length > 0
-      ? apiServices.slice(0, 10).map((s) => ({
-          slug: s.slug,
-          title: s.title || s.translations?.[0]?.title || s.slug,
-          summary:
+    sortedApiServices.length > 0
+      ? sortedApiServices.map((s, index) => {
+          const rawTitle =
+            s.title ||
+            s.name ||
+            s.translations?.[0]?.name ||
+            s.translations?.[0]?.title ||
+            s.slug
+              .split('-')
+              .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+              .join(' ');
+          const rawSummary =
             s.summary ||
             s.translations?.[0]?.summary ||
             s.description ||
-            '',
-        }))
+            '';
+          const finalOrder = typeof s.sortOrder === 'number' ? s.sortOrder : (typeof s.order === 'number' ? s.order : index + 1);
+          return {
+            slug: s.slug,
+            title: rawTitle,
+            summary: rawSummary,
+            sortOrder: finalOrder,
+            order: finalOrder,
+            icon: s.icon,
+          };
+        })
       : FALLBACK_SERVICES;
 
   const featuredProjects: PublishedProject[] = apiProjects.slice(0, 6);
@@ -919,31 +949,43 @@ export default async function HomePage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {services.map((service, index) => (
-              <Link
-                key={service.slug || index}
-                className="mrm-glass-card rounded-2xl p-6 sm:p-7 flex flex-col justify-between group transition-all duration-300"
-                href={`/services/${service.slug}`}
-              >
-                <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-xs font-mono font-bold px-2.5 py-1 rounded-md mrm-glass-pill text-[#087FC4] dark:text-[#20B8D5]">
-                      {String(index + 1).padStart(2, '0')}
-                    </span>
-                    <ArrowUpRight className="w-4 h-4 text-[var(--text-muted)] group-hover:text-[#087FC4] dark:group-hover:text-[#20B8D5] transition-transform" />
+            {services.map((service, index) => {
+              const displayNum = String(service.order || service.sortOrder || index + 1).padStart(2, '0');
+              return (
+                <Link
+                  key={service.slug || index}
+                  className="mrm-solid-card rounded-3xl p-8 flex flex-col justify-between group hover:border-[#087FC4] dark:hover:border-[#20B8D5] transition-all duration-300 transform hover:-translate-y-1.5 shadow-md hover:shadow-2xl relative overflow-hidden"
+                  href={`/services/${service.slug}`}
+                >
+                  {/* Subtle Glow Effect on Hover */}
+                  <div className="absolute -right-12 -top-12 w-32 h-32 rounded-full bg-[#087FC4]/10 dark:bg-[#20B8D5]/10 blur-2xl group-hover:scale-150 transition-transform duration-500 pointer-events-none" />
+
+                  <div>
+                    <div className="flex items-center justify-between mb-6">
+                      <span className="text-xs font-mono font-black px-3 py-1 rounded-lg bg-[#087FC4]/10 text-[#087FC4] dark:text-[#20B8D5]">
+                        {displayNum}
+                      </span>
+                      <div className="w-9 h-9 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-subtle)] flex items-center justify-center text-[var(--text-secondary)] group-hover:bg-[#087FC4] group-hover:text-white group-hover:border-transparent transition-all duration-300">
+                        <ArrowUpRight className="w-4 h-4" />
+                      </div>
+                    </div>
+
+                    <h3 className="text-xl font-extrabold text-[var(--text-primary)] group-hover:text-[#087FC4] dark:group-hover:text-[#20B8D5] transition-colors mb-3">
+                      {service.title}
+                    </h3>
+
+                    <p className="text-sm text-[var(--text-secondary)] leading-relaxed line-clamp-3">
+                      {service.summary}
+                    </p>
                   </div>
-                  <h3 className="text-lg font-extrabold group-hover:text-[#087FC4] dark:group-hover:text-[#20B8D5] transition-colors mb-2">
-                    {service.title}
-                  </h3>
-                  <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
-                    {service.summary}
-                  </p>
-                </div>
-                <div className="pt-5 mt-4 border-t border-[var(--border-subtle)] text-xs font-bold text-[#087FC4] dark:text-[#20B8D5]">
-                  Learn More →
-                </div>
-              </Link>
-            ))}
+
+                  <div className="pt-6 mt-6 border-t border-[var(--border-subtle)] flex items-center justify-between text-xs font-bold text-[#087FC4] dark:text-[#20B8D5]">
+                    <span>Learn More</span>
+                    <ArrowRight className="w-3.5 h-3.5 transform group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </Link>
+              );
+            })}
           </div>
         </div>
       </section>
