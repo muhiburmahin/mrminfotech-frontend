@@ -40,7 +40,7 @@ export function Navbar() {
   // Scroll detection
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
+      setIsScrolled(window.scrollY > 16);
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
@@ -145,8 +145,8 @@ export function Navbar() {
       ref={navRef}
       className={`sticky top-0 z-50 w-full transition-all duration-200 ${
         isScrolled
-          ? 'mrm-glass-panel border-b border-[var(--border-subtle)] shadow-xs'
-          : 'bg-[var(--bg-main)]/90 backdrop-blur-xs border-b border-[var(--border-subtle)]'
+          ? 'backdrop-blur-lg bg-white/85 dark:bg-[#071A35]/85 shadow-sm border-b border-[#E1EAF3] dark:border-white/10'
+          : 'bg-[var(--bg-primary)]/90 backdrop-blur-xs border-b border-[var(--border-subtle)]'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

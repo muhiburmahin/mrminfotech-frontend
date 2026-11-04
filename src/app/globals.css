@@ -8,56 +8,56 @@
   --color-brand-blue: var(--brand-blue, #087FC4);
   --color-brand-cyan: var(--brand-cyan, #20B8D5);
 
-  --color-page: var(--bg-main);
-  --color-surface: var(--surface-card);
-  --color-card: var(--surface-card);
+  --color-page: var(--bg-primary);
+  --color-surface: var(--surface-solid);
+  --color-card: var(--surface-solid);
   --color-card-border: var(--border-subtle);
   --color-primary-text: var(--text-primary);
   --color-muted-text: var(--text-muted);
 }
 
 :root {
-  /* Brand Core Tokens */
-  --brand-navy-primary: #071A35;
-  --brand-navy-secondary: #103B68;
-  --brand-blue: #087FC4;
-  --brand-cyan: #20B8D5;
+  /* Brand Core */
   --brand-navy: #071A35;
   --brand-secondary: #103B68;
+  --brand-blue: #087FC4;
+  --brand-cyan: #20B8D5;
+  --brand-navy-primary: #071A35;
+  --brand-navy-secondary: #103B68;
 
-  /* Light Theme Tokens */
-  --bg-main: #F7FAFE;
+  /* Light Mode Palette (Cool White + Subtle Blue/Cyan Tint) */
+  --bg-primary: #F7FAFE;
   --bg-secondary: #EFF5FB;
-  --surface-card: #FFFFFF;
+  --surface-solid: #FFFFFF;
   --surface-elevated: #FFFFFF;
   --text-primary: #10243B;
   --text-secondary: #52657B;
   --text-muted: #71839A;
   --border-subtle: #E1EAF3;
-
-  /* Selective Glass Tokens - Light */
   --glass-bg: rgba(255, 255, 255, 0.68);
-  --glass-bg-strong: rgba(255, 255, 255, 0.82);
-  --glass-border: rgba(8, 127, 196, 0.16);
-  --glass-shadow: 0 20px 50px -12px rgba(7, 26, 53, 0.08);
+  --glass-bg-strong: rgba(255, 255, 255, 0.76);
+  --glass-border: rgba(8, 127, 196, 0.18);
+  --glass-shadow: 0 16px 40px -12px rgba(7, 26, 53, 0.08);
   --ambient-glow-blue: rgba(8, 127, 196, 0.12);
   --ambient-glow-cyan: rgba(32, 184, 213, 0.14);
 
-  /* Compatibility Fallback Aliases */
-  --bg-page: #F7FAFE;
-  --bg-surface: #FFFFFF;
-  --bg-surface-secondary: #EFF5FB;
-  --bg-card: #FFFFFF;
+  /* Legacy & Compatibility Aliases */
+  --bg-main: var(--bg-primary);
+  --bg-page: var(--bg-primary);
+  --bg-surface: var(--surface-solid);
+  --bg-surface-secondary: var(--bg-secondary);
+  --bg-card: var(--surface-solid);
+  --surface-card: var(--surface-solid);
   --bg-card-hover: #EFF5FB;
   --bg-input: #FFFFFF;
-  --border-card: #E1EAF3;
+  --border-card: var(--border-subtle);
   --border-hover: #087FC4;
   --nav-bg: rgba(255, 255, 255, 0.85);
   --header-border: #E1EAF3;
-  --shadow-card: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+  --shadow-card: var(--glass-shadow);
 
-  --background: var(--bg-main);
-  --surface: var(--surface-card);
+  --background: var(--bg-primary);
+  --surface: var(--surface-solid);
   --foreground: var(--text-primary);
   --muted: var(--text-muted);
   --border: var(--border-subtle);
@@ -68,37 +68,37 @@
 }
 
 .dark {
-  /* Brand Core Tokens */
-  --brand-navy-primary: #071A35;
-  --brand-navy-secondary: #103B68;
-  --brand-blue: #087FC4;
-  --brand-cyan: #20B8D5;
+  /* Brand Core */
   --brand-navy: #071A35;
   --brand-secondary: #103B68;
+  --brand-blue: #087FC4;
+  --brand-cyan: #20B8D5;
+  --brand-navy-primary: #071A35;
+  --brand-navy-secondary: #103B68;
 
-  /* Dark Theme Tokens */
-  --bg-main: #071321;
+  /* Dark Mode Palette (Deep Navy + Layered Translucent Surfaces) */
+  --bg-primary: #071321;
   --bg-secondary: #0B1D31;
-  --surface-card: #10243B;
+  --surface-solid: #10243B;
   --surface-elevated: #142D47;
   --text-primary: #F1F6FC;
   --text-secondary: #B7C7D9;
   --text-muted: #879CB3;
   --border-subtle: rgba(255, 255, 255, 0.10);
-
-  /* Selective Glass Tokens - Dark */
   --glass-bg: rgba(16, 36, 59, 0.62);
   --glass-bg-strong: rgba(20, 45, 71, 0.78);
   --glass-border: rgba(32, 184, 213, 0.22);
-  --glass-shadow: 0 24px 60px -15px rgba(0, 0, 0, 0.55);
+  --glass-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.55);
   --ambient-glow-blue: rgba(8, 127, 196, 0.22);
   --ambient-glow-cyan: rgba(32, 184, 213, 0.18);
 
-  /* Compatibility Fallback Aliases */
-  --bg-page: #071321;
-  --bg-surface: #10243B;
-  --bg-surface-secondary: #0B1D31;
-  --bg-card: #10243B;
+  /* Legacy & Compatibility Aliases */
+  --bg-main: var(--bg-primary);
+  --bg-page: var(--bg-primary);
+  --bg-surface: var(--surface-solid);
+  --bg-surface-secondary: var(--bg-secondary);
+  --bg-card: var(--surface-solid);
+  --surface-card: var(--surface-solid);
   --bg-card-hover: #142D47;
   --bg-input: #071321;
   --border-card: rgba(255, 255, 255, 0.10);
@@ -107,30 +107,53 @@
   --header-border: rgba(255, 255, 255, 0.10);
   --shadow-card: 0 4px 24px -2px rgba(0, 0, 0, 0.4);
 
-  --background: var(--bg-main);
-  --surface: var(--surface-card);
+  --background: var(--bg-primary);
+  --surface: var(--surface-solid);
   --foreground: var(--text-primary);
   --muted: var(--text-muted);
   --border: var(--border-subtle);
 }
 
 body {
-  background-color: var(--bg-main);
+  background-color: var(--bg-primary);
   color: var(--text-primary);
   font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   overflow-x: hidden;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition: background-color 220ms cubic-bezier(0.22, 1, 0.36, 1),
+              color 220ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* ============================================================================
-   Selective Glassmorphism Components
-   ============================================================================ */
+/* ==========================================================================
+   SELECTIVE GLASSMORPHISM CLASSES (With Solid Fallbacks)
+   ========================================================================== */
+
+/* 01. Hero Floating Glass Panels */
+.mrm-glass-strong {
+  background: rgba(255, 255, 255, 0.76);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  border: 1px solid rgba(8, 127, 196, 0.22);
+  box-shadow: var(--glass-shadow);
+}
+
+.dark .mrm-glass-strong {
+  background: linear-gradient(
+    135deg,
+    rgba(20, 45, 71, 0.72) 0%,
+    rgba(11, 29, 49, 0.82) 100%
+  );
+  border: 1px solid rgba(32, 184, 213, 0.28);
+  box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.6),
+              inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+}
+
+/* 02. Glass Panel Generic */
 .mrm-glass-panel {
   background: var(--glass-bg);
   border: 1px solid var(--glass-border);
   box-shadow: var(--glass-shadow);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 @media (min-width: 768px) {
@@ -140,47 +163,59 @@ body {
   }
 }
 
-/* Solid Editorial Card Surface */
-.mrm-solid-card {
-  background-color: var(--surface-card);
-  border: 1px solid var(--border-subtle);
-  transition: transform 250ms cubic-bezier(0.22, 1, 0.36, 1),
-              border-color 250ms cubic-bezier(0.22, 1, 0.36, 1),
-              box-shadow 250ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.mrm-solid-card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(8, 127, 196, 0.35);
-  box-shadow: 0 16px 36px -10px rgba(7, 26, 53, 0.12);
-}
-
-/* Glass Pill Badge for Technology Section */
-.mrm-glass-badge {
+/* 03. Product Cards — Selective Glass with Hover Lift & Glow */
+.mrm-glass-card {
   background: var(--glass-bg);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1),
+              border-color 260ms cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 260ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.mrm-glass-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(32, 184, 213, 0.55);
+  box-shadow: 0 20px 44px -12px rgba(8, 127, 196, 0.22);
+}
+
+/* 04. Technology Section — Glass Badges / Pills */
+.mrm-glass-pill {
+  background: var(--glass-bg);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  transition: all 220ms cubic-bezier(0.22, 1, 0.36, 1);
+  border: 1px solid var(--glass-border);
+  transition: all 200ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.mrm-glass-badge:hover {
-  border-color: var(--brand-cyan);
-  box-shadow: 0 0 20px -4px var(--ambient-glow-cyan);
+.mrm-glass-pill:hover {
+  border-color: #20B8D5;
+  box-shadow: 0 0 20px -4px rgba(32, 184, 213, 0.35);
   transform: translateY(-2px);
 }
 
-/* Purposeful Motion Keyframes */
-@keyframes ambientPulse {
-  0%, 100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  50% {
-    transform: translate3d(15px, -15px, 0) scale(1.04);
-  }
+/* Solid Surface Cards (For Services, Why Us, Blog, Process, FAQ) */
+.mrm-solid-card {
+  background-color: var(--surface-solid);
+  border: 1px solid var(--border-subtle);
+  transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1),
+              border-color 240ms cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 240ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-@keyframes gentleFloat {
+.mrm-solid-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(8, 127, 196, 0.4);
+  box-shadow: 0 14px 32px -10px rgba(7, 26, 53, 0.12);
+}
+
+/* ==========================================================================
+   PURPOSEFUL MOTION & KEYFRAMES (Respects prefers-reduced-motion)
+   ========================================================================== */
+
+@keyframes mrmFloatSlow {
   0%, 100% {
     transform: translateY(0px);
   }
@@ -189,15 +224,30 @@ body {
   }
 }
 
-.animate-ambient-slow {
-  animation: ambientPulse 12s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+@keyframes mrmAmbientPulse {
+  0%, 100% {
+    opacity: 0.45;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.06);
+  }
 }
 
-.animate-float-subtle {
-  animation: gentleFloat 6s ease-in-out infinite;
+.animate-mrm-float {
+  animation: mrmFloatSlow 7s cubic-bezier(0.22, 1, 0.36, 1) infinite;
 }
 
-/* Existing Glassmorphism & Liquid Glass Support */
+.animate-mrm-float-delayed {
+  animation: mrmFloatSlow 8.5s cubic-bezier(0.22, 1, 0.36, 1) 1.5s infinite;
+}
+
+.animate-mrm-ambient {
+  animation: mrmAmbientPulse 12s ease-in-out infinite;
+}
+
+/* Compatibility classes */
 .glass-card {
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(12px);
@@ -249,39 +299,12 @@ body {
     inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
 }
 
-.liquid-glass-card {
-  background: var(--surface-card);
-  border: 1px solid var(--border-subtle);
-  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.liquid-glass-card:hover {
-  transform: translateY(-3px);
-  border-color: rgba(32, 184, 213, 0.55);
-  box-shadow: 0 16px 36px -10px rgba(8, 127, 196, 0.22);
-}
-
-/* Subtle modern corporate helpers */
-.bg-corporate-grid {
-  background-size: 32px 32px;
-  background-image: 
-    linear-gradient(to right, rgba(8, 127, 196, 0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(8, 127, 196, 0.05) 1px, transparent 1px);
-}
-
-.bg-dark-grid {
-  background-size: 32px 32px;
-  background-image: 
-    linear-gradient(to right, rgba(32, 184, 213, 0.07) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(32, 184, 213, 0.07) 1px, transparent 1px);
-}
-
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 7px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--bg-main);
+  background: var(--bg-primary);
 }
 ::-webkit-scrollbar-thumb {
   background: #94A3B8;
@@ -291,7 +314,6 @@ body {
   background: var(--brand-blue);
 }
 
-/* Reduced Motion Override */
 @media (prefers-reduced-motion: reduce) {
   *,
   ::before,
@@ -301,10 +323,12 @@ body {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-  .animate-ambient-slow,
-  .animate-float-subtle,
+  .animate-mrm-float,
+  .animate-mrm-float-delayed,
+  .animate-mrm-ambient,
+  .mrm-glass-card,
   .mrm-solid-card,
-  .mrm-glass-badge {
+  .mrm-glass-pill {
     animation: none !important;
     transition: none !important;
     transform: none !important;
