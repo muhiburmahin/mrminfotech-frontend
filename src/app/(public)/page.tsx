@@ -15,6 +15,13 @@ import {
   Users,
   BookOpen,
   ExternalLink,
+  GraduationCap,
+  HeartPulse,
+  Building2,
+  ShoppingCart,
+  TrendingUp,
+  Smartphone,
+  Cloud,
 } from 'lucide-react';
 import HomeFaqAccordion from '@/components/public/home/HomeFaqAccordion';
 import GlassEmptyState from '@/components/ui/GlassEmptyState';
@@ -585,8 +592,8 @@ export default async function HomePage() {
       {/* =====================================================================
           SECTION 03 — OUR BUSINESS AREAS (Two Contrasting Feature Panels)
           ===================================================================== */}
-      <section className="py-20 lg:py-24 bg-[var(--bg-secondary)] border-y border-[var(--border-subtle)]">
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-20 lg:py-24 bg-[var(--bg-secondary)] border-y border-[var(--border-subtle)] relative overflow-hidden">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="max-w-3xl mb-14">
             <span className="text-xs font-extrabold uppercase tracking-widest text-[#087FC4] dark:text-[#20B8D5]">
               WHAT WE DO
@@ -603,71 +610,251 @@ export default async function HomePage() {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Block 1: Software Products (Deep Navy Liquid Glass Executive Panel) */}
-            <div className="rounded-3xl p-8 sm:p-10 bg-gradient-to-br from-[#071A35] via-[#0B2548] to-[#103B68] text-white border border-[#20B8D5]/30 shadow-2xl flex flex-col justify-between relative overflow-hidden">
-              <div className="space-y-4 relative z-10">
-                <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#20B8D5]/15 border border-[#20B8D5]/30 text-[#20B8D5] text-xs font-bold uppercase tracking-wider">
-                  <Layers className="w-3.5 h-3.5" /> Focus Area 01
+            <div className="rounded-3xl p-8 sm:p-10 bg-gradient-to-br from-[#071A35] via-[#0B2548] to-[#103B68] text-white border border-[#20B8D5]/30 shadow-2xl flex flex-col justify-between relative overflow-hidden group hover:border-[#20B8D5]/60 transition-all duration-300">
+              {/* Subtle ambient cyan glow in background */}
+              <div className="absolute -right-16 -top-16 w-56 h-56 bg-[#20B8D5]/15 rounded-full blur-3xl pointer-events-none group-hover:scale-125 transition-transform duration-700" />
+
+              <div className="space-y-5 relative z-10">
+                <div className="flex items-center justify-between">
+                  <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#20B8D5]/15 border border-[#20B8D5]/30 text-[#20B8D5] text-xs font-bold uppercase tracking-wider">
+                    <Layers className="w-3.5 h-3.5" /> Focus Area 01
+                  </div>
+                  <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-[#20B8D5] bg-white/10 px-2.5 py-0.5 rounded-full border border-white/10">
+                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                    Proprietary SaaS
+                  </span>
                 </div>
-                <h3 className="text-2xl sm:text-3xl font-extrabold">
-                  Software Products
-                </h3>
-                <p className="text-slate-200 text-sm sm:text-base leading-relaxed">
-                  We develop industry-focused software platforms designed to
-                  simplify operations and solve practical challenges.
-                </p>
-                <div className="pt-2 flex flex-wrap gap-2">
-                  <span className="text-xs px-3 py-1.5 rounded-xl bg-white/10 backdrop-blur-md border border-white/15 text-white font-medium">
-                    EduManage BD
-                  </span>
-                  <span className="text-xs px-3 py-1.5 rounded-xl bg-white/10 backdrop-blur-md border border-white/15 text-white font-medium">
-                    MediSheba BD
-                  </span>
-                  <span className="text-xs px-3 py-1.5 rounded-xl bg-white/10 backdrop-blur-md border border-white/15 text-white font-medium">
-                    Multi-Institution Platform
-                  </span>
+
+                <div>
+                  <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
+                    Software Products
+                  </h3>
+                  <p className="text-slate-200 text-sm sm:text-base leading-relaxed mt-2">
+                    We develop industry-focused software platforms designed to
+                    simplify operations and solve practical challenges.
+                  </p>
+                </div>
+
+                {/* Rich interactive product cards */}
+                <div className="space-y-2.5 pt-2">
+                  <Link
+                    href="/products/edumanage-bd"
+                    className="flex items-center justify-between p-3.5 rounded-2xl bg-white/10 hover:bg-white/15 backdrop-blur-md border border-white/15 hover:border-[#20B8D5]/50 transition-all group/item"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-9 h-9 rounded-xl bg-[#087FC4]/40 flex items-center justify-center text-[#20B8D5] shrink-0">
+                        <GraduationCap className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <h4 className="text-sm font-bold text-white group-hover/item:text-[#20B8D5] transition-colors">
+                          EduManage BD
+                        </h4>
+                        <p className="text-[11px] text-slate-300">
+                          Education ERP &amp; Institutional Operations Platform
+                        </p>
+                      </div>
+                    </div>
+                    <ArrowUpRight className="w-4 h-4 text-slate-400 group-hover/item:text-[#20B8D5] group-hover/item:translate-x-0.5 group-hover/item:-translate-y-0.5 transition-all shrink-0" />
+                  </Link>
+
+                  <Link
+                    href="/products/medisheba-bd"
+                    className="flex items-center justify-between p-3.5 rounded-2xl bg-white/10 hover:bg-white/15 backdrop-blur-md border border-white/15 hover:border-[#20B8D5]/50 transition-all group/item"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-9 h-9 rounded-xl bg-[#20B8D5]/30 flex items-center justify-center text-[#20B8D5] shrink-0">
+                        <HeartPulse className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <h4 className="text-sm font-bold text-white group-hover/item:text-[#20B8D5] transition-colors">
+                          MediSheba BD
+                        </h4>
+                        <p className="text-[11px] text-slate-300">
+                          Diagnostic Centre &amp; Healthcare Management
+                        </p>
+                      </div>
+                    </div>
+                    <ArrowUpRight className="w-4 h-4 text-slate-400 group-hover/item:text-[#20B8D5] group-hover/item:translate-x-0.5 group-hover/item:-translate-y-0.5 transition-all shrink-0" />
+                  </Link>
+
+                  <Link
+                    href="/products/multi-institution-platform"
+                    className="flex items-center justify-between p-3.5 rounded-2xl bg-white/10 hover:bg-white/15 backdrop-blur-md border border-white/15 hover:border-[#20B8D5]/50 transition-all group/item"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-9 h-9 rounded-xl bg-[#103B68]/60 flex items-center justify-center text-[#20B8D5] shrink-0">
+                        <Building2 className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <h4 className="text-sm font-bold text-white group-hover/item:text-[#20B8D5] transition-colors">
+                          Multi-Institution Platform
+                        </h4>
+                        <p className="text-[11px] text-slate-300">
+                          Multi-Tenant Centralized Portal for Chain Schools
+                        </p>
+                      </div>
+                    </div>
+                    <ArrowUpRight className="w-4 h-4 text-slate-400 group-hover/item:text-[#20B8D5] group-hover/item:translate-x-0.5 group-hover/item:-translate-y-0.5 transition-all shrink-0" />
+                  </Link>
                 </div>
               </div>
-              <div className="pt-8 relative z-10">
+
+              <div className="pt-6 relative z-10 border-t border-white/10 mt-6">
                 <Link
-                  className="inline-flex items-center gap-2 text-sm font-bold text-[#20B8D5] hover:underline"
+                  className="inline-flex items-center gap-2 text-sm font-bold text-[#20B8D5] hover:text-white transition-colors group/cta"
                   href="/products"
                 >
-                  Explore Software Products <ArrowRight className="w-4 h-4" />
+                  <span>Explore Software Products</span>
+                  <ArrowRight className="w-4 h-4 group-hover/cta:translate-x-1.5 transition-transform" />
                 </Link>
               </div>
             </div>
 
-            {/* Block 2: Client Solutions (Selective Glass Card) */}
-            <div className="mrm-glass-card rounded-3xl p-8 sm:p-10 flex flex-col justify-between">
-              <div className="space-y-4">
-                <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full mrm-glass-pill text-[#087FC4] dark:text-[#20B8D5] text-xs font-bold uppercase tracking-wider">
-                  <Code2 className="w-3.5 h-3.5" /> Focus Area 02
+            {/* Block 2: Client Solutions (Selective Glass Card with Rich Services Grid) */}
+            <div className="mrm-glass-card rounded-3xl p-8 sm:p-10 flex flex-col justify-between relative overflow-hidden group hover:border-[#087FC4]/40 dark:hover:border-[#20B8D5]/40 transition-all duration-300 shadow-xl">
+              {/* Subtle ambient light in background */}
+              <div className="absolute -right-16 -bottom-16 w-56 h-56 bg-[#087FC4]/10 dark:bg-[#20B8D5]/15 rounded-full blur-3xl pointer-events-none group-hover:scale-125 transition-transform duration-700" />
+
+              <div className="space-y-5 relative z-10">
+                <div className="flex items-center justify-between">
+                  <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full mrm-glass-pill text-[#087FC4] dark:text-[#20B8D5] text-xs font-bold uppercase tracking-wider">
+                    <Code2 className="w-3.5 h-3.5" /> Focus Area 02
+                  </div>
+                  <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-[#087FC4] dark:text-[#20B8D5] mrm-glass-pill px-2.5 py-0.5 rounded-full">
+                    Custom Engineering
+                  </span>
                 </div>
-                <h3 className="text-2xl sm:text-3xl font-extrabold">
-                  Client Solutions
-                </h3>
-                <p className="text-[var(--text-secondary)] text-sm sm:text-base leading-relaxed">
-                  We deliver websites, custom software, web applications, and
-                  digital solutions shaped around business needs.
-                </p>
-                <div className="pt-2 flex flex-wrap gap-2">
-                  <span className="text-xs px-3 py-1.5 rounded-xl mrm-glass-pill font-medium">
-                    Web &amp; Software Development
-                  </span>
-                  <span className="text-xs px-3 py-1.5 rounded-xl mrm-glass-pill font-medium">
-                    SaaS &amp; Web Applications
-                  </span>
-                  <span className="text-xs px-3 py-1.5 rounded-xl mrm-glass-pill font-medium">
-                    SEO &amp; Digital Marketing
-                  </span>
+
+                <div>
+                  <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
+                    Client Solutions
+                  </h3>
+                  <p className="text-[var(--text-secondary)] text-sm sm:text-base leading-relaxed mt-2">
+                    We deliver websites, custom software, web applications, and
+                    digital solutions shaped around business needs.
+                  </p>
+                </div>
+
+                {/* 6 Core Client Services:
+                    1. Web Development (ওয়েব ডেভেলপমেন্ট)
+                    2. E-Commerce Development (ই-কমার্স ডেভেলপমেন্ট)
+                    3. Custom Software Development (কাস্টম সফটওয়্যার ডেভেলপমেন্ট)
+                    4. SaaS & Cloud Applications (সফটওয়্যার ডেভেলপমেন্ট)
+                    5. SEO & Digital Marketing (মার্কেটিং)
+                    6. Mobile App Development
+                */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-2">
+                  <Link
+                    href="/services/web-development"
+                    className="p-3 rounded-2xl bg-white/70 dark:bg-[#103B68]/30 hover:bg-[#F4F8FC] dark:hover:bg-[#103B68]/60 border border-slate-200/80 dark:border-white/10 hover:border-[#087FC4]/40 dark:hover:border-[#20B8D5]/40 transition-all flex items-start gap-3 group/svc"
+                  >
+                    <div className="w-8 h-8 rounded-xl bg-[#087FC4]/10 dark:bg-[#20B8D5]/15 text-[#087FC4] dark:text-[#20B8D5] flex items-center justify-center shrink-0 mt-0.5 group-hover/svc:scale-110 transition-transform">
+                      <Code2 className="w-4 h-4" />
+                    </div>
+                    <div className="min-w-0">
+                      <h4 className="text-xs sm:text-sm font-bold text-[#10243B] dark:text-white group-hover/svc:text-[#087FC4] dark:group-hover/svc:text-[#20B8D5] transition-colors truncate">
+                        Web Development
+                      </h4>
+                      <p className="text-[11px] text-[var(--text-muted)] line-clamp-1 mt-0.5">
+                        High-performance responsive web applications
+                      </p>
+                    </div>
+                  </Link>
+
+                  <Link
+                    href="/services"
+                    className="p-3 rounded-2xl bg-white/70 dark:bg-[#103B68]/30 hover:bg-[#F4F8FC] dark:hover:bg-[#103B68]/60 border border-slate-200/80 dark:border-white/10 hover:border-[#087FC4]/40 dark:hover:border-[#20B8D5]/40 transition-all flex items-start gap-3 group/svc"
+                  >
+                    <div className="w-8 h-8 rounded-xl bg-[#087FC4]/10 dark:bg-[#20B8D5]/15 text-[#087FC4] dark:text-[#20B8D5] flex items-center justify-center shrink-0 mt-0.5 group-hover/svc:scale-110 transition-transform">
+                      <ShoppingCart className="w-4 h-4" />
+                    </div>
+                    <div className="min-w-0">
+                      <h4 className="text-xs sm:text-sm font-bold text-[#10243B] dark:text-white group-hover/svc:text-[#087FC4] dark:group-hover/svc:text-[#20B8D5] transition-colors truncate">
+                        E-Commerce Solutions
+                      </h4>
+                      <p className="text-[11px] text-[var(--text-muted)] line-clamp-1 mt-0.5">
+                        Modern online stores &amp; payment gateways
+                      </p>
+                    </div>
+                  </Link>
+
+                  <Link
+                    href="/services/custom-software-development"
+                    className="p-3 rounded-2xl bg-white/70 dark:bg-[#103B68]/30 hover:bg-[#F4F8FC] dark:hover:bg-[#103B68]/60 border border-slate-200/80 dark:border-white/10 hover:border-[#087FC4]/40 dark:hover:border-[#20B8D5]/40 transition-all flex items-start gap-3 group/svc"
+                  >
+                    <div className="w-8 h-8 rounded-xl bg-[#087FC4]/10 dark:bg-[#20B8D5]/15 text-[#087FC4] dark:text-[#20B8D5] flex items-center justify-center shrink-0 mt-0.5 group-hover/svc:scale-110 transition-transform">
+                      <Cpu className="w-4 h-4" />
+                    </div>
+                    <div className="min-w-0">
+                      <h4 className="text-xs sm:text-sm font-bold text-[#10243B] dark:text-white group-hover/svc:text-[#087FC4] dark:group-hover/svc:text-[#20B8D5] transition-colors truncate">
+                        Custom Software Dev
+                      </h4>
+                      <p className="text-[11px] text-[var(--text-muted)] line-clamp-1 mt-0.5">
+                        Tailored business automation systems
+                      </p>
+                    </div>
+                  </Link>
+
+                  <Link
+                    href="/services/saas-development"
+                    className="p-3 rounded-2xl bg-white/70 dark:bg-[#103B68]/30 hover:bg-[#F4F8FC] dark:hover:bg-[#103B68]/60 border border-slate-200/80 dark:border-white/10 hover:border-[#087FC4]/40 dark:hover:border-[#20B8D5]/40 transition-all flex items-start gap-3 group/svc"
+                  >
+                    <div className="w-8 h-8 rounded-xl bg-[#087FC4]/10 dark:bg-[#20B8D5]/15 text-[#087FC4] dark:text-[#20B8D5] flex items-center justify-center shrink-0 mt-0.5 group-hover/svc:scale-110 transition-transform">
+                      <Cloud className="w-4 h-4" />
+                    </div>
+                    <div className="min-w-0">
+                      <h4 className="text-xs sm:text-sm font-bold text-[#10243B] dark:text-white group-hover/svc:text-[#087FC4] dark:group-hover/svc:text-[#20B8D5] transition-colors truncate">
+                        SaaS &amp; Cloud Platforms
+                      </h4>
+                      <p className="text-[11px] text-[var(--text-muted)] line-clamp-1 mt-0.5">
+                        Multi-tenant architectures &amp; cloud scaling
+                      </p>
+                    </div>
+                  </Link>
+
+                  <Link
+                    href="/services"
+                    className="p-3 rounded-2xl bg-white/70 dark:bg-[#103B68]/30 hover:bg-[#F4F8FC] dark:hover:bg-[#103B68]/60 border border-slate-200/80 dark:border-white/10 hover:border-[#087FC4]/40 dark:hover:border-[#20B8D5]/40 transition-all flex items-start gap-3 group/svc"
+                  >
+                    <div className="w-8 h-8 rounded-xl bg-[#087FC4]/10 dark:bg-[#20B8D5]/15 text-[#087FC4] dark:text-[#20B8D5] flex items-center justify-center shrink-0 mt-0.5 group-hover/svc:scale-110 transition-transform">
+                      <TrendingUp className="w-4 h-4" />
+                    </div>
+                    <div className="min-w-0">
+                      <h4 className="text-xs sm:text-sm font-bold text-[#10243B] dark:text-white group-hover/svc:text-[#087FC4] dark:group-hover/svc:text-[#20B8D5] transition-colors truncate">
+                        SEO &amp; Digital Marketing
+                      </h4>
+                      <p className="text-[11px] text-[var(--text-muted)] line-clamp-1 mt-0.5">
+                        Brand growth, audience reach &amp; analytics
+                      </p>
+                    </div>
+                  </Link>
+
+                  <Link
+                    href="/services/mobile-apps"
+                    className="p-3 rounded-2xl bg-white/70 dark:bg-[#103B68]/30 hover:bg-[#F4F8FC] dark:hover:bg-[#103B68]/60 border border-slate-200/80 dark:border-white/10 hover:border-[#087FC4]/40 dark:hover:border-[#20B8D5]/40 transition-all flex items-start gap-3 group/svc"
+                  >
+                    <div className="w-8 h-8 rounded-xl bg-[#087FC4]/10 dark:bg-[#20B8D5]/15 text-[#087FC4] dark:text-[#20B8D5] flex items-center justify-center shrink-0 mt-0.5 group-hover/svc:scale-110 transition-transform">
+                      <Smartphone className="w-4 h-4" />
+                    </div>
+                    <div className="min-w-0">
+                      <h4 className="text-xs sm:text-sm font-bold text-[#10243B] dark:text-white group-hover/svc:text-[#087FC4] dark:group-hover/svc:text-[#20B8D5] transition-colors truncate">
+                        Mobile App Development
+                      </h4>
+                      <p className="text-[11px] text-[var(--text-muted)] line-clamp-1 mt-0.5">
+                        Native &amp; cross-platform iOS and Android
+                      </p>
+                    </div>
+                  </Link>
                 </div>
               </div>
-              <div className="pt-8">
+
+              <div className="pt-6 border-t border-[var(--border-subtle)] mt-6">
                 <Link
-                  className="inline-flex items-center gap-2 text-sm font-bold text-[#087FC4] dark:text-[#20B8D5] hover:underline"
+                  className="inline-flex items-center gap-2 text-sm font-bold text-[#087FC4] dark:text-[#20B8D5] hover:underline group/cta"
                   href="/services"
                 >
-                  Explore What We Do <ArrowRight className="w-4 h-4" />
+                  <span>Explore What We Do</span>
+                  <ArrowRight className="w-4 h-4 group-hover/cta:translate-x-1.5 transition-transform" />
                 </Link>
               </div>
             </div>
