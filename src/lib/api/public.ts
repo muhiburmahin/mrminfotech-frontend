@@ -30,7 +30,17 @@ export const FALLBACK_COMPANY_PROFILE: CompanyProfile = {
   description:
     'Leading software architecture and enterprise technology provider delivering scalable digital products and custom engineering solutions.',
   headquarters: 'Dhaka, Bangladesh',
+  address: 'Dhaka, Bangladesh',
+  supportEmail: 'support@mrminfotech.com',
+  whatsapp: '+8801700000000',
   foundedYear: 2024,
+  facebookUrl: 'https://facebook.com/mrminfotech',
+  linkedinUrl: 'https://linkedin.com/company/mrminfotech',
+  instagramUrl: 'https://instagram.com/mrminfotech',
+  githubUrl: 'https://github.com/mrminfotech',
+  twitterUrl: 'https://x.com/mrminfotech',
+  youtubeUrl: 'https://youtube.com/@mrminfotech',
+  copyrightText: 'MRM InfoTech Ltd. All rights reserved.',
 };
 
 export const FALLBACK_HEADER_NAV: NavigationMenu = {

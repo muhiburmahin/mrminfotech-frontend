@@ -1,18 +1,45 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Mail, Globe } from 'lucide-react';
+import { Mail, Globe, Phone, MapPin } from 'lucide-react';
 import { Logo } from './Logo';
 import {
   FacebookIcon,
   LinkedinIcon,
   InstagramIcon,
   GithubIcon,
+  TwitterIcon,
+  YoutubeIcon,
+  WhatsappIcon,
 } from './SocialIcons';
+import { getCompanyProfile, FALLBACK_COMPANY_PROFILE } from '@/lib/api/public';
+import type { CompanyProfile } from '@/lib/api/types';
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
+  const [company, setCompany] = useState<CompanyProfile>(FALLBACK_COMPANY_PROFILE);
+
+  useEffect(() => {
+    let isMounted = true;
+    async function loadData() {
+      try {
+        const data = await getCompanyProfile();
+        if (isMounted && data && data.name) {
+          setCompany((prev) => ({
+            ...prev,
+            ...data,
+          }));
+        }
+      } catch (err) {
+        console.error('Failed to fetch public company profile in Footer:', err);
+      }
+    }
+    loadData();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   return (
     <footer className="mrm-glass-footer text-slate-700 dark:text-slate-300 pt-16 pb-12 transition-colors duration-150 relative">
@@ -23,68 +50,148 @@ export function Footer() {
           <div className="lg:col-span-2 space-y-5">
             <Logo variant="dark" size="lg" />
             <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed max-w-sm">
-              Building innovative software products and delivering high-impact digital solutions for modern businesses and organizations worldwide.
+              {company.description || FALLBACK_COMPANY_PROFILE.description}
             </p>
 
             <div className="space-y-2 text-xs text-slate-600 dark:text-slate-300">
-              <div className="flex items-center gap-2">
-                <Mail className="w-4 h-4 text-[#087FC4] dark:text-[#20B8D5]" />
-                <a
-                  href="mailto:contact@mrminfotech.com"
-                  className="hover:text-slate-900 dark:hover:text-white transition-colors"
-                >
-                  contact@mrminfotech.com
-                </a>
-              </div>
-              <div className="flex items-center gap-2">
-                <Globe className="w-4 h-4 text-[#087FC4] dark:text-[#20B8D5]" />
-                <a
-                  href="https://mrminfotech.com"
-                  className="hover:text-slate-900 dark:hover:text-white transition-colors"
-                >
-                  https://mrminfotech.com
-                </a>
-              </div>
+              {company.email && (
+                <div className="flex items-center gap-2">
+                  <Mail className="w-4 h-4 text-[#087FC4] dark:text-[#20B8D5] shrink-0" />
+                  <a
+                    href={`mailto:${company.email}`}
+                    className="hover:text-slate-900 dark:hover:text-white transition-colors"
+                  >
+                    {company.email}
+                  </a>
+                </div>
+              )}
+
+              {company.phone && (
+                <div className="flex items-center gap-2">
+                  <Phone className="w-4 h-4 text-[#087FC4] dark:text-[#20B8D5] shrink-0" />
+                  <a
+                    href={`tel:${company.phone.replace(/\s+/g, '')}`}
+                    className="hover:text-slate-900 dark:hover:text-white transition-colors"
+                  >
+                    {company.phone}
+                  </a>
+                </div>
+              )}
+
+              {(company.address || company.headquarters) && (
+                <div className="flex items-center gap-2">
+                  <MapPin className="w-4 h-4 text-[#087FC4] dark:text-[#20B8D5] shrink-0" />
+                  <span>{company.address || company.headquarters}</span>
+                </div>
+              )}
+
+              {company.website && (
+                <div className="flex items-center gap-2">
+                  <Globe className="w-4 h-4 text-[#087FC4] dark:text-[#20B8D5] shrink-0" />
+                  <a
+                    href={company.website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-slate-900 dark:hover:text-white transition-colors"
+                  >
+                    {company.website}
+                  </a>
+                </div>
+              )}
             </div>
 
-            {/* Social Links */}
-            <div className="flex items-center gap-3 pt-2">
-              <a
-                href="https://facebook.com/mrminfotech"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-8 h-8 rounded-lg bg-slate-200/80 dark:bg-[#103B68]/70 hover:bg-[#087FC4] dark:hover:bg-[#087FC4] flex items-center justify-center text-slate-600 dark:text-slate-200 hover:text-white dark:hover:text-white transition-all backdrop-blur-xs border border-slate-300/40 dark:border-white/10"
-                aria-label="Facebook"
-              >
-                <FacebookIcon className="w-4 h-4" />
-              </a>
-              <a
-                href="https://linkedin.com/company/mrminfotech"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-8 h-8 rounded-lg bg-slate-200/80 dark:bg-[#103B68]/70 hover:bg-[#087FC4] dark:hover:bg-[#087FC4] flex items-center justify-center text-slate-600 dark:text-slate-200 hover:text-white dark:hover:text-white transition-all backdrop-blur-xs border border-slate-300/40 dark:border-white/10"
-                aria-label="LinkedIn"
-              >
-                <LinkedinIcon className="w-4 h-4" />
-              </a>
-              <a
-                href="https://instagram.com/mrminfotech"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-8 h-8 rounded-lg bg-slate-200/80 dark:bg-[#103B68]/70 hover:bg-[#087FC4] dark:hover:bg-[#087FC4] flex items-center justify-center text-slate-600 dark:text-slate-200 hover:text-white dark:hover:text-white transition-all backdrop-blur-xs border border-slate-300/40 dark:border-white/10"
-                aria-label="Instagram"
-              >
-                <InstagramIcon className="w-4 h-4" />
-              </a>
-              <a
-                href="https://github.com/mrminfotech"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-8 h-8 rounded-lg bg-slate-200/80 dark:bg-[#103B68]/70 hover:bg-[#087FC4] dark:hover:bg-[#087FC4] flex items-center justify-center text-slate-600 dark:text-slate-200 hover:text-white dark:hover:text-white transition-all backdrop-blur-xs border border-slate-300/40 dark:border-white/10"
-                aria-label="GitHub"
-              >
-                <GithubIcon className="w-4 h-4" />
-              </a>
+            {/* Dynamic Social Links Managed from Admin */}
+            <div className="flex flex-wrap items-center gap-2.5 pt-2">
+              {company.facebookUrl && (
+                <a
+                  href={company.facebookUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-8 h-8 rounded-lg bg-slate-200/80 dark:bg-[#103B68]/70 hover:bg-[#1877F2] dark:hover:bg-[#1877F2] flex items-center justify-center text-slate-600 dark:text-slate-200 hover:text-white dark:hover:text-white transition-all backdrop-blur-xs border border-slate-300/40 dark:border-white/10"
+                  aria-label="Facebook"
+                  title="Facebook"
+                >
+                  <FacebookIcon className="w-4 h-4" />
+                </a>
+              )}
+
+              {company.linkedinUrl && (
+                <a
+                  href={company.linkedinUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-8 h-8 rounded-lg bg-slate-200/80 dark:bg-[#103B68]/70 hover:bg-[#0A66C2] dark:hover:bg-[#0A66C2] flex items-center justify-center text-slate-600 dark:text-slate-200 hover:text-white dark:hover:text-white transition-all backdrop-blur-xs border border-slate-300/40 dark:border-white/10"
+                  aria-label="LinkedIn"
+                  title="LinkedIn"
+                >
+                  <LinkedinIcon className="w-4 h-4" />
+                </a>
+              )}
+
+              {company.instagramUrl && (
+                <a
+                  href={company.instagramUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-8 h-8 rounded-lg bg-slate-200/80 dark:bg-[#103B68]/70 hover:bg-[#E4405F] dark:hover:bg-[#E4405F] flex items-center justify-center text-slate-600 dark:text-slate-200 hover:text-white dark:hover:text-white transition-all backdrop-blur-xs border border-slate-300/40 dark:border-white/10"
+                  aria-label="Instagram"
+                  title="Instagram"
+                >
+                  <InstagramIcon className="w-4 h-4" />
+                </a>
+              )}
+
+              {company.githubUrl && (
+                <a
+                  href={company.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-8 h-8 rounded-lg bg-slate-200/80 dark:bg-[#103B68]/70 hover:bg-[#087FC4] dark:hover:bg-[#087FC4] flex items-center justify-center text-slate-600 dark:text-slate-200 hover:text-white dark:hover:text-white transition-all backdrop-blur-xs border border-slate-300/40 dark:border-white/10"
+                  aria-label="GitHub"
+                  title="GitHub"
+                >
+                  <GithubIcon className="w-4 h-4" />
+                </a>
+              )}
+
+              {company.twitterUrl && (
+                <a
+                  href={company.twitterUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-8 h-8 rounded-lg bg-slate-200/80 dark:bg-[#103B68]/70 hover:bg-slate-900 dark:hover:bg-black flex items-center justify-center text-slate-600 dark:text-slate-200 hover:text-white dark:hover:text-white transition-all backdrop-blur-xs border border-slate-300/40 dark:border-white/10"
+                  aria-label="Twitter / X"
+                  title="Twitter / X"
+                >
+                  <TwitterIcon className="w-4 h-4" />
+                </a>
+              )}
+
+              {company.youtubeUrl && (
+                <a
+                  href={company.youtubeUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-8 h-8 rounded-lg bg-slate-200/80 dark:bg-[#103B68]/70 hover:bg-[#FF0000] dark:hover:bg-[#FF0000] flex items-center justify-center text-slate-600 dark:text-slate-200 hover:text-white dark:hover:text-white transition-all backdrop-blur-xs border border-slate-300/40 dark:border-white/10"
+                  aria-label="YouTube"
+                  title="YouTube"
+                >
+                  <YoutubeIcon className="w-4 h-4" />
+                </a>
+              )}
+
+              {company.whatsapp && (
+                <a
+                  href={`https://wa.me/${company.whatsapp.replace(/[^0-9]/g, '')}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-8 h-8 rounded-lg bg-slate-200/80 dark:bg-[#103B68]/70 hover:bg-[#25D366] dark:hover:bg-[#25D366] flex items-center justify-center text-slate-600 dark:text-slate-200 hover:text-white dark:hover:text-white transition-all backdrop-blur-xs border border-slate-300/40 dark:border-white/10"
+                  aria-label="WhatsApp"
+                  title="WhatsApp"
+                >
+                  <WhatsappIcon className="w-4 h-4" />
+                </a>
+              )}
             </div>
           </div>
 
@@ -100,8 +207,13 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/about#team" className="hover:text-slate-900 dark:hover:text-white transition-colors">
+                <Link href="/team" className="hover:text-slate-900 dark:hover:text-white transition-colors">
                   Our Team
+                </Link>
+              </li>
+              <li>
+                <Link href="/about#process" className="hover:text-slate-900 dark:hover:text-white transition-colors">
+                  How We Work
                 </Link>
               </li>
               <li>
@@ -149,7 +261,7 @@ export function Footer() {
           {/* Col 3: Services & Resources */}
           <div className="space-y-4">
             <h4 className="text-xs font-bold uppercase tracking-wider text-[#087FC4] dark:text-[#20B8D5]">
-              Services & Resources
+              Services &amp; Resources
             </h4>
             <ul className="space-y-2.5 text-xs text-slate-600 dark:text-slate-300">
               <li>
@@ -169,7 +281,7 @@ export function Footer() {
               </li>
               <li>
                 <Link href="/projects" className="hover:text-slate-900 dark:hover:text-white transition-colors">
-                  Projects & Portfolio
+                  Projects &amp; Portfolio
                 </Link>
               </li>
               <li>
@@ -179,7 +291,7 @@ export function Footer() {
               </li>
               <li>
                 <Link href="/blog" className="hover:text-slate-900 dark:hover:text-white transition-colors">
-                  Blog & Insights
+                  Blog &amp; Insights
                 </Link>
               </li>
             </ul>
@@ -188,13 +300,13 @@ export function Footer() {
 
         {/* Bottom Legal Bar */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 dark:text-slate-400 gap-4">
-          <p>© {currentYear} MRM InfoTech Ltd. All rights reserved.</p>
+          <p>© {currentYear} {company.copyrightText || `${company.legalName || 'MRM InfoTech Ltd.'} All rights reserved.`}</p>
           <div className="flex items-center gap-6">
             <Link href="/privacy-policy" className="hover:text-slate-900 dark:hover:text-white transition-colors">
               Privacy Policy
             </Link>
             <Link href="/terms" className="hover:text-slate-900 dark:hover:text-white transition-colors">
-              Terms & Conditions
+              Terms &amp; Conditions
             </Link>
             <Link href="/cookie-policy" className="hover:text-slate-900 dark:hover:text-white transition-colors">
               Cookie Policy
@@ -205,3 +317,5 @@ export function Footer() {
     </footer>
   );
 }
+
+export default Footer;

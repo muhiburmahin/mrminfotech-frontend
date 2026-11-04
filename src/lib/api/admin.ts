@@ -1,4 +1,6 @@
 import { fetchApi } from './client';
+import { authRequest } from './auth.service';
+import type { CompanyProfile } from './types';
 import type { HomepageConfig, BrandAppearanceConfig } from '@/types/homepage';
 
 export async function adminLogin(credentials: { email: string; password: string }) {
@@ -54,6 +56,27 @@ export async function saveHomepageConfig(config: HomepageConfig) {
 
 export async function saveBrandAppearance(appearance: BrandAppearanceConfig) {
   return saveSiteSetting('branding.appearance', 'branding', appearance, true);
+}
+
+export async function getAdminCompanyProfile(): Promise<CompanyProfile | null> {
+  try {
+    const res = await authRequest<{ value: CompanyProfile }>('/admin/company');
+    return res.data?.value || (res.data as unknown as CompanyProfile);
+  } catch {
+    return null;
+  }
+}
+
+export async function updateAdminCompanyProfile(profile: Partial<CompanyProfile>): Promise<unknown> {
+  const res = await authRequest('/admin/company', {
+    method: 'PATCH',
+    body: JSON.stringify({
+      ...profile,
+      name: profile.name || 'MRM InfoTech',
+      isPublic: true,
+    }),
+  });
+  return res.data;
 }
 
 export async function uploadHeroMedia(file: File): Promise<{ url: string; id?: string }> {

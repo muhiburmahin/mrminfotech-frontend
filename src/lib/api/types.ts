@@ -2,14 +2,25 @@ export type LocaleCode = 'en' | 'bn';
 
 export interface CompanyProfile {
   name: string;
-  legalName: string;
+  legalName?: string;
+  supportEmail?: string;
   tagline: string;
   email: string;
   phone: string;
   website: string;
   description: string;
   headquarters: string;
+  address?: string;
+  whatsapp?: string;
   foundedYear: number;
+  logoUrl?: string;
+  facebookUrl?: string;
+  linkedinUrl?: string;
+  twitterUrl?: string;
+  instagramUrl?: string;
+  githubUrl?: string;
+  youtubeUrl?: string;
+  copyrightText?: string;
 }
 
 export interface NavTreeItem {
