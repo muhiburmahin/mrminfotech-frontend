@@ -640,7 +640,7 @@ export default async function HomePage() {
             {/* Block 2: Client Solutions (Selective Glass Card) */}
             <div className="mrm-glass-card rounded-3xl p-8 sm:p-10 flex flex-col justify-between">
               <div className="space-y-4">
-                <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#087FC4]/10 text-[#087FC4] dark:text-[#20B8D5] text-xs font-bold uppercase tracking-wider">
+                <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full mrm-glass-pill text-[#087FC4] dark:text-[#20B8D5] text-xs font-bold uppercase tracking-wider">
                   <Code2 className="w-3.5 h-3.5" /> Focus Area 02
                 </div>
                 <h3 className="text-2xl sm:text-3xl font-extrabold">
@@ -719,7 +719,7 @@ export default async function HomePage() {
                         <Globe className="w-6 h-6" />
                       )}
                     </div>
-                    <span className="text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-[#087FC4]/10 text-[#087FC4] dark:text-[#20B8D5]">
+                    <span className="text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full mrm-glass-pill text-[#087FC4] dark:text-[#20B8D5]">
                       {product.category}
                     </span>
                   </div>
@@ -788,12 +788,12 @@ export default async function HomePage() {
             {services.map((service, index) => (
               <Link
                 key={service.slug || index}
-                className="mrm-solid-card rounded-2xl p-6 sm:p-7 flex flex-col justify-between group"
+                className="mrm-glass-card rounded-2xl p-6 sm:p-7 flex flex-col justify-between group transition-all duration-300"
                 href={`/services/${service.slug}`}
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">
-                    <span className="text-xs font-mono font-bold px-2.5 py-1 rounded-md bg-[#087FC4]/10 text-[#087FC4] dark:text-[#20B8D5]">
+                    <span className="text-xs font-mono font-bold px-2.5 py-1 rounded-md mrm-glass-pill text-[#087FC4] dark:text-[#20B8D5]">
                       {String(index + 1).padStart(2, '0')}
                     </span>
                     <ArrowUpRight className="w-4 h-4 text-[var(--text-muted)] group-hover:text-[#087FC4] dark:group-hover:text-[#20B8D5] transition-transform" />
@@ -839,7 +839,7 @@ export default async function HomePage() {
               return (
                 <div
                   key={item.title}
-                  className="mrm-solid-card rounded-2xl p-7 space-y-3"
+                  className="mrm-glass-card rounded-2xl p-7 space-y-3 transition-all duration-300"
                 >
                   <div className="w-11 h-11 rounded-xl mrm-glass-pill text-[#087FC4] dark:text-[#20B8D5] flex items-center justify-center">
                     <Icon className="w-5 h-5" />
@@ -916,7 +916,7 @@ export default async function HomePage() {
                 return (
                   <div
                     key={project.id || project.slug}
-                    className="mrm-solid-card rounded-2xl overflow-hidden flex flex-col justify-between"
+                    className="mrm-glass-card rounded-2xl overflow-hidden flex flex-col justify-between transition-all duration-300"
                   >
                     <div className="p-6">
                       <span className="text-[11px] font-bold uppercase tracking-wider text-[#087FC4] dark:text-[#20B8D5]">
@@ -992,7 +992,7 @@ export default async function HomePage() {
             {WORK_PROCESS_STEPS.map((step) => (
               <div
                 key={step.number}
-                className="mrm-solid-card rounded-2xl p-6 flex flex-col justify-between"
+                className="mrm-glass-card rounded-2xl p-6 flex flex-col justify-between transition-all duration-300"
               >
                 <div>
                   <span className="inline-block text-2xl font-black text-[#087FC4] dark:text-[#20B8D5] font-mono mb-4">
@@ -1066,7 +1066,7 @@ export default async function HomePage() {
               {featuredCaseStudies.map((study) => (
                 <Link
                   key={study.id || study.slug}
-                  className="mrm-solid-card rounded-2xl p-7 block"
+                  className="mrm-glass-card rounded-2xl p-7 block transition-all duration-300"
                   href={`/case-studies/${study.slug}`}
                 >
                   <h3 className="text-xl font-extrabold mb-2">
@@ -1132,7 +1132,7 @@ export default async function HomePage() {
               {latestPosts.map((post) => (
                 <Link
                   key={post.id || post.slug}
-                  className="mrm-solid-card rounded-2xl p-7 block"
+                  className="mrm-glass-card rounded-2xl p-7 block transition-all duration-300"
                   href={`/blog/${post.slug}`}
                 >
                   <div className="flex items-center gap-2 text-xs font-bold text-[#087FC4] dark:text-[#20B8D5] mb-2">

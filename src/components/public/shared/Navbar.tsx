@@ -145,8 +145,8 @@ export function Navbar() {
       ref={navRef}
       className={`sticky top-0 z-50 w-full transition-all duration-200 ${
         isScrolled
-          ? 'backdrop-blur-lg bg-white/85 dark:bg-[#071A35]/85 shadow-sm border-b border-[#E1EAF3] dark:border-white/10'
-          : 'bg-[var(--bg-primary)]/90 backdrop-blur-xs border-b border-[var(--border-subtle)]'
+          ? 'mrm-glass-nav'
+          : 'bg-[var(--bg-primary)]/80 backdrop-blur-md border-b border-[var(--border-subtle)]/70'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -213,7 +213,7 @@ export function Navbar() {
                   onMouseEnter={() => handleMouseEnter('products')}
                   onMouseLeave={handleMouseLeave}
                 >
-                  <div className="w-[680px] rounded-2xl bg-white dark:bg-[#071A35] border border-[#E3EAF2] dark:border-[#1E3557] shadow-xl p-5">
+                  <div className="w-[680px] rounded-2xl mrm-glass-strong shadow-2xl p-5">
                     <div className="flex items-center justify-between pb-3 mb-3 border-b border-[#E3EAF2] dark:border-[#1E3557]">
                       <div>
                         <h4 className="text-[11px] font-bold uppercase tracking-wider text-[#087FC4] dark:text-[#20B8D5]">
@@ -300,7 +300,7 @@ export function Navbar() {
                   onMouseEnter={() => handleMouseEnter('services')}
                   onMouseLeave={handleMouseLeave}
                 >
-                  <div className="w-[520px] rounded-2xl bg-white dark:bg-[#071A35] border border-[#E3EAF2] dark:border-[#1E3557] shadow-xl p-4">
+                  <div className="w-[520px] rounded-2xl mrm-glass-strong shadow-2xl p-4">
                     <div className="flex items-center justify-between pb-2.5 mb-2.5 border-b border-[#E3EAF2] dark:border-[#1E3557]">
                       <span className="text-[11px] font-bold uppercase tracking-wider text-[#087FC4] dark:text-[#20B8D5]">
                         Client Engineering Services
@@ -376,7 +376,7 @@ export function Navbar() {
                   onMouseEnter={() => handleMouseEnter('projects')}
                   onMouseLeave={handleMouseLeave}
                 >
-                  <div className="w-[300px] rounded-2xl bg-white dark:bg-[#071A35] border border-[#E3EAF2] dark:border-[#1E3557] shadow-xl p-3">
+                  <div className="w-[300px] rounded-2xl mrm-glass-strong shadow-2xl p-3">
                     <div className="pb-2 mb-2 border-b border-[#E3EAF2] dark:border-[#1E3557] px-2">
                       <span className="text-[11px] font-bold uppercase tracking-wider text-[#087FC4] dark:text-[#20B8D5]">
                         Portfolio & Proof
@@ -474,7 +474,7 @@ export function Navbar() {
 
       {/* Mobile Drawer */}
       {mobileOpen && (
-        <div className="lg:hidden bg-white dark:bg-[#07162C] border-b border-[#E3EAF2] dark:border-[#1E3557] px-4 pt-2 pb-6 space-y-1 shadow-lg max-h-[calc(100vh-4rem)] overflow-y-auto animate-in slide-in-from-top-2 duration-150">
+        <div className="lg:hidden mrm-glass-strong border-b border-[var(--border-subtle)] px-4 pt-2 pb-6 space-y-1 shadow-2xl max-h-[calc(100vh-4rem)] overflow-y-auto animate-in slide-in-from-top-2 duration-150">
           <Link
             href="/"
             onClick={closeAll}

@@ -15,7 +15,7 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-slate-100 dark:bg-[#040E1C] text-slate-700 dark:text-slate-300 border-t border-slate-200 dark:border-[#103B68] pt-16 pb-12 transition-colors duration-150">
+    <footer className="mrm-glass-footer text-slate-700 dark:text-slate-300 pt-16 pb-12 transition-colors duration-150 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Top 4-Column + Brand Layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-8 pb-12 border-b border-slate-200 dark:border-[#103B68]/70">
@@ -53,7 +53,7 @@ export function Footer() {
                 href="https://facebook.com/mrminfotech"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-8 h-8 rounded-lg bg-slate-200 dark:bg-[#103B68] hover:bg-[#087FC4] dark:hover:bg-[#087FC4] flex items-center justify-center text-slate-600 dark:text-slate-200 hover:text-white dark:hover:text-white transition-colors"
+                className="w-8 h-8 rounded-lg bg-slate-200/80 dark:bg-[#103B68]/70 hover:bg-[#087FC4] dark:hover:bg-[#087FC4] flex items-center justify-center text-slate-600 dark:text-slate-200 hover:text-white dark:hover:text-white transition-all backdrop-blur-xs border border-slate-300/40 dark:border-white/10"
                 aria-label="Facebook"
               >
                 <FacebookIcon className="w-4 h-4" />
@@ -62,7 +62,7 @@ export function Footer() {
                 href="https://linkedin.com/company/mrminfotech"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-8 h-8 rounded-lg bg-slate-200 dark:bg-[#103B68] hover:bg-[#087FC4] dark:hover:bg-[#087FC4] flex items-center justify-center text-slate-600 dark:text-slate-200 hover:text-white dark:hover:text-white transition-colors"
+                className="w-8 h-8 rounded-lg bg-slate-200/80 dark:bg-[#103B68]/70 hover:bg-[#087FC4] dark:hover:bg-[#087FC4] flex items-center justify-center text-slate-600 dark:text-slate-200 hover:text-white dark:hover:text-white transition-all backdrop-blur-xs border border-slate-300/40 dark:border-white/10"
                 aria-label="LinkedIn"
               >
                 <LinkedinIcon className="w-4 h-4" />
@@ -71,7 +71,7 @@ export function Footer() {
                 href="https://instagram.com/mrminfotech"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-8 h-8 rounded-lg bg-slate-200 dark:bg-[#103B68] hover:bg-[#087FC4] dark:hover:bg-[#087FC4] flex items-center justify-center text-slate-600 dark:text-slate-200 hover:text-white dark:hover:text-white transition-colors"
+                className="w-8 h-8 rounded-lg bg-slate-200/80 dark:bg-[#103B68]/70 hover:bg-[#087FC4] dark:hover:bg-[#087FC4] flex items-center justify-center text-slate-600 dark:text-slate-200 hover:text-white dark:hover:text-white transition-all backdrop-blur-xs border border-slate-300/40 dark:border-white/10"
                 aria-label="Instagram"
               >
                 <InstagramIcon className="w-4 h-4" />
@@ -80,7 +80,7 @@ export function Footer() {
                 href="https://github.com/mrminfotech"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-8 h-8 rounded-lg bg-slate-200 dark:bg-[#103B68] hover:bg-[#087FC4] dark:hover:bg-[#087FC4] flex items-center justify-center text-slate-600 dark:text-slate-200 hover:text-white dark:hover:text-white transition-colors"
+                className="w-8 h-8 rounded-lg bg-slate-200/80 dark:bg-[#103B68]/70 hover:bg-[#087FC4] dark:hover:bg-[#087FC4] flex items-center justify-center text-slate-600 dark:text-slate-200 hover:text-white dark:hover:text-white transition-all backdrop-blur-xs border border-slate-300/40 dark:border-white/10"
                 aria-label="GitHub"
               >
                 <GithubIcon className="w-4 h-4" />

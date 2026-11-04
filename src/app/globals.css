@@ -104,44 +104,69 @@ body {
 }
 
 /* ==========================================================================
-   SELECTIVE LIQUID GLASSMORPHISM CLASSES
+   PREMIUM LIQUID GLASSMORPHISM SYSTEM
    ========================================================================== */
 
-/* 1. Strong Liquid Glass (Used in Hero Floating Panels & Empty States) */
+/* 1. Liquid Glass Navbar */
+.mrm-glass-nav {
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid rgba(8, 127, 196, 0.16);
+  box-shadow: 0 4px 28px -4px rgba(7, 26, 53, 0.06),
+              inset 0 -1px 0 0 rgba(255, 255, 255, 0.6);
+}
+
+.dark .mrm-glass-nav {
+  background: rgba(7, 26, 53, 0.82);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid rgba(32, 184, 213, 0.20);
+  box-shadow: 0 8px 32px -4px rgba(0, 0, 0, 0.55),
+              inset 0 -1px 0 0 rgba(255, 255, 255, 0.08);
+}
+
+/* 2. Strong Liquid Glass (Hero Floating Panels, Architecture Card, Empty States) */
 .mrm-glass-strong {
   background: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.84) 0%,
-    rgba(239, 245, 251, 0.72) 100%
+    rgba(255, 255, 255, 0.88) 0%,
+    rgba(239, 245, 251, 0.74) 100%
   );
-  backdrop-filter: blur(18px) saturate(180%);
-  -webkit-backdrop-filter: blur(18px) saturate(180%);
-  border: 1px solid rgba(8, 127, 196, 0.24);
-  box-shadow: 0 20px 45px -15px rgba(7, 26, 53, 0.10),
-              inset 0 1px 0 0 rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(8, 127, 196, 0.22);
+  box-shadow: 0 20px 48px -12px rgba(7, 26, 53, 0.10),
+              inset 0 1px 0 0 rgba(255, 255, 255, 0.9),
+              inset 0 0 18px 0 rgba(255, 255, 255, 0.2);
 }
 
 .dark .mrm-glass-strong {
   background: linear-gradient(
     135deg,
-    rgba(20, 45, 71, 0.76) 0%,
-    rgba(7, 26, 53, 0.84) 100%
+    rgba(20, 45, 71, 0.78) 0%,
+    rgba(7, 26, 53, 0.88) 100%
   );
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid rgba(32, 184, 213, 0.30);
-  box-shadow: 0 24px 50px -12px rgba(0, 0, 0, 0.55),
-              inset 0 1px 0 0 rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(22px) saturate(180%);
+  -webkit-backdrop-filter: blur(22px) saturate(180%);
+  border: 1px solid rgba(32, 184, 213, 0.32);
+  box-shadow: 0 25px 55px -12px rgba(0, 0, 0, 0.65),
+              inset 0 1px 0 0 rgba(255, 255, 255, 0.15),
+              inset 0 0 20px 0 rgba(32, 184, 213, 0.06);
 }
 
-/* 2. Selective Liquid Glass Card (Used for Flagship Products & Highlight Boxes) */
+/* 3. Liquid Glass Card (Flagship Products, Services, Why Us, Projects, Timeline, FAQ) */
 .mrm-glass-card {
-  background: rgba(255, 255, 255, 0.74);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.82) 0%,
+    rgba(244, 248, 253, 0.70) 100%
+  );
   backdrop-filter: blur(16px) saturate(160%);
   -webkit-backdrop-filter: blur(16px) saturate(160%);
-  border: 1px solid rgba(8, 127, 196, 0.18);
-  box-shadow: 0 14px 35px -10px rgba(7, 26, 53, 0.07),
-              inset 0 1px 0 0 rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(8, 127, 196, 0.16);
+  box-shadow: 0 12px 32px -10px rgba(7, 26, 53, 0.06),
+              inset 0 1px 0 0 rgba(255, 255, 255, 0.85);
   transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1),
               border-color 260ms cubic-bezier(0.22, 1, 0.36, 1),
               box-shadow 260ms cubic-bezier(0.22, 1, 0.36, 1);
@@ -153,68 +178,143 @@ body {
     rgba(16, 36, 59, 0.68) 0%,
     rgba(11, 29, 49, 0.78) 100%
   );
+  backdrop-filter: blur(18px) saturate(170%);
+  -webkit-backdrop-filter: blur(18px) saturate(170%);
   border: 1px solid rgba(32, 184, 213, 0.22);
-  box-shadow: 0 18px 40px -12px rgba(0, 0, 0, 0.45),
-              inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
+  box-shadow: 0 16px 38px -10px rgba(0, 0, 0, 0.5),
+              inset 0 1px 0 0 rgba(255, 255, 255, 0.10);
 }
 
 .mrm-glass-card:hover {
-  transform: translateY(-5px);
-  border-color: rgba(32, 184, 213, 0.65);
-  box-shadow: 0 22px 48px -12px rgba(8, 127, 196, 0.25);
+  transform: translateY(-4px);
+  border-color: rgba(8, 127, 196, 0.45);
+  box-shadow: 0 22px 48px -12px rgba(8, 127, 196, 0.22),
+              inset 0 1px 0 0 rgba(255, 255, 255, 1);
 }
 
-/* 3. Liquid Glass Badge / Pill (Used for Tech Stack & Eyebrow Badges) */
+.dark .mrm-glass-card:hover {
+  border-color: rgba(32, 184, 213, 0.65);
+  box-shadow: 0 24px 50px -12px rgba(0, 0, 0, 0.7),
+              0 0 25px -4px rgba(32, 184, 213, 0.22),
+              inset 0 1px 0 0 rgba(255, 255, 255, 0.18);
+}
+
+/* 4. Liquid Glass Badge / Pill (Tech Stack, Category Tags, Eyebrows) */
 .mrm-glass-pill {
-  background: rgba(255, 255, 255, 0.72);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(8, 127, 196, 0.20);
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  border: 1px solid rgba(8, 127, 196, 0.18);
+  box-shadow: 0 4px 16px -4px rgba(7, 26, 53, 0.05),
+              inset 0 1px 0 0 rgba(255, 255, 255, 0.85);
   transition: all 220ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .dark .mrm-glass-pill {
-  background: rgba(16, 36, 59, 0.65);
-  border: 1px solid rgba(32, 184, 213, 0.24);
+  background: rgba(16, 36, 59, 0.70);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  border: 1px solid rgba(32, 184, 213, 0.25);
+  box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.45),
+              inset 0 1px 0 0 rgba(255, 255, 255, 0.10);
 }
 
 .mrm-glass-pill:hover {
   transform: translateY(-2px);
   border-color: #20B8D5;
-  box-shadow: 0 8px 24px -6px rgba(32, 184, 213, 0.35);
+  box-shadow: 0 8px 24px -4px rgba(32, 184, 213, 0.35),
+              inset 0 1px 0 0 rgba(255, 255, 255, 0.95);
 }
 
-/* 4. Final CTA Large Liquid Glass Panel */
+.dark .mrm-glass-pill:hover {
+  box-shadow: 0 8px 24px -4px rgba(32, 184, 213, 0.35),
+              inset 0 1px 0 0 rgba(255, 255, 255, 0.20);
+}
+
+/* 5. Final CTA Immersive Liquid Glass Panel */
 .mrm-glass-cta {
   background: linear-gradient(
     135deg,
-    rgba(16, 59, 104, 0.55) 0%,
-    rgba(7, 26, 53, 0.75) 100%
+    rgba(16, 59, 104, 0.58) 0%,
+    rgba(7, 26, 53, 0.78) 100%
   );
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid rgba(32, 184, 213, 0.35);
-  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.6),
-              inset 0 1px 0 0 rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(24px) saturate(190%);
+  -webkit-backdrop-filter: blur(24px) saturate(190%);
+  border: 1px solid rgba(32, 184, 213, 0.38);
+  box-shadow: 0 30px 70px -15px rgba(0, 0, 0, 0.65),
+              inset 0 1px 0 0 rgba(255, 255, 255, 0.20),
+              inset 0 0 30px 0 rgba(32, 184, 213, 0.10);
 }
 
-/* 5. High-Readability Solid Cards (Used for Services, Why Us, Process, FAQ) */
+/* 6. Liquid Glass Footer */
+.mrm-glass-footer {
+  background: linear-gradient(
+    180deg,
+    rgba(247, 250, 254, 0.92) 0%,
+    rgba(239, 245, 251, 0.98) 100%
+  );
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-top: 1px solid rgba(8, 127, 196, 0.16);
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.9);
+}
+
+.dark .mrm-glass-footer {
+  background: linear-gradient(
+    180deg,
+    rgba(7, 26, 53, 0.90) 0%,
+    rgba(4, 14, 28, 0.98) 100%
+  );
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-top: 1px solid rgba(32, 184, 213, 0.18);
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
+}
+
+/* Backward Compatibility Card Alias */
 .mrm-solid-card {
-  background-color: var(--surface-solid);
-  border: 1px solid var(--border-subtle);
-  box-shadow: 0 6px 20px -6px rgba(7, 26, 53, 0.05);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.85) 0%,
+    rgba(244, 248, 253, 0.75) 100%
+  );
+  backdrop-filter: blur(14px) saturate(150%);
+  -webkit-backdrop-filter: blur(14px) saturate(150%);
+  border: 1px solid rgba(8, 127, 196, 0.16);
+  box-shadow: 0 10px 30px -8px rgba(7, 26, 53, 0.05),
+              inset 0 1px 0 0 rgba(255, 255, 255, 0.85);
   transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1),
               border-color 240ms cubic-bezier(0.22, 1, 0.36, 1),
               box-shadow 240ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.mrm-solid-card:hover {
-  transform: translateY(-3px);
-  border-color: rgba(8, 127, 196, 0.45);
-  box-shadow: 0 16px 34px -10px rgba(8, 127, 196, 0.14);
+.dark .mrm-solid-card {
+  background: linear-gradient(
+    145deg,
+    rgba(16, 36, 59, 0.70) 0%,
+    rgba(11, 29, 49, 0.80) 100%
+  );
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  border: 1px solid rgba(32, 184, 213, 0.20);
+  box-shadow: 0 14px 34px -10px rgba(0, 0, 0, 0.45),
+              inset 0 1px 0 0 rgba(255, 255, 255, 0.10);
 }
 
-/* Subtle Animations */
+.mrm-solid-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(8, 127, 196, 0.45);
+  box-shadow: 0 18px 40px -10px rgba(8, 127, 196, 0.20),
+              inset 0 1px 0 0 rgba(255, 255, 255, 1);
+}
+
+.dark .mrm-solid-card:hover {
+  border-color: rgba(32, 184, 213, 0.60);
+  box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.65),
+              inset 0 1px 0 0 rgba(255, 255, 255, 0.18);
+}
+
+/* Subtle Purposeful Animations */
 @keyframes mrmFloatSlow {
   0%, 100% { transform: translateY(0px); }
   50% { transform: translateY(-6px); }
@@ -249,7 +349,9 @@ body {
   .mrm-glass-card,
   .mrm-solid-card,
   .mrm-glass-pill,
-  .mrm-glass-cta {
+  .mrm-glass-cta,
+  .mrm-glass-nav,
+  .mrm-glass-footer {
     animation: none !important;
     transition: none !important;
     transform: none !important;

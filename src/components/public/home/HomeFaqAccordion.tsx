@@ -46,7 +46,7 @@ export default function HomeFaqAccordion({ items }: { items?: FaqItemData[] }) {
       {list.map((faq, idx) => {
         const isOpen = openIdx === idx;
         return (
-          <div key={faq.id || idx} className="mrm-solid-card rounded-2xl overflow-hidden">
+          <div key={faq.id || idx} className="mrm-glass-card rounded-2xl overflow-hidden transition-all duration-300">
             <button
               type="button"
               onClick={() => setOpenIdx(isOpen ? null : idx)}
@@ -57,10 +57,10 @@ export default function HomeFaqAccordion({ items }: { items?: FaqItemData[] }) {
                 {faq.question}
               </span>
               <span
-                className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-transform duration-200 ${
+                className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 mrm-glass-pill transition-transform duration-200 ${
                   isOpen
-                    ? 'rotate-180 bg-[#087FC4] text-white'
-                    : 'bg-[#087FC4]/10 text-[#087FC4] dark:text-[#20B8D5]'
+                    ? 'rotate-180 bg-[#087FC4] text-white border-transparent'
+                    : 'text-[#087FC4] dark:text-[#20B8D5]'
                 }`}
               >
                 <ChevronDown className="w-4 h-4" />
