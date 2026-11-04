@@ -281,10 +281,17 @@ export async function updateAdminCompanyProfile(profile: Partial<CompanyProfile>
 export async function uploadHeroMedia(file: File): Promise<{ url: string; id?: string }> {
   const formData = new FormData();
   formData.append('file', file);
-  return fetchApi<{ url: string; id?: string }>('/admin/media/upload', {
-    method: 'POST',
-    body: formData,
-  });
+  const res = await authRequest<{ url?: string; id?: string; data?: { url?: string; id?: string } }>(
+    '/admin/media/upload',
+    {
+      method: 'POST',
+      body: formData,
+    }
+  );
+  const data = res.data;
+  const url = data?.url || data?.data?.url || (data as unknown as { url?: string })?.url || '';
+  const id = data?.id || data?.data?.id || (data as unknown as { id?: string })?.id;
+  return { url, id };
 }
 
 export async function uploadMediaFiles(files: File[]): Promise<string[]> {
