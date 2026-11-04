@@ -10,8 +10,45 @@ export async function adminLogin(credentials: { email: string; password: string 
   });
 }
 
+export interface AdminProductPayload {
+  title: string;
+  slug: string;
+  tagline?: string;
+  description?: string;
+  images: string[];
+  liveUrl?: string;
+  caseStudy?: string;
+  sourceCodeUrl?: string;
+  isSourcePrivate?: boolean;
+  stage: string;
+}
+
 export async function getAdminProducts() {
-  return fetchApi('/admin/products');
+  const res = await authRequest<{ data: Array<Record<string, unknown>> }>('/admin/products');
+  return res.data;
+}
+
+export async function createAdminProduct(payload: AdminProductPayload) {
+  const res = await authRequest('/admin/products', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  return res.data;
+}
+
+export async function updateAdminProduct(id: string, payload: Partial<AdminProductPayload>) {
+  const res = await authRequest('/admin/products/' + encodeURIComponent(id), {
+    method: 'PATCH',
+    body: JSON.stringify(payload),
+  });
+  return res.data;
+}
+
+export async function deleteAdminProduct(id: string) {
+  const res = await authRequest('/admin/products/' + encodeURIComponent(id), {
+    method: 'DELETE',
+  });
+  return res.data;
 }
 
 export async function getAdminServices() {

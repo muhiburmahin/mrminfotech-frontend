@@ -6,7 +6,6 @@ import {
   ArrowUpRight,
   Layers,
   Cpu,
-  Globe,
   Code2,
   Sparkles,
   ShieldCheck,
@@ -24,6 +23,7 @@ import {
   Cloud,
 } from 'lucide-react';
 import HomeFaqAccordion from '@/components/public/home/HomeFaqAccordion';
+import HomeProductsSection from '@/components/public/home/HomeProductsSection';
 import GlassEmptyState from '@/components/ui/GlassEmptyState';
 
 export const metadata: Metadata = {
@@ -39,13 +39,22 @@ const API_BASE_URL =
 interface PublishedProductRaw {
   slug: string;
   title?: string;
+  name?: string;
   tagline?: string;
   description?: string;
+  summary?: string;
+  images?: string[];
   liveUrl?: string | null;
+  caseStudy?: string | null;
+  sourceCodeUrl?: string | null;
+  isSourcePrivate?: boolean;
+  stage?: string;
   translations?: Array<{
     title?: string;
+    name?: string;
     tagline?: string;
     description?: string;
+    summary?: string;
   }>;
 }
 
@@ -54,7 +63,12 @@ interface ProductItem {
   title: string;
   category: string;
   description: string;
+  images?: string[];
   liveUrl: string | null;
+  caseStudy?: string | null;
+  sourceCodeUrl?: string | null;
+  isSourcePrivate?: boolean;
+  stage?: string;
   ctaLabel: string;
 }
 
@@ -353,12 +367,17 @@ export default async function HomePage() {
     apiProducts.length > 0
       ? apiProducts.map((p) => ({
           slug: p.slug,
-          title: p.title || p.translations?.[0]?.title || p.slug,
+          title: p.title || p.name || p.translations?.[0]?.name || p.translations?.[0]?.title || p.slug,
           category:
             p.tagline || p.translations?.[0]?.tagline || 'Software Product',
           description:
-            p.description || p.translations?.[0]?.description || '',
+            p.description || p.summary || p.translations?.[0]?.description || p.translations?.[0]?.summary || '',
+          images: Array.isArray(p.images) ? p.images : [],
           liveUrl: p.liveUrl || null,
+          caseStudy: p.caseStudy || null,
+          sourceCodeUrl: p.sourceCodeUrl || null,
+          isSourcePrivate: Boolean(p.isSourcePrivate),
+          stage: p.stage || 'LIVE',
           ctaLabel:
             p.slug === 'multi-institution-platform'
               ? 'Explore Platform'
@@ -863,86 +882,9 @@ export default async function HomePage() {
       </section>
 
       {/* =====================================================================
-          SECTION 04 — OUR PRODUCTS (Selective Liquid Glass Cards)
+          SECTION 04 — OUR PRODUCTS (Selective Liquid Glass Cards & Interactive Image Switcher)
           ===================================================================== */}
-      <section className="py-20 lg:py-28 bg-[var(--bg-primary)] relative overflow-hidden">
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-6">
-            <div className="max-w-2xl">
-              <span className="text-xs font-extrabold uppercase tracking-widest text-[#087FC4] dark:text-[#20B8D5]">
-                BUILT BY MRM INFOTECH
-              </span>
-              <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mt-2 mb-3">
-                Our Products. Built Around Real-World Needs.
-              </h2>
-              <p className="text-base sm:text-lg text-[var(--text-secondary)] leading-relaxed">
-                We are building focused technology products that help
-                organizations manage their operations, connect with people, and
-                create better digital experiences.
-              </p>
-            </div>
-            <Link
-              className="px-5 py-3 rounded-[10px] mrm-glass-pill font-bold text-sm text-[#087FC4] dark:text-[#20B8D5] inline-flex items-center gap-2 shrink-0 self-start md:self-auto"
-              href="/products"
-            >
-              Explore All Products <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {products.map((product, idx) => (
-              <div
-                key={product.slug || idx}
-                className="mrm-glass-card rounded-2xl p-8 flex flex-col justify-between"
-              >
-                <div>
-                  <div className="flex items-center justify-between gap-3 mb-6">
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-[#087FC4] to-[#20B8D5] text-white flex items-center justify-center shadow-md">
-                      {idx === 0 ? (
-                        <Layers className="w-6 h-6" />
-                      ) : idx === 1 ? (
-                        <Cpu className="w-6 h-6" />
-                      ) : (
-                        <Globe className="w-6 h-6" />
-                      )}
-                    </div>
-                    <span className="text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full mrm-glass-pill text-[#087FC4] dark:text-[#20B8D5]">
-                      {product.category}
-                    </span>
-                  </div>
-
-                  <h3 className="text-2xl font-extrabold mb-3">
-                    {product.title}
-                  </h3>
-                  <p className="text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed">
-                    {product.description}
-                  </p>
-                </div>
-
-                <div className="pt-8 mt-6 border-t border-[var(--border-subtle)] flex items-center justify-between gap-4">
-                  <Link
-                    className="inline-flex items-center gap-1.5 text-sm font-bold text-[#087FC4] dark:text-[#20B8D5] hover:underline"
-                    href={`/products/${product.slug}`}
-                  >
-                    {product.ctaLabel || 'Explore Product'}{' '}
-                    <ArrowRight className="w-4 h-4" />
-                  </Link>
-                  {product.liveUrl && (
-                    <a
-                      href={product.liveUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xs font-semibold text-[var(--text-muted)] hover:text-[#087FC4] inline-flex items-center gap-1"
-                    >
-                      Live Site <ExternalLink className="w-3.5 h-3.5" />
-                    </a>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <HomeProductsSection products={products} />
 
       {/* =====================================================================
           SECTION 05 — SERVICES (Structured Solid Cards for High Readability)

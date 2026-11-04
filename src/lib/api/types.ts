@@ -58,20 +58,26 @@ export interface PageMeta {
 export interface ProductItem {
   id: string;
   slug: string;
-  stage: 'CONCEPT' | 'BETA' | 'LIVE' | 'SUNSET';
+  stage: 'CONCEPT' | 'BETA' | 'LIVE' | 'SUNSET' | 'COMING_SOON' | string;
+  title?: string | null;
+  name: string;
+  tagline?: string | null;
+  summary?: string | null;
+  description?: string | null;
+  images?: string[];
+  liveUrl?: string | null;
+  caseStudy?: string | null;
+  sourceCodeUrl?: string | null;
+  isSourcePrivate?: boolean;
   heroImageId?: string | null;
   brandColor?: string | null;
   productSiteUrl?: string | null;
   demoUrl?: string | null;
   privacyUrl?: string | null;
   termsUrl?: string | null;
-  isFeatured: boolean;
-  sortOrder: number;
+  isFeatured?: boolean;
+  sortOrder?: number;
   launchedAt?: string | null;
-  name: string;
-  tagline?: string | null;
-  summary?: string | null;
-  description?: string | null;
   features?: Array<{ title: string; description: string }>;
 }
 
