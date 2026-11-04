@@ -155,9 +155,9 @@ export default function AlternatingProductShowcase({ products }: AlternatingProd
           </div>
         </div>
 
-        {/* MODE A: Alternating (Zig-Zag) Product Showcase */}
+        {/* MODE A: Alternating Sticky Stacking Cards Showcase */}
         {viewMode === 'showcase' && (
-          <div className="space-y-16 lg:space-y-24">
+          <div className="relative space-y-10 lg:space-y-14 pb-8">
             {products.map((product, index) => {
               const isEven = index % 2 === 1; // 0 = Left text, 1 = Right text (Alternating!)
               const images = Array.isArray(product.images) && product.images.length > 0 ? product.images : [];
@@ -165,11 +165,16 @@ export default function AlternatingProductShowcase({ products }: AlternatingProd
               const capabilities = getProductCapabilities(product.slug);
               const headline = getProductHeadline(product.slug, product.title);
               const stage = product.stage || 'LIVE';
+              const stickyTopOffset = 84 + index * 24;
 
               return (
                 <div
                   key={product.slug}
-                  className="mrm-glass-card rounded-3xl p-8 sm:p-10 lg:p-12 border border-white/30 dark:border-white/10 shadow-xl overflow-hidden relative"
+                  style={{
+                    top: `${stickyTopOffset}px`,
+                    zIndex: index + 10,
+                  }}
+                  className="sticky mrm-glass-card rounded-3xl p-7 sm:p-10 lg:p-12 border border-white/40 dark:border-white/10 shadow-2xl backdrop-blur-2xl transition-all duration-300 will-change-transform bg-white/95 dark:bg-[#07162C]/95 overflow-hidden"
                 >
                   <div className={`grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center ${isEven ? 'lg:flex-row-reverse' : ''}`}>
                     {/* Column A: Content (Left on odd, Right on even) */}

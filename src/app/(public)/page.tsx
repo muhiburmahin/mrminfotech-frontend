@@ -50,6 +50,7 @@ interface PublishedProductRaw {
   sourceCodeUrl?: string | null;
   isSourcePrivate?: boolean;
   stage?: string;
+  sortOrder?: number;
   translations?: Array<{
     title?: string;
     name?: string;
@@ -355,7 +356,7 @@ export default async function HomePage() {
     apiBlogPosts,
     apiFaqs,
   ] = await Promise.all([
-    fetchBackendList<PublishedProductRaw>('/products?locale=en'),
+    fetchBackendList<PublishedProductRaw>('/products?locale=en&sortBy=sortOrder&order=asc'),
     fetchBackendList<PublishedServiceRaw>('/services?locale=en'),
     fetchBackendList<PublishedProject>('/projects?locale=en'),
     fetchBackendList<PublishedCaseStudy>('/case-studies?locale=en'),
@@ -364,9 +365,10 @@ export default async function HomePage() {
     fetchBackendList<PublishedFaq>('/faqs'),
   ]);
 
+  const sortedApiProducts = [...apiProducts].sort((a, b) => ((a.sortOrder ?? 999) - (b.sortOrder ?? 999)));
   const products: ProductItem[] =
-    apiProducts.length > 0
-      ? apiProducts.map((p) => ({
+    sortedApiProducts.length > 0
+      ? sortedApiProducts.map((p) => ({
           slug: p.slug,
           title: p.title || p.name || p.translations?.[0]?.name || p.translations?.[0]?.title || p.slug,
           category:

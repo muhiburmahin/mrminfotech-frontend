@@ -21,10 +21,11 @@ export interface AdminProductPayload {
   sourceCodeUrl?: string;
   isSourcePrivate?: boolean;
   stage: string;
+  sortOrder?: number;
 }
 
 export async function getAdminProducts() {
-  const res = await authRequest<{ data: Array<Record<string, unknown>> }>('/admin/products');
+  const res = await authRequest<{ data: Array<Record<string, unknown>> }>('/admin/products?limit=50&sortBy=sortOrder&order=asc');
   return res.data;
 }
 
@@ -51,12 +52,55 @@ export async function deleteAdminProduct(id: string) {
   return res.data;
 }
 
-export async function getAdminServices() {
-  return fetchApi('/admin/services');
+// ──────────────────────── Projects (Case Studies) Admin ────────────────────────
+
+export interface AdminProjectPayload {
+  title: string;
+  slug: string;
+  summary?: string;
+  sortOrder?: number;
+  projectWorkStatus?: string;
+  isFeatured?: boolean;
+  liveUrl?: string;
+  frontendRepoUrl?: string;
+  backendRepoUrl?: string;
+  showFrontendRepo?: boolean;
+  showBackendRepo?: boolean;
+  frontendTechSummary?: string[];
+  backendTechSummary?: string[];
+  dbToolsSummary?: string[];
 }
 
 export async function getAdminProjects() {
-  return fetchApi('/admin/projects');
+  const res = await authRequest<{ data: Array<Record<string, unknown>> }>('/admin/projects?limit=50&sort=sortOrder&order=asc');
+  return res.data;
+}
+
+export async function createAdminProject(payload: AdminProjectPayload) {
+  const res = await authRequest('/admin/projects', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  return res.data;
+}
+
+export async function updateAdminProject(id: string, payload: Partial<AdminProjectPayload>) {
+  const res = await authRequest('/admin/projects/' + encodeURIComponent(id), {
+    method: 'PATCH',
+    body: JSON.stringify(payload),
+  });
+  return res.data;
+}
+
+export async function deleteAdminProject(id: string) {
+  const res = await authRequest('/admin/projects/' + encodeURIComponent(id), {
+    method: 'DELETE',
+  });
+  return res.data;
+}
+
+export async function getAdminServices() {
+  return fetchApi('/admin/services');
 }
 
 export async function getAdminBlogPosts() {

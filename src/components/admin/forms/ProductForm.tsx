@@ -37,6 +37,7 @@ export interface AdminProductRecord {
   sourceCodeUrl?: string;
   isSourcePrivate?: boolean;
   stage?: string;
+  sortOrder?: number;
 }
 
 interface ProductFormProps {
@@ -60,6 +61,7 @@ export function ProductForm({ initialData, onSaved, onCancel }: ProductFormProps
   const [sourceCodeUrl, setSourceCodeUrl] = useState(initialData?.sourceCodeUrl || '');
   const [isSourcePrivate, setIsSourcePrivate] = useState(Boolean(initialData?.isSourcePrivate));
   const [stage, setStage] = useState(initialData?.stage || 'LIVE');
+  const [sortOrder, setSortOrder] = useState<number>(initialData?.sortOrder ?? 1);
 
   const [manualUrlInput, setManualUrlInput] = useState('');
   const [showManualUrl, setShowManualUrl] = useState(false);
@@ -81,6 +83,7 @@ export function ProductForm({ initialData, onSaved, onCancel }: ProductFormProps
     setSourceCodeUrl('');
     setIsSourcePrivate(false);
     setStage('LIVE');
+    setSortOrder(1);
     setManualUrlInput('');
     setError(null);
     setSuccessMsg(null);
@@ -177,6 +180,7 @@ export function ProductForm({ initialData, onSaved, onCancel }: ProductFormProps
       sourceCodeUrl: isSourcePrivate ? undefined : sourceCodeUrl.trim() || undefined,
       isSourcePrivate,
       stage,
+      sortOrder: Number(sortOrder) || 1,
     };
 
     try {
@@ -273,8 +277,8 @@ export function ProductForm({ initialData, onSaved, onCancel }: ProductFormProps
         </div>
       </div>
 
-      {/* Row 2: Tagline & Stage */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      {/* Row 2: Tagline, Stage & Serial Rank */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div className="md:col-span-2">
           <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
             Tagline / Subheading
@@ -301,6 +305,27 @@ export function ProductForm({ initialData, onSaved, onCancel }: ProductFormProps
             <option value="BETA">BETA</option>
             <option value="COMING_SOON">COMING SOON</option>
           </select>
+        </div>
+
+        <div>
+          <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5 flex items-center justify-between">
+            <span>Display Serial (ক্রম)</span>
+            <span className="text-[10px] text-[#087FC4] dark:text-[#20B8D5] font-bold">(১ = সবার উপরে)</span>
+          </label>
+          <div className="relative">
+            <input
+              type="number"
+              min={1}
+              max={999}
+              value={sortOrder}
+              onChange={(e) => setSortOrder(Math.max(1, parseInt(e.target.value) || 1))}
+              placeholder="1"
+              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-[#07162C] border border-slate-200 dark:border-[#1E3557] text-slate-900 dark:text-white text-xs sm:text-sm font-black focus:outline-none focus:border-[#087FC4]"
+            />
+            <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-bold text-[#087FC4] dark:text-[#20B8D5]">
+              #{sortOrder}
+            </span>
+          </div>
         </div>
       </div>
 
