@@ -23,7 +23,8 @@ import {
   Cloud,
 } from 'lucide-react';
 import HomeFaqAccordion from '@/components/public/home/HomeFaqAccordion';
-import HomeProductsSection from '@/components/public/home/HomeProductsSection';
+import ProblemsWeSolveSection from '@/components/public/home/ProblemsWeSolveSection';
+import AlternatingProductShowcase from '@/components/public/home/AlternatingProductShowcase';
 import GlassEmptyState from '@/components/ui/GlassEmptyState';
 
 export const metadata: Metadata = {
@@ -608,6 +609,8 @@ export default async function HomePage() {
         </div>
       </section>
 
+      <ProblemsWeSolveSection />
+
       {/* =====================================================================
           SECTION 03 — OUR BUSINESS AREAS (Two Contrasting Feature Panels)
           ===================================================================== */}
@@ -884,7 +887,7 @@ export default async function HomePage() {
       {/* =====================================================================
           SECTION 04 — OUR PRODUCTS (Selective Liquid Glass Cards & Interactive Image Switcher)
           ===================================================================== */}
-      <HomeProductsSection products={products} />
+      <AlternatingProductShowcase products={products} />
 
       {/* =====================================================================
           SECTION 05 — SERVICES (Structured Solid Cards for High Readability)

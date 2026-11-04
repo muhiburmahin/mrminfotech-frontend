@@ -320,12 +320,38 @@ body {
   50% { transform: translateY(-6px); }
 }
 
+@keyframes mrmPulseSubtle {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(0.97); }
+}
+
 .animate-mrm-float {
   animation: mrmFloatSlow 7s cubic-bezier(0.22, 1, 0.36, 1) infinite;
 }
 
 .animate-mrm-float-delayed {
   animation: mrmFloatSlow 8.5s cubic-bezier(0.22, 1, 0.36, 1) 1.5s infinite;
+}
+
+.animate-mrm-pulse-subtle {
+  animation: mrmPulseSubtle 3s ease-in-out infinite;
+}
+
+/* Ambient Product Radiance */
+.mrm-glow-blue {
+  background: radial-gradient(circle, rgba(8, 127, 196, 0.15) 0%, transparent 70%);
+}
+
+.mrm-glow-cyan {
+  background: radial-gradient(circle, rgba(32, 184, 213, 0.15) 0%, transparent 70%);
+}
+
+.dark .mrm-glow-blue {
+  background: radial-gradient(circle, rgba(8, 127, 196, 0.22) 0%, transparent 70%);
+}
+
+.dark .mrm-glow-cyan {
+  background: radial-gradient(circle, rgba(32, 184, 213, 0.22) 0%, transparent 70%);
 }
 
 /* Custom Scrollbar */
