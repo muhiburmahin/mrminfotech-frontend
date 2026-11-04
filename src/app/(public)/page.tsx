@@ -12,15 +12,7 @@ import { FeaturedCaseStudies } from '@/components/home/FeaturedCaseStudies';
 import { TeamPreview } from '@/components/home/TeamPreview';
 import { LatestBlog } from '@/components/home/LatestBlog';
 import { HomeCta } from '@/components/home/HomeCta';
-import {
-  getBlogPosts,
-  getCaseStudies,
-  getCompanyProfile,
-  getProducts,
-  getProjects,
-  getServices,
-  getTeam,
-} from '@/lib/api/public';
+import { PublicApiService } from '@/services/public-api.service';
 
 export const metadata: Metadata = {
   title: 'MRM InfoTech — IDEAS • PRODUCTS • IMPACT | Software Products & Digital Solutions',
@@ -38,13 +30,13 @@ export default async function HomePage() {
     team,
     blogPosts,
   ] = await Promise.all([
-    getCompanyProfile(),
-    getProducts('en'),
-    getServices('en'),
-    getProjects('en'),
-    getCaseStudies('en'),
-    getTeam('en'),
-    getBlogPosts('en'),
+    PublicApiService.getCompanyProfile(),
+    PublicApiService.getProducts('en'),
+    PublicApiService.getServices('en'),
+    PublicApiService.getProjects('en'),
+    PublicApiService.getCaseStudies('en'),
+    PublicApiService.getTeamMembers('en'),
+    PublicApiService.getBlogPosts('en'),
   ]);
 
   return (
@@ -84,8 +76,6 @@ export default async function HomePage() {
 
       {/* Section 12: Final CTA */}
       <HomeCta company={company} />
-
-      {/* Section 13: Footer (Rendered via layout) */}
     </div>
   );
 }

@@ -48,7 +48,6 @@ export function DashboardStats() {
       .finally(() => {
         if (isMounted) setLoading(false);
       });
-
     return () => {
       isMounted = false;
     };

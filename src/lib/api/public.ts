@@ -692,12 +692,12 @@ export async function getProjects(locale = 'en'): Promise<ProjectItem[]> {
     const res = await fetchApi<{ data: ProjectItem[]; meta: PageMeta }>(
       `/projects?locale=${locale}`
     );
-    if (res && Array.isArray(res.data) && res.data.length > 0) {
+    if (res && Array.isArray(res.data)) {
       return res.data;
     }
-    return FALLBACK_PROJECTS;
+    return [];
   } catch {
-    return FALLBACK_PROJECTS;
+    return [];
   }
 }
 
@@ -706,12 +706,12 @@ export async function getCaseStudies(locale = 'en'): Promise<ProjectItem[]> {
     const res = await fetchApi<{ data: ProjectItem[]; meta: PageMeta }>(
       `/case-studies?locale=${locale}`
     );
-    if (res && Array.isArray(res.data) && res.data.length > 0) {
+    if (res && Array.isArray(res.data)) {
       return res.data;
     }
-    return FALLBACK_PROJECTS;
+    return [];
   } catch {
-    return FALLBACK_PROJECTS;
+    return [];
   }
 }
 
@@ -721,9 +721,9 @@ export async function getProjectBySlug(
 ): Promise<ProjectItem | null> {
   try {
     const data = await fetchApi<ProjectItem>(`/projects/${slug}?locale=${locale}`);
-    return data || FALLBACK_PROJECTS.find((p) => p.slug === slug) || null;
+    return data || null;
   } catch {
-    return FALLBACK_PROJECTS.find((p) => p.slug === slug) || null;
+    return null;
   }
 }
 
@@ -732,12 +732,12 @@ export async function getTeam(locale = 'en'): Promise<TeamMember[]> {
     const res = await fetchApi<{ data: TeamMember[]; meta: PageMeta }>(
       `/team?locale=${locale}`
     );
-    if (res && Array.isArray(res.data) && res.data.length > 0) {
+    if (res && Array.isArray(res.data)) {
       return res.data;
     }
-    return FALLBACK_TEAM;
+    return [];
   } catch {
-    return FALLBACK_TEAM;
+    return [];
   }
 }
 
@@ -746,12 +746,12 @@ export async function getTestimonials(locale = 'en'): Promise<TestimonialItem[]>
     const res = await fetchApi<{ data: TestimonialItem[]; meta: PageMeta }>(
       `/testimonials?locale=${locale}`
     );
-    if (res && Array.isArray(res.data) && res.data.length > 0) {
+    if (res && Array.isArray(res.data)) {
       return res.data;
     }
-    return FALLBACK_TESTIMONIALS;
+    return [];
   } catch {
-    return FALLBACK_TESTIMONIALS;
+    return [];
   }
 }
 
@@ -760,12 +760,12 @@ export async function getBlogPosts(locale = 'en'): Promise<BlogPost[]> {
     const res = await fetchApi<{ data: BlogPost[]; meta: PageMeta }>(
       `/blog?locale=${locale}`
     );
-    if (res && Array.isArray(res.data) && res.data.length > 0) {
+    if (res && Array.isArray(res.data)) {
       return res.data;
     }
-    return FALLBACK_BLOG_POSTS;
+    return [];
   } catch {
-    return FALLBACK_BLOG_POSTS;
+    return [];
   }
 }
 
@@ -803,12 +803,12 @@ export async function getFaqs(locale = 'en'): Promise<FaqItem[]> {
     const res = await fetchApi<{ data: FaqItem[]; meta: PageMeta }>(
       `/faqs?locale=${locale}`
     );
-    if (res && Array.isArray(res.data) && res.data.length > 0) {
+    if (res && Array.isArray(res.data)) {
       return res.data;
     }
-    return FALLBACK_FAQS;
+    return [];
   } catch {
-    return FALLBACK_FAQS;
+    return [];
   }
 }
 

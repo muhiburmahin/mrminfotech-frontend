@@ -19,7 +19,8 @@ import {
   BarChart3,
   Calendar,
 } from 'lucide-react';
-import { getCompanyProfile, getTeam } from '@/lib/api/public';
+import { PublicApiService } from '@/services/public-api.service';
+import GlassEmptyState from '@/components/ui/GlassEmptyState';
 import { LinkedinIcon, GithubIcon } from '@/components/public/shared/SocialIcons';
 
 export const metadata: Metadata = {
@@ -29,9 +30,9 @@ export const metadata: Metadata = {
 };
 
 export default async function AboutPage() {
-  await Promise.all([
-    getCompanyProfile(),
-    getTeam('en'),
+  const [company, team] = await Promise.all([
+    PublicApiService.getCompanyProfile(),
+    PublicApiService.getTeamMembers('en'),
   ]);
 
   const coreValues = [
@@ -101,35 +102,7 @@ export default async function AboutPage() {
     },
   ];
 
-  const teamMembers = [
-    {
-      name: 'Shohanur Rahman',
-      role: 'Founder & Chief Architect',
-      department: 'Leadership & Architecture',
-      bio: 'Full-stack software architect specializing in distributed NestJS microservices and Next.js enterprise web platforms.',
-      initials: 'SR',
-      linkedin: 'https://linkedin.com/in/shohanur-rahman',
-      github: 'https://github.com/shohan-mrm',
-    },
-    {
-      name: 'Lead Backend Engineer',
-      role: 'Backend Engineering Lead',
-      department: 'Core Infrastructure',
-      bio: 'Specialist in PostgreSQL indexing, Redis caching layers, and high-concurrency NestJS API architectures.',
-      initials: 'BE',
-      linkedin: 'https://linkedin.com/company/mrminfotech',
-      github: 'https://github.com/mrminfotech',
-    },
-    {
-      name: 'Lead Product Designer',
-      role: 'UI/UX & Experience Lead',
-      department: 'Product Design',
-      bio: 'Dedicated to human-centered design systems, responsive interfaces, and accessible digital products.',
-      initials: 'PD',
-      linkedin: 'https://linkedin.com/company/mrminfotech',
-      github: 'https://github.com/mrminfotech',
-    },
-  ];
+  const hasTeam = Boolean(team && team.length > 0);
 
   return (
     <div className="w-full flex flex-col bg-white dark:bg-[#07162C] transition-colors duration-150">
@@ -512,62 +485,87 @@ export default async function AboutPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {teamMembers.map((member) => (
-              <div
-                key={member.name}
-                className="p-7 rounded-2xl bg-[#F4F8FC] dark:bg-[#0B1E3B] border border-[#E3EAF2] dark:border-[#1E3557] hover:bg-white dark:hover:bg-[#07162C] hover:border-[#087FC4]/40 hover:shadow-lg transition-all flex flex-col justify-between"
-              >
-                <div>
-                  <div className="flex items-center gap-4 mb-5">
-                    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[#087FC4] to-[#20B8D5] text-white flex items-center justify-center font-bold text-lg shadow-sm">
-                      {member.initials}
-                    </div>
+          {hasTeam ? (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {team.map((member: { name: string; roleTitle?: string; designation?: string; department?: string; bio?: string; socialLinks?: { linkedin?: string; github?: string } }) => {
+                const initials = member.name
+                  .split(' ')
+                  .map((n) => n[0])
+                  .join('')
+                  .toUpperCase()
+                  .slice(0, 2);
+                const role = member.roleTitle || member.designation || 'Specialist';
+                const dept = member.department || 'Engineering';
+
+                return (
+                  <div
+                    key={member.name}
+                    className="liquid-glass-card rounded-2xl p-7 flex flex-col justify-between"
+                  >
                     <div>
-                      <h3 className="text-base font-bold text-[#071A35] dark:text-white">
-                        {member.name}
-                      </h3>
-                      <p className="text-xs font-semibold text-[#087FC4] dark:text-[#20B8D5]">
-                        {member.role}
-                      </p>
-                      <span className="text-[11px] text-[#66758A] dark:text-slate-400">
-                        {member.department}
-                      </span>
+                      <div className="flex items-center gap-4 mb-5">
+                        <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[#087FC4] to-[#20B8D5] text-white flex items-center justify-center font-bold text-lg shadow-sm">
+                          {initials}
+                        </div>
+                        <div>
+                          <h3 className="text-base font-bold text-[#071A35] dark:text-white">
+                            {member.name}
+                          </h3>
+                          <p className="text-xs font-semibold text-[#087FC4] dark:text-[#20B8D5]">
+                            {role}
+                          </p>
+                          <span className="text-[11px] text-[#66758A] dark:text-slate-400">
+                            {dept}
+                          </span>
+                        </div>
+                      </div>
+
+                      {member.bio && (
+                        <p className="text-xs text-[#66758A] dark:text-slate-300 leading-relaxed mb-6">
+                          {member.bio}
+                        </p>
+                      )}
+                    </div>
+
+                    <div className="pt-4 border-t border-[#E3EAF2] dark:border-[#1E3557] flex items-center gap-3">
+                      {member.socialLinks?.linkedin && (
+                        <a
+                          href={member.socialLinks.linkedin}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="w-8 h-8 rounded-lg bg-white dark:bg-[#07162C] hover:bg-[#087FC4] dark:hover:bg-[#087FC4] text-[#66758A] dark:text-slate-300 hover:text-white dark:hover:text-white flex items-center justify-center transition-colors border border-[#E3EAF2] dark:border-[#1E3557]"
+                          aria-label={`${member.name} LinkedIn`}
+                        >
+                          <LinkedinIcon className="w-4 h-4" />
+                        </a>
+                      )}
+                      {member.socialLinks?.github && (
+                        <a
+                          href={member.socialLinks.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="w-8 h-8 rounded-lg bg-white dark:bg-[#07162C] hover:bg-[#087FC4] dark:hover:bg-[#087FC4] text-[#66758A] dark:text-slate-300 hover:text-white dark:hover:text-white flex items-center justify-center transition-colors border border-[#E3EAF2] dark:border-[#1E3557]"
+                          aria-label={`${member.name} GitHub`}
+                        >
+                          <GithubIcon className="w-4 h-4" />
+                        </a>
+                      )}
                     </div>
                   </div>
-
-                  <p className="text-xs text-[#66758A] dark:text-slate-300 leading-relaxed mb-6">
-                    {member.bio}
-                  </p>
-                </div>
-
-                <div className="pt-4 border-t border-[#E3EAF2] dark:border-[#1E3557] flex items-center gap-3">
-                  {member.linkedin && (
-                    <a
-                      href={member.linkedin}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-8 h-8 rounded-lg bg-white dark:bg-[#07162C] hover:bg-[#087FC4] dark:hover:bg-[#087FC4] text-[#66758A] dark:text-slate-300 hover:text-white dark:hover:text-white flex items-center justify-center transition-colors border border-[#E3EAF2] dark:border-[#1E3557]"
-                      aria-label={`${member.name} LinkedIn`}
-                    >
-                      <LinkedinIcon className="w-4 h-4" />
-                    </a>
-                  )}
-                  {member.github && (
-                    <a
-                      href={member.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-8 h-8 rounded-lg bg-white dark:bg-[#07162C] hover:bg-[#087FC4] dark:hover:bg-[#087FC4] text-[#66758A] dark:text-slate-300 hover:text-white dark:hover:text-white flex items-center justify-center transition-colors border border-[#E3EAF2] dark:border-[#1E3557]"
-                      aria-label={`${member.name} GitHub`}
-                    >
-                      <GithubIcon className="w-4 h-4" />
-                    </a>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
+                );
+              })}
+            </div>
+          ) : (
+            <GlassEmptyState
+              badge="Leadership & Talent"
+              title="Team Profiles Coming Soon"
+              description="Our engineering leaders and platform architects are connected to the live database. Published member profiles will appear here."
+              adminHref="/admin/dashboard"
+              adminLabel="View Admin CMS"
+              publicHref="/careers"
+              publicLabel="Explore Open Careers"
+            />
+          )}
         </div>
       </section>
 

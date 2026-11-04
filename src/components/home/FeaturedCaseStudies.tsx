@@ -2,44 +2,30 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { ArrowRight, TrendingUp } from 'lucide-react';
-import type { CaseStudyItem } from '@/lib/api/types';
+import { ArrowRight, TrendingUp, Layers } from 'lucide-react';
+import GlassEmptyState from '@/components/ui/GlassEmptyState';
+
+interface CaseStudyData {
+  title?: string;
+  slug: string;
+  summary?: string;
+  challenge?: string;
+  solution?: string;
+  results?: string;
+  clientName?: string;
+  caseStudy?: {
+    slug?: string;
+    clientName?: string;
+    industry?: string;
+  };
+}
 
 interface FeaturedCaseStudiesProps {
-  caseStudies?: CaseStudyItem[];
+  caseStudies?: CaseStudyData[];
 }
 
 export function FeaturedCaseStudies({ caseStudies }: FeaturedCaseStudiesProps) {
-  const defaultCaseStudies = [
-    {
-      slug: 'edumanage-cloud-architecture',
-      title: 'Scaling EduManage BD for High-Concurrency School Admissions',
-      client: 'Educational Consortia',
-      problem: 'Legacy system crashed under 10k simultaneous student admission applications.',
-      approach: 'Decoupled monolithic DB into micro-services with Redis caching and queue workers.',
-      solution: 'Re-architected on NestJS, PostgreSQL read-replicas, and Next.js ISR frontends.',
-      outcome: '100% uptime during admission peak; 400ms average response time.',
-    },
-    {
-      slug: 'medisheba-diagnostic-management',
-      title: 'Automating Lab Diagnostic Workflows & Report Security',
-      client: 'Clinical Diagnostic Centers',
-      problem: 'Manual report entry caused sample mix-ups and slow 24hr turnaround times.',
-      approach: 'Introduced direct machine analyzer barcode scanning and automated PDF generation.',
-      solution: 'Custom NestJS backend with MQTT machine connectors and encrypted digital records.',
-      outcome: 'Reduced report turnaround from 24h to 2h; eliminated manual clerical errors.',
-    },
-  ];
-
-  const list = caseStudies && caseStudies.length >= 2 ? caseStudies.slice(0, 2).map((cs, idx) => ({
-    ...defaultCaseStudies[idx],
-    slug: cs.slug,
-    title: cs.title,
-    client: cs.clientName || defaultCaseStudies[idx].client,
-    problem: cs.challenge || defaultCaseStudies[idx].problem,
-    solution: cs.solution || defaultCaseStudies[idx].solution,
-    outcome: cs.results || defaultCaseStudies[idx].outcome,
-  })) : defaultCaseStudies;
+  const hasCaseStudies = Boolean(caseStudies && caseStudies.length > 0);
 
   return (
     <section className="py-20 bg-white dark:bg-[#07162C] border-b border-[#E3EAF2] dark:border-[#1E3557] transition-colors duration-150">
@@ -47,72 +33,100 @@ export function FeaturedCaseStudies({ caseStudies }: FeaturedCaseStudiesProps) {
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-6">
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#F4F8FC] dark:bg-[#0B1E3B] border border-[#E3EAF2] dark:border-[#1E3557] text-xs font-bold text-[#087FC4] dark:text-[#20B8D5] mb-3">
+              <Layers className="w-3.5 h-3.5" />
               <span>REAL-WORLD IMPACT</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl font-black text-[#071A35] dark:text-white tracking-tight">
-              Behind the Solutions
+            <h2 className="text-3xl sm:text-4xl font-black text-[#15243A] dark:text-white tracking-tight">
+              Enterprise Case Studies
             </h2>
             <p className="mt-3 text-base text-[#66758A] dark:text-slate-300">
-              How we approach complex engineering bottlenecks, transform legacy systems, and deliver measurable operational outcomes.
+              Examining real-world challenges, systems architecture, and verified business outcomes delivered by our teams.
             </p>
           </div>
-          <Link
-            href="/case-studies"
-            className="inline-flex items-center gap-2 text-sm font-bold text-[#087FC4] dark:text-[#20B8D5] hover:text-[#103B68] dark:hover:text-white group self-start md:self-end transition-colors"
-          >
-            <span>Explore Case Studies</span>
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </Link>
+
+          {hasCaseStudies && (
+            <Link
+              href="/case-studies"
+              className="inline-flex items-center gap-2 text-sm font-bold text-[#087FC4] dark:text-[#20B8D5] hover:gap-3 transition-all"
+            >
+              <span>View All Case Studies</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          )}
         </div>
 
-        {/* Case Studies Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {list.map((cs) => (
-            <div
-              key={cs.slug}
-              className="p-8 rounded-2xl bg-[#F4F8FC] dark:bg-[#0A1F3F] border border-[#E3EAF2] dark:border-[#1E3557] hover:border-[#087FC4]/40 dark:hover:border-[#20B8D5]/40 hover:shadow-lg transition-all flex flex-col justify-between"
-            >
-              <div>
-                <span className="text-xs font-bold text-[#087FC4] dark:text-[#20B8D5] uppercase tracking-wider block mb-2">
-                  Case Study • {cs.client}
-                </span>
-                <h3 className="text-xl font-bold text-[#071A35] dark:text-white mb-4">
-                  {cs.title}
-                </h3>
+        {hasCaseStudies ? (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {caseStudies!.slice(0, 2).map((item) => {
+              const slug = item.slug || item.caseStudy?.slug || '';
+              const title = item.title || 'Case Study';
+              const client = item.clientName || item.caseStudy?.clientName || 'Enterprise Partner';
+              const summary = item.summary || item.challenge || '';
+              const solution = item.solution || '';
+              const results = item.results || '';
 
-                <div className="space-y-3 text-xs leading-relaxed">
-                  <div className="p-3 rounded-lg bg-white dark:bg-[#07162C] border border-[#E3EAF2] dark:border-[#1E3557]">
-                    <span className="font-bold text-red-500 block mb-0.5">Problem:</span>
-                    <span className="text-[#66758A] dark:text-slate-300">{cs.problem}</span>
+              return (
+                <div
+                  key={slug || title}
+                  className="liquid-glass-card rounded-2xl p-7 sm:p-8 flex flex-col justify-between space-y-6 group"
+                >
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[11px] font-bold uppercase tracking-wider text-[#087FC4] dark:text-[#20B8D5] px-2.5 py-0.5 rounded-full bg-[#087FC4]/10 dark:bg-[#20B8D5]/15">
+                        Client: {client}
+                      </span>
+                    </div>
+
+                    <h3 className="text-xl sm:text-2xl font-black text-[#15243A] dark:text-white group-hover:text-[#087FC4] dark:group-hover:text-[#20B8D5] transition-colors leading-tight">
+                      {title}
+                    </h3>
+
+                    {summary && (
+                      <div className="text-xs sm:text-sm text-[#66758A] dark:text-slate-300 leading-relaxed">
+                        <strong className="text-slate-900 dark:text-white block mb-1">Challenge & Context:</strong>
+                        {summary}
+                      </div>
+                    )}
+
+                    {solution && (
+                      <div className="text-xs sm:text-sm text-[#66758A] dark:text-slate-300 leading-relaxed">
+                        <strong className="text-slate-900 dark:text-white block mb-1">Engineered Architecture:</strong>
+                        {solution}
+                      </div>
+                    )}
+
+                    {results && (
+                      <div className="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-xs font-semibold text-emerald-700 dark:text-emerald-300 flex items-center gap-2">
+                        <TrendingUp className="w-4 h-4 shrink-0 text-emerald-500" />
+                        <span>Outcome: {results}</span>
+                      </div>
+                    )}
                   </div>
 
-                  <div className="p-3 rounded-lg bg-white dark:bg-[#07162C] border border-[#E3EAF2] dark:border-[#1E3557]">
-                    <span className="font-bold text-[#087FC4] dark:text-[#20B8D5] block mb-0.5">Approach & Solution:</span>
-                    <span className="text-[#66758A] dark:text-slate-300">{cs.solution}</span>
-                  </div>
-
-                  <div className="p-3 rounded-lg bg-[#20B8D5]/10 dark:bg-[#20B8D5]/15 border border-[#20B8D5]/30">
-                    <span className="font-bold text-[#071A35] dark:text-white block mb-0.5 flex items-center gap-1.5">
-                      <TrendingUp className="w-3.5 h-3.5 text-[#087FC4] dark:text-[#20B8D5]" />
-                      Outcome:
-                    </span>
-                    <span className="text-[#103B68] dark:text-[#20B8D5] font-medium">{cs.outcome}</span>
+                  <div className="pt-4 border-t border-slate-100 dark:border-[#1E3557]/60">
+                    <Link
+                      href={`/case-studies/${slug}`}
+                      className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-[#087FC4] dark:text-[#20B8D5] group-hover:gap-3 transition-all"
+                    >
+                      <span>Read Complete Case Study</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </Link>
                   </div>
                 </div>
-              </div>
-
-              <div className="mt-6 pt-4 border-t border-[#E3EAF2] dark:border-[#1E3557]">
-                <Link
-                  href={`/case-studies/${cs.slug}`}
-                  className="inline-flex items-center text-xs font-bold text-[#087FC4] dark:text-[#20B8D5] hover:text-[#103B68] dark:hover:text-white transition-colors"
-                >
-                  <span>Read Full Case Study</span>
-                  <ArrowRight className="w-3.5 h-3.5 ml-1.5" />
-                </Link>
-              </div>
-            </div>
-          ))}
-        </div>
+              );
+            })}
+          </div>
+        ) : (
+          <GlassEmptyState
+            badge="Case Studies"
+            title="Case Studies Coming Soon"
+            description="Our technical impact reports and system architecture case studies are managed through the live CMS. Once published, complete breakdowns will appear here."
+            adminHref="/admin/dashboard/projects"
+            adminLabel="Publish Case Study in Admin CMS"
+            publicHref="/contact"
+            publicLabel="Discuss Your Engineering Needs"
+          />
+        )}
       </div>
     </section>
   );

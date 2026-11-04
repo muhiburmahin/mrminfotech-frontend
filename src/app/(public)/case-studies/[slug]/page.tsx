@@ -2,8 +2,8 @@ import React from 'react';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowRight, FileText } from 'lucide-react';
-import { getProjectBySlug } from '@/lib/api/public';
+import { ArrowRight, FileText, CheckCircle2, TrendingUp } from 'lucide-react';
+import { PublicApiService } from '@/services/public-api.service';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -11,103 +11,103 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const project = await getProjectBySlug(slug, 'en');
-  if (!project) {
+  const cs = await PublicApiService.getCaseStudyBySlug(slug, 'en');
+  if (!cs) {
     return { title: 'Case Study Not Found | MRM InfoTech' };
   }
   return {
-    title: `Case Study: ${project.title} | MRM InfoTech`,
-    description: project.summary,
+    title: `Case Study: ${cs.title} | MRM InfoTech`,
+    description: cs.summary || cs.challenge,
   };
 }
 
 export default async function CaseStudyDetailPage({ params }: PageProps) {
   const { slug } = await params;
-  const cs = await getProjectBySlug(slug, 'en');
+  const cs = await PublicApiService.getCaseStudyBySlug(slug, 'en');
 
   if (!cs) {
     notFound();
   }
 
+  const clientName = cs.clientName || cs.caseStudy?.clientName;
+  const challenge = cs.challenge || cs.summary;
+  const approach = cs.approach;
+  const solution = cs.solution;
+  const results = cs.results;
+
   return (
     <div className="w-full flex flex-col bg-white dark:bg-[#07162C] transition-colors duration-150">
       <section className="bg-slate-50 dark:bg-[#07162C] text-slate-900 dark:text-white pt-24 pb-20 border-b border-slate-200 dark:border-[#1E3557] transition-colors duration-150">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
-          <div className="flex items-center gap-2 text-xs font-bold text-[#087FC4] dark:text-[#00C2FF] uppercase tracking-wider">
+          <div className="flex items-center gap-2 text-xs font-bold text-[#087FC4] dark:text-[#20B8D5] uppercase tracking-wider">
             <FileText className="w-4 h-4" />
             <span>Architectural Case Study</span>
-            {cs.clientName && (
+            {clientName && (
               <>
-                <span>•</span>
-                <span className="text-slate-500 dark:text-slate-400 font-semibold">{cs.clientName}</span>
+                <span>&bull;</span>
+                <span className="text-slate-500 dark:text-slate-400 font-semibold">{clientName}</span>
               </>
             )}
           </div>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight text-slate-900 dark:text-white">
             {cs.title}
           </h1>
-          <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
-            {cs.summary}
-          </p>
+          {challenge && (
+            <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
+              {challenge}
+            </p>
+          )}
         </div>
       </section>
 
       <section className="py-20 bg-white dark:bg-[#07162C] transition-colors duration-150">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-          {/* Measured Impact */}
-          {cs.metrics && cs.metrics.length > 0 && (
-            <div className="p-8 rounded-2xl bg-slate-50 dark:bg-[#0B1E3B] border border-slate-200 dark:border-[#1E3557]">
-              <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-4">Measured System Impact</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                {cs.metrics.map((m, idx) => (
-                  <div key={idx}>
-                    <div className="text-2xl font-black text-[#087FC4] dark:text-[#00C2FF]">{m.value}</div>
-                    <div className="text-xs text-slate-500 dark:text-slate-400 mt-1">{m.label}</div>
-                  </div>
-                ))}
-              </div>
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+          {approach && (
+            <div className="liquid-glass-card rounded-2xl p-8 space-y-3">
+              <h2 className="text-lg font-bold text-slate-900 dark:text-white">
+                Technical Discovery & Approach
+              </h2>
+              <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                {approach}
+              </p>
             </div>
           )}
 
-          {/* Deep-Dive Narrative */}
-          <div className="space-y-6 text-slate-700 dark:text-slate-300 leading-relaxed text-base">
-            <h2 className="text-2xl font-bold text-slate-900 dark:text-white">The Technical Challenge</h2>
-            <p>
-              The client faced significant concurrency bottlenecks during peak operational hours,
-              resulting in transaction lockups, delayed reporting reconciliation, and heightened
-              infrastructure overhead. Prior attempts with non-typed microservices had led to data
-              desynchronization and fragile database schemas.
-            </p>
+          {solution && (
+            <div className="liquid-glass-card rounded-2xl p-8 space-y-3">
+              <h2 className="text-lg font-bold text-slate-900 dark:text-white">
+                Engineered Solution & Architecture
+              </h2>
+              <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                {solution}
+              </p>
+            </div>
+          )}
 
-            <h2 className="text-2xl font-bold text-slate-900 dark:text-white pt-4">Our Architectural Solution</h2>
-            <p>
-              MRM InfoTech restructured the system into decoupled domain modules powered by
-              NestJS, applying strict PostgreSQL constraints, atomic transaction isolation, and
-              Redis caching with proactive invalidation. By shifting complex validation logic to the
-              database and API gateways, system latency was reduced significantly while eliminating
-              data corruption risks.
-            </p>
+          {results && (
+            <div className="p-8 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-800 dark:text-emerald-300 space-y-3">
+              <div className="flex items-center gap-2 font-bold text-sm">
+                <TrendingUp className="w-5 h-5 text-emerald-500" />
+                <span>Verified Results & Business Outcome</span>
+              </div>
+              <p className="text-sm leading-relaxed">
+                {results}
+              </p>
+            </div>
+          )}
 
-            <h2 className="text-2xl font-bold text-slate-900 dark:text-white pt-4">Key Takeaways & Lessons</h2>
-            <p>
-              Investing in domain-driven schema design and automated end-to-end integration tests
-              ensured immediate operational stability, allowing the client to scale without further
-              architectural restructuring.
-            </p>
-          </div>
-
-          <div className="pt-8 border-t border-slate-200 dark:border-[#1E3557] flex items-center justify-between">
+          <div className="pt-6 border-t border-slate-200 dark:border-[#1E3557] flex items-center justify-between">
             <Link
               href="/case-studies"
-              className="text-sm font-bold text-slate-600 dark:text-slate-400 hover:text-[#087FC4] dark:hover:text-[#00C2FF] transition-colors"
+              className="text-xs font-semibold text-slate-500 hover:text-slate-900 dark:hover:text-white"
             >
-              ← Back to all case studies
+              &larr; Back to Case Studies
             </Link>
             <Link
               href="/start-project"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg text-xs font-bold text-white bg-[#0052CC] hover:bg-[#0040A8] transition-colors"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white bg-[#0052CC] hover:bg-[#0040A8] transition-colors text-xs"
             >
-              <span>Build Similar Architecture</span>
+              <span>Build a Similar System</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
