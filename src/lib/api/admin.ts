@@ -68,13 +68,45 @@ export async function getAdminCompanyProfile(): Promise<CompanyProfile | null> {
 }
 
 export async function updateAdminCompanyProfile(profile: Partial<CompanyProfile>): Promise<unknown> {
+  const allowedKeys = [
+    'name',
+    'legalName',
+    'tagline',
+    'description',
+    'logoUrl',
+    'email',
+    'supportEmail',
+    'phone',
+    'whatsapp',
+    'address',
+    'headquarters',
+    'website',
+    'facebookUrl',
+    'linkedinUrl',
+    'twitterUrl',
+    'instagramUrl',
+    'githubUrl',
+    'youtubeUrl',
+    'copyrightText',
+    'foundedYear',
+    'isPublic',
+  ];
+
+  const payload: Record<string, unknown> = {
+    isPublic: true,
+    name: profile.name || 'MRM InfoTech',
+  };
+
+  for (const key of allowedKeys) {
+    if (key in profile) {
+      const val = (profile as Record<string, unknown>)[key];
+      payload[key] = val === '' ? null : val;
+    }
+  }
+
   const res = await authRequest('/admin/company', {
     method: 'PATCH',
-    body: JSON.stringify({
-      ...profile,
-      name: profile.name || 'MRM InfoTech',
-      isPublic: true,
-    }),
+    body: JSON.stringify(payload),
   });
   return res.data;
 }
