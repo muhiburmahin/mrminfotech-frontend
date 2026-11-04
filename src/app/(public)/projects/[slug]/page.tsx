@@ -1,8 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import Link from 'next/link';
-import { ArrowRight, ExternalLink, Code2, CheckCircle2 } from 'lucide-react';
+import { ExternalLink, Code2, CheckCircle2 } from 'lucide-react';
 import { GithubIcon } from '@/components/public/shared/SocialIcons';
 import { PublicApiService } from '@/services/public-api.service';
 

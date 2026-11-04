@@ -80,7 +80,6 @@ function SecurityManagementView() {
           setTwoFactorActive(Boolean(user.twoFactorEnabled));
         }
       });
-
     return () => {
       isMounted = false;
     };
@@ -298,11 +297,10 @@ function SecurityManagementView() {
                   Two-Factor Authentication (TOTP)
                 </h2>
                 <span
-                  className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
-                    twoFactorActive
-                      ? 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400'
-                      : 'bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400'
-                  }`}
+                  className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${twoFactorActive
+                    ? 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400'
+                    : 'bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400'
+                    }`}
                 >
                   {twoFactorActive ? 'Active' : 'Disabled'}
                 </span>
@@ -699,4 +697,3 @@ export default function SecurityPage() {
     </Suspense>
   );
 }
-

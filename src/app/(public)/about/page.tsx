@@ -30,10 +30,7 @@ export const metadata: Metadata = {
 };
 
 export default async function AboutPage() {
-  const [company, team] = await Promise.all([
-    PublicApiService.getCompanyProfile(),
-    PublicApiService.getTeamMembers('en'),
-  ]);
+  const team = await PublicApiService.getTeamMembers('en');
 
   const coreValues = [
     {

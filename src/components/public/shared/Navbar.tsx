@@ -145,8 +145,8 @@ export function Navbar() {
       ref={navRef}
       className={`sticky top-0 z-50 w-full transition-all duration-200 ${
         isScrolled
-          ? 'bg-white/95 dark:bg-[#07162C]/95 backdrop-blur-md shadow-xs border-b border-[#E3EAF2] dark:border-[#1E3557]'
-          : 'bg-white dark:bg-[#07162C] border-b border-[#E3EAF2] dark:border-[#1E3557]'
+          ? 'mrm-glass-panel border-b border-[var(--border-subtle)] shadow-xs'
+          : 'bg-[var(--bg-main)]/90 backdrop-blur-xs border-b border-[var(--border-subtle)]'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

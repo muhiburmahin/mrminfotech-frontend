@@ -6,9 +6,6 @@ import {
   ArrowRight,
   ExternalLink,
   CheckCircle2,
-  Package,
-  Layers,
-  Sparkles,
 } from 'lucide-react';
 import { PublicApiService } from '@/services/public-api.service';
 

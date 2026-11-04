@@ -2,7 +2,7 @@ import React from 'react';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { Clock, ArrowRight, ArrowLeft, FileText } from 'lucide-react';
+import { Clock, ArrowRight, ArrowLeft } from 'lucide-react';
 import { PublicApiService } from '@/services/public-api.service';
 
 interface PageProps {

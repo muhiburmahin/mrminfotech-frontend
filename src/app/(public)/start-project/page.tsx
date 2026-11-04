@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
 import type { Metadata } from 'next';
-import { ShieldCheck, Loader2 } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 import { PublicApiService } from '@/services/public-api.service';
 import { StartProjectForm } from '@/components/public/contact/StartProjectForm';
 

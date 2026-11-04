@@ -85,7 +85,12 @@ export function StartProjectForm({ services = [] }: StartProjectFormProps) {
       });
 
       if (res.success) {
-        setSuccessData(res.data || { message: 'Project inquiry submitted successfully.' });
+        const refNum = res.data?.referenceNumber || `MRM-PRJ-${Date.now().toString().slice(-6)}`;
+        setSuccessData({
+          ...(res.data || {}),
+          referenceNumber: refNum,
+          message: res.data?.message || 'Project inquiry submitted successfully.',
+        });
       } else {
         setError(res.error || 'Failed to submit proposal request. Please review form inputs.');
       }
@@ -105,7 +110,7 @@ export function StartProjectForm({ services = [] }: StartProjectFormProps) {
   };
 
   if (successData) {
-    const refNum = successData.referenceNumber || 'MRM-PRJ-' + Math.floor(100000 + Math.random() * 900000);
+    const refNum = successData.referenceNumber || 'MRM-PRJ-CONFIRMED';
 
     return (
       <div className="liquid-glass rounded-2xl p-8 sm:p-12 space-y-6 text-center">

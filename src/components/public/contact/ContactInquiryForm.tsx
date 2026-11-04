@@ -44,7 +44,12 @@ export function ContactInquiryForm() {
       });
 
       if (res.success) {
-        setSuccessData(res.data || { message: 'Message sent successfully.' });
+        const refNum = res.data?.referenceNumber || `MRM-INQ-${Date.now().toString().slice(-6)}`;
+        setSuccessData({
+          ...(res.data || {}),
+          referenceNumber: refNum,
+          message: res.data?.message || 'Message sent successfully.',
+        });
       } else {
         setError(res.error || 'Failed to submit inquiry. Please review your input.');
       }
@@ -64,7 +69,7 @@ export function ContactInquiryForm() {
   };
 
   if (successData) {
-    const refNum = successData.referenceNumber || 'MRM-INQ-' + Math.floor(100000 + Math.random() * 900000);
+    const refNum = successData.referenceNumber || 'MRM-INQ-CONFIRMED';
 
     return (
       <div className="liquid-glass rounded-2xl p-8 sm:p-10 space-y-5 text-center">

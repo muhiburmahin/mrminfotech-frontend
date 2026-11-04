@@ -2,7 +2,7 @@ import React from 'react';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowRight, CheckCircle2, Sparkles, Layers, ShieldCheck } from 'lucide-react';
+import { ArrowRight, CheckCircle2, Sparkles, ShieldCheck } from 'lucide-react';
 import { PublicApiService } from '@/services/public-api.service';
 
 interface PageProps {

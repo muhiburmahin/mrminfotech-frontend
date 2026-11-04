@@ -5,7 +5,6 @@ import {
   Code2,
   Cpu,
   Layers,
-  Sparkles,
   BarChart3,
   Layout,
   ArrowRight,

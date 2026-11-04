@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, '') ||
   process.env.INTERNAL_API_URL?.replace(/\/$/, '') ||
@@ -7,7 +8,7 @@ const APP_ORIGIN =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, '') ||
   'http://localhost:3000';
 
-async function fetchBackend<T>(
+async function fetchBackend<T = any>(
   endpoint: string,
   fallback: T,
   options: RequestInit = {}
@@ -38,7 +39,7 @@ async function fetchBackend<T>(
     if (Array.isArray(fallback)) {
       if (Array.isArray(unwrapped)) return unwrapped as unknown as T;
       if (unwrapped && typeof unwrapped === 'object') {
-        const obj = unwrapped as Record<string, unknown>;
+        const obj = unwrapped as Record<string, any>;
         if (Array.isArray(obj.items)) return obj.items as unknown as T;
         if (Array.isArray(obj.data)) return obj.data as unknown as T;
         if (Array.isArray(obj.projects)) return obj.projects as unknown as T;
@@ -58,61 +59,61 @@ async function fetchBackend<T>(
 }
 
 export const PublicApiService = {
-  getProducts(locale = 'en') {
-    return fetchBackend<Array<Record<string, unknown>>>(`/products?locale=${locale}`, []);
+  getProducts<T = any>(locale = 'en'): Promise<T> {
+    return fetchBackend<T>(`/products?locale=${locale}`, [] as unknown as T);
   },
-  getProductBySlug(slug: string, locale = 'en') {
-    return fetchBackend<Record<string, unknown> | null>(`/products/${encodeURIComponent(slug)}?locale=${locale}`, null);
+  getProductBySlug<T = any>(slug: string, locale = 'en'): Promise<T> {
+    return fetchBackend<T>(`/products/${encodeURIComponent(slug)}?locale=${locale}`, null as unknown as T);
   },
-  getServices(locale = 'en') {
-    return fetchBackend<Array<Record<string, unknown>>>(`/services?locale=${locale}`, []);
+  getServices<T = any>(locale = 'en'): Promise<T> {
+    return fetchBackend<T>(`/services?locale=${locale}`, [] as unknown as T);
   },
-  getServiceBySlug(slug: string, locale = 'en') {
-    return fetchBackend<Record<string, unknown> | null>(`/services/${encodeURIComponent(slug)}?locale=${locale}`, null);
+  getServiceBySlug<T = any>(slug: string, locale = 'en'): Promise<T> {
+    return fetchBackend<T>(`/services/${encodeURIComponent(slug)}?locale=${locale}`, null as unknown as T);
   },
-  getProjects(locale = 'en') {
-    return fetchBackend<Array<Record<string, unknown>>>(`/projects?locale=${locale}`, []);
+  getProjects<T = any>(locale = 'en'): Promise<T> {
+    return fetchBackend<T>(`/projects?locale=${locale}`, [] as unknown as T);
   },
-  getProjectBySlug(slug: string, locale = 'en') {
-    return fetchBackend<Record<string, unknown> | null>(`/projects/${encodeURIComponent(slug)}?locale=${locale}`, null);
+  getProjectBySlug<T = any>(slug: string, locale = 'en'): Promise<T> {
+    return fetchBackend<T>(`/projects/${encodeURIComponent(slug)}?locale=${locale}`, null as unknown as T);
   },
-  getCaseStudies(locale = 'en') {
-    return fetchBackend<Array<Record<string, unknown>>>(`/case-studies?locale=${locale}`, []);
+  getCaseStudies<T = any>(locale = 'en'): Promise<T> {
+    return fetchBackend<T>(`/case-studies?locale=${locale}`, [] as unknown as T);
   },
-  getCaseStudyBySlug(slug: string, locale = 'en') {
-    return fetchBackend<Record<string, unknown> | null>(`/case-studies/${encodeURIComponent(slug)}?locale=${locale}`, null);
+  getCaseStudyBySlug<T = any>(slug: string, locale = 'en'): Promise<T> {
+    return fetchBackend<T>(`/case-studies/${encodeURIComponent(slug)}?locale=${locale}`, null as unknown as T);
   },
-  getTeamMembers(locale = 'en') {
-    return fetchBackend<Array<Record<string, unknown>>>(`/team?locale=${locale}`, []);
+  getTeamMembers<T = any>(locale = 'en'): Promise<T> {
+    return fetchBackend<T>(`/team?locale=${locale}`, [] as unknown as T);
   },
-  getCareers(locale = 'en') {
-    return fetchBackend<Array<Record<string, unknown>>>(`/careers?locale=${locale}`, []);
+  getCareers<T = any>(locale = 'en'): Promise<T> {
+    return fetchBackend<T>(`/careers?locale=${locale}`, [] as unknown as T);
   },
-  getCareerBySlug(slug: string, locale = 'en') {
-    return fetchBackend<Record<string, unknown> | null>(`/careers/${encodeURIComponent(slug)}?locale=${locale}`, null);
+  getCareerBySlug<T = any>(slug: string, locale = 'en'): Promise<T> {
+    return fetchBackend<T>(`/careers/${encodeURIComponent(slug)}?locale=${locale}`, null as unknown as T);
   },
-  getBlogPosts(locale = 'en') {
-    return fetchBackend<Array<Record<string, unknown>>>(`/blog?locale=${locale}`, []);
+  getBlogPosts<T = any>(locale = 'en'): Promise<T> {
+    return fetchBackend<T>(`/blog?locale=${locale}`, [] as unknown as T);
   },
-  getBlogPostBySlug(slug: string, locale = 'en') {
-    return fetchBackend<Record<string, unknown> | null>(`/blog/${encodeURIComponent(slug)}?locale=${locale}`, null);
+  getBlogPostBySlug<T = any>(slug: string, locale = 'en'): Promise<T> {
+    return fetchBackend<T>(`/blog/${encodeURIComponent(slug)}?locale=${locale}`, null as unknown as T);
   },
-  getBlogCategories() {
-    return fetchBackend<Array<Record<string, unknown>>>('/blog/categories', []);
+  getBlogCategories<T = any>(): Promise<T> {
+    return fetchBackend<T>('/blog/categories', [] as unknown as T);
   },
-  getTestimonials() {
-    return fetchBackend<Array<Record<string, unknown>>>('/testimonials', []);
+  getTestimonials<T = any>(): Promise<T> {
+    return fetchBackend<T>('/testimonials', [] as unknown as T);
   },
-  getFaqs() {
-    return fetchBackend<Array<Record<string, unknown>>>('/faqs', []);
+  getFaqs<T = any>(): Promise<T> {
+    return fetchBackend<T>('/faqs', [] as unknown as T);
   },
-  getCompanyProfile() {
-    return fetchBackend<Record<string, unknown> | null>('/company', null);
+  getCompanyProfile<T = any>(): Promise<T> {
+    return fetchBackend<T>('/company', null as unknown as T);
   },
-  getSiteSettings() {
-    return fetchBackend<Record<string, unknown> | null>('/site-settings', null);
+  getSiteSettings<T = any>(): Promise<T> {
+    return fetchBackend<T>('/site-settings', null as unknown as T);
   },
-  getNavigation(key: string) {
-    return fetchBackend<Record<string, unknown> | null>(`/navigation/${encodeURIComponent(key)}`, null);
+  getNavigation<T = any>(key: string): Promise<T> {
+    return fetchBackend<T>(`/navigation/${encodeURIComponent(key)}`, null as unknown as T);
   },
 };

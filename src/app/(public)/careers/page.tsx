@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Briefcase, ArrowRight, MapPin, Clock } from 'lucide-react';
+import { ArrowRight, MapPin } from 'lucide-react';
 import { PublicApiService } from '@/services/public-api.service';
 import GlassEmptyState from '@/components/ui/GlassEmptyState';
 
