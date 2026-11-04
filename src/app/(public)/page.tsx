@@ -17,18 +17,12 @@ import {
   ExternalLink,
 } from 'lucide-react';
 import HomeFaqAccordion from '@/components/public/home/HomeFaqAccordion';
+import GlassEmptyState from '@/components/ui/GlassEmptyState';
 
 export const metadata: Metadata = {
   title: 'MRM InfoTech | Software Products & Digital Solutions Company',
   description:
-    'We build innovative software products (EduManage BD, MediSheba BD, Multi-Institution Platform) and deliver custom digital solutions that move businesses forward.',
-  openGraph: {
-    title: 'MRM InfoTech — IDEAS • PRODUCTS • IMPACT',
-    description:
-      'Innovative SaaS software products and custom digital engineering solutions for modern businesses and organizations.',
-    url: 'https://mrminfotech.com',
-    type: 'website',
-  },
+    'We Turn Ideas Into Technology That Moves Businesses Forward. Explore EduManage BD, MediSheba BD, Multi-Institution Website Platform, and custom software engineering.',
 };
 
 const API_BASE_URL =
@@ -55,7 +49,6 @@ interface ProductItem {
   description: string;
   liveUrl: string | null;
   ctaLabel: string;
-  iconType?: string;
 }
 
 interface PublishedServiceRaw {
@@ -135,11 +128,11 @@ interface PublishedFaq {
   category?: string | null;
 }
 
-async function fetchPublishedList<T = unknown>(endpoint: string): Promise<T[]> {
+async function fetchBackendList<T = unknown>(endpoint: string): Promise<T[]> {
   try {
     const res = await fetch(`${API_BASE_URL}${endpoint}`, {
       headers: { Accept: 'application/json' },
-      next: { revalidate: 60 },
+      cache: 'no-store',
     });
     if (!res.ok) return [];
     const json = await res.json();
@@ -159,8 +152,7 @@ async function fetchPublishedList<T = unknown>(endpoint: string): Promise<T[]> {
   }
 }
 
-// Approved Initial Seed Fallbacks for Products & Services (Used ONLY if API returns empty)
-const INITIAL_PRODUCTS: ProductItem[] = [
+const FALLBACK_PRODUCTS: ProductItem[] = [
   {
     slug: 'edumanage-bd',
     title: 'EduManage BD',
@@ -169,7 +161,6 @@ const INITIAL_PRODUCTS: ProductItem[] = [
       'A digital platform designed to simplify educational institution management and support connected academic operations.',
     ctaLabel: 'Explore Product',
     liveUrl: null,
-    iconType: 'education',
   },
   {
     slug: 'medisheba-bd',
@@ -179,21 +170,19 @@ const INITIAL_PRODUCTS: ProductItem[] = [
       'A healthcare technology platform designed to support diagnostic centres and healthcare service operations.',
     ctaLabel: 'Explore Product',
     liveUrl: null,
-    iconType: 'healthcare',
   },
   {
     slug: 'multi-institution-platform',
-    title: 'MRM InfoTech Multi-Institution Website Platform',
+    title: 'Multi-Institution Website Platform',
     category: 'Institutional Website Management',
     description:
       'A platform designed to help educational institutions manage their own professional websites and digital presence.',
     ctaLabel: 'Explore Platform',
     liveUrl: null,
-    iconType: 'platform',
   },
 ];
 
-const INITIAL_SERVICES: ServiceItem[] = [
+const FALLBACK_SERVICES: ServiceItem[] = [
   {
     slug: 'web-development',
     title: 'Web Development',
@@ -309,32 +298,29 @@ const WORK_PROCESS_STEPS = [
   {
     number: '03',
     title: 'Design & Build',
-    description:
-      'We turn the plan into a functional and thoughtful digital solution.',
+    description: 'We turn the plan into a functional and thoughtful digital solution.',
   },
   {
     number: '04',
     title: 'Test & Refine',
-    description:
-      'We review functionality, usability, and quality before delivery.',
+    description: 'We review functionality, usability, and quality before delivery.',
   },
   {
     number: '05',
     title: 'Launch & Support',
-    description:
-      'We deliver the solution and provide agreed ongoing support.',
+    description: 'We deliver the solution and provide agreed ongoing support.',
   },
 ];
 
 const APPROVED_TECHNOLOGIES = [
-  { name: 'React', category: 'Frontend UI' },
-  { name: 'Next.js', category: 'Full-Stack Framework' },
-  { name: 'TypeScript', category: 'Type Safety' },
-  { name: 'Node.js', category: 'Runtime' },
-  { name: 'NestJS', category: 'Backend Architecture' },
-  { name: 'PostgreSQL', category: 'Relational Database' },
-  { name: 'Prisma', category: 'Database ORM' },
-  { name: 'Tailwind CSS', category: 'Design System' },
+  { name: 'React', role: 'Frontend UI' },
+  { name: 'Next.js', role: 'Full-Stack Framework' },
+  { name: 'TypeScript', role: 'Type Safety' },
+  { name: 'Node.js', role: 'Server Runtime' },
+  { name: 'NestJS', role: 'Modular Backend' },
+  { name: 'PostgreSQL', role: 'Relational Database' },
+  { name: 'Prisma', role: 'Database ORM' },
+  { name: 'Tailwind CSS', role: 'Design System' },
 ];
 
 export default async function HomePage() {
@@ -347,13 +333,13 @@ export default async function HomePage() {
     apiBlogPosts,
     apiFaqs,
   ] = await Promise.all([
-    fetchPublishedList<PublishedProductRaw>('/products?locale=en'),
-    fetchPublishedList<PublishedServiceRaw>('/services?locale=en'),
-    fetchPublishedList<PublishedProject>('/projects?locale=en'),
-    fetchPublishedList<PublishedCaseStudy>('/case-studies?locale=en'),
-    fetchPublishedList<PublishedTeamMember>('/team?locale=en'),
-    fetchPublishedList<PublishedBlogPost>('/blog?locale=en'),
-    fetchPublishedList<PublishedFaq>('/faqs'),
+    fetchBackendList<PublishedProductRaw>('/products?locale=en'),
+    fetchBackendList<PublishedServiceRaw>('/services?locale=en'),
+    fetchBackendList<PublishedProject>('/projects?locale=en'),
+    fetchBackendList<PublishedCaseStudy>('/case-studies?locale=en'),
+    fetchBackendList<PublishedTeamMember>('/team?locale=en'),
+    fetchBackendList<PublishedBlogPost>('/blog?locale=en'),
+    fetchBackendList<PublishedFaq>('/faqs'),
   ]);
 
   const products: ProductItem[] =
@@ -362,20 +348,16 @@ export default async function HomePage() {
           slug: p.slug,
           title: p.title || p.translations?.[0]?.title || p.slug,
           category:
-            p.tagline ||
-            p.translations?.[0]?.tagline ||
-            'Software Product',
+            p.tagline || p.translations?.[0]?.tagline || 'Software Product',
           description:
-            p.description ||
-            p.translations?.[0]?.description ||
-            '',
+            p.description || p.translations?.[0]?.description || '',
           liveUrl: p.liveUrl || null,
           ctaLabel:
             p.slug === 'multi-institution-platform'
               ? 'Explore Platform'
               : 'Explore Product',
         }))
-      : INITIAL_PRODUCTS;
+      : FALLBACK_PRODUCTS;
 
   const services: ServiceItem[] =
     apiServices.length > 0
@@ -388,38 +370,38 @@ export default async function HomePage() {
             s.description ||
             '',
         }))
-      : INITIAL_SERVICES;
+      : FALLBACK_SERVICES;
 
-  const featuredProjects = apiProjects.slice(0, 6);
-  const featuredCaseStudies = apiCaseStudies.slice(0, 3);
-  const activeTeam = apiTeam.filter((m) => m.isActive !== false).slice(0, 4);
-  const latestPosts = apiBlogPosts.slice(0, 3);
+  const featuredProjects: PublishedProject[] = apiProjects.slice(0, 6);
+  const featuredCaseStudies: PublishedCaseStudy[] = apiCaseStudies.slice(0, 3);
+  const activeTeam: PublishedTeamMember[] = apiTeam.filter((m) => m.isActive !== false).slice(0, 4);
+  const latestPosts: PublishedBlogPost[] = apiBlogPosts.slice(0, 3);
 
   return (
     <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] overflow-x-hidden">
       {/* =====================================================================
-          SECTION 01 — HERO (Asymmetric Split Layout + Strong Glassmorphism)
+          SECTION 01 — HERO (Strong Liquid Glass Floating Composition)
           ===================================================================== */}
-      <section className="relative pt-16 pb-24 lg:pt-24 lg:pb-32 overflow-hidden border-b border-[var(--border-subtle)] bg-gradient-to-b from-[#EFF5FB]/70 via-[var(--bg-primary)] to-[var(--bg-primary)] dark:from-[#071A35] dark:via-[#071321] dark:to-[#071321]">
-        {/* Subtle Ambient Cyan & Blue Glows */}
+      <section className="relative pt-16 pb-24 lg:pt-24 lg:pb-32 overflow-hidden border-b border-[var(--border-subtle)] bg-gradient-to-b from-[#EFF5FB] via-[var(--bg-primary)] to-[var(--bg-primary)] dark:from-[#071A35] dark:via-[#071321] dark:to-[#071321]">
+        {/* Ambient Cyan & Blue Lighting */}
         <div
           aria-hidden="true"
-          className="animate-mrm-ambient pointer-events-none absolute -top-28 right-1/4 w-[460px] h-[460px] rounded-full bg-[#20B8D5]/15 dark:bg-[#20B8D5]/12 blur-[110px]"
+          className="pointer-events-none absolute -top-28 right-1/4 w-[480px] h-[480px] rounded-full bg-[#20B8D5]/20 dark:bg-[#20B8D5]/15 blur-[120px]"
         />
         <div
           aria-hidden="true"
-          className="animate-mrm-ambient pointer-events-none absolute bottom-0 left-10 w-[380px] h-[380px] rounded-full bg-[#087FC4]/12 dark:bg-[#087FC4]/15 blur-[100px]"
+          className="pointer-events-none absolute bottom-0 left-8 w-[380px] h-[380px] rounded-full bg-[#087FC4]/15 dark:bg-[#087FC4]/20 blur-[110px]"
         />
 
-        <div className="relative z-10 max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-10 items-center">
-          {/* Left Column: Editorial Headline & CTAs */}
+        <div className="relative z-10 max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          {/* Left: Main Editorial Copy */}
           <div className="lg:col-span-7 space-y-6">
-            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full mrm-glass-pill text-xs font-bold tracking-widest uppercase text-[#087FC4] dark:text-[#20B8D5]">
+            <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full mrm-glass-pill text-xs font-extrabold tracking-widest uppercase text-[#087FC4] dark:text-[#20B8D5]">
               <span className="w-2 h-2 rounded-full bg-[#20B8D5]" />
               SOFTWARE PRODUCTS &amp; DIGITAL SOLUTIONS
             </div>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-[54px] font-black tracking-tight leading-[1.12] text-[var(--text-primary)]">
+            <h1 className="text-4xl sm:text-5xl lg:text-[54px] font-black tracking-tight leading-[1.12]">
               We Turn Ideas Into Technology That Moves Businesses Forward.
             </h1>
 
@@ -431,20 +413,19 @@ export default async function HomePage() {
 
             <div className="flex flex-wrap items-center gap-4 pt-2">
               <Link
-                className="px-7 py-3.5 rounded-[10px] bg-gradient-to-r from-[#087FC4] to-[#20B8D5] text-white font-bold text-sm sm:text-base shadow-lg shadow-[#087FC4]/25 hover:opacity-95 active:scale-[0.99] transition-all inline-flex items-center gap-2"
+                className="px-7 py-3.5 rounded-[10px] bg-gradient-to-r from-[#087FC4] to-[#20B8D5] text-white font-bold text-sm sm:text-base shadow-lg shadow-[#087FC4]/30 hover:opacity-95 transition-all inline-flex items-center gap-2"
                 href="/services"
               >
                 Explore Our Services <ArrowRight className="w-4 h-4" />
               </Link>
               <Link
-                className="px-7 py-3.5 rounded-[10px] mrm-glass-strong text-[var(--text-primary)] font-bold text-sm sm:text-base hover:border-[#087FC4] dark:hover:border-[#20B8D5] transition-all inline-flex items-center gap-2"
+                className="px-7 py-3.5 rounded-[10px] mrm-glass-strong text-[var(--text-primary)] font-bold text-sm sm:text-base hover:border-[#20B8D5] transition-all inline-flex items-center gap-2"
                 href="/products"
               >
                 Discover Our Products
               </Link>
             </div>
 
-            {/* Official Tagline Bar */}
             <div className="pt-4 flex items-center gap-3 text-xs font-extrabold tracking-[0.22em] uppercase text-[var(--text-muted)]">
               <span>IDEAS</span>
               <span className="text-[#20B8D5]">•</span>
@@ -454,94 +435,84 @@ export default async function HomePage() {
             </div>
           </div>
 
-          {/* Right Column: Abstract Layered Glass Composition */}
+          {/* Right: Strong Liquid Glass Floating Panels */}
           <div className="lg:col-span-5 relative">
-            <div className="relative mx-auto max-w-md lg:max-w-none">
-              {/* Primary Architectural Glass Panel */}
-              <div className="mrm-glass-strong rounded-2xl p-6 sm:p-7 relative z-10 animate-mrm-float">
-                <div className="flex items-center justify-between pb-4 mb-5 border-b border-[var(--border-subtle)]">
-                  <div>
-                    <span className="text-[11px] font-bold uppercase tracking-widest text-[#087FC4] dark:text-[#20B8D5]">
-                      MRM InfoTech Architecture
-                    </span>
-                    <h2 className="text-lg font-extrabold text-[var(--text-primary)] mt-0.5">
-                      Dual-Engine Technology Partner
-                    </h2>
-                  </div>
-                  <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#087FC4] to-[#20B8D5] text-white flex items-center justify-center font-black text-base shadow-md">
-                    M
-                  </div>
+            <div className="mrm-glass-strong rounded-3xl p-6 sm:p-7 relative z-10 animate-mrm-float">
+              <div className="flex items-center justify-between pb-4 mb-5 border-b border-[var(--border-subtle)]">
+                <div>
+                  <span className="text-[11px] font-bold uppercase tracking-widest text-[#087FC4] dark:text-[#20B8D5]">
+                    MRM InfoTech Ecosystem
+                  </span>
+                  <h2 className="text-lg font-extrabold mt-0.5">
+                    Products &amp; Custom Engineering
+                  </h2>
                 </div>
-
-                {/* 3 Real Domain Identities: Education, Healthcare, Digital Solutions */}
-                <div className="space-y-3.5">
-                  <div className="p-3.5 rounded-xl bg-[var(--bg-secondary)]/80 dark:bg-[#071A35]/70 border border-[var(--border-subtle)] flex items-start gap-3.5">
-                    <div className="p-2.5 rounded-lg bg-[#087FC4]/15 text-[#087FC4] dark:text-[#20B8D5] shrink-0">
-                      <Layers className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <h3 className="text-sm font-bold text-[var(--text-primary)]">
-                          Education Technology
-                        </h3>
-                        <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-[#087FC4]/15 text-[#087FC4] dark:text-[#20B8D5]">
-                          EduManage BD
-                        </span>
-                      </div>
-                      <p className="text-xs text-[var(--text-secondary)] mt-1">
-                        Connected academic operations &amp; multi-institution web platforms.
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="p-3.5 rounded-xl bg-[var(--bg-secondary)]/80 dark:bg-[#071A35]/70 border border-[var(--border-subtle)] flex items-start gap-3.5">
-                    <div className="p-2.5 rounded-lg bg-[#20B8D5]/15 text-[#087FC4] dark:text-[#20B8D5] shrink-0">
-                      <Cpu className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <h3 className="text-sm font-bold text-[var(--text-primary)]">
-                          Healthcare Platforms
-                        </h3>
-                        <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-[#20B8D5]/15 text-[#087FC4] dark:text-[#20B8D5]">
-                          MediSheba BD
-                        </span>
-                      </div>
-                      <p className="text-xs text-[var(--text-secondary)] mt-1">
-                        Diagnostic centre &amp; healthcare service management software.
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="p-3.5 rounded-xl bg-[var(--bg-secondary)]/80 dark:bg-[#071A35]/70 border border-[var(--border-subtle)] flex items-start gap-3.5">
-                    <div className="p-2.5 rounded-lg bg-[#103B68]/15 dark:bg-white/10 text-[#087FC4] dark:text-[#20B8D5] shrink-0">
-                      <Code2 className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <h3 className="text-sm font-bold text-[var(--text-primary)]">
-                        Custom Digital Solutions
-                      </h3>
-                      <p className="text-xs text-[var(--text-secondary)] mt-1">
-                        Web applications, custom software, SaaS &amp; digital growth for clients.
-                      </p>
-                    </div>
-                  </div>
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#087FC4] to-[#20B8D5] text-white flex items-center justify-center font-black text-base shadow-md">
+                  M
                 </div>
               </div>
 
-              {/* Secondary Floating Accent Glass Pill */}
-              <div className="mt-4 sm:mt-0 sm:absolute sm:-bottom-6 sm:-left-6 z-20 mrm-glass-strong rounded-xl px-4 py-3 flex items-center gap-3 animate-mrm-float-delayed">
-                <div className="w-8 h-8 rounded-lg bg-[#20B8D5]/20 text-[#087FC4] dark:text-[#20B8D5] flex items-center justify-center">
-                  <Sparkles className="w-4 h-4" />
+              <div className="space-y-3.5">
+                <div className="mrm-glass-card rounded-2xl p-4 flex items-start gap-3.5">
+                  <div className="p-2.5 rounded-xl bg-[#087FC4]/15 text-[#087FC4] dark:text-[#20B8D5] shrink-0">
+                    <Layers className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <h3 className="text-sm font-bold">Education Platforms</h3>
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#087FC4]/15 text-[#087FC4] dark:text-[#20B8D5]">
+                        EduManage BD
+                      </span>
+                    </div>
+                    <p className="text-xs text-[var(--text-secondary)] mt-1">
+                      Academic operations &amp; Multi-Institution Website Platform.
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-xs font-extrabold text-[var(--text-primary)]">
-                    Proprietary SaaS + Client Engineering
-                  </p>
-                  <p className="text-[11px] text-[var(--text-muted)]">
-                    Built for maintainability &amp; real-world impact
-                  </p>
+
+                <div className="mrm-glass-card rounded-2xl p-4 flex items-start gap-3.5">
+                  <div className="p-2.5 rounded-xl bg-[#20B8D5]/15 text-[#087FC4] dark:text-[#20B8D5] shrink-0">
+                    <Cpu className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <h3 className="text-sm font-bold">Healthcare Systems</h3>
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#20B8D5]/15 text-[#087FC4] dark:text-[#20B8D5]">
+                        MediSheba BD
+                      </span>
+                    </div>
+                    <p className="text-xs text-[var(--text-secondary)] mt-1">
+                      Diagnostic centre &amp; healthcare service management software.
+                    </p>
+                  </div>
                 </div>
+
+                <div className="mrm-glass-card rounded-2xl p-4 flex items-start gap-3.5">
+                  <div className="p-2.5 rounded-xl bg-[#103B68]/15 dark:bg-white/10 text-[#087FC4] dark:text-[#20B8D5] shrink-0">
+                    <Code2 className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold">Client Digital Solutions</h3>
+                    <p className="text-xs text-[var(--text-secondary)] mt-1">
+                      Custom software, web applications, SaaS &amp; digital marketing.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Floating Secondary Glass Badge */}
+            <div className="mt-4 sm:mt-0 sm:absolute sm:-bottom-5 sm:-left-5 z-20 mrm-glass-strong rounded-2xl px-4 py-3 flex items-center gap-3 animate-mrm-float-delayed">
+              <div className="w-8 h-8 rounded-xl bg-[#20B8D5]/20 text-[#087FC4] dark:text-[#20B8D5] flex items-center justify-center">
+                <Sparkles className="w-4 h-4" />
+              </div>
+              <div>
+                <p className="text-xs font-extrabold">
+                  SaaS Products + Client Solutions
+                </p>
+                <p className="text-[11px] text-[var(--text-muted)]">
+                  Engineered for real-world business impact
+                </p>
               </div>
             </div>
           </div>
@@ -557,7 +528,7 @@ export default async function HomePage() {
             <span className="text-xs font-extrabold uppercase tracking-widest text-[#087FC4] dark:text-[#20B8D5]">
               WHO WE ARE
             </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[var(--text-primary)] leading-tight">
+            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight leading-tight">
               Technology With Purpose. Solutions With Impact.
             </h2>
             <p className="text-base sm:text-lg text-[var(--text-secondary)] leading-relaxed">
@@ -578,43 +549,34 @@ export default async function HomePage() {
             </div>
           </div>
 
-          <div className="lg:col-span-6">
-            <div className="mrm-solid-card rounded-2xl p-8 sm:p-10 relative overflow-hidden">
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                <div className="space-y-2 border-b sm:border-b-0 sm:border-r border-[var(--border-subtle)] pb-4 sm:pb-0 sm:pr-4">
-                  <span className="text-xs font-bold uppercase tracking-widest text-[#087FC4] dark:text-[#20B8D5]">
-                    01 • IDEAS
-                  </span>
-                  <h3 className="font-bold text-base text-[var(--text-primary)]">
-                    Problem-First Discovery
-                  </h3>
-                  <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
-                    Every product and client engagement starts with clarity around real operational needs.
-                  </p>
-                </div>
-                <div className="space-y-2 border-b sm:border-b-0 sm:border-r border-[var(--border-subtle)] pb-4 sm:pb-0 sm:pr-4">
-                  <span className="text-xs font-bold uppercase tracking-widest text-[#087FC4] dark:text-[#20B8D5]">
-                    02 • PRODUCTS
-                  </span>
-                  <h3 className="font-bold text-base text-[var(--text-primary)]">
-                    Thoughtful Engineering
-                  </h3>
-                  <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
-                    Clean architecture, reliable databases, and intuitive interfaces built to last.
-                  </p>
-                </div>
-                <div className="space-y-2">
-                  <span className="text-xs font-bold uppercase tracking-widest text-[#087FC4] dark:text-[#20B8D5]">
-                    03 • IMPACT
-                  </span>
-                  <h3 className="font-bold text-base text-[var(--text-primary)]">
-                    Measurable Value
-                  </h3>
-                  <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
-                    Technology that simplifies daily work and supports sustainable organizational growth.
-                  </p>
-                </div>
-              </div>
+          {/* 3 Glass-Accented Pillar Boxes */}
+          <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="mrm-glass-card rounded-2xl p-6 space-y-2">
+              <span className="text-xs font-extrabold uppercase tracking-widest text-[#087FC4] dark:text-[#20B8D5]">
+                01 • IDEAS
+              </span>
+              <h3 className="font-bold text-base">Problem-First Discovery</h3>
+              <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
+                Every product and client solution starts by understanding real operational needs.
+              </p>
+            </div>
+            <div className="mrm-glass-card rounded-2xl p-6 space-y-2">
+              <span className="text-xs font-extrabold uppercase tracking-widest text-[#087FC4] dark:text-[#20B8D5]">
+                02 • PRODUCTS
+              </span>
+              <h3 className="font-bold text-base">Thoughtful Engineering</h3>
+              <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
+                Clean architecture, scalable databases, and intuitive interfaces built to last.
+              </p>
+            </div>
+            <div className="mrm-glass-card rounded-2xl p-6 space-y-2">
+              <span className="text-xs font-extrabold uppercase tracking-widest text-[#087FC4] dark:text-[#20B8D5]">
+                03 • IMPACT
+              </span>
+              <h3 className="font-bold text-base">Measurable Value</h3>
+              <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
+                Digital systems that simplify daily workflows and support long-term growth.
+              </p>
             </div>
           </div>
         </div>
@@ -640,11 +602,11 @@ export default async function HomePage() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Panel A: Software Products (Deep Navy Contrasting Executive Panel) */}
-            <div className="rounded-2xl p-8 sm:p-10 bg-gradient-to-br from-[#071A35] via-[#0B2548] to-[#103B68] text-white border border-[#20B8D5]/25 shadow-xl flex flex-col justify-between">
-              <div className="space-y-4">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#20B8D5]/15 text-[#20B8D5] text-xs font-bold uppercase tracking-wider">
-                  <Layers className="w-3.5 h-3.5" /> Pillar 01 • Proprietary Platforms
+            {/* Block 1: Software Products (Deep Navy Liquid Glass Executive Panel) */}
+            <div className="rounded-3xl p-8 sm:p-10 bg-gradient-to-br from-[#071A35] via-[#0B2548] to-[#103B68] text-white border border-[#20B8D5]/30 shadow-2xl flex flex-col justify-between relative overflow-hidden">
+              <div className="space-y-4 relative z-10">
+                <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#20B8D5]/15 border border-[#20B8D5]/30 text-[#20B8D5] text-xs font-bold uppercase tracking-wider">
+                  <Layers className="w-3.5 h-3.5" /> Focus Area 01
                 </div>
                 <h3 className="text-2xl sm:text-3xl font-extrabold">
                   Software Products
@@ -654,34 +616,34 @@ export default async function HomePage() {
                   simplify operations and solve practical challenges.
                 </p>
                 <div className="pt-2 flex flex-wrap gap-2">
-                  <span className="text-xs px-3 py-1 rounded-lg bg-white/10 text-slate-100">
+                  <span className="text-xs px-3 py-1.5 rounded-xl bg-white/10 backdrop-blur-md border border-white/15 text-white font-medium">
                     EduManage BD
                   </span>
-                  <span className="text-xs px-3 py-1 rounded-lg bg-white/10 text-slate-100">
+                  <span className="text-xs px-3 py-1.5 rounded-xl bg-white/10 backdrop-blur-md border border-white/15 text-white font-medium">
                     MediSheba BD
                   </span>
-                  <span className="text-xs px-3 py-1 rounded-lg bg-white/10 text-slate-100">
+                  <span className="text-xs px-3 py-1.5 rounded-xl bg-white/10 backdrop-blur-md border border-white/15 text-white font-medium">
                     Multi-Institution Platform
                   </span>
                 </div>
               </div>
-              <div className="pt-8">
+              <div className="pt-8 relative z-10">
                 <Link
                   className="inline-flex items-center gap-2 text-sm font-bold text-[#20B8D5] hover:underline"
                   href="/products"
                 >
-                  Explore Our Software Products <ArrowRight className="w-4 h-4" />
+                  Explore Software Products <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
             </div>
 
-            {/* Panel B: Client Solutions (Clean Surface Panel) */}
-            <div className="mrm-solid-card rounded-2xl p-8 sm:p-10 flex flex-col justify-between">
+            {/* Block 2: Client Solutions (Selective Glass Card) */}
+            <div className="mrm-glass-card rounded-3xl p-8 sm:p-10 flex flex-col justify-between">
               <div className="space-y-4">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#087FC4]/10 text-[#087FC4] dark:text-[#20B8D5] text-xs font-bold uppercase tracking-wider">
-                  <Code2 className="w-3.5 h-3.5" /> Pillar 02 • Custom Engineering
+                <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#087FC4]/10 text-[#087FC4] dark:text-[#20B8D5] text-xs font-bold uppercase tracking-wider">
+                  <Code2 className="w-3.5 h-3.5" /> Focus Area 02
                 </div>
-                <h3 className="text-2xl sm:text-3xl font-extrabold text-[var(--text-primary)]">
+                <h3 className="text-2xl sm:text-3xl font-extrabold">
                   Client Solutions
                 </h3>
                 <p className="text-[var(--text-secondary)] text-sm sm:text-base leading-relaxed">
@@ -689,13 +651,13 @@ export default async function HomePage() {
                   digital solutions shaped around business needs.
                 </p>
                 <div className="pt-2 flex flex-wrap gap-2">
-                  <span className="text-xs px-3 py-1 rounded-lg bg-[var(--bg-secondary)] text-[var(--text-secondary)] border border-[var(--border-subtle)]">
+                  <span className="text-xs px-3 py-1.5 rounded-xl mrm-glass-pill font-medium">
                     Web &amp; Software Development
                   </span>
-                  <span className="text-xs px-3 py-1 rounded-lg bg-[var(--bg-secondary)] text-[var(--text-secondary)] border border-[var(--border-subtle)]">
-                    SaaS &amp; Business Automation
+                  <span className="text-xs px-3 py-1.5 rounded-xl mrm-glass-pill font-medium">
+                    SaaS &amp; Web Applications
                   </span>
-                  <span className="text-xs px-3 py-1 rounded-lg bg-[var(--bg-secondary)] text-[var(--text-secondary)] border border-[var(--border-subtle)]">
+                  <span className="text-xs px-3 py-1.5 rounded-xl mrm-glass-pill font-medium">
                     SEO &amp; Digital Marketing
                   </span>
                 </div>
@@ -714,7 +676,7 @@ export default async function HomePage() {
       </section>
 
       {/* =====================================================================
-          SECTION 04 — OUR PRODUCTS (Selective Glass Cards)
+          SECTION 04 — OUR PRODUCTS (Selective Liquid Glass Cards)
           ===================================================================== */}
       <section className="py-20 lg:py-28 bg-[var(--bg-primary)] relative overflow-hidden">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -762,7 +724,7 @@ export default async function HomePage() {
                     </span>
                   </div>
 
-                  <h3 className="text-2xl font-extrabold text-[var(--text-primary)] mb-3">
+                  <h3 className="text-2xl font-extrabold mb-3">
                     {product.title}
                   </h3>
                   <p className="text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed">
@@ -778,7 +740,6 @@ export default async function HomePage() {
                     {product.ctaLabel || 'Explore Product'}{' '}
                     <ArrowRight className="w-4 h-4" />
                   </Link>
-
                   {product.liveUrl && (
                     <a
                       href={product.liveUrl}
@@ -797,7 +758,7 @@ export default async function HomePage() {
       </section>
 
       {/* =====================================================================
-          SECTION 05 — SERVICES (Structured Solid Grid with Restrained Hover)
+          SECTION 05 — SERVICES (Structured Solid Cards for High Readability)
           ===================================================================== */}
       <section className="py-20 lg:py-28 bg-[var(--bg-secondary)] border-y border-[var(--border-subtle)]">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
@@ -832,12 +793,12 @@ export default async function HomePage() {
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">
-                    <span className="text-xs font-mono font-bold text-[#087FC4] dark:text-[#20B8D5]">
+                    <span className="text-xs font-mono font-bold px-2.5 py-1 rounded-md bg-[#087FC4]/10 text-[#087FC4] dark:text-[#20B8D5]">
                       {String(index + 1).padStart(2, '0')}
                     </span>
-                    <ArrowUpRight className="w-4 h-4 text-[var(--text-muted)] group-hover:text-[#087FC4] dark:group-hover:text-[#20B8D5] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                    <ArrowUpRight className="w-4 h-4 text-[var(--text-muted)] group-hover:text-[#087FC4] dark:group-hover:text-[#20B8D5] transition-transform" />
                   </div>
-                  <h3 className="text-lg font-extrabold text-[var(--text-primary)] group-hover:text-[#087FC4] dark:group-hover:text-[#20B8D5] transition-colors mb-2">
+                  <h3 className="text-lg font-extrabold group-hover:text-[#087FC4] dark:group-hover:text-[#20B8D5] transition-colors mb-2">
                     {service.title}
                   </h3>
                   <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
@@ -854,7 +815,7 @@ export default async function HomePage() {
       </section>
 
       {/* =====================================================================
-          SECTION 06 — WHY CHOOSE MRM INFOTECH (Editorial Feature Grid)
+          SECTION 06 — WHY CHOOSE MRM INFOTECH (6 Value Cards)
           ===================================================================== */}
       <section className="py-20 lg:py-28 bg-[var(--bg-primary)]">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
@@ -880,12 +841,10 @@ export default async function HomePage() {
                   key={item.title}
                   className="mrm-solid-card rounded-2xl p-7 space-y-3"
                 >
-                  <div className="w-11 h-11 rounded-xl bg-[#087FC4]/10 text-[#087FC4] dark:text-[#20B8D5] flex items-center justify-center">
+                  <div className="w-11 h-11 rounded-xl mrm-glass-pill text-[#087FC4] dark:text-[#20B8D5] flex items-center justify-center">
                     <Icon className="w-5 h-5" />
                   </div>
-                  <h3 className="text-lg font-extrabold text-[var(--text-primary)]">
-                    {item.title}
-                  </h3>
+                  <h3 className="text-lg font-extrabold">{item.title}</h3>
                   <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
                     {item.description}
                   </p>
@@ -897,32 +856,42 @@ export default async function HomePage() {
       </section>
 
       {/* =====================================================================
-          SECTION 07 — FEATURED PROJECTS (Only Shown When Published Records Exist)
+          SECTION 07 — FEATURED PROJECTS (Live Database Records or Glass Empty State)
           ===================================================================== */}
-      {featuredProjects.length > 0 && (
-        <section className="py-20 lg:py-28 bg-[var(--bg-secondary)] border-t border-[var(--border-subtle)]">
-          <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-6">
-              <div className="max-w-2xl">
-                <span className="text-xs font-extrabold uppercase tracking-widest text-[#087FC4] dark:text-[#20B8D5]">
-                  SELECTED WORK
-                </span>
-                <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mt-2 mb-3">
-                  Ideas in Action. Solutions in Practice.
-                </h2>
-                <p className="text-base sm:text-lg text-[var(--text-secondary)] leading-relaxed">
-                  Explore selected digital projects that reflect our approach to
-                  design, development, and practical problem-solving.
-                </p>
-              </div>
-              <Link
-                className="inline-flex items-center gap-2 text-sm font-bold text-[#087FC4] dark:text-[#20B8D5] hover:underline"
-                href="/projects"
-              >
-                View All Projects <ArrowRight className="w-4 h-4" />
-              </Link>
+      <section className="py-20 lg:py-28 bg-[var(--bg-secondary)] border-t border-[var(--border-subtle)]">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-6">
+            <div className="max-w-2xl">
+              <span className="text-xs font-extrabold uppercase tracking-widest text-[#087FC4] dark:text-[#20B8D5]">
+                SELECTED WORK
+              </span>
+              <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mt-2 mb-3">
+                Ideas in Action. Solutions in Practice.
+              </h2>
+              <p className="text-base sm:text-lg text-[var(--text-secondary)] leading-relaxed">
+                Explore selected digital projects that reflect our approach to
+                design, development, and practical problem-solving.
+              </p>
             </div>
+            <Link
+              className="inline-flex items-center gap-2 text-sm font-bold text-[#087FC4] dark:text-[#20B8D5] hover:underline"
+              href="/projects"
+            >
+              View All Projects <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
 
+          {featuredProjects.length === 0 ? (
+            <GlassEmptyState
+              badge="Live Portfolio Feed"
+              title="No Portfolio Projects Published Yet"
+              description="This section is connected directly to the live MRM InfoTech database. Add and publish projects from the Admin Dashboard to showcase them here."
+              adminHref="/admin/dashboard/projects"
+              adminLabel="Add Project in Admin CMS"
+              publicHref="/start-project"
+              publicLabel="Start Your Project"
+            />
+          ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {featuredProjects.map((project) => {
                 const title =
@@ -947,57 +916,39 @@ export default async function HomePage() {
                 return (
                   <div
                     key={project.id || project.slug}
-                    className="mrm-solid-card rounded-2xl overflow-hidden flex flex-col justify-between group"
+                    className="mrm-solid-card rounded-2xl overflow-hidden flex flex-col justify-between"
                   >
-                    <div>
-                      <div className="p-6 pb-4">
-                        <span className="text-[11px] font-bold uppercase tracking-wider text-[#087FC4] dark:text-[#20B8D5]">
-                          {project.projectWorkStatus || 'COMPLETED'}
-                        </span>
-                        <h3 className="text-xl font-extrabold text-[var(--text-primary)] mt-1 mb-2">
-                          {title}
-                        </h3>
-                        <p className="text-sm text-[var(--text-secondary)] line-clamp-3 leading-relaxed">
-                          {summary}
-                        </p>
-                      </div>
-
+                    <div className="p-6">
+                      <span className="text-[11px] font-bold uppercase tracking-wider text-[#087FC4] dark:text-[#20B8D5]">
+                        {project.projectWorkStatus || 'PUBLISHED'}
+                      </span>
+                      <h3 className="text-xl font-extrabold mt-1 mb-2">
+                        {title}
+                      </h3>
+                      <p className="text-sm text-[var(--text-secondary)] line-clamp-3 leading-relaxed">
+                        {summary}
+                      </p>
                       {(frontendTech.length > 0 || backendTech.length > 0) && (
-                        <div className="px-6 py-3 space-y-2">
-                          {frontendTech.length > 0 && (
-                            <div className="flex flex-wrap gap-1.5">
-                              {frontendTech.slice(0, 4).map((tech) => (
-                                <span
-                                  key={tech}
-                                  className="text-[11px] px-2.5 py-0.5 rounded-md bg-[#087FC4]/10 text-[#087FC4] dark:text-[#20B8D5] font-medium"
-                                >
-                                  {tech}
-                                </span>
-                              ))}
-                            </div>
-                          )}
-                          {backendTech.length > 0 && (
-                            <div className="flex flex-wrap gap-1.5">
-                              {backendTech.slice(0, 4).map((tech) => (
-                                <span
-                                  key={tech}
-                                  className="text-[11px] px-2.5 py-0.5 rounded-md bg-[var(--bg-secondary)] text-[var(--text-secondary)] border border-[var(--border-subtle)] font-medium"
-                                >
-                                  {tech}
-                                </span>
-                              ))}
-                            </div>
+                        <div className="pt-4 flex flex-wrap gap-1.5">
+                          {[...frontendTech.slice(0, 3), ...backendTech.slice(0, 3)].map(
+                            (tech) => (
+                              <span
+                                key={tech}
+                                className="text-[11px] px-2.5 py-0.5 rounded-md mrm-glass-pill font-medium"
+                              >
+                                {tech}
+                              </span>
+                            ),
                           )}
                         </div>
                       )}
                     </div>
-
-                    <div className="px-6 py-4 mt-4 border-t border-[var(--border-subtle)] flex items-center justify-between">
+                    <div className="px-6 py-4 border-t border-[var(--border-subtle)] flex items-center justify-between">
                       <Link
                         className="text-xs font-bold text-[#087FC4] dark:text-[#20B8D5] hover:underline inline-flex items-center gap-1"
                         href={`/projects/${project.slug}`}
                       >
-                        Case Study <ArrowRight className="w-3.5 h-3.5" />
+                        Project Details <ArrowRight className="w-3.5 h-3.5" />
                       </Link>
                       {project.liveUrl && (
                         <a
@@ -1014,14 +965,14 @@ export default async function HomePage() {
                 );
               })}
             </div>
-          </div>
-        </section>
-      )}
+          )}
+        </div>
+      </section>
 
       {/* =====================================================================
-          SECTION 08 — HOW WE WORK (5-Step Sequential Process Timeline)
+          SECTION 08 — HOW WE WORK (5-Step Sequential Timeline)
           ===================================================================== */}
-      <section className="py-20 lg:py-28 bg-[var(--bg-secondary)] border-y border-[var(--border-subtle)]">
+      <section className="py-20 lg:py-28 bg-[var(--bg-primary)] border-t border-[var(--border-subtle)]">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mb-16">
             <span className="text-xs font-extrabold uppercase tracking-widest text-[#087FC4] dark:text-[#20B8D5]">
@@ -1041,15 +992,13 @@ export default async function HomePage() {
             {WORK_PROCESS_STEPS.map((step) => (
               <div
                 key={step.number}
-                className="mrm-solid-card rounded-2xl p-6 relative flex flex-col justify-between"
+                className="mrm-solid-card rounded-2xl p-6 flex flex-col justify-between"
               >
                 <div>
                   <span className="inline-block text-2xl font-black text-[#087FC4] dark:text-[#20B8D5] font-mono mb-4">
                     {step.number}
                   </span>
-                  <h3 className="text-lg font-extrabold text-[var(--text-primary)] mb-2">
-                    {step.title}
-                  </h3>
+                  <h3 className="text-lg font-extrabold mb-2">{step.title}</h3>
                   <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
                     {step.description}
                   </p>
@@ -1062,9 +1011,9 @@ export default async function HomePage() {
       </section>
 
       {/* =====================================================================
-          SECTION 09 — TECHNOLOGY EXPERTISE (Selective Glass Badges)
+          SECTION 09 — TECHNOLOGY EXPERTISE (Liquid Glass Badges)
           ===================================================================== */}
-      <section className="py-20 lg:py-24 bg-[var(--bg-primary)]">
+      <section className="py-20 lg:py-24 bg-[var(--bg-secondary)] border-y border-[var(--border-subtle)]">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="max-w-2xl mx-auto mb-12">
             <span className="text-xs font-extrabold uppercase tracking-widest text-[#087FC4] dark:text-[#20B8D5]">
@@ -1088,11 +1037,11 @@ export default async function HomePage() {
               >
                 <div className="w-2.5 h-2.5 rounded-full bg-gradient-to-r from-[#087FC4] to-[#20B8D5]" />
                 <div className="text-left">
-                  <p className="font-extrabold text-sm sm:text-base text-[var(--text-primary)] leading-none">
+                  <p className="font-extrabold text-sm sm:text-base leading-none">
                     {tech.name}
                   </p>
                   <p className="text-[11px] text-[var(--text-muted)] mt-1">
-                    {tech.category}
+                    {tech.role}
                   </p>
                 </div>
               </div>
@@ -1102,100 +1051,46 @@ export default async function HomePage() {
       </section>
 
       {/* =====================================================================
-          SECTION 10 — CASE STUDIES (Shown Only When Approved Records Exist)
+          SECTION 10, 11, 12 — CASE STUDIES, TEAM & BLOG (Shown When Published)
           ===================================================================== */}
       {featuredCaseStudies.length > 0 && (
-        <section className="py-20 lg:py-28 bg-[var(--bg-secondary)] border-t border-[var(--border-subtle)]">
+        <section className="py-20 bg-[var(--bg-primary)]">
           <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-6">
-              <div className="max-w-2xl">
-                <span className="text-xs font-extrabold uppercase tracking-widest text-[#087FC4] dark:text-[#20B8D5]">
-                  BEHIND THE SOLUTIONS
-                </span>
-                <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mt-2 mb-3">
-                  Understanding Challenges. Creating Meaningful Solutions.
-                </h2>
-                <p className="text-base sm:text-lg text-[var(--text-secondary)] leading-relaxed">
-                  Explore the thinking, decisions, and problem-solving behind
-                  selected projects—from understanding the challenge to
-                  delivering a practical solution.
-                </p>
-              </div>
-              <Link
-                className="inline-flex items-center gap-2 text-sm font-bold text-[#087FC4] dark:text-[#20B8D5] hover:underline"
-                href="/case-studies"
-              >
-                Explore All Case Studies <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              {featuredCaseStudies.map((study) => {
-                const title =
-                  study.title || study.translations?.[0]?.title || study.slug;
-                const challenge =
-                  study.challenge ||
-                  study.translations?.[0]?.challenge ||
-                  study.summary ||
-                  study.translations?.[0]?.summary ||
-                  '';
-
-                return (
-                  <Link
-                    key={study.id || study.slug}
-                    className="mrm-solid-card rounded-2xl p-8 flex flex-col justify-between group"
-                    href={`/case-studies/${study.slug}`}
-                  >
-                    <div>
-                      <span className="text-xs font-bold uppercase tracking-wider text-[#087FC4] dark:text-[#20B8D5]">
-                        Case Study
-                      </span>
-                      <h3 className="text-xl font-extrabold text-[var(--text-primary)] mt-2 mb-3 group-hover:text-[#087FC4] dark:group-hover:text-[#20B8D5] transition-colors">
-                        {title}
-                      </h3>
-                      <p className="text-sm text-[var(--text-secondary)] line-clamp-3 leading-relaxed">
-                        {challenge}
-                      </p>
-                    </div>
-                    <div className="pt-6 mt-6 border-t border-[var(--border-subtle)] text-xs font-bold text-[#087FC4] dark:text-[#20B8D5] inline-flex items-center gap-1.5">
-                      Read Full Story <ArrowRight className="w-3.5 h-3.5" />
-                    </div>
-                  </Link>
-                );
-              })}
+            <span className="text-xs font-extrabold uppercase tracking-widest text-[#087FC4] dark:text-[#20B8D5]">
+              BEHIND THE SOLUTIONS
+            </span>
+            <h2 className="text-3xl font-extrabold mt-2 mb-8">
+              Understanding Challenges. Creating Meaningful Solutions.
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {featuredCaseStudies.map((study) => (
+                <Link
+                  key={study.id || study.slug}
+                  className="mrm-solid-card rounded-2xl p-7 block"
+                  href={`/case-studies/${study.slug}`}
+                >
+                  <h3 className="text-xl font-extrabold mb-2">
+                    {study.title || study.translations?.[0]?.title || study.slug}
+                  </h3>
+                  <p className="text-sm text-[var(--text-secondary)] line-clamp-3">
+                    {study.summary || study.translations?.[0]?.summary || ''}
+                  </p>
+                </Link>
+              ))}
             </div>
           </div>
         </section>
       )}
 
-      {/* =====================================================================
-          SECTION 11 — OUR TEAM (Shown Only When Real Team Profiles Exist)
-          ===================================================================== */}
       {activeTeam.length > 0 && (
-        <section className="py-20 lg:py-28 bg-[var(--bg-primary)] border-t border-[var(--border-subtle)]">
+        <section className="py-20 bg-[var(--bg-primary)] border-t border-[var(--border-subtle)]">
           <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-6">
-              <div className="max-w-2xl">
-                <span className="text-xs font-extrabold uppercase tracking-widest text-[#087FC4] dark:text-[#20B8D5]">
-                  THE PEOPLE BEHIND THE WORK
-                </span>
-                <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mt-2 mb-3">
-                  Driven by Ideas. United by a Vision.
-                </h2>
-                <p className="text-base sm:text-lg text-[var(--text-secondary)] leading-relaxed">
-                  Meet the people contributing their skills, creativity, and
-                  dedication to building thoughtful digital solutions and
-                  meaningful software products.
-                </p>
-              </div>
-              <Link
-                className="inline-flex items-center gap-2 text-sm font-bold text-[#087FC4] dark:text-[#20B8D5] hover:underline"
-                href="/team"
-              >
-                Meet Our Team <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
-
+            <span className="text-xs font-extrabold uppercase tracking-widest text-[#087FC4] dark:text-[#20B8D5]">
+              THE PEOPLE BEHIND THE WORK
+            </span>
+            <h2 className="text-3xl font-extrabold mt-2 mb-8">
+              Driven by Ideas. United by a Vision.
+            </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {activeTeam.map((member) => {
                 const name =
@@ -1203,21 +1098,17 @@ export default async function HomePage() {
                 const role =
                   member.role ||
                   member.translations?.[0]?.role ||
-                  member.department ||
                   'Team Member';
-
                 return (
                   <div
                     key={member.id || member.slug}
-                    className="mrm-solid-card rounded-2xl p-6 text-center"
+                    className="mrm-glass-card rounded-2xl p-6 text-center"
                   >
-                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-[#087FC4] to-[#20B8D5] text-white font-extrabold text-xl flex items-center justify-center mx-auto mb-4">
+                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-[#087FC4] to-[#20B8D5] text-white font-bold text-lg flex items-center justify-center mx-auto mb-3">
                       {String(name).charAt(0).toUpperCase()}
                     </div>
-                    <h3 className="font-extrabold text-lg text-[var(--text-primary)]">
-                      {name}
-                    </h3>
-                    <p className="text-xs font-semibold text-[#087FC4] dark:text-[#20B8D5] mt-1">
+                    <h3 className="font-extrabold text-base">{name}</h3>
+                    <p className="text-xs text-[#087FC4] dark:text-[#20B8D5] mt-1">
                       {role}
                     </p>
                   </div>
@@ -1228,73 +1119,42 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* =====================================================================
-          SECTION 12 — INSIGHTS & UPDATES (Latest 3 Published Blog Posts)
-          ===================================================================== */}
       {latestPosts.length > 0 && (
-        <section className="py-20 lg:py-28 bg-[var(--bg-secondary)] border-t border-[var(--border-subtle)]">
+        <section className="py-20 bg-[var(--bg-primary)] border-t border-[var(--border-subtle)]">
           <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-6">
-              <div className="max-w-2xl">
-                <span className="text-xs font-extrabold uppercase tracking-widest text-[#087FC4] dark:text-[#20B8D5]">
-                  THOUGHTS &amp; PERSPECTIVES
-                </span>
-                <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mt-2 mb-3">
-                  Ideas Worth Exploring. Knowledge Worth Sharing.
-                </h2>
-                <p className="text-base sm:text-lg text-[var(--text-secondary)] leading-relaxed">
-                  Discover our perspectives on software development, digital
-                  innovation, technology, and the ideas shaping modern
-                  businesses.
-                </p>
-              </div>
-              <Link
-                className="inline-flex items-center gap-2 text-sm font-bold text-[#087FC4] dark:text-[#20B8D5] hover:underline"
-                href="/blog"
-              >
-                Read All Insights <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
-
+            <span className="text-xs font-extrabold uppercase tracking-widest text-[#087FC4] dark:text-[#20B8D5]">
+              THOUGHTS &amp; PERSPECTIVES
+            </span>
+            <h2 className="text-3xl font-extrabold mt-2 mb-8">
+              Ideas Worth Exploring. Knowledge Worth Sharing.
+            </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {latestPosts.map((post) => {
-                const title =
-                  post.title || post.translations?.[0]?.title || post.slug;
-                const excerpt =
-                  post.excerpt || post.translations?.[0]?.excerpt || '';
-                return (
-                  <Link
-                    key={post.id || post.slug}
-                    className="mrm-solid-card rounded-2xl p-7 flex flex-col justify-between group"
-                    href={`/blog/${post.slug}`}
-                  >
-                    <div>
-                      <div className="flex items-center gap-2 text-xs font-semibold text-[#087FC4] dark:text-[#20B8D5] mb-3">
-                        <BookOpen className="w-3.5 h-3.5" />
-                        <span>Article</span>
-                      </div>
-                      <h3 className="text-xl font-extrabold text-[var(--text-primary)] group-hover:text-[#087FC4] dark:group-hover:text-[#20B8D5] transition-colors mb-3">
-                        {title}
-                      </h3>
-                      <p className="text-sm text-[var(--text-secondary)] line-clamp-3 leading-relaxed">
-                        {excerpt}
-                      </p>
-                    </div>
-                    <div className="pt-5 mt-6 border-t border-[var(--border-subtle)] text-xs font-bold text-[#087FC4] dark:text-[#20B8D5] inline-flex items-center gap-1">
-                      Read Article <ArrowRight className="w-3.5 h-3.5" />
-                    </div>
-                  </Link>
-                );
-              })}
+              {latestPosts.map((post) => (
+                <Link
+                  key={post.id || post.slug}
+                  className="mrm-solid-card rounded-2xl p-7 block"
+                  href={`/blog/${post.slug}`}
+                >
+                  <div className="flex items-center gap-2 text-xs font-bold text-[#087FC4] dark:text-[#20B8D5] mb-2">
+                    <BookOpen className="w-3.5 h-3.5" /> Article
+                  </div>
+                  <h3 className="text-xl font-extrabold mb-2">
+                    {post.title || post.translations?.[0]?.title || post.slug}
+                  </h3>
+                  <p className="text-sm text-[var(--text-secondary)] line-clamp-3">
+                    {post.excerpt || post.translations?.[0]?.excerpt || ''}
+                  </p>
+                </Link>
+              ))}
             </div>
           </div>
         </section>
       )}
 
       {/* =====================================================================
-          SECTION 13 — FAQ (Accessible Accordion on Clean Surface)
+          SECTION 13 — FAQ (Clean Solid Accordion)
           ===================================================================== */}
-      <section className="py-20 lg:py-28 bg-[var(--bg-secondary)] border-t border-[var(--border-subtle)]">
+      <section className="py-20 lg:py-28 bg-[var(--bg-primary)]">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-14">
             <span className="text-xs font-extrabold uppercase tracking-widest text-[#087FC4] dark:text-[#20B8D5]">
@@ -1314,22 +1174,21 @@ export default async function HomePage() {
       </section>
 
       {/* =====================================================================
-          SECTION 14 — FINAL CTA (Immersive Deep Navy + Large Glass Panel)
+          SECTION 14 — FINAL CTA (Large Immersive Liquid Glass Panel)
           ===================================================================== */}
       <section className="py-20 lg:py-28 bg-[#071A35] relative overflow-hidden">
-        {/* Ambient Cyan & Tech Blue Glow */}
         <div
           aria-hidden="true"
-          className="animate-mrm-ambient pointer-events-none absolute -top-24 left-1/3 w-96 h-96 rounded-full bg-[#20B8D5]/20 blur-[110px]"
+          className="pointer-events-none absolute -top-24 left-1/4 w-96 h-96 rounded-full bg-[#20B8D5]/20 blur-[120px]"
         />
         <div
           aria-hidden="true"
-          className="animate-mrm-ambient pointer-events-none absolute -bottom-24 right-1/4 w-96 h-96 rounded-full bg-[#087FC4]/25 blur-[110px]"
+          className="pointer-events-none absolute -bottom-24 right-1/4 w-96 h-96 rounded-full bg-[#087FC4]/25 blur-[120px]"
         />
 
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="rounded-3xl p-8 sm:p-14 lg:p-16 bg-white/10 backdrop-blur-xl border border-[#20B8D5]/30 shadow-2xl text-center max-w-4xl mx-auto">
-            <span className="inline-block px-3.5 py-1 rounded-full bg-[#20B8D5]/15 text-[#20B8D5] text-xs font-extrabold uppercase tracking-widest mb-4">
+          <div className="mrm-glass-cta rounded-3xl p-8 sm:p-14 lg:p-16 text-center max-w-4xl mx-auto">
+            <span className="inline-block px-3.5 py-1 rounded-full bg-[#20B8D5]/15 border border-[#20B8D5]/30 text-[#20B8D5] text-xs font-extrabold uppercase tracking-widest mb-4">
               LET&apos;S CREATE SOMETHING MEANINGFUL
             </span>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight mb-5">

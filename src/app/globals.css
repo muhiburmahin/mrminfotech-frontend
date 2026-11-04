@@ -17,7 +17,7 @@
 }
 
 :root {
-  /* Brand Core */
+  /* Official MRM InfoTech Brand Palette */
   --brand-navy: #071A35;
   --brand-secondary: #103B68;
   --brand-blue: #087FC4;
@@ -25,7 +25,7 @@
   --brand-navy-primary: #071A35;
   --brand-navy-secondary: #103B68;
 
-  /* Light Mode Palette (Cool White + Subtle Blue/Cyan Tint) */
+  /* Light Mode Tokens (Cool White + Subtle Blue Tint) */
   --bg-primary: #F7FAFE;
   --bg-secondary: #EFF5FB;
   --surface-solid: #FFFFFF;
@@ -34,12 +34,6 @@
   --text-secondary: #52657B;
   --text-muted: #71839A;
   --border-subtle: #E1EAF3;
-  --glass-bg: rgba(255, 255, 255, 0.68);
-  --glass-bg-strong: rgba(255, 255, 255, 0.76);
-  --glass-border: rgba(8, 127, 196, 0.18);
-  --glass-shadow: 0 16px 40px -12px rgba(7, 26, 53, 0.08);
-  --ambient-glow-blue: rgba(8, 127, 196, 0.12);
-  --ambient-glow-cyan: rgba(32, 184, 213, 0.14);
 
   /* Legacy & Compatibility Aliases */
   --bg-main: var(--bg-primary);
@@ -54,7 +48,7 @@
   --border-hover: #087FC4;
   --nav-bg: rgba(255, 255, 255, 0.85);
   --header-border: #E1EAF3;
-  --shadow-card: var(--glass-shadow);
+  --shadow-card: 0 14px 35px -10px rgba(7, 26, 53, 0.07);
 
   --background: var(--bg-primary);
   --surface: var(--surface-solid);
@@ -68,15 +62,7 @@
 }
 
 .dark {
-  /* Brand Core */
-  --brand-navy: #071A35;
-  --brand-secondary: #103B68;
-  --brand-blue: #087FC4;
-  --brand-cyan: #20B8D5;
-  --brand-navy-primary: #071A35;
-  --brand-navy-secondary: #103B68;
-
-  /* Dark Mode Palette (Deep Navy + Layered Translucent Surfaces) */
+  /* Dark Mode Tokens (Deep Navy + Layered Translucent Surfaces) */
   --bg-primary: #071321;
   --bg-secondary: #0B1D31;
   --surface-solid: #10243B;
@@ -85,12 +71,6 @@
   --text-secondary: #B7C7D9;
   --text-muted: #879CB3;
   --border-subtle: rgba(255, 255, 255, 0.10);
-  --glass-bg: rgba(16, 36, 59, 0.62);
-  --glass-bg-strong: rgba(20, 45, 71, 0.78);
-  --glass-border: rgba(32, 184, 213, 0.22);
-  --glass-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.55);
-  --ambient-glow-blue: rgba(8, 127, 196, 0.22);
-  --ambient-glow-cyan: rgba(32, 184, 213, 0.18);
 
   /* Legacy & Compatibility Aliases */
   --bg-main: var(--bg-primary);
@@ -105,7 +85,7 @@
   --border-hover: #20B8D5;
   --nav-bg: rgba(7, 19, 33, 0.85);
   --header-border: rgba(255, 255, 255, 0.10);
-  --shadow-card: 0 4px 24px -2px rgba(0, 0, 0, 0.4);
+  --shadow-card: 0 18px 40px -12px rgba(0, 0, 0, 0.45);
 
   --background: var(--bg-primary);
   --surface: var(--surface-solid);
@@ -124,82 +104,105 @@ body {
 }
 
 /* ==========================================================================
-   SELECTIVE GLASSMORPHISM CLASSES (With Solid Fallbacks)
+   SELECTIVE LIQUID GLASSMORPHISM CLASSES
    ========================================================================== */
 
-/* 01. Hero Floating Glass Panels */
+/* 1. Strong Liquid Glass (Used in Hero Floating Panels & Empty States) */
 .mrm-glass-strong {
-  background: rgba(255, 255, 255, 0.76);
-  backdrop-filter: blur(16px) saturate(160%);
-  -webkit-backdrop-filter: blur(16px) saturate(160%);
-  border: 1px solid rgba(8, 127, 196, 0.22);
-  box-shadow: var(--glass-shadow);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.84) 0%,
+    rgba(239, 245, 251, 0.72) 100%
+  );
+  backdrop-filter: blur(18px) saturate(180%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
+  border: 1px solid rgba(8, 127, 196, 0.24);
+  box-shadow: 0 20px 45px -15px rgba(7, 26, 53, 0.10),
+              inset 0 1px 0 0 rgba(255, 255, 255, 0.7);
 }
 
 .dark .mrm-glass-strong {
   background: linear-gradient(
     135deg,
-    rgba(20, 45, 71, 0.72) 0%,
-    rgba(11, 29, 49, 0.82) 100%
+    rgba(20, 45, 71, 0.76) 0%,
+    rgba(7, 26, 53, 0.84) 100%
   );
-  border: 1px solid rgba(32, 184, 213, 0.28);
-  box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.6),
-              inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(32, 184, 213, 0.30);
+  box-shadow: 0 24px 50px -12px rgba(0, 0, 0, 0.55),
+              inset 0 1px 0 0 rgba(255, 255, 255, 0.12);
 }
 
-/* 02. Glass Panel Generic */
-.mrm-glass-panel {
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--glass-shadow);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-}
-
-@media (min-width: 768px) {
-  .mrm-glass-panel {
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-  }
-}
-
-/* 03. Product Cards — Selective Glass with Hover Lift & Glow */
+/* 2. Selective Liquid Glass Card (Used for Flagship Products & Highlight Boxes) */
 .mrm-glass-card {
-  background: var(--glass-bg);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--glass-shadow);
+  background: rgba(255, 255, 255, 0.74);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  border: 1px solid rgba(8, 127, 196, 0.18);
+  box-shadow: 0 14px 35px -10px rgba(7, 26, 53, 0.07),
+              inset 0 1px 0 0 rgba(255, 255, 255, 0.6);
   transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1),
               border-color 260ms cubic-bezier(0.22, 1, 0.36, 1),
               box-shadow 260ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.mrm-glass-card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(32, 184, 213, 0.55);
-  box-shadow: 0 20px 44px -12px rgba(8, 127, 196, 0.22);
+.dark .mrm-glass-card {
+  background: linear-gradient(
+    145deg,
+    rgba(16, 36, 59, 0.68) 0%,
+    rgba(11, 29, 49, 0.78) 100%
+  );
+  border: 1px solid rgba(32, 184, 213, 0.22);
+  box-shadow: 0 18px 40px -12px rgba(0, 0, 0, 0.45),
+              inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
 }
 
-/* 04. Technology Section — Glass Badges / Pills */
+.mrm-glass-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(32, 184, 213, 0.65);
+  box-shadow: 0 22px 48px -12px rgba(8, 127, 196, 0.25);
+}
+
+/* 3. Liquid Glass Badge / Pill (Used for Tech Stack & Eyebrow Badges) */
 .mrm-glass-pill {
-  background: var(--glass-bg);
+  background: rgba(255, 255, 255, 0.72);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--glass-border);
-  transition: all 200ms cubic-bezier(0.22, 1, 0.36, 1);
+  border: 1px solid rgba(8, 127, 196, 0.20);
+  transition: all 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.dark .mrm-glass-pill {
+  background: rgba(16, 36, 59, 0.65);
+  border: 1px solid rgba(32, 184, 213, 0.24);
 }
 
 .mrm-glass-pill:hover {
-  border-color: #20B8D5;
-  box-shadow: 0 0 20px -4px rgba(32, 184, 213, 0.35);
   transform: translateY(-2px);
+  border-color: #20B8D5;
+  box-shadow: 0 8px 24px -6px rgba(32, 184, 213, 0.35);
 }
 
-/* Solid Surface Cards (For Services, Why Us, Blog, Process, FAQ) */
+/* 4. Final CTA Large Liquid Glass Panel */
+.mrm-glass-cta {
+  background: linear-gradient(
+    135deg,
+    rgba(16, 59, 104, 0.55) 0%,
+    rgba(7, 26, 53, 0.75) 100%
+  );
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(32, 184, 213, 0.35);
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.6),
+              inset 0 1px 0 0 rgba(255, 255, 255, 0.15);
+}
+
+/* 5. High-Readability Solid Cards (Used for Services, Why Us, Process, FAQ) */
 .mrm-solid-card {
   background-color: var(--surface-solid);
   border: 1px solid var(--border-subtle);
+  box-shadow: 0 6px 20px -6px rgba(7, 26, 53, 0.05);
   transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1),
               border-color 240ms cubic-bezier(0.22, 1, 0.36, 1),
               box-shadow 240ms cubic-bezier(0.22, 1, 0.36, 1);
@@ -207,32 +210,14 @@ body {
 
 .mrm-solid-card:hover {
   transform: translateY(-3px);
-  border-color: rgba(8, 127, 196, 0.4);
-  box-shadow: 0 14px 32px -10px rgba(7, 26, 53, 0.12);
+  border-color: rgba(8, 127, 196, 0.45);
+  box-shadow: 0 16px 34px -10px rgba(8, 127, 196, 0.14);
 }
 
-/* ==========================================================================
-   PURPOSEFUL MOTION & KEYFRAMES (Respects prefers-reduced-motion)
-   ========================================================================== */
-
+/* Subtle Animations */
 @keyframes mrmFloatSlow {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-7px);
-  }
-}
-
-@keyframes mrmAmbientPulse {
-  0%, 100% {
-    opacity: 0.45;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.7;
-    transform: scale(1.06);
-  }
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
 }
 
 .animate-mrm-float {
@@ -241,62 +226,6 @@ body {
 
 .animate-mrm-float-delayed {
   animation: mrmFloatSlow 8.5s cubic-bezier(0.22, 1, 0.36, 1) 1.5s infinite;
-}
-
-.animate-mrm-ambient {
-  animation: mrmAmbientPulse 12s ease-in-out infinite;
-}
-
-/* Compatibility classes */
-.glass-card {
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(226, 232, 240, 0.9);
-  box-shadow: 0 8px 32px 0 rgba(16, 59, 104, 0.06);
-}
-
-.dark .glass-card {
-  background: rgba(16, 36, 59, 0.75);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(30, 53, 87, 0.75);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.35);
-}
-
-.glass-panel {
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(226, 232, 240, 0.95);
-}
-
-.dark .glass-panel {
-  background: rgba(7, 26, 53, 0.9);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(32, 184, 213, 0.15);
-}
-
-.liquid-glass {
-  background: rgba(255, 255, 255, 0.78);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid rgba(227, 234, 242, 0.85);
-  box-shadow: 0 10px 35px -5px rgba(7, 26, 53, 0.06);
-}
-
-.dark .liquid-glass {
-  background: linear-gradient(
-    135deg,
-    rgba(16, 36, 59, 0.68) 0%,
-    rgba(7, 19, 33, 0.78) 100%
-  );
-  backdrop-filter: blur(24px) saturate(190%);
-  -webkit-backdrop-filter: blur(24px) saturate(190%);
-  border: 1px solid rgba(32, 184, 213, 0.22);
-  box-shadow: 0 12px 40px -8px rgba(0, 0, 0, 0.45),
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
 }
 
 /* Custom Scrollbar */
@@ -315,20 +244,12 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *,
-  ::before,
-  ::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
   .animate-mrm-float,
   .animate-mrm-float-delayed,
-  .animate-mrm-ambient,
   .mrm-glass-card,
   .mrm-solid-card,
-  .mrm-glass-pill {
+  .mrm-glass-pill,
+  .mrm-glass-cta {
     animation: none !important;
     transition: none !important;
     transform: none !important;
