@@ -144,6 +144,14 @@ interface PublishedTeamMember {
   slug?: string;
   name?: string;
   role?: string;
+  photo?: string | null;
+  photoUrl?: string | null;
+  bio?: string | null;
+  email?: string | null;
+  linkedinUrl?: string | null;
+  githubUrl?: string | null;
+  order?: number;
+  sortOrder?: number;
   department?: string;
   isActive?: boolean;
   translations?: Array<{
@@ -444,7 +452,10 @@ export default async function HomePage() {
 
   const featuredProjects: PublishedProject[] = apiProjects.slice(0, 6);
   const featuredCaseStudies: PublishedCaseStudy[] = apiCaseStudies.slice(0, 3);
-  const activeTeam: PublishedTeamMember[] = apiTeam.filter((m) => m.isActive !== false).slice(0, 4);
+  const activeTeam: PublishedTeamMember[] = [...apiTeam]
+    .filter((m) => m.isActive !== false)
+    .sort((a, b) => (a.order ?? a.sortOrder ?? 999) - (b.order ?? b.sortOrder ?? 999))
+    .slice(0, 4);
   const latestPosts: PublishedBlogPost[] = apiBlogPosts.slice(0, 3);
 
   return (
@@ -1382,21 +1393,36 @@ export default async function HomePage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {activeTeam.map((member) => {
                 const name =
-                  member.name || member.translations?.[0]?.name || member.slug;
+                  member.name || member.translations?.[0]?.name || member.slug || 'Team Member';
                 const role =
                   member.role ||
                   member.translations?.[0]?.role ||
-                  'Team Member';
+                  'Specialist';
+                const photo = member.photo || member.photoUrl || null;
+
                 return (
                   <div
                     key={member.id || member.slug}
-                    className="mrm-glass-card rounded-2xl p-6 text-center"
+                    className="mrm-glass-card rounded-2xl p-6 text-center group hover:border-[#087FC4]/40 transition-all duration-300"
                   >
-                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-[#087FC4] to-[#20B8D5] text-white font-bold text-lg flex items-center justify-center mx-auto mb-3">
-                      {String(name).charAt(0).toUpperCase()}
+                    <div className="w-20 h-20 rounded-full p-0.5 bg-gradient-to-tr from-[#087FC4] to-[#20B8D5] shadow-md shadow-[#087FC4]/20 flex items-center justify-center mx-auto mb-4 group-hover:scale-105 transition-transform duration-300">
+                      <div className="w-full h-full rounded-full overflow-hidden bg-white dark:bg-[#07162C] flex items-center justify-center">
+                        {photo ? (
+                          <img
+                            src={photo}
+                            alt={name}
+                            className="w-full h-full object-cover rounded-full"
+                            loading="lazy"
+                          />
+                        ) : (
+                          <div className="w-full h-full rounded-full bg-gradient-to-tr from-[#087FC4] to-[#20B8D5] text-white font-bold text-lg flex items-center justify-center">
+                            {String(name).charAt(0).toUpperCase()}
+                          </div>
+                        )}
+                      </div>
                     </div>
-                    <h3 className="font-extrabold text-base">{name}</h3>
-                    <p className="text-xs text-[#087FC4] dark:text-[#20B8D5] mt-1">
+                    <h3 className="font-extrabold text-base text-slate-900 dark:text-white">{name}</h3>
+                    <p className="text-xs text-[#087FC4] dark:text-[#20B8D5] mt-1 font-semibold">
                       {role}
                     </p>
                   </div>

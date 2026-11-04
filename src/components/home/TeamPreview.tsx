@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 'use client';
 
 import React from 'react';
@@ -9,9 +10,12 @@ import GlassEmptyState from '@/components/ui/GlassEmptyState';
 interface TeamMemberData {
   name: string;
   roleTitle?: string;
+  role?: string;
   designation?: string;
   department?: string;
   bio?: string;
+  photo?: string | null;
+  photoUrl?: string | null;
   avatarUrl?: string;
   socialLinks?: {
     linkedin?: string;
@@ -76,8 +80,20 @@ export function TeamPreview({ team }: TeamPreviewProps) {
                 >
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
-                      <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#0052CC] to-[#087FC4] text-white flex items-center justify-center font-black text-lg shadow-md shadow-[#0052CC]/20">
-                        {initials}
+                      <div className="w-16 h-16 rounded-full p-0.5 bg-gradient-to-tr from-[#087FC4] to-[#20B8D5] shadow-md shadow-[#087FC4]/20 flex items-center justify-center shrink-0">
+                        <div className="w-full h-full rounded-full overflow-hidden bg-white dark:bg-[#07162C] flex items-center justify-center">
+                          {member.photo || member.photoUrl || member.avatarUrl ? (
+                            <img
+                              src={member.photo || member.photoUrl || member.avatarUrl}
+                              alt={name}
+                              className="w-full h-full object-cover rounded-full"
+                            />
+                          ) : (
+                            <div className="w-full h-full rounded-full bg-gradient-to-br from-[#0052CC] to-[#087FC4] text-white flex items-center justify-center font-black text-base">
+                              {initials}
+                            </div>
+                          )}
+                        </div>
                       </div>
                       <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-[#087FC4]/10 dark:bg-[#20B8D5]/15 text-[#087FC4] dark:text-[#20B8D5]">
                         {dept}

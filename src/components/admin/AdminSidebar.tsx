@@ -15,6 +15,7 @@ import {
   ExternalLink,
   LogOut,
   ShieldCheck,
+  Users,
   X,
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
@@ -68,6 +69,12 @@ export function AdminSidebar({ onCloseMobile }: { onCloseMobile?: () => void }) 
           label: 'Blog Posts',
           href: '/admin/dashboard/blog',
           icon: FileText,
+          permission: 'content:read',
+        },
+        {
+          label: 'Team Members',
+          href: '/admin/dashboard/team',
+          icon: Users,
           permission: 'content:read',
         },
       ],

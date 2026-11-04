@@ -141,6 +141,56 @@ export async function deleteAdminService(id: string) {
   return res.data;
 }
 
+// ──────────────────────── Team Members Admin ────────────────────────
+
+export interface AdminTeamPayload {
+  name: string;
+  role: string;
+  photo?: string | null;
+  bio?: string | null;
+  email?: string | null;
+  showEmail?: boolean;
+  linkedinUrl?: string | null;
+  githubUrl?: string | null;
+  order?: number;
+  sortOrder?: number;
+  isActive?: boolean;
+  isPublic?: boolean;
+  consentGiven?: boolean;
+  slug?: string;
+  department?: string | null;
+}
+
+export async function getAdminTeamMembers() {
+  const res = await authRequest<{ data: Array<Record<string, unknown>> }>(
+    '/admin/team?limit=100&sort=order&order=asc'
+  );
+  return res.data;
+}
+
+export async function createAdminTeamMember(payload: AdminTeamPayload) {
+  const res = await authRequest('/admin/team', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  return res.data;
+}
+
+export async function updateAdminTeamMember(id: string, payload: Partial<AdminTeamPayload>) {
+  const res = await authRequest('/admin/team/' + encodeURIComponent(id), {
+    method: 'PATCH',
+    body: JSON.stringify(payload),
+  });
+  return res.data;
+}
+
+export async function deleteAdminTeamMember(id: string) {
+  const res = await authRequest('/admin/team/' + encodeURIComponent(id), {
+    method: 'DELETE',
+  });
+  return res.data;
+}
+
 export async function getAdminBlogPosts() {
   return fetchApi('/admin/blog');
 }
