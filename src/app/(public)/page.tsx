@@ -26,6 +26,17 @@ import HomeFaqAccordion from '@/components/public/home/HomeFaqAccordion';
 import ProblemsWeSolveSection from '@/components/public/home/ProblemsWeSolveSection';
 import AlternatingProductShowcase from '@/components/public/home/AlternatingProductShowcase';
 import GlassEmptyState from '@/components/ui/GlassEmptyState';
+import {
+  ScrollReveal,
+  TextReveal,
+  CountUp,
+  TiltCard,
+  MagneticButton,
+  AnimatedBackground,
+  InfiniteMarquee,
+  SvgFlowLine,
+  GlowBorder,
+} from '@/components/ui/animations';
 
 export const metadata: Metadata = {
   title: 'MRM InfoTech | Software Products & Digital Solutions Company',
@@ -442,26 +453,19 @@ export default async function HomePage() {
           SECTION 01 — HERO (Strong Liquid Glass Floating Composition)
           ===================================================================== */}
       <section className="relative pt-16 pb-24 lg:pt-24 lg:pb-32 overflow-hidden border-b border-[var(--border-subtle)] bg-gradient-to-b from-[#EFF5FB] via-[var(--bg-primary)] to-[var(--bg-primary)] dark:from-[#071A35] dark:via-[#071321] dark:to-[#071321]">
-        {/* Ambient Cyan & Blue Lighting */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -top-28 right-1/4 w-[480px] h-[480px] rounded-full bg-[#20B8D5]/20 dark:bg-[#20B8D5]/15 blur-[120px]"
-        />
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute bottom-0 left-8 w-[380px] h-[380px] rounded-full bg-[#087FC4]/15 dark:bg-[#087FC4]/20 blur-[110px]"
-        />
+        {/* Subtle Animated Gradient & Cyber Grid Background */}
+        <AnimatedBackground showGrid={true} showOrbs={true} />
 
         <div className="relative z-10 max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           {/* Left: Main Editorial Copy */}
-          <div className="lg:col-span-7 space-y-6">
+          <ScrollReveal direction="up" delay={0.08} duration={0.65} className="lg:col-span-7 space-y-6">
             <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full mrm-glass-pill text-xs font-extrabold tracking-widest uppercase text-[#087FC4] dark:text-[#20B8D5]">
-              <span className="w-2 h-2 rounded-full bg-[#20B8D5]" />
+              <span className="w-2 h-2 rounded-full bg-[#20B8D5] animate-pulse" />
               SOFTWARE PRODUCTS &amp; DIGITAL SOLUTIONS
             </div>
 
             <h1 className="text-4xl sm:text-5xl lg:text-[54px] font-black tracking-tight leading-[1.12]">
-              We Turn Ideas Into Technology That Moves Businesses Forward.
+              <TextReveal text="We Turn Ideas Into Technology That Moves Businesses Forward." />
             </h1>
 
             <p className="text-base sm:text-lg text-[var(--text-secondary)] max-w-2xl leading-relaxed">
@@ -471,18 +475,23 @@ export default async function HomePage() {
             </p>
 
             <div className="flex flex-wrap items-center gap-4 pt-2">
-              <Link
-                className="px-7 py-3.5 rounded-[10px] bg-gradient-to-r from-[#087FC4] to-[#20B8D5] text-white font-bold text-sm sm:text-base shadow-lg shadow-[#087FC4]/30 hover:opacity-95 transition-all inline-flex items-center gap-2"
-                href="/services"
-              >
-                Explore Our Services <ArrowRight className="w-4 h-4" />
-              </Link>
-              <Link
-                className="px-7 py-3.5 rounded-[10px] mrm-glass-strong text-[var(--text-primary)] font-bold text-sm sm:text-base hover:border-[#20B8D5] transition-all inline-flex items-center gap-2"
-                href="/products"
-              >
-                Discover Our Products
-              </Link>
+              <MagneticButton pullFactor={0.22}>
+                <Link
+                  className="px-7 py-3.5 rounded-[10px] bg-gradient-to-r from-[#087FC4] to-[#20B8D5] text-white font-bold text-sm sm:text-base shadow-lg shadow-[#087FC4]/30 hover:opacity-95 transition-all inline-flex items-center gap-2"
+                  href="/services"
+                >
+                  Explore Our Services <ArrowRight className="w-4 h-4" />
+                </Link>
+              </MagneticButton>
+
+              <MagneticButton pullFactor={0.22}>
+                <Link
+                  className="px-7 py-3.5 rounded-[10px] mrm-glass-strong text-[var(--text-primary)] font-bold text-sm sm:text-base hover:border-[#20B8D5] transition-all inline-flex items-center gap-2"
+                  href="/products"
+                >
+                  Discover Our Products
+                </Link>
+              </MagneticButton>
             </div>
 
             <div className="pt-4 flex items-center gap-3 text-xs font-extrabold tracking-[0.22em] uppercase text-[var(--text-muted)]">
@@ -492,73 +501,82 @@ export default async function HomePage() {
               <span className="text-[#20B8D5]">•</span>
               <span>IMPACT</span>
             </div>
-          </div>
+          </ScrollReveal>
 
           {/* Right: Strong Liquid Glass Floating Panels */}
           <div className="lg:col-span-5 relative">
-            <div className="mrm-glass-strong rounded-3xl p-6 sm:p-7 relative z-10 animate-mrm-float">
-              <div className="flex items-center justify-between pb-4 mb-5 border-b border-[var(--border-subtle)]">
-                <div>
-                  <span className="text-[11px] font-bold uppercase tracking-widest text-[#087FC4] dark:text-[#20B8D5]">
-                    MRM InfoTech Ecosystem
+            <TiltCard maxTilt={5} glareEffect={true}>
+              <div className="mrm-glass-strong rounded-3xl p-6 sm:p-7 relative z-10 animate-mrm-float">
+                <div className="flex items-center justify-between pb-4 mb-5 border-b border-[var(--border-subtle)]">
+                  <div>
+                    <span className="text-[11px] font-bold uppercase tracking-widest text-[#087FC4] dark:text-[#20B8D5]">
+                      MRM InfoTech Ecosystem
+                    </span>
+                    <h2 className="text-lg font-extrabold mt-0.5">
+                      Products &amp; Custom Engineering
+                    </h2>
+                  </div>
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#087FC4] to-[#20B8D5] text-white flex items-center justify-center font-black text-base shadow-md">
+                    M
+                  </div>
+                </div>
+
+                <div className="space-y-3.5">
+                  <div className="mrm-glass-card rounded-2xl p-4 flex items-start gap-3.5">
+                    <div className="p-2.5 rounded-xl bg-[#087FC4]/15 text-[#087FC4] dark:text-[#20B8D5] shrink-0">
+                      <Layers className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <h3 className="text-sm font-bold">Education Platforms</h3>
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#087FC4]/15 text-[#087FC4] dark:text-[#20B8D5]">
+                          EduManage BD
+                        </span>
+                      </div>
+                      <p className="text-xs text-[var(--text-secondary)] mt-1">
+                        Academic operations &amp; Multi-Institution Website Platform.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="mrm-glass-card rounded-2xl p-4 flex items-start gap-3.5">
+                    <div className="p-2.5 rounded-xl bg-[#20B8D5]/15 text-[#087FC4] dark:text-[#20B8D5] shrink-0">
+                      <Cpu className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <h3 className="text-sm font-bold">Healthcare Systems</h3>
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#20B8D5]/15 text-[#087FC4] dark:text-[#20B8D5]">
+                          MediSheba BD
+                        </span>
+                      </div>
+                      <p className="text-xs text-[var(--text-secondary)] mt-1">
+                        Diagnostic centre &amp; healthcare service management software.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="mrm-glass-card rounded-2xl p-4 flex items-start gap-3.5">
+                    <div className="p-2.5 rounded-xl bg-[#103B68]/15 dark:bg-white/10 text-[#087FC4] dark:text-[#20B8D5] shrink-0">
+                      <Code2 className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <h3 className="text-sm font-bold">Client Digital Solutions</h3>
+                      <p className="text-xs text-[var(--text-secondary)] mt-1">
+                        Custom software, web applications, SaaS &amp; digital marketing.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-5 pt-4 border-t border-[var(--border-subtle)] flex items-center justify-between text-xs font-semibold text-[var(--text-muted)]">
+                  <span>Architecture &amp; Security</span>
+                  <span className="text-[#087FC4] dark:text-[#20B8D5] font-bold font-mono">
+                    PostgreSQL • NestJS • Next.js
                   </span>
-                  <h2 className="text-lg font-extrabold mt-0.5">
-                    Products &amp; Custom Engineering
-                  </h2>
-                </div>
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#087FC4] to-[#20B8D5] text-white flex items-center justify-center font-black text-base shadow-md">
-                  M
                 </div>
               </div>
-
-              <div className="space-y-3.5">
-                <div className="mrm-glass-card rounded-2xl p-4 flex items-start gap-3.5">
-                  <div className="p-2.5 rounded-xl bg-[#087FC4]/15 text-[#087FC4] dark:text-[#20B8D5] shrink-0">
-                    <Layers className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <h3 className="text-sm font-bold">Education Platforms</h3>
-                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#087FC4]/15 text-[#087FC4] dark:text-[#20B8D5]">
-                        EduManage BD
-                      </span>
-                    </div>
-                    <p className="text-xs text-[var(--text-secondary)] mt-1">
-                      Academic operations &amp; Multi-Institution Website Platform.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="mrm-glass-card rounded-2xl p-4 flex items-start gap-3.5">
-                  <div className="p-2.5 rounded-xl bg-[#20B8D5]/15 text-[#087FC4] dark:text-[#20B8D5] shrink-0">
-                    <Cpu className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <h3 className="text-sm font-bold">Healthcare Systems</h3>
-                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#20B8D5]/15 text-[#087FC4] dark:text-[#20B8D5]">
-                        MediSheba BD
-                      </span>
-                    </div>
-                    <p className="text-xs text-[var(--text-secondary)] mt-1">
-                      Diagnostic centre &amp; healthcare service management software.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="mrm-glass-card rounded-2xl p-4 flex items-start gap-3.5">
-                  <div className="p-2.5 rounded-xl bg-[#103B68]/15 dark:bg-white/10 text-[#087FC4] dark:text-[#20B8D5] shrink-0">
-                    <Code2 className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <h3 className="text-sm font-bold">Client Digital Solutions</h3>
-                    <p className="text-xs text-[var(--text-secondary)] mt-1">
-                      Custom software, web applications, SaaS &amp; digital marketing.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
+            </TiltCard>
 
             {/* Floating Secondary Glass Badge */}
             <div className="mt-4 sm:mt-0 sm:absolute sm:-bottom-5 sm:-left-5 z-20 mrm-glass-strong rounded-2xl px-4 py-3 flex items-center gap-3 animate-mrm-float-delayed">
@@ -579,11 +597,77 @@ export default async function HomePage() {
       </section>
 
       {/* =====================================================================
+          SECTION 01.5 — ENTERPRISE TRUST METRICS & TECH MARQUEE
+          ===================================================================== */}
+      <section className="py-10 bg-white/70 dark:bg-[#07162C]/80 border-b border-[var(--border-subtle)] backdrop-blur-md relative z-10">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pb-8 border-b border-slate-200/60 dark:border-white/5">
+            <ScrollReveal direction="up" delay={0.05} className="text-center sm:text-left">
+              <div className="text-3xl sm:text-4xl font-black text-[#087FC4] dark:text-[#20B8D5] font-mono">
+                <CountUp end={99.9} decimals={1} suffix="%" />
+              </div>
+              <p className="text-xs font-bold uppercase tracking-wider text-[var(--text-primary)] mt-1">Uptime SLA</p>
+              <p className="text-[11px] text-[var(--text-muted)]">Enterprise resilience guaranteed</p>
+            </ScrollReveal>
+
+            <ScrollReveal direction="up" delay={0.1} className="text-center sm:text-left">
+              <div className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white font-mono">
+                <CountUp end={14} suffix="+" />
+              </div>
+              <p className="text-xs font-bold uppercase tracking-wider text-[var(--text-primary)] mt-1">Disciplines</p>
+              <p className="text-[11px] text-[var(--text-muted)]">Full-stack software engineering</p>
+            </ScrollReveal>
+
+            <ScrollReveal direction="up" delay={0.15} className="text-center sm:text-left">
+              <div className="text-3xl sm:text-4xl font-black text-[#087FC4] dark:text-[#20B8D5] font-mono">
+                <CountUp end={100} suffix="%" />
+              </div>
+              <p className="text-xs font-bold uppercase tracking-wider text-[var(--text-primary)] mt-1">Verified Code</p>
+              <p className="text-[11px] text-[var(--text-muted)]">Security &amp; audit compliant</p>
+            </ScrollReveal>
+
+            <ScrollReveal direction="up" delay={0.2} className="text-center sm:text-left">
+              <div className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white font-mono">
+                24/7
+              </div>
+              <p className="text-xs font-bold uppercase tracking-wider text-[var(--text-primary)] mt-1">System Health</p>
+              <p className="text-[11px] text-[var(--text-muted)]">Active cloud telemetry &amp; support</p>
+            </ScrollReveal>
+          </div>
+
+          <div className="pt-6">
+            <div className="text-[10px] font-extrabold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-4 text-center">
+              ENGINEERED WITH MODERN ENTERPRISE TECH STACKS &amp; STANDARDS
+            </div>
+            <InfiniteMarquee speed={32}>
+              {[
+                'Next.js 16 Enterprise',
+                'NestJS Architecture',
+                'PostgreSQL ACID',
+                'Cloudflare Edge CDN',
+                'Docker & Kubernetes',
+                'TypeScript Strict',
+                'Redis In-Memory',
+                'Tailwind CSS 4',
+                'GraphQL & REST APIs',
+                'OWASP Top 10 Security',
+              ].map((tech) => (
+                <div key={tech} className="flex items-center gap-2 text-xs font-bold text-slate-600 dark:text-slate-300 px-3.5 py-1.5 rounded-xl mrm-glass-pill shrink-0">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#087FC4] dark:bg-[#20B8D5]" />
+                  <span>{tech}</span>
+                </div>
+              ))}
+            </InfiniteMarquee>
+          </div>
+        </div>
+      </section>
+
+      {/* =====================================================================
           SECTION 02 — COMPANY INTRODUCTION (Editorial Split Layout)
           ===================================================================== */}
       <section className="py-20 lg:py-28 bg-[var(--bg-primary)]">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          <div className="lg:col-span-6 space-y-5">
+          <ScrollReveal direction="left" delay={0.1} className="lg:col-span-6 space-y-5">
             <span className="text-xs font-extrabold uppercase tracking-widest text-[#087FC4] dark:text-[#20B8D5]">
               WHO WE ARE
             </span>
@@ -606,37 +690,45 @@ export default async function HomePage() {
                 Discover MRM InfoTech <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
-          </div>
+          </ScrollReveal>
 
           {/* 3 Glass-Accented Pillar Boxes */}
           <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="mrm-glass-card rounded-2xl p-6 space-y-2">
-              <span className="text-xs font-extrabold uppercase tracking-widest text-[#087FC4] dark:text-[#20B8D5]">
-                01 • IDEAS
-              </span>
-              <h3 className="font-bold text-base">Problem-First Discovery</h3>
-              <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
-                Every product and client solution starts by understanding real operational needs.
-              </p>
-            </div>
-            <div className="mrm-glass-card rounded-2xl p-6 space-y-2">
-              <span className="text-xs font-extrabold uppercase tracking-widest text-[#087FC4] dark:text-[#20B8D5]">
-                02 • PRODUCTS
-              </span>
-              <h3 className="font-bold text-base">Thoughtful Engineering</h3>
-              <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
-                Clean architecture, scalable databases, and intuitive interfaces built to last.
-              </p>
-            </div>
-            <div className="mrm-glass-card rounded-2xl p-6 space-y-2">
-              <span className="text-xs font-extrabold uppercase tracking-widest text-[#087FC4] dark:text-[#20B8D5]">
-                03 • IMPACT
-              </span>
-              <h3 className="font-bold text-base">Measurable Value</h3>
-              <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
-                Digital systems that simplify daily workflows and support long-term growth.
-              </p>
-            </div>
+            <ScrollReveal direction="up" delay={0.15}>
+              <div className="mrm-glass-card rounded-2xl p-6 space-y-2 h-full">
+                <span className="text-xs font-extrabold uppercase tracking-widest text-[#087FC4] dark:text-[#20B8D5]">
+                  01 • IDEAS
+                </span>
+                <h3 className="font-bold text-base">Problem-First Discovery</h3>
+                <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
+                  Every product and client solution starts by understanding real operational needs.
+                </p>
+              </div>
+            </ScrollReveal>
+
+            <ScrollReveal direction="up" delay={0.25}>
+              <div className="mrm-glass-card rounded-2xl p-6 space-y-2 h-full">
+                <span className="text-xs font-extrabold uppercase tracking-widest text-[#087FC4] dark:text-[#20B8D5]">
+                  02 • PRODUCTS
+                </span>
+                <h3 className="font-bold text-base">Thoughtful Engineering</h3>
+                <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
+                  Clean architecture, scalable databases, and intuitive interfaces built to last.
+                </p>
+              </div>
+            </ScrollReveal>
+
+            <ScrollReveal direction="up" delay={0.35}>
+              <div className="mrm-glass-card rounded-2xl p-6 space-y-2 h-full">
+                <span className="text-xs font-extrabold uppercase tracking-widest text-[#087FC4] dark:text-[#20B8D5]">
+                  03 • IMPACT
+                </span>
+                <h3 className="font-bold text-base">Measurable Value</h3>
+                <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
+                  Digital systems that simplify daily workflows and support long-term growth.
+                </p>
+              </div>
+            </ScrollReveal>
           </div>
         </div>
       </section>
@@ -648,7 +740,7 @@ export default async function HomePage() {
           ===================================================================== */}
       <section className="py-20 lg:py-24 bg-[var(--bg-secondary)] border-y border-[var(--border-subtle)] relative overflow-hidden">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="max-w-3xl mb-14">
+          <ScrollReveal direction="up" delay={0.08} className="max-w-3xl mb-14">
             <span className="text-xs font-extrabold uppercase tracking-widest text-[#087FC4] dark:text-[#20B8D5]">
               WHAT WE DO
             </span>
@@ -660,11 +752,13 @@ export default async function HomePage() {
               software products and client-focused digital services, we help
               organizations embrace better ways of working and growing.
             </p>
-          </div>
+          </ScrollReveal>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Block 1: Software Products (Deep Navy Liquid Glass Executive Panel) */}
-            <div className="rounded-3xl p-8 sm:p-10 bg-gradient-to-br from-[#071A35] via-[#0B2548] to-[#103B68] text-white border border-[#20B8D5]/30 shadow-2xl flex flex-col justify-between relative overflow-hidden group hover:border-[#20B8D5]/60 transition-all duration-300">
+            <ScrollReveal direction="up" delay={0.1} className="h-full">
+              <TiltCard maxTilt={4} glareEffect={true} className="h-full">
+                <div className="rounded-3xl p-8 sm:p-10 bg-gradient-to-br from-[#071A35] via-[#0B2548] to-[#103B68] text-white border border-[#20B8D5]/30 shadow-2xl flex flex-col justify-between relative overflow-hidden group hover:border-[#20B8D5]/60 transition-all duration-300 h-full">
               {/* Subtle ambient cyan glow in background */}
               <div className="absolute -right-16 -top-16 w-56 h-56 bg-[#20B8D5]/15 rounded-full blur-3xl pointer-events-none group-hover:scale-125 transition-transform duration-700" />
 
@@ -763,9 +857,13 @@ export default async function HomePage() {
                 </Link>
               </div>
             </div>
+          </TiltCard>
+        </ScrollReveal>
 
             {/* Block 2: Client Solutions (Selective Glass Card with Rich Services Grid) */}
-            <div className="mrm-glass-card rounded-3xl p-8 sm:p-10 flex flex-col justify-between relative overflow-hidden group hover:border-[#087FC4]/40 dark:hover:border-[#20B8D5]/40 transition-all duration-300 shadow-xl">
+            <ScrollReveal direction="up" delay={0.2} className="h-full">
+              <TiltCard maxTilt={4} glareEffect={true} className="h-full">
+                <div className="mrm-glass-card rounded-3xl p-8 sm:p-10 flex flex-col justify-between relative overflow-hidden group hover:border-[#087FC4]/40 dark:hover:border-[#20B8D5]/40 transition-all duration-300 shadow-xl h-full">
               {/* Subtle ambient light in background */}
               <div className="absolute -right-16 -bottom-16 w-56 h-56 bg-[#087FC4]/10 dark:bg-[#20B8D5]/15 rounded-full blur-3xl pointer-events-none group-hover:scale-125 transition-transform duration-700" />
 
@@ -912,6 +1010,8 @@ export default async function HomePage() {
                 </Link>
               </div>
             </div>
+          </TiltCard>
+        </ScrollReveal>
           </div>
         </div>
       </section>
@@ -926,7 +1026,7 @@ export default async function HomePage() {
           ===================================================================== */}
       <section className="py-20 lg:py-28 bg-[var(--bg-secondary)] border-y border-[var(--border-subtle)]">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-6">
+          <ScrollReveal direction="up" delay={0.08} className="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-6">
             <div className="max-w-2xl">
               <span className="text-xs font-extrabold uppercase tracking-widest text-[#087FC4] dark:text-[#20B8D5]">
                 OUR SERVICES
@@ -946,44 +1046,47 @@ export default async function HomePage() {
             >
               Explore All Services <ArrowRight className="w-4 h-4" />
             </Link>
-          </div>
+          </ScrollReveal>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {services.map((service, index) => {
               const displayNum = String(service.order || service.sortOrder || index + 1).padStart(2, '0');
               return (
-                <Link
-                  key={service.slug || index}
-                  className="mrm-solid-card rounded-3xl p-8 flex flex-col justify-between group hover:border-[#087FC4] dark:hover:border-[#20B8D5] transition-all duration-300 transform hover:-translate-y-1.5 shadow-md hover:shadow-2xl relative overflow-hidden"
-                  href={`/services/${service.slug}`}
-                >
-                  {/* Subtle Glow Effect on Hover */}
-                  <div className="absolute -right-12 -top-12 w-32 h-32 rounded-full bg-[#087FC4]/10 dark:bg-[#20B8D5]/10 blur-2xl group-hover:scale-150 transition-transform duration-500 pointer-events-none" />
+                <ScrollReveal key={service.slug || index} direction="up" delay={Math.min(index * 0.05, 0.4)} className="h-full">
+                  <TiltCard maxTilt={3} glareEffect={true} className="h-full">
+                    <Link
+                      className="mrm-solid-card rounded-3xl p-8 flex flex-col justify-between group hover:border-[#087FC4] dark:hover:border-[#20B8D5] transition-all duration-300 transform hover:-translate-y-1.5 shadow-md hover:shadow-2xl relative overflow-hidden h-full"
+                      href={`/services/${service.slug}`}
+                    >
+                      {/* Subtle Glow Effect on Hover */}
+                      <div className="absolute -right-12 -top-12 w-32 h-32 rounded-full bg-[#087FC4]/10 dark:bg-[#20B8D5]/10 blur-2xl group-hover:scale-150 transition-transform duration-500 pointer-events-none" />
 
-                  <div>
-                    <div className="flex items-center justify-between mb-6">
-                      <span className="text-xs font-mono font-black px-3 py-1 rounded-lg bg-[#087FC4]/10 text-[#087FC4] dark:text-[#20B8D5]">
-                        {displayNum}
-                      </span>
-                      <div className="w-9 h-9 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-subtle)] flex items-center justify-center text-[var(--text-secondary)] group-hover:bg-[#087FC4] group-hover:text-white group-hover:border-transparent transition-all duration-300">
-                        <ArrowUpRight className="w-4 h-4" />
+                      <div>
+                        <div className="flex items-center justify-between mb-6">
+                          <span className="text-xs font-mono font-black px-3 py-1 rounded-lg bg-[#087FC4]/10 text-[#087FC4] dark:text-[#20B8D5]">
+                            {displayNum}
+                          </span>
+                          <div className="w-9 h-9 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-subtle)] flex items-center justify-center text-[var(--text-secondary)] group-hover:bg-[#087FC4] group-hover:text-white group-hover:border-transparent transition-all duration-300">
+                            <ArrowUpRight className="w-4 h-4" />
+                          </div>
+                        </div>
+
+                        <h3 className="text-xl font-extrabold text-[var(--text-primary)] group-hover:text-[#087FC4] dark:group-hover:text-[#20B8D5] transition-colors mb-3">
+                          {service.title}
+                        </h3>
+
+                        <p className="text-sm text-[var(--text-secondary)] leading-relaxed line-clamp-3">
+                          {service.summary}
+                        </p>
                       </div>
-                    </div>
 
-                    <h3 className="text-xl font-extrabold text-[var(--text-primary)] group-hover:text-[#087FC4] dark:group-hover:text-[#20B8D5] transition-colors mb-3">
-                      {service.title}
-                    </h3>
-
-                    <p className="text-sm text-[var(--text-secondary)] leading-relaxed line-clamp-3">
-                      {service.summary}
-                    </p>
-                  </div>
-
-                  <div className="pt-6 mt-6 border-t border-[var(--border-subtle)] flex items-center justify-between text-xs font-bold text-[#087FC4] dark:text-[#20B8D5]">
-                    <span>Learn More</span>
-                    <ArrowRight className="w-3.5 h-3.5 transform group-hover:translate-x-1 transition-transform" />
-                  </div>
-                </Link>
+                      <div className="pt-6 mt-6 border-t border-[var(--border-subtle)] flex items-center justify-between text-xs font-bold text-[#087FC4] dark:text-[#20B8D5]">
+                        <span>Learn More</span>
+                        <ArrowRight className="w-3.5 h-3.5 transform group-hover:translate-x-1 transition-transform" />
+                      </div>
+                    </Link>
+                  </TiltCard>
+                </ScrollReveal>
               );
             })}
           </div>
@@ -995,7 +1098,7 @@ export default async function HomePage() {
           ===================================================================== */}
       <section className="py-20 lg:py-28 bg-[var(--bg-primary)]">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl mb-14">
+          <ScrollReveal direction="up" delay={0.08} className="max-w-3xl mb-14">
             <span className="text-xs font-extrabold uppercase tracking-widest text-[#087FC4] dark:text-[#20B8D5]">
               WHY WORK WITH US
             </span>
@@ -1007,24 +1110,27 @@ export default async function HomePage() {
               clear requirements, thoughtful planning, quality development, and
               solutions that serve meaningful business goals.
             </p>
-          </div>
+          </ScrollReveal>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {WHY_CHOOSE_VALUES.map((item) => {
+            {WHY_CHOOSE_VALUES.map((item, index) => {
               const Icon = item.icon;
               return (
-                <div
-                  key={item.title}
-                  className="mrm-glass-card rounded-2xl p-7 space-y-3 transition-all duration-300"
-                >
-                  <div className="w-11 h-11 rounded-xl mrm-glass-pill text-[#087FC4] dark:text-[#20B8D5] flex items-center justify-center">
-                    <Icon className="w-5 h-5" />
-                  </div>
-                  <h3 className="text-lg font-extrabold">{item.title}</h3>
-                  <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
-                    {item.description}
-                  </p>
-                </div>
+                <ScrollReveal key={item.title} direction="up" delay={index * 0.08} className="h-full">
+                  <TiltCard maxTilt={3} className="h-full">
+                    <div
+                      className="mrm-glass-card rounded-2xl p-7 space-y-3 transition-all duration-300 h-full"
+                    >
+                      <div className="w-11 h-11 rounded-xl mrm-glass-pill text-[#087FC4] dark:text-[#20B8D5] flex items-center justify-center">
+                        <Icon className="w-5 h-5" />
+                      </div>
+                      <h3 className="text-lg font-extrabold">{item.title}</h3>
+                      <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
+                        {item.description}
+                      </p>
+                    </div>
+                  </TiltCard>
+                </ScrollReveal>
               );
             })}
           </div>
@@ -1036,7 +1142,7 @@ export default async function HomePage() {
           ===================================================================== */}
       <section className="py-20 lg:py-28 bg-[var(--bg-secondary)] border-t border-[var(--border-subtle)]">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-6">
+          <ScrollReveal direction="up" delay={0.08} className="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-6">
             <div className="max-w-2xl">
               <span className="text-xs font-extrabold uppercase tracking-widest text-[#087FC4] dark:text-[#20B8D5]">
                 SELECTED WORK
@@ -1055,7 +1161,7 @@ export default async function HomePage() {
             >
               View All Projects <ArrowRight className="w-4 h-4" />
             </Link>
-          </div>
+          </ScrollReveal>
 
           {featuredProjects.length === 0 ? (
             <GlassEmptyState
@@ -1069,7 +1175,7 @@ export default async function HomePage() {
             />
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {featuredProjects.map((project) => {
+              {featuredProjects.map((project, index) => {
                 const title =
                   project.title ||
                   project.translations?.[0]?.title ||
@@ -1090,54 +1196,57 @@ export default async function HomePage() {
                   : [];
 
                 return (
-                  <div
-                    key={project.id || project.slug}
-                    className="mrm-glass-card rounded-2xl overflow-hidden flex flex-col justify-between transition-all duration-300"
-                  >
-                    <div className="p-6">
-                      <span className="text-[11px] font-bold uppercase tracking-wider text-[#087FC4] dark:text-[#20B8D5]">
-                        {project.projectWorkStatus || 'PUBLISHED'}
-                      </span>
-                      <h3 className="text-xl font-extrabold mt-1 mb-2">
-                        {title}
-                      </h3>
-                      <p className="text-sm text-[var(--text-secondary)] line-clamp-3 leading-relaxed">
-                        {summary}
-                      </p>
-                      {(frontendTech.length > 0 || backendTech.length > 0) && (
-                        <div className="pt-4 flex flex-wrap gap-1.5">
-                          {[...frontendTech.slice(0, 3), ...backendTech.slice(0, 3)].map(
-                            (tech) => (
-                              <span
-                                key={tech}
-                                className="text-[11px] px-2.5 py-0.5 rounded-md mrm-glass-pill font-medium"
-                              >
-                                {tech}
-                              </span>
-                            ),
+                  <ScrollReveal key={project.id || project.slug} direction="up" delay={Math.min(index * 0.08, 0.4)} className="h-full">
+                    <TiltCard maxTilt={3} glareEffect={true} className="h-full">
+                      <div
+                        className="mrm-glass-card rounded-2xl overflow-hidden flex flex-col justify-between transition-all duration-300 h-full"
+                      >
+                        <div className="p-6">
+                          <span className="text-[11px] font-bold uppercase tracking-wider text-[#087FC4] dark:text-[#20B8D5]">
+                            {project.projectWorkStatus || 'PUBLISHED'}
+                          </span>
+                          <h3 className="text-xl font-extrabold mt-1 mb-2">
+                            {title}
+                          </h3>
+                          <p className="text-sm text-[var(--text-secondary)] line-clamp-3 leading-relaxed">
+                            {summary}
+                          </p>
+                          {(frontendTech.length > 0 || backendTech.length > 0) && (
+                            <div className="pt-4 flex flex-wrap gap-1.5">
+                              {[...frontendTech.slice(0, 3), ...backendTech.slice(0, 3)].map(
+                                (tech) => (
+                                  <span
+                                    key={tech}
+                                    className="text-[11px] px-2.5 py-0.5 rounded-md mrm-glass-pill font-medium"
+                                  >
+                                    {tech}
+                                  </span>
+                                ),
+                              )}
+                            </div>
                           )}
                         </div>
-                      )}
-                    </div>
-                    <div className="px-6 py-4 border-t border-[var(--border-subtle)] flex items-center justify-between">
-                      <Link
-                        className="text-xs font-bold text-[#087FC4] dark:text-[#20B8D5] hover:underline inline-flex items-center gap-1"
-                        href={`/projects/${project.slug}`}
-                      >
-                        Project Details <ArrowRight className="w-3.5 h-3.5" />
-                      </Link>
-                      {project.liveUrl && (
-                        <a
-                          href={project.liveUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-xs font-semibold text-[var(--text-muted)] hover:text-[#087FC4] inline-flex items-center gap-1"
-                        >
-                          Live Preview <ExternalLink className="w-3 h-3" />
-                        </a>
-                      )}
-                    </div>
-                  </div>
+                        <div className="px-6 py-4 border-t border-[var(--border-subtle)] flex items-center justify-between">
+                          <Link
+                            className="text-xs font-bold text-[#087FC4] dark:text-[#20B8D5] hover:underline inline-flex items-center gap-1"
+                            href={`/projects/${project.slug}`}
+                          >
+                            Project Details <ArrowRight className="w-3.5 h-3.5" />
+                          </Link>
+                          {project.liveUrl && (
+                            <a
+                              href={project.liveUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-xs font-semibold text-[var(--text-muted)] hover:text-[#087FC4] inline-flex items-center gap-1"
+                            >
+                              Live Preview <ExternalLink className="w-3 h-3" />
+                            </a>
+                          )}
+                        </div>
+                      </div>
+                    </TiltCard>
+                  </ScrollReveal>
                 );
               })}
             </div>
@@ -1150,7 +1259,7 @@ export default async function HomePage() {
           ===================================================================== */}
       <section className="py-20 lg:py-28 bg-[var(--bg-primary)] border-t border-[var(--border-subtle)]">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl mb-16">
+          <ScrollReveal direction="up" delay={0.08} className="max-w-3xl mb-16">
             <span className="text-xs font-extrabold uppercase tracking-widest text-[#087FC4] dark:text-[#20B8D5]">
               OUR APPROACH
             </span>
@@ -1162,25 +1271,28 @@ export default async function HomePage() {
               goal. Our process helps turn requirements into carefully planned,
               tested, and usable digital experiences.
             </p>
-          </div>
+          </ScrollReveal>
 
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
-            {WORK_PROCESS_STEPS.map((step) => (
-              <div
-                key={step.number}
-                className="mrm-glass-card rounded-2xl p-6 flex flex-col justify-between transition-all duration-300"
-              >
-                <div>
-                  <span className="inline-block text-2xl font-black text-[#087FC4] dark:text-[#20B8D5] font-mono mb-4">
-                    {step.number}
-                  </span>
-                  <h3 className="text-lg font-extrabold mb-2">{step.title}</h3>
-                  <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
-                    {step.description}
-                  </p>
-                </div>
-                <div className="mt-6 h-1 w-10 rounded-full bg-gradient-to-r from-[#087FC4] to-[#20B8D5]" />
-              </div>
+            {WORK_PROCESS_STEPS.map((step, index) => (
+              <ScrollReveal key={step.number} direction="up" delay={index * 0.09} className="h-full">
+                <TiltCard maxTilt={3} className="h-full">
+                  <div
+                    className="mrm-glass-card rounded-2xl p-6 flex flex-col justify-between transition-all duration-300 h-full"
+                  >
+                    <div>
+                      <span className="inline-block text-2xl font-black text-[#087FC4] dark:text-[#20B8D5] font-mono mb-4">
+                        {step.number}
+                      </span>
+                      <h3 className="text-lg font-extrabold mb-2">{step.title}</h3>
+                      <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
+                        {step.description}
+                      </p>
+                    </div>
+                    <div className="mt-6 h-1 w-10 rounded-full bg-gradient-to-r from-[#087FC4] to-[#20B8D5]" />
+                  </div>
+                </TiltCard>
+              </ScrollReveal>
             ))}
           </div>
         </div>
@@ -1191,7 +1303,7 @@ export default async function HomePage() {
           ===================================================================== */}
       <section className="py-20 lg:py-24 bg-[var(--bg-secondary)] border-y border-[var(--border-subtle)]">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="max-w-2xl mx-auto mb-12">
+          <ScrollReveal direction="up" delay={0.08} className="max-w-2xl mx-auto mb-12">
             <span className="text-xs font-extrabold uppercase tracking-widest text-[#087FC4] dark:text-[#20B8D5]">
               OUR TECHNOLOGY
             </span>
@@ -1203,13 +1315,13 @@ export default async function HomePage() {
               the right combination for each project&apos;s needs, performance
               requirements, and long-term maintainability.
             </p>
-          </div>
+          </ScrollReveal>
 
-          <div className="flex flex-wrap items-center justify-center gap-4 max-w-4xl mx-auto">
+          <ScrollReveal direction="up" delay={0.16} className="flex flex-wrap items-center justify-center gap-4 max-w-4xl mx-auto">
             {APPROVED_TECHNOLOGIES.map((tech) => (
               <div
                 key={tech.name}
-                className="mrm-glass-pill px-6 py-4 rounded-2xl flex items-center gap-3.5"
+                className="mrm-glass-pill px-6 py-4 rounded-2xl flex items-center gap-3.5 hover:scale-105 transition-transform duration-300"
               >
                 <div className="w-2.5 h-2.5 rounded-full bg-gradient-to-r from-[#087FC4] to-[#20B8D5]" />
                 <div className="text-left">
@@ -1222,7 +1334,7 @@ export default async function HomePage() {
                 </div>
               </div>
             ))}
-          </div>
+          </ScrollReveal>
         </div>
       </section>
 
@@ -1332,7 +1444,7 @@ export default async function HomePage() {
           ===================================================================== */}
       <section className="py-20 lg:py-28 bg-[var(--bg-primary)]">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-14">
+          <ScrollReveal direction="up" delay={0.08} className="text-center max-w-2xl mx-auto mb-14">
             <span className="text-xs font-extrabold uppercase tracking-widest text-[#087FC4] dark:text-[#20B8D5]">
               COMMON QUESTIONS
             </span>
@@ -1343,7 +1455,7 @@ export default async function HomePage() {
               Find answers to common questions about our products, services,
               development approach, and working with MRM InfoTech.
             </p>
-          </div>
+          </ScrollReveal>
 
           <HomeFaqAccordion items={apiFaqs} />
         </div>
@@ -1363,7 +1475,7 @@ export default async function HomePage() {
         />
 
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="mrm-glass-cta rounded-3xl p-8 sm:p-14 lg:p-16 text-center max-w-4xl mx-auto">
+          <ScrollReveal direction="up" delay={0.08} className="mrm-glass-cta rounded-3xl p-8 sm:p-14 lg:p-16 text-center max-w-4xl mx-auto">
             <span className="inline-block px-3.5 py-1 rounded-full bg-[#20B8D5]/15 border border-[#20B8D5]/30 text-[#20B8D5] text-xs font-extrabold uppercase tracking-widest mb-4">
               LET&apos;S CREATE SOMETHING MEANINGFUL
             </span>
@@ -1376,20 +1488,24 @@ export default async function HomePage() {
               we&apos;d love to hear what you&apos;re working on.
             </p>
             <div className="flex flex-wrap items-center justify-center gap-4">
-              <Link
-                className="px-8 py-4 rounded-[10px] bg-gradient-to-r from-[#087FC4] to-[#20B8D5] text-white font-bold text-sm sm:text-base shadow-lg shadow-[#087FC4]/30 hover:opacity-95 transition-all inline-flex items-center gap-2"
-                href="/start-project"
-              >
-                Start a Project <ArrowRight className="w-4 h-4" />
-              </Link>
-              <Link
-                className="px-8 py-4 rounded-[10px] bg-white/10 hover:bg-white/20 border border-white/25 text-white font-bold text-sm sm:text-base transition-all"
-                href="/contact"
-              >
-                Talk to Our Team
-              </Link>
+              <MagneticButton pullFactor={0.22}>
+                <Link
+                  className="px-8 py-4 rounded-[10px] bg-gradient-to-r from-[#087FC4] to-[#20B8D5] text-white font-bold text-sm sm:text-base shadow-lg shadow-[#087FC4]/30 hover:opacity-95 transition-all inline-flex items-center gap-2"
+                  href="/start-project"
+                >
+                  Start a Project <ArrowRight className="w-4 h-4" />
+                </Link>
+              </MagneticButton>
+              <MagneticButton pullFactor={0.22}>
+                <Link
+                  className="px-8 py-4 rounded-[10px] bg-white/10 hover:bg-white/20 border border-white/25 text-white font-bold text-sm sm:text-base transition-all inline-flex items-center"
+                  href="/contact"
+                >
+                  Talk to Our Team
+                </Link>
+              </MagneticButton>
             </div>
-          </div>
+          </ScrollReveal>
         </div>
       </section>
     </div>

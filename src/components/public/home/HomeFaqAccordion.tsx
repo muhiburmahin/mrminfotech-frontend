@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export interface FaqItemData {
   id?: string;
@@ -57,7 +58,7 @@ export default function HomeFaqAccordion({ items }: { items?: FaqItemData[] }) {
                 {faq.question}
               </span>
               <span
-                className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 mrm-glass-pill transition-transform duration-200 ${
+                className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 mrm-glass-pill transition-transform duration-300 ${
                   isOpen
                     ? 'rotate-180 bg-[#087FC4] text-white border-transparent'
                     : 'text-[#087FC4] dark:text-[#20B8D5]'
@@ -66,11 +67,21 @@ export default function HomeFaqAccordion({ items }: { items?: FaqItemData[] }) {
                 <ChevronDown className="w-4 h-4" />
               </span>
             </button>
-            {isOpen && (
-              <div className="px-6 pb-6 pt-2 text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed border-t border-[var(--border-subtle)]">
-                {faq.answer}
-              </div>
-            )}
+            <AnimatePresence initial={false}>
+              {isOpen && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                  className="overflow-hidden"
+                >
+                  <div className="px-6 pb-6 pt-2 text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed border-t border-[var(--border-subtle)]">
+                    {faq.answer}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         );
       })}
