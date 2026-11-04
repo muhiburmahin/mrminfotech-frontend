@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import React from 'react';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
@@ -20,6 +19,7 @@ import {
   Cpu,
 } from 'lucide-react';
 import { PublicApiService } from '@/services/public-api.service';
+import ProductInteractiveGallery from '@/components/public/products/ProductInteractiveGallery';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -696,49 +696,102 @@ export default async function ProductDetailPage({ params }: PageProps) {
       </section>
 
       {/* =====================================================================
-          SECTION 5 — REAL PRODUCT SCREENSHOTS GALLERY
+          SECTION 5 — REAL PRODUCT SCREENSHOTS & INTERACTIVE GALLERY (Up to 10 Images)
           ===================================================================== */}
       {images.length > 0 && (
         <section className="py-20 bg-slate-50/50 dark:bg-[#0B1E3B]/40 border-b border-slate-200 dark:border-[#1E3557]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+            <div className="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
               <div>
                 <span className="text-xs font-bold text-[#087FC4] dark:text-[#20B8D5] uppercase tracking-wider flex items-center gap-1.5">
-                  <ImageIcon className="w-3.5 h-3.5" /> Product Showcase
+                  <ImageIcon className="w-3.5 h-3.5" /> Product Showcase &amp; Interactive Gallery
                 </span>
                 <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white mt-1">
                   Interface Screenshots &amp; Workflows
                 </h2>
                 <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
-                  Real operational dashboards configured with safe, anonymized demo data.
+                  Click any thumbnail to switch views, or open fullscreen to inspect details.
                 </p>
               </div>
-              <span className="text-xs text-slate-500 dark:text-slate-400 font-mono">
-                {images.length} High-Res Screens
+              <span className="text-xs text-slate-500 dark:text-slate-400 font-mono px-3 py-1 rounded-full mrm-glass-pill self-start sm:self-auto">
+                {images.length} High-Res Screenshots
               </span>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {images.map((imgUrl, i) => (
-                <div
-                  key={i}
-                  className="rounded-2xl overflow-hidden border border-slate-200 dark:border-[#1E3557] bg-slate-900 shadow-lg group relative aspect-video"
-                >
-                  <img
-                    src={imgUrl}
-                    alt={`${name} interface view ${i + 1}`}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
-                  <div className="absolute bottom-3 left-3 px-3 py-1 rounded-lg bg-black/70 backdrop-blur-md text-white text-xs font-medium">
-                    Screen #{i + 1}
-                  </div>
-                </div>
-              ))}
-            </div>
+            <ProductInteractiveGallery images={images} title={name} stage={stage} />
           </div>
         </section>
       )}
+
+      {/* =====================================================================
+          CASE STUDY & ARCHITECTURAL SPECIFICATIONS
+          ===================================================================== */}
+      <section className="py-20 bg-white dark:bg-[#07162C] border-b border-slate-200 dark:border-[#1E3557]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+            <div className="lg:col-span-2 space-y-6">
+              <div className="mrm-glass-card rounded-3xl p-8 sm:p-10 space-y-5">
+                <span className="text-xs font-bold text-[#087FC4] dark:text-[#20B8D5] uppercase tracking-wider flex items-center gap-1.5">
+                  <Sparkles className="w-3.5 h-3.5" /> Case Study &amp; System Architecture
+                </span>
+                <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
+                  Solving Real-World Challenges Through Scalable Engineering
+                </h3>
+                <div className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed whitespace-pre-line space-y-4">
+                  {caseStudy || `${name} was conceptualized, architected, and built by MRM InfoTech to solve systemic operational bottlenecks. By transitioning paper registers, disparate spreadsheets, and disconnected channels into a unified high-availability cloud platform, organizations achieve complete operational transparency.\n\nBuilt upon secure multi-tenant cloud architecture, it delivers instantaneous data synchronization, verifiable audit trails, and strict data isolation across every institutional deployment.`}
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-6">
+              <div className="mrm-glass-card rounded-3xl p-6 sm:p-8 space-y-5">
+                <h4 className="font-extrabold text-sm uppercase tracking-wider text-slate-900 dark:text-white border-b border-slate-200 dark:border-[#1E3557] pb-3">
+                  Product Specifications
+                </h4>
+                <ul className="space-y-3.5 text-xs sm:text-sm">
+                  <li className="flex items-center justify-between py-1.5 border-b border-slate-100 dark:border-[#1E3557]/60">
+                    <span className="font-semibold text-slate-500 dark:text-slate-400">Release Stage</span>
+                    <span className="font-bold text-emerald-500 flex items-center gap-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                      {stage}
+                    </span>
+                  </li>
+                  <li className="flex items-center justify-between py-1.5 border-b border-slate-100 dark:border-[#1E3557]/60">
+                    <span className="font-semibold text-slate-500 dark:text-slate-400">Source Code Status</span>
+                    <span className="font-bold text-slate-800 dark:text-slate-200">
+                      {product.isSourcePrivate ? 'Confidential / Private IP' : 'Public Repository'}
+                    </span>
+                  </li>
+                  <li className="flex items-center justify-between py-1.5 border-b border-slate-100 dark:border-[#1E3557]/60">
+                    <span className="font-semibold text-slate-500 dark:text-slate-400">Engineering Owner</span>
+                    <span className="font-bold text-[#087FC4] dark:text-[#20B8D5]">MRM InfoTech Ltd.</span>
+                  </li>
+                  <li className="flex items-center justify-between py-1.5 border-b border-slate-100 dark:border-[#1E3557]/60">
+                    <span className="font-semibold text-slate-500 dark:text-slate-400">Multi-Tenancy</span>
+                    <span className="font-bold text-slate-800 dark:text-slate-200">Native Database Isolation</span>
+                  </li>
+                  <li className="flex items-center justify-between py-1.5">
+                    <span className="font-semibold text-slate-500 dark:text-slate-400">Deployment</span>
+                    <span className="font-bold text-slate-800 dark:text-slate-200">Cloud High Availability</span>
+                  </li>
+                </ul>
+
+                {liveUrl && (
+                  <a
+                    href={liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full py-3 rounded-xl bg-gradient-to-r from-[#087FC4] to-[#20B8D5] text-white font-bold text-xs flex items-center justify-center gap-2 shadow-md hover:opacity-95 transition-opacity"
+                  >
+                    <span>Visit Live Platform</span>
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* =====================================================================
           SECTION 6 — WHO IS IT FOR? (Target Audience)

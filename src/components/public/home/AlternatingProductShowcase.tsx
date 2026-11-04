@@ -363,14 +363,14 @@ export default function AlternatingProductShowcase({ products }: AlternatingProd
                 >
                   <div>
                     {images.length > 0 ? (
-                      <div className="relative h-52 w-full bg-slate-900 overflow-hidden group/img">
+                      <div className="relative h-60 w-full bg-slate-900 overflow-hidden group/img">
                         <img
                           src={images[currentImgIdx]}
                           alt={product.title}
                           className="w-full h-full object-cover transition-transform duration-500 group-hover/img:scale-105"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-black/20 pointer-events-none" />
-                        <div className="absolute top-3 left-3 z-10">
+                        <div className="absolute top-3 left-3 z-10 flex items-center gap-1.5">
                           <span
                             className={`text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full backdrop-blur-md ${
                               stage === 'LIVE' ? 'bg-emerald-500/80 text-white' : 'bg-cyan-500/80 text-white'
@@ -379,6 +379,48 @@ export default function AlternatingProductShowcase({ products }: AlternatingProd
                             {stage}
                           </span>
                         </div>
+
+                        {/* Interactive Navigation in Grid mode (Up to 10 Images) */}
+                        {images.length > 1 && (
+                          <>
+                            <button
+                              type="button"
+                              onClick={(e) => handlePrevImage(product.slug, images.length, e)}
+                              className="absolute left-2 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-black/60 hover:bg-black text-white flex items-center justify-center opacity-0 group-hover/img:opacity-100 transition-opacity z-10 cursor-pointer"
+                              aria-label="Previous image"
+                            >
+                              <ChevronLeft className="w-4 h-4" />
+                            </button>
+                            <button
+                              type="button"
+                              onClick={(e) => handleNextImage(product.slug, images.length, e)}
+                              className="absolute right-2 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-black/60 hover:bg-black text-white flex items-center justify-center opacity-0 group-hover/img:opacity-100 transition-opacity z-10 cursor-pointer"
+                              aria-label="Next image"
+                            >
+                              <ChevronRight className="w-4 h-4" />
+                            </button>
+
+                            <div className="absolute bottom-2.5 left-1/2 -translate-x-1/2 flex items-center gap-1 z-10 px-2 py-0.5 rounded-full bg-black/40 backdrop-blur-xs max-w-[90%] overflow-x-auto">
+                              {images.map((_, i) => (
+                                <button
+                                  key={i}
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    setActiveImageIndexes((prev) => ({ ...prev, [product.slug]: i }));
+                                  }}
+                                  className={`rounded-full transition-all cursor-pointer ${
+                                    i === currentImgIdx
+                                      ? 'bg-[#20B8D5] w-3 h-1.5'
+                                      : 'bg-white/40 hover:bg-white/70 w-1.5 h-1.5'
+                                  }`}
+                                  aria-label={`Slide ${i + 1}`}
+                                />
+                              ))}
+                            </div>
+                          </>
+                        )}
                       </div>
                     ) : (
                       <div className="p-6 pb-0 flex items-center justify-between">
@@ -392,6 +434,9 @@ export default function AlternatingProductShowcase({ products }: AlternatingProd
                     )}
 
                     <div className="p-6 sm:p-8 pb-4">
+                      <p className="text-[11px] font-bold text-[#087FC4] dark:text-[#20B8D5] uppercase tracking-wider mb-1.5">
+                        {product.category}
+                      </p>
                       <h3 className="text-xl font-extrabold text-[var(--text-primary)] mb-2 group-hover:text-[#087FC4] dark:group-hover:text-[#20B8D5] transition-colors">
                         {product.title}
                       </h3>
@@ -410,17 +455,34 @@ export default function AlternatingProductShowcase({ products }: AlternatingProd
                       <ArrowRight className="w-3.5 h-3.5" />
                     </Link>
 
-                    {product.liveUrl && (
-                      <a
-                        href={product.liveUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[11px] font-semibold text-[var(--text-muted)] hover:text-[#087FC4] dark:hover:text-[#20B8D5] inline-flex items-center gap-1"
-                      >
-                        <span>Live</span>
-                        <ExternalLink className="w-3 h-3" />
-                      </a>
-                    )}
+                    <div className="flex items-center gap-3">
+                      {product.isSourcePrivate ? (
+                        <span className="text-[11px] font-semibold text-amber-500 dark:text-amber-400 inline-flex items-center gap-1" title="Confidential / Private Source">
+                          <Lock className="w-3.5 h-3.5" /> Private
+                        </span>
+                      ) : product.sourceCodeUrl ? (
+                        <a
+                          href={product.sourceCodeUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[11px] font-semibold text-[var(--text-muted)] hover:text-[#087FC4] inline-flex items-center gap-1"
+                        >
+                          <Code2 className="w-3.5 h-3.5" /> Code
+                        </a>
+                      ) : null}
+
+                      {product.liveUrl && (
+                        <a
+                          href={product.liveUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[11px] font-semibold text-[var(--text-muted)] hover:text-[#087FC4] dark:hover:text-[#20B8D5] inline-flex items-center gap-1"
+                        >
+                          <span>Live</span>
+                          <ExternalLink className="w-3 h-3" />
+                        </a>
+                      )}
+                    </div>
                   </div>
                 </div>
               );
@@ -431,3 +493,4 @@ export default function AlternatingProductShowcase({ products }: AlternatingProd
     </section>
   );
 }
+

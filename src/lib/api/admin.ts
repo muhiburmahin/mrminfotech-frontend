@@ -73,13 +73,11 @@ export async function getAdminSettings() {
 
 export async function saveSiteSetting(key: string, group: string, value: unknown, isPublic = true) {
   try {
-    // Try updating existing setting first
     return await fetchApi(`/admin/site-settings/${encodeURIComponent(key)}`, {
       method: 'PATCH',
       body: JSON.stringify({ group, value, isPublic }),
     });
   } catch {
-    // If not existing, create it
     return await fetchApi('/admin/site-settings', {
       method: 'POST',
       body: JSON.stringify({ key, group, value, isPublic }),
@@ -155,4 +153,51 @@ export async function uploadHeroMedia(file: File): Promise<{ url: string; id?: s
     method: 'POST',
     body: formData,
   });
+}
+
+export async function uploadMediaFiles(files: File[]): Promise<string[]> {
+  if (!files || files.length === 0) return [];
+
+  const formData = new FormData();
+  files.forEach((file) => {
+    formData.append('files', file);
+  });
+
+  try {
+    const res = await authRequest<{ urls?: string[]; items?: Array<{ url: string }> }>(
+      '/admin/media/upload-multiple',
+      {
+        method: 'POST',
+        body: formData,
+      }
+    );
+    if (res.data?.urls && Array.isArray(res.data.urls)) {
+      return res.data.urls;
+    }
+  } catch (err) {
+    console.warn('Batch upload failed, falling back to sequential single upload:', err);
+  }
+
+  // Fallback: upload one by one using /admin/media/upload
+  const urls: string[] = [];
+  for (const file of files) {
+    try {
+      const singleFormData = new FormData();
+      singleFormData.append('file', file);
+      const singleRes = await authRequest<{ url?: string; data?: { url?: string } }>(
+        '/admin/media/upload',
+        {
+          method: 'POST',
+          body: singleFormData,
+        }
+      );
+      const uploadedUrl = singleRes.data?.url || (singleRes.data as unknown as { url?: string })?.url;
+      if (uploadedUrl) {
+        urls.push(uploadedUrl);
+      }
+    } catch (err) {
+      console.error('Failed to upload file:', file.name, err);
+    }
+  }
+  return urls;
 }
