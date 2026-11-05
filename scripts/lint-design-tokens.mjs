@@ -142,3 +142,4 @@ if (violations > 0) {
 
 console.log(`✅ [60-30-10 Linter Passed]: All components conform to 60% Midnight Black, 30% Pure White, 10% Lime Green!\n`);
 process.exit(0);
+

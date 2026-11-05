@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
@@ -12,36 +13,39 @@ import {
   Compass,
   Zap,
   Users,
-  BookOpen,
   ExternalLink,
   GraduationCap,
   HeartPulse,
   Building2,
-  ShoppingCart,
-  TrendingUp,
-  Smartphone,
-  Cloud,
+  CheckCircle2,
+  Lock,
+  Globe,
+  Terminal,
+  Activity,
+  Workflow,
+  BookOpen,
 } from 'lucide-react';
 import HomeFaqAccordion from '@/components/public/home/HomeFaqAccordion';
 import ProblemsWeSolveSection from '@/components/public/home/ProblemsWeSolveSection';
-import AlternatingProductShowcase from '@/components/public/home/AlternatingProductShowcase';
 import GlassEmptyState from '@/components/ui/GlassEmptyState';
+import { GlassCard } from '@/components/ui/design-system/GlassCard';
+import { MasonryGrid } from '@/components/ui/design-system/MasonryGrid';
+import { CTAButton } from '@/components/ui/design-system/CTAButton';
 import {
   ScrollReveal,
-  TextReveal,
   CountUp,
   TiltCard,
   MagneticButton,
-  AnimatedBackground,
   InfiniteMarquee,
-  SvgFlowLine,
-  GlowBorder,
+  TextReveal,
+  AnimatedBackground,
 } from '@/components/ui/animations';
+import { LinkedinIcon, GithubIcon } from '@/components/public/shared/SocialIcons';
 
 export const metadata: Metadata = {
-  title: 'MRM InfoTech | Software Products & Digital Solutions Company',
+  title: 'MRM InfoTech | Software Products & Enterprise Digital Solutions',
   description:
-    'We Turn Ideas Into Technology That Moves Businesses Forward. Explore EduManage BD, MediSheba BD, Multi-Institution Website Platform, and custom software engineering.',
+    'We Turn Ideas Into Technology That Moves Businesses Forward. Explore EduManage BD, MediSheba BD, Multi-Institution Website Platform, and enterprise software engineering.',
 };
 
 const API_BASE_URL =
@@ -83,6 +87,7 @@ interface ProductItem {
   isSourcePrivate?: boolean;
   stage?: string;
   ctaLabel: string;
+  sortOrder?: number;
 }
 
 interface PublishedServiceRaw {
@@ -208,129 +213,87 @@ const FALLBACK_PRODUCTS: ProductItem[] = [
     title: 'EduManage BD',
     category: 'Education Management Software',
     description:
-      'A digital platform designed to simplify educational institution management and support connected academic operations.',
+      'Cloud-native educational management ecosystem designed for Bangladeshi schools, colleges, and universities with grading, biometric attendance & fees.',
     ctaLabel: 'Explore Product',
     liveUrl: null,
+    stage: 'LIVE',
   },
   {
     slug: 'medisheba-bd',
     title: 'MediSheba BD',
     category: 'Healthcare & Diagnostic Management',
     description:
-      'A healthcare technology platform designed to support diagnostic centres and healthcare service operations.',
+      'Clinical, diagnostic, and pharmacy automation system with automated barcode report dispatching and secure patient records.',
     ctaLabel: 'Explore Product',
     liveUrl: null,
+    stage: 'LIVE',
   },
   {
     slug: 'multi-institution-platform',
     title: 'Multi-Institution Website Platform',
-    category: 'Institutional Website Management',
+    category: 'Institutional SaaS Infrastructure',
     description:
-      'A platform designed to help educational institutions manage their own professional websites and digital presence.',
+      'Centralized multi-tenant management portal allowing educational clusters and chain organizations to manage individual institutional websites.',
     ctaLabel: 'Explore Platform',
     liveUrl: null,
+    stage: 'ENTERPRISE',
   },
 ];
 
 const FALLBACK_SERVICES: ServiceItem[] = [
   {
-    slug: 'web-development',
-    title: 'Web Development',
-    summary:
-      'Modern, responsive websites designed to communicate your brand and support your business goals.',
-  },
-  {
     slug: 'custom-software-development',
     title: 'Custom Software Development',
-    summary:
-      'Tailored software solutions built around your unique workflows and operational requirements.',
+    summary: 'Tailor-made software solutions designed to solve complex business problems.',
+    sortOrder: 1,
   },
   {
     slug: 'web-application-development',
     title: 'Web Application Development',
-    summary:
-      'Interactive, reliable web applications designed for real-world business use.',
+    summary: 'High-performance, secure, and scalable web apps built with modern tech stacks.',
+    sortOrder: 2,
   },
   {
-    slug: 'saas-development',
-    title: 'SaaS Development',
-    summary:
-      'Scalable software platforms that turn ideas into usable digital products.',
+    slug: 'mobile-app-development',
+    title: 'Mobile App Development',
+    summary: 'Native and cross-platform mobile apps for iOS and Android devices.',
+    sortOrder: 3,
   },
   {
-    slug: 'ecommerce-development',
-    title: 'E-commerce Development',
-    summary:
-      'Online shopping experiences designed to help businesses sell and manage products digitally.',
+    slug: 'enterprise-erp-solutions',
+    title: 'Enterprise ERP Solutions',
+    summary: 'Modular, integrated ERP software streamlining organizational operations.',
+    sortOrder: 4,
   },
   {
-    slug: 'api-development-integration',
-    title: 'API Development & Integration',
-    summary:
-      'Reliable APIs and integrations that help different systems work together.',
+    slug: 'cloud-devops-infrastructure',
+    title: 'Cloud & DevOps Infrastructure',
+    summary: 'Resilient cloud architecture, CI/CD automation, and Kubernetes orchestration.',
+    sortOrder: 5,
   },
   {
-    slug: 'business-automation-solutions',
-    title: 'Business Automation',
-    summary:
-      'Practical automation solutions that simplify repetitive work and improve efficiency.',
+    slug: 'ai-machine-learning-solutions',
+    title: 'AI & Machine Learning Solutions',
+    summary: 'Intelligent automation, predictive models, and LLM integrations.',
+    sortOrder: 6,
   },
   {
     slug: 'ui-ux-design',
     title: 'UI/UX Design',
-    summary:
-      'User-centered interfaces designed for clarity, usability, and engaging experiences.',
+    summary: 'User-centric product design, wireframing, and interactive digital interfaces.',
+    sortOrder: 7,
   },
   {
-    slug: 'seo-digital-marketing',
-    title: 'SEO & Digital Marketing',
-    summary:
-      'Digital strategies that help businesses improve online visibility and reach relevant audiences.',
+    slug: 'cybersecurity-compliance',
+    title: 'Cybersecurity & Compliance',
+    summary: 'Vulnerability assessment, penetration testing, and security auditing.',
+    sortOrder: 8,
   },
   {
-    slug: 'website-maintenance-support',
-    title: 'Website Maintenance',
-    summary:
-      'Ongoing website support, updates, and improvements to keep digital experiences reliable.',
-  },
-];
-
-const WHY_CHOOSE_VALUES = [
-  {
-    title: 'Purpose-Driven Thinking',
-    description:
-      'We start by understanding the real problem before choosing the technology.',
-    icon: Compass,
-  },
-  {
-    title: 'Quality-Focused Development',
-    description:
-      'We value clean implementation, usability, and dependable results.',
-    icon: ShieldCheck,
-  },
-  {
-    title: 'Modern Technology',
-    description:
-      'We use suitable modern tools and technologies to build maintainable solutions.',
-    icon: Cpu,
-  },
-  {
-    title: 'Client-Centered Approach',
-    description:
-      'We value clear communication and solutions shaped around actual requirements.',
-    icon: Users,
-  },
-  {
-    title: 'Long-Term Perspective',
-    description:
-      'We consider maintainability, adaptability, and future growth.',
-    icon: Layers,
-  },
-  {
-    title: 'Continuous Improvement',
-    description:
-      'We keep learning, refining, and improving the way we build.',
-    icon: Zap,
+    slug: 'database-architecture-migration',
+    title: 'Database Architecture & Migration',
+    summary: 'High-availability database design, optimization, and seamless cloud migration.',
+    sortOrder: 9,
   },
 ];
 
@@ -338,39 +301,52 @@ const WORK_PROCESS_STEPS = [
   {
     number: '01',
     title: 'Discover',
-    description: 'We understand your goals, challenges, and requirements.',
+    description: 'We understand your goals, operational challenges, and system requirements.',
   },
   {
     number: '02',
     title: 'Plan',
-    description: 'We define the project scope, priorities, and suitable approach.',
+    description: 'We define the project scope, technical architecture, and implementation roadmap.',
   },
   {
     number: '03',
     title: 'Design & Build',
-    description: 'We turn the plan into a functional and thoughtful digital solution.',
+    description: 'We turn architectural designs into high-velocity, reliable software solutions.',
   },
   {
     number: '04',
     title: 'Test & Refine',
-    description: 'We review functionality, usability, and quality before delivery.',
+    description: 'We rigorously audit functionality, security, concurrency, and usability before delivery.',
   },
   {
     number: '05',
     title: 'Launch & Support',
-    description: 'We deliver the solution and provide agreed ongoing support.',
+    description: 'We deploy to resilient cloud infrastructure with active telemetry and ongoing SLA.',
   },
 ];
 
 const APPROVED_TECHNOLOGIES = [
   { name: 'React', role: 'Frontend UI' },
-  { name: 'Next.js', role: 'Full-Stack Framework' },
+  { name: 'Next.js 16', role: 'Full-Stack Framework' },
   { name: 'TypeScript', role: 'Type Safety' },
   { name: 'Node.js', role: 'Server Runtime' },
   { name: 'NestJS', role: 'Modular Backend' },
-  { name: 'PostgreSQL', role: 'Relational Database' },
-  { name: 'Prisma', role: 'Database ORM' },
+  { name: 'PostgreSQL', role: 'ACID Database' },
+  { name: 'Prisma & Redis', role: 'High-Speed Cache' },
   { name: 'Tailwind CSS', role: 'Design System' },
+];
+
+const ENTERPRISE_STACKS = [
+  'Next.js 16 Enterprise',
+  'NestJS Modular Architecture',
+  'PostgreSQL ACID Compliant',
+  'Cloudflare Edge Acceleration',
+  'Docker & Containerized Pods',
+  'TypeScript Strict Protocol',
+  'Redis Ultra-Fast Cache',
+  'Tailwind CSS 4 Design Tokens',
+  'GraphQL & RESTful Webhooks',
+  'OWASP Top 10 Hardened Security',
 ];
 
 export default async function HomePage() {
@@ -392,16 +368,28 @@ export default async function HomePage() {
     fetchBackendList<PublishedFaq>('/faqs'),
   ]);
 
-  const sortedApiProducts = [...apiProducts].sort((a, b) => ((a.sortOrder ?? 999) - (b.sortOrder ?? 999)));
+  const sortedApiProducts = [...apiProducts].sort(
+    (a, b) => (a.sortOrder ?? 999) - (b.sortOrder ?? 999)
+  );
+
   const products: ProductItem[] =
     sortedApiProducts.length > 0
       ? sortedApiProducts.map((p) => ({
           slug: p.slug,
-          title: p.title || p.name || p.translations?.[0]?.name || p.translations?.[0]?.title || p.slug,
+          title:
+            p.title ||
+            p.name ||
+            p.translations?.[0]?.name ||
+            p.translations?.[0]?.title ||
+            p.slug,
           category:
             p.tagline || p.translations?.[0]?.tagline || 'Software Product',
           description:
-            p.description || p.summary || p.translations?.[0]?.description || p.translations?.[0]?.summary || '',
+            p.description ||
+            p.summary ||
+            p.translations?.[0]?.description ||
+            p.translations?.[0]?.summary ||
+            '',
           images: Array.isArray(p.images) ? p.images : [],
           liveUrl: p.liveUrl || null,
           caseStudy: p.caseStudy || null,
@@ -412,12 +400,23 @@ export default async function HomePage() {
             p.slug === 'multi-institution-platform'
               ? 'Explore Platform'
               : 'Explore Product',
+          sortOrder: p.sortOrder,
         }))
       : FALLBACK_PRODUCTS;
 
   const sortedApiServices = [...apiServices].sort((a, b) => {
-    const orderA = typeof a.sortOrder === 'number' ? a.sortOrder : (typeof a.order === 'number' ? a.order : 999);
-    const orderB = typeof b.sortOrder === 'number' ? b.sortOrder : (typeof b.order === 'number' ? b.order : 999);
+    const orderA =
+      typeof a.sortOrder === 'number'
+        ? a.sortOrder
+        : typeof a.order === 'number'
+        ? a.order
+        : 999;
+    const orderB =
+      typeof b.sortOrder === 'number'
+        ? b.sortOrder
+        : typeof b.order === 'number'
+        ? b.order
+        : 999;
     return orderA - orderB;
   });
 
@@ -438,7 +437,12 @@ export default async function HomePage() {
             s.translations?.[0]?.summary ||
             s.description ||
             '';
-          const finalOrder = typeof s.sortOrder === 'number' ? s.sortOrder : (typeof s.order === 'number' ? s.order : index + 1);
+          const finalOrder =
+            typeof s.sortOrder === 'number'
+              ? s.sortOrder
+              : typeof s.order === 'number'
+              ? s.order
+              : index + 1;
           return {
             slug: s.slug,
             title: rawTitle,
@@ -455,150 +459,160 @@ export default async function HomePage() {
   const activeTeam: PublishedTeamMember[] = [...apiTeam]
     .filter((m) => m.isActive !== false)
     .sort((a, b) => (a.order ?? a.sortOrder ?? 999) - (b.order ?? b.sortOrder ?? 999))
-    .slice(0, 4);
+    .slice(0, 8);
   const latestPosts: PublishedBlogPost[] = apiBlogPosts.slice(0, 3);
 
-  return (
-    <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] overflow-x-hidden">
-      {/* =====================================================================
-          SECTION 01 — HERO (Strong Liquid Glass Floating Composition)
-          ===================================================================== */}
-      <section className="relative pt-16 pb-24 lg:pt-24 lg:pb-32 overflow-hidden border-b border-[var(--border-subtle)] bg-gradient-to-b from-[#EFF5FB] via-[var(--bg-primary)] to-[var(--bg-primary)] dark:from-[#071A35] dark:via-[#071321] dark:to-[#071321]">
-        {/* Subtle Animated Gradient & Cyber Grid Background */}
-        <AnimatedBackground showGrid={true} showOrbs={true} />
+  const getProductIcon = (slug: string) => {
+    if (slug.includes('edumanage') || slug.includes('school')) return <GraduationCap className="w-5 h-5 text-white" />;
+    if (slug.includes('medisheba') || slug.includes('health')) return <HeartPulse className="w-5 h-5 text-white" />;
+    return <Building2 className="w-5 h-5 text-white" />;
+  };
 
-        <div className="relative z-10 max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          {/* Left: Main Editorial Copy */}
+  return (
+    <div className="min-h-screen bg-[#0B0B0C] text-[#FFFFFF] overflow-x-hidden selection:bg-[#C6F432] selection:text-[#0B0B0C]">
+      {/* =====================================================================
+          SECTION 01 — HERO (ORIGINAL MRM CONTENT WITH STUNNING CLEAR GLASS & AMBIENT LIME GLOW)
+          Enforces 60% Midnight Black (#0B0B0C), 30% Pure White (#FFFFFF), and 10% Candy Lime Green (#C6F432)
+          ===================================================================== */}
+      <section className="relative pt-16 pb-24 lg:pt-24 lg:pb-32 overflow-hidden border-b border-white/10 bg-[#0B0B0C]">
+        {/* Ambient Radial Lime Glow Beam (As shown in screenshot) */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center opacity-60"
+        >
+          <div className="h-[550px] w-[850px] rounded-full lime-glow-beam blur-3xl" />
+        </div>
+
+        <div className="relative z-10 max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          {/* Left: Original Editorial Copy & Actions */}
           <ScrollReveal direction="up" delay={0.08} duration={0.65} className="lg:col-span-7 space-y-6">
-            <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full mrm-glass-pill text-xs font-extrabold tracking-widest uppercase text-[#087FC4] dark:text-[#20B8D5]">
-              <span className="w-2 h-2 rounded-full bg-[#20B8D5] animate-pulse" />
-              SOFTWARE PRODUCTS &amp; DIGITAL SOLUTIONS
+            <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full clear-glass-pill text-xs font-extrabold tracking-widest uppercase text-white shadow-sm">
+              <span className="w-2 h-2 rounded-full bg-[#C6F432] animate-pulse" />
+              <span>SOFTWARE PRODUCTS &amp; DIGITAL SOLUTIONS</span>
             </div>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-[54px] font-black tracking-tight leading-[1.12]">
-              <TextReveal text="We Turn Ideas Into Technology That Moves Businesses Forward." />
+            <h1 className="text-4xl sm:text-5xl lg:text-[54px] font-black tracking-tight leading-[1.12] text-white">
+              We Turn Ideas Into <br className="hidden sm:inline" />
+              <span className="text-[#C6F432]">Technology</span> That Moves Businesses Forward.
             </h1>
 
-            <p className="text-base sm:text-lg text-[var(--text-secondary)] max-w-2xl leading-relaxed">
+            <p className="text-base sm:text-lg text-white/70 max-w-2xl leading-relaxed">
               We build innovative software products and deliver custom digital
               solutions that help businesses and organizations simplify
               operations, solve real-world challenges, and grow with technology.
             </p>
 
             <div className="flex flex-wrap items-center gap-4 pt-2">
-              <MagneticButton pullFactor={0.22}>
-                <Link
-                  className="px-7 py-3.5 rounded-[10px] bg-gradient-to-r from-[#087FC4] to-[#20B8D5] text-white font-bold text-sm sm:text-base shadow-lg shadow-[#087FC4]/30 hover:opacity-95 transition-all inline-flex items-center gap-2"
-                  href="/services"
-                >
-                  Explore Our Services <ArrowRight className="w-4 h-4" />
-                </Link>
-              </MagneticButton>
+              <CTAButton
+                size="lg"
+                href="/services"
+                className="shadow-[0_0_24px_rgba(198,244,50,0.35)]"
+              >
+                Explore Our Services <ArrowRight className="w-4 h-4 ml-1 inline-block" />
+              </CTAButton>
 
-              <MagneticButton pullFactor={0.22}>
-                <Link
-                  className="px-7 py-3.5 rounded-[10px] mrm-glass-strong text-[var(--text-primary)] font-bold text-sm sm:text-base hover:border-[#20B8D5] transition-all inline-flex items-center gap-2"
-                  href="/products"
-                >
-                  Discover Our Products
-                </Link>
-              </MagneticButton>
+              <Link
+                href="/products"
+                className="inline-flex items-center justify-center rounded-xl px-7 py-3.5 text-sm sm:text-base font-bold text-white border border-white/20 bg-white/[0.04] backdrop-blur-md hover:bg-white/10 hover:border-white/30 transition-all duration-200"
+              >
+                Discover Our Products
+              </Link>
             </div>
 
-            <div className="pt-4 flex items-center gap-3 text-xs font-extrabold tracking-[0.22em] uppercase text-[var(--text-muted)]">
-              <span>IDEAS</span>
-              <span className="text-[#20B8D5]">•</span>
-              <span>PRODUCTS</span>
-              <span className="text-[#20B8D5]">•</span>
-              <span>IMPACT</span>
+            <div className="pt-4 flex items-center gap-3 text-xs font-extrabold tracking-[0.22em] uppercase text-white/50">
+              <span className="text-white">IDEAS</span>
+              <span className="text-[#C6F432] font-black">•</span>
+              <span className="text-white">PRODUCTS</span>
+              <span className="text-[#C6F432] font-black">•</span>
+              <span className="text-white">IMPACT</span>
             </div>
           </ScrollReveal>
 
-          {/* Right: Strong Liquid Glass Floating Panels */}
+          {/* Right: Original MRM Ecosystem Floating Card (Refined with Clear Frosted Glass) */}
           <div className="lg:col-span-5 relative">
             <TiltCard maxTilt={5} glareEffect={true}>
-              <div className="mrm-glass-strong rounded-3xl p-6 sm:p-7 relative z-10 animate-mrm-float">
-                <div className="flex items-center justify-between pb-4 mb-5 border-b border-[var(--border-subtle)]">
+              <div className="clear-glass rounded-3xl p-6 sm:p-7 relative z-10 animate-mrm-float shadow-2xl">
+                <div className="flex items-center justify-between pb-4 mb-5 border-b border-white/10">
                   <div>
-                    <span className="text-[11px] font-bold uppercase tracking-widest text-[#087FC4] dark:text-[#20B8D5]">
+                    <span className="text-[11px] font-extrabold uppercase tracking-widest text-[#C6F432]">
                       MRM InfoTech Ecosystem
                     </span>
-                    <h2 className="text-lg font-extrabold mt-0.5">
+                    <h2 className="text-lg font-extrabold text-white mt-0.5">
                       Products &amp; Custom Engineering
                     </h2>
                   </div>
-                  <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#087FC4] to-[#20B8D5] text-white flex items-center justify-center font-black text-base shadow-md">
+                  <div className="w-10 h-10 rounded-xl bg-[#C6F432] text-[#0B0B0C] flex items-center justify-center font-black text-lg shadow-md shadow-[#C6F432]/30">
                     M
                   </div>
                 </div>
 
                 <div className="space-y-3.5">
-                  <div className="mrm-glass-card rounded-2xl p-4 flex items-start gap-3.5">
-                    <div className="p-2.5 rounded-xl bg-[#087FC4]/15 text-[#087FC4] dark:text-[#20B8D5] shrink-0">
-                      <Layers className="w-5 h-5" />
+                  <div className="clear-glass-card rounded-2xl p-4 flex items-start gap-3.5">
+                    <div className="p-2.5 rounded-xl bg-white/10 text-white shrink-0">
+                      <Layers className="w-5 h-5 text-[#C6F432]" />
                     </div>
                     <div>
                       <div className="flex items-center gap-2 flex-wrap">
-                        <h3 className="text-sm font-bold">Education Platforms</h3>
-                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#087FC4]/15 text-[#087FC4] dark:text-[#20B8D5]">
+                        <h3 className="text-sm font-bold text-white">Education Platforms</h3>
+                        <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-[#C6F432]/15 text-[#C6F432] border border-[#C6F432]/30">
                           EduManage BD
                         </span>
                       </div>
-                      <p className="text-xs text-[var(--text-secondary)] mt-1">
+                      <p className="text-xs text-white/70 mt-1">
                         Academic operations &amp; Multi-Institution Website Platform.
                       </p>
                     </div>
                   </div>
 
-                  <div className="mrm-glass-card rounded-2xl p-4 flex items-start gap-3.5">
-                    <div className="p-2.5 rounded-xl bg-[#20B8D5]/15 text-[#087FC4] dark:text-[#20B8D5] shrink-0">
-                      <Cpu className="w-5 h-5" />
+                  <div className="clear-glass-card rounded-2xl p-4 flex items-start gap-3.5">
+                    <div className="p-2.5 rounded-xl bg-white/10 text-white shrink-0">
+                      <Cpu className="w-5 h-5 text-[#C6F432]" />
                     </div>
                     <div>
                       <div className="flex items-center gap-2 flex-wrap">
-                        <h3 className="text-sm font-bold">Healthcare Systems</h3>
-                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#20B8D5]/15 text-[#087FC4] dark:text-[#20B8D5]">
+                        <h3 className="text-sm font-bold text-white">Healthcare Systems</h3>
+                        <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-[#C6F432]/15 text-[#C6F432] border border-[#C6F432]/30">
                           MediSheba BD
                         </span>
                       </div>
-                      <p className="text-xs text-[var(--text-secondary)] mt-1">
+                      <p className="text-xs text-white/70 mt-1">
                         Diagnostic centre &amp; healthcare service management software.
                       </p>
                     </div>
                   </div>
 
-                  <div className="mrm-glass-card rounded-2xl p-4 flex items-start gap-3.5">
-                    <div className="p-2.5 rounded-xl bg-[#103B68]/15 dark:bg-white/10 text-[#087FC4] dark:text-[#20B8D5] shrink-0">
-                      <Code2 className="w-5 h-5" />
+                  <div className="clear-glass-card rounded-2xl p-4 flex items-start gap-3.5">
+                    <div className="p-2.5 rounded-xl bg-white/10 text-white shrink-0">
+                      <Code2 className="w-5 h-5 text-[#C6F432]" />
                     </div>
                     <div>
-                      <h3 className="text-sm font-bold">Client Digital Solutions</h3>
-                      <p className="text-xs text-[var(--text-secondary)] mt-1">
+                      <h3 className="text-sm font-bold text-white">Client Digital Solutions</h3>
+                      <p className="text-xs text-white/70 mt-1">
                         Custom software, web applications, SaaS &amp; digital marketing.
                       </p>
                     </div>
                   </div>
                 </div>
 
-                <div className="mt-5 pt-4 border-t border-[var(--border-subtle)] flex items-center justify-between text-xs font-semibold text-[var(--text-muted)]">
+                <div className="mt-5 pt-4 border-t border-white/10 flex items-center justify-between text-xs font-semibold text-white/50">
                   <span>Architecture &amp; Security</span>
-                  <span className="text-[#087FC4] dark:text-[#20B8D5] font-bold font-mono">
+                  <span className="text-[#C6F432] font-bold font-mono">
                     PostgreSQL • NestJS • Next.js
                   </span>
                 </div>
               </div>
             </TiltCard>
 
-            {/* Floating Secondary Glass Badge */}
-            <div className="mt-4 sm:mt-0 sm:absolute sm:-bottom-5 sm:-left-5 z-20 mrm-glass-strong rounded-2xl px-4 py-3 flex items-center gap-3 animate-mrm-float-delayed">
-              <div className="w-8 h-8 rounded-xl bg-[#20B8D5]/20 text-[#087FC4] dark:text-[#20B8D5] flex items-center justify-center">
+            {/* Floating Secondary Clear Glass Badge */}
+            <div className="mt-4 sm:mt-0 sm:absolute sm:-bottom-5 sm:-left-5 z-20 clear-glass-pill rounded-2xl px-4 py-3 flex items-center gap-3 animate-mrm-float-delayed shadow-xl">
+              <div className="w-8 h-8 rounded-xl bg-[#C6F432]/20 text-[#C6F432] flex items-center justify-center">
                 <Sparkles className="w-4 h-4" />
               </div>
               <div>
-                <p className="text-xs font-extrabold">
+                <p className="text-xs font-extrabold text-white">
                   SaaS Products + Client Solutions
                 </p>
-                <p className="text-[11px] text-[var(--text-muted)]">
+                <p className="text-[11px] text-white/60">
                   Engineered for real-world business impact
                 </p>
               </div>
@@ -608,63 +622,63 @@ export default async function HomePage() {
       </section>
 
       {/* =====================================================================
-          SECTION 01.5 — ENTERPRISE TRUST METRICS & TECH MARQUEE
+          SECTION 02 — ENTERPRISE TELEMETRY & TECH MARQUEE
           ===================================================================== */}
-      <section className="py-10 bg-white/70 dark:bg-[#07162C]/80 border-b border-[var(--border-subtle)] backdrop-blur-md relative z-10">
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pb-8 border-b border-slate-200/60 dark:border-white/5">
-            <ScrollReveal direction="up" delay={0.05} className="text-center sm:text-left">
-              <div className="text-3xl sm:text-4xl font-black text-[#087FC4] dark:text-[#20B8D5] font-mono">
+      <section className="py-12 bg-[#0B0B0C] border-b border-white/10 relative z-10">
+        <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 pb-10 border-b border-white/10">
+            <div>
+              <div className="text-3xl sm:text-4xl font-black text-white font-mono">
                 <CountUp end={99.9} decimals={1} suffix="%" />
               </div>
-              <p className="text-xs font-bold uppercase tracking-wider text-[var(--text-primary)] mt-1">Uptime SLA</p>
-              <p className="text-[11px] text-[var(--text-muted)]">Enterprise resilience guaranteed</p>
-            </ScrollReveal>
+              <p className="text-xs font-bold uppercase tracking-wider text-white mt-1">
+                Uptime SLA
+              </p>
+              <p className="text-[11px] text-white/50">Enterprise resilience guaranteed</p>
+            </div>
 
-            <ScrollReveal direction="up" delay={0.1} className="text-center sm:text-left">
-              <div className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white font-mono">
+            <div>
+              <div className="text-3xl sm:text-4xl font-black text-white font-mono">
                 <CountUp end={14} suffix="+" />
               </div>
-              <p className="text-xs font-bold uppercase tracking-wider text-[var(--text-primary)] mt-1">Disciplines</p>
-              <p className="text-[11px] text-[var(--text-muted)]">Full-stack software engineering</p>
-            </ScrollReveal>
+              <p className="text-xs font-bold uppercase tracking-wider text-white mt-1">
+                Disciplines
+              </p>
+              <p className="text-[11px] text-white/50">Full-stack software engineering</p>
+            </div>
 
-            <ScrollReveal direction="up" delay={0.15} className="text-center sm:text-left">
-              <div className="text-3xl sm:text-4xl font-black text-[#087FC4] dark:text-[#20B8D5] font-mono">
+            <div>
+              <div className="text-3xl sm:text-4xl font-black text-white font-mono">
                 <CountUp end={100} suffix="%" />
               </div>
-              <p className="text-xs font-bold uppercase tracking-wider text-[var(--text-primary)] mt-1">Verified Code</p>
-              <p className="text-[11px] text-[var(--text-muted)]">Security &amp; audit compliant</p>
-            </ScrollReveal>
+              <p className="text-xs font-bold uppercase tracking-wider text-white mt-1">
+                Verified Code
+              </p>
+              <p className="text-[11px] text-white/50">Security &amp; audit compliant</p>
+            </div>
 
-            <ScrollReveal direction="up" delay={0.2} className="text-center sm:text-left">
-              <div className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white font-mono">
+            <div>
+              <div className="text-3xl sm:text-4xl font-black text-white font-mono">
                 24/7
               </div>
-              <p className="text-xs font-bold uppercase tracking-wider text-[var(--text-primary)] mt-1">System Health</p>
-              <p className="text-[11px] text-[var(--text-muted)]">Active cloud telemetry &amp; support</p>
-            </ScrollReveal>
+              <p className="text-xs font-bold uppercase tracking-wider text-white mt-1">
+                System Telemetry
+              </p>
+              <p className="text-[11px] text-white/50">Active cloud observability</p>
+            </div>
           </div>
 
-          <div className="pt-6">
-            <div className="text-[10px] font-extrabold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-4 text-center">
+          <div className="pt-8">
+            <div className="text-[10px] font-extrabold uppercase tracking-widest text-white/40 mb-4 text-center">
               ENGINEERED WITH MODERN ENTERPRISE TECH STACKS &amp; STANDARDS
             </div>
             <InfiniteMarquee speed={32}>
-              {[
-                'Next.js 16 Enterprise',
-                'NestJS Architecture',
-                'PostgreSQL ACID',
-                'Cloudflare Edge CDN',
-                'Docker & Kubernetes',
-                'TypeScript Strict',
-                'Redis In-Memory',
-                'Tailwind CSS 4',
-                'GraphQL & REST APIs',
-                'OWASP Top 10 Security',
-              ].map((tech) => (
-                <div key={tech} className="flex items-center gap-2 text-xs font-bold text-slate-600 dark:text-slate-300 px-3.5 py-1.5 rounded-xl mrm-glass-pill shrink-0">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#087FC4] dark:bg-[#20B8D5]" />
+              {ENTERPRISE_STACKS.map((tech) => (
+                <div
+                  key={tech}
+                  className="flex items-center gap-2 text-xs font-bold text-white/80 px-4 py-2 rounded-full clear-glass-pill shrink-0"
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#C6F432]" />
                   <span>{tech}</span>
                 </div>
               ))}
@@ -674,18 +688,19 @@ export default async function HomePage() {
       </section>
 
       {/* =====================================================================
-          SECTION 02 — COMPANY INTRODUCTION (Editorial Split Layout)
+          SECTION 03 — WHO WE ARE & 3 CLEAR GLASS PILLARS
           ===================================================================== */}
-      <section className="py-20 lg:py-28 bg-[var(--bg-primary)]">
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      <section className="py-20 lg:py-28 bg-[#0B0B0C] border-b border-white/10">
+        <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           <ScrollReveal direction="left" delay={0.1} className="lg:col-span-6 space-y-5">
-            <span className="text-xs font-extrabold uppercase tracking-widest text-[#087FC4] dark:text-[#20B8D5]">
+            <span className="text-xs font-extrabold uppercase tracking-widest text-[#C6F432]">
               WHO WE ARE
             </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight leading-tight">
-              Technology With Purpose. Solutions With Impact.
+            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white leading-tight">
+              Technology With Purpose. <br />
+              Solutions With Impact.
             </h2>
-            <p className="text-base sm:text-lg text-[var(--text-secondary)] leading-relaxed">
+            <p className="text-base sm:text-lg text-white/70 leading-relaxed">
               MRM InfoTech is a technology company focused on building software
               products and delivering digital solutions for modern businesses and
               organizations. From our own industry-focused platforms to custom
@@ -695,7 +710,7 @@ export default async function HomePage() {
             </p>
             <div className="pt-2">
               <Link
-                className="inline-flex items-center gap-2 font-bold text-sm sm:text-base text-[#087FC4] dark:text-[#20B8D5] hover:underline"
+                className="inline-flex items-center gap-2 font-bold text-sm sm:text-base text-[#C6F432] hover:underline"
                 href="/about"
               >
                 Discover MRM InfoTech <ArrowRight className="w-4 h-4" />
@@ -703,39 +718,39 @@ export default async function HomePage() {
             </div>
           </ScrollReveal>
 
-          {/* 3 Glass-Accented Pillar Boxes */}
+          {/* 3 Clear Frosted Glass Pillars */}
           <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
             <ScrollReveal direction="up" delay={0.15}>
-              <div className="mrm-glass-card rounded-2xl p-6 space-y-2 h-full">
-                <span className="text-xs font-extrabold uppercase tracking-widest text-[#087FC4] dark:text-[#20B8D5]">
+              <div className="clear-glass-card rounded-2xl p-6 space-y-2 h-full">
+                <span className="text-xs font-extrabold uppercase tracking-widest text-[#C6F432] font-mono">
                   01 • IDEAS
                 </span>
-                <h3 className="font-bold text-base">Problem-First Discovery</h3>
-                <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
+                <h3 className="font-bold text-base text-white">Problem-First Discovery</h3>
+                <p className="text-xs text-white/70 leading-relaxed">
                   Every product and client solution starts by understanding real operational needs.
                 </p>
               </div>
             </ScrollReveal>
 
             <ScrollReveal direction="up" delay={0.25}>
-              <div className="mrm-glass-card rounded-2xl p-6 space-y-2 h-full">
-                <span className="text-xs font-extrabold uppercase tracking-widest text-[#087FC4] dark:text-[#20B8D5]">
+              <div className="clear-glass-card rounded-2xl p-6 space-y-2 h-full">
+                <span className="text-xs font-extrabold uppercase tracking-widest text-[#C6F432] font-mono">
                   02 • PRODUCTS
                 </span>
-                <h3 className="font-bold text-base">Thoughtful Engineering</h3>
-                <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
+                <h3 className="font-bold text-base text-white">Thoughtful Engineering</h3>
+                <p className="text-xs text-white/70 leading-relaxed">
                   Clean architecture, scalable databases, and intuitive interfaces built to last.
                 </p>
               </div>
             </ScrollReveal>
 
             <ScrollReveal direction="up" delay={0.35}>
-              <div className="mrm-glass-card rounded-2xl p-6 space-y-2 h-full">
-                <span className="text-xs font-extrabold uppercase tracking-widest text-[#087FC4] dark:text-[#20B8D5]">
+              <div className="clear-glass-card rounded-2xl p-6 space-y-2 h-full">
+                <span className="text-xs font-extrabold uppercase tracking-widest text-[#C6F432] font-mono">
                   03 • IMPACT
                 </span>
-                <h3 className="font-bold text-base">Measurable Value</h3>
-                <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
+                <h3 className="font-bold text-base text-white">Measurable Value</h3>
+                <p className="text-xs text-white/70 leading-relaxed">
                   Digital systems that simplify daily workflows and support long-term growth.
                 </p>
               </div>
@@ -744,563 +759,245 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* =====================================================================
+          SECTION 04 — FLAGSHIP SOFTWARE PRODUCTS (#products)
+          ===================================================================== */}
+      <section id="products" className="py-24 bg-[#0B0B0C] border-b border-white/10 relative">
+        <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+            <div className="max-w-2xl space-y-3">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full clear-glass-pill text-xs font-bold text-white tracking-widest uppercase">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#C6F432]" />
+                PROPRIETARY SAAS ECOSYSTEM
+              </div>
+              <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
+                Our Flagship Software Products
+              </h2>
+              <p className="text-base text-white/70">
+                Purpose-built digital platforms solving real-world challenges in education, healthcare, and multi-institutional governance.
+              </p>
+            </div>
+
+            <Link
+              href="/products"
+              className="inline-flex items-center gap-2 text-sm font-bold text-white/80 hover:text-white hover:gap-3 transition-all"
+            >
+              <span>Explore All Products</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+
+          <MasonryGrid category="Products">
+            {products.map((product) => {
+              const icon = getProductIcon(product.slug);
+              const previewImg = product.images?.[0] || null;
+
+              return (
+                <GlassCard
+                  key={product.slug}
+                  title={product.title}
+                  subtitle={product.category}
+                  description={product.description}
+                  tag={product.stage || 'LIVE'}
+                  icon={icon}
+                  imageUrl={previewImg || undefined}
+                  ctaText={product.ctaLabel || 'Explore Product'}
+                  ctaHref={`/products/${product.slug}`}
+                  metaInfo={
+                    <div className="flex items-center gap-3">
+                      {product.liveUrl && (
+                        <a
+                          href={product.liveUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 text-[11px] font-semibold text-white/80 hover:text-white"
+                        >
+                          <ExternalLink className="w-3 h-3" /> Live Demo
+                        </a>
+                      )}
+                      {product.isSourcePrivate ? (
+                        <span className="inline-flex items-center gap-1 text-[11px] text-white/40">
+                          <Lock className="w-3 h-3" /> Private IP
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center gap-1 text-[11px] text-white/40">
+                          <Code2 className="w-3 h-3" /> Open Core
+                        </span>
+                      )}
+                    </div>
+                  }
+                />
+              );
+            })}
+          </MasonryGrid>
+        </div>
+      </section>
+
+      {/* =====================================================================
+          SECTION 05 — OUR SERVICES (#services)
+          Honoring Admin Serial Number Priority (01, 02, 03...)
+          ===================================================================== */}
+      <section id="services" className="py-24 bg-[#0B0B0C] border-b border-white/10 relative">
+        <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+            <div className="max-w-2xl space-y-3">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full clear-glass-pill text-xs font-bold text-white tracking-widest uppercase">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#C6F432]" />
+                OUR SERVICES
+              </div>
+              <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
+                From Digital Ideas to Fully Built Solutions.
+              </h2>
+              <p className="text-base text-white/70">
+                Whether you need a modern website, custom software, a scalable web application, or support for your digital growth, we turn your requirements into practical solutions.
+              </p>
+            </div>
+
+            <Link
+              href="/services"
+              className="inline-flex items-center gap-2 text-sm font-bold text-white/80 hover:text-white hover:gap-3 transition-all"
+            >
+              <span>Explore All Services</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+
+          <MasonryGrid category="Services">
+            {services.map((service, index) => {
+              const displayOrder = typeof service.order === 'number'
+                ? service.order
+                : typeof service.sortOrder === 'number'
+                ? service.sortOrder
+                : index + 1;
+              const formattedSerial = String(displayOrder).padStart(2, '0');
+
+              return (
+                <GlassCard
+                  key={service.slug}
+                  title={service.title}
+                  tag={`SERIES ${formattedSerial}`}
+                  description={service.summary}
+                  ctaText="Learn More"
+                  ctaHref={`/services/${service.slug}`}
+                  metaInfo={
+                    <span className="font-mono text-xs text-[#C6F432] font-bold">
+                      #{formattedSerial} PRIORITY
+                    </span>
+                  }
+                />
+              );
+            })}
+          </MasonryGrid>
+        </div>
+      </section>
+
+      {/* =====================================================================
+          SECTION 06 — PROBLEMS WE SOLVE
+          ===================================================================== */}
       <ProblemsWeSolveSection />
 
       {/* =====================================================================
-          SECTION 03 — OUR BUSINESS AREAS (Two Contrasting Feature Panels)
+          SECTION 07 — CLIENT WORK / PROJECTS
           ===================================================================== */}
-      <section className="py-20 lg:py-24 bg-[var(--bg-secondary)] border-y border-[var(--border-subtle)] relative overflow-hidden">
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <ScrollReveal direction="up" delay={0.08} className="max-w-3xl mb-14">
-            <span className="text-xs font-extrabold uppercase tracking-widest text-[#087FC4] dark:text-[#20B8D5]">
-              WHAT WE DO
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mt-2 mb-4">
-              Two Areas of Focus. One Vision for Better Technology.
-            </h2>
-            <p className="text-base sm:text-lg text-[var(--text-secondary)] leading-relaxed">
-              We create technology that serves real needs. Through our own
-              software products and client-focused digital services, we help
-              organizations embrace better ways of working and growing.
-            </p>
-          </ScrollReveal>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Block 1: Software Products (Deep Navy Liquid Glass Executive Panel) */}
-            <ScrollReveal direction="up" delay={0.1} className="h-full">
-              <TiltCard maxTilt={4} glareEffect={true} className="h-full">
-                <div className="rounded-3xl p-8 sm:p-10 bg-gradient-to-br from-[#071A35] via-[#0B2548] to-[#103B68] text-white border border-[#20B8D5]/30 shadow-2xl flex flex-col justify-between relative overflow-hidden group hover:border-[#20B8D5]/60 transition-all duration-300 h-full">
-              {/* Subtle ambient cyan glow in background */}
-              <div className="absolute -right-16 -top-16 w-56 h-56 bg-[#20B8D5]/15 rounded-full blur-3xl pointer-events-none group-hover:scale-125 transition-transform duration-700" />
-
-              <div className="space-y-5 relative z-10">
-                <div className="flex items-center justify-between">
-                  <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#20B8D5]/15 border border-[#20B8D5]/30 text-[#20B8D5] text-xs font-bold uppercase tracking-wider">
-                    <Layers className="w-3.5 h-3.5" /> Focus Area 01
-                  </div>
-                  <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-[#20B8D5] bg-white/10 px-2.5 py-0.5 rounded-full border border-white/10">
-                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                    Proprietary SaaS
-                  </span>
-                </div>
-
-                <div>
-                  <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
-                    Software Products
-                  </h3>
-                  <p className="text-slate-200 text-sm sm:text-base leading-relaxed mt-2">
-                    We develop industry-focused software platforms designed to
-                    simplify operations and solve practical challenges.
-                  </p>
-                </div>
-
-                {/* Rich interactive product cards */}
-                <div className="space-y-2.5 pt-2">
-                  <Link
-                    href="/products/edumanage-bd"
-                    className="flex items-center justify-between p-3.5 rounded-2xl bg-white/10 hover:bg-white/15 backdrop-blur-md border border-white/15 hover:border-[#20B8D5]/50 transition-all group/item"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 rounded-xl bg-[#087FC4]/40 flex items-center justify-center text-[#20B8D5] shrink-0">
-                        <GraduationCap className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <h4 className="text-sm font-bold text-white group-hover/item:text-[#20B8D5] transition-colors">
-                          EduManage BD
-                        </h4>
-                        <p className="text-[11px] text-slate-300">
-                          Education ERP &amp; Institutional Operations Platform
-                        </p>
-                      </div>
-                    </div>
-                    <ArrowUpRight className="w-4 h-4 text-slate-400 group-hover/item:text-[#20B8D5] group-hover/item:translate-x-0.5 group-hover/item:-translate-y-0.5 transition-all shrink-0" />
-                  </Link>
-
-                  <Link
-                    href="/products/medisheba-bd"
-                    className="flex items-center justify-between p-3.5 rounded-2xl bg-white/10 hover:bg-white/15 backdrop-blur-md border border-white/15 hover:border-[#20B8D5]/50 transition-all group/item"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 rounded-xl bg-[#20B8D5]/30 flex items-center justify-center text-[#20B8D5] shrink-0">
-                        <HeartPulse className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <h4 className="text-sm font-bold text-white group-hover/item:text-[#20B8D5] transition-colors">
-                          MediSheba BD
-                        </h4>
-                        <p className="text-[11px] text-slate-300">
-                          Diagnostic Centre &amp; Healthcare Management
-                        </p>
-                      </div>
-                    </div>
-                    <ArrowUpRight className="w-4 h-4 text-slate-400 group-hover/item:text-[#20B8D5] group-hover/item:translate-x-0.5 group-hover/item:-translate-y-0.5 transition-all shrink-0" />
-                  </Link>
-
-                  <Link
-                    href="/products/multi-institution-platform"
-                    className="flex items-center justify-between p-3.5 rounded-2xl bg-white/10 hover:bg-white/15 backdrop-blur-md border border-white/15 hover:border-[#20B8D5]/50 transition-all group/item"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 rounded-xl bg-[#103B68]/60 flex items-center justify-center text-[#20B8D5] shrink-0">
-                        <Building2 className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <h4 className="text-sm font-bold text-white group-hover/item:text-[#20B8D5] transition-colors">
-                          Multi-Institution Platform
-                        </h4>
-                        <p className="text-[11px] text-slate-300">
-                          Multi-Tenant Centralized Portal for Chain Schools
-                        </p>
-                      </div>
-                    </div>
-                    <ArrowUpRight className="w-4 h-4 text-slate-400 group-hover/item:text-[#20B8D5] group-hover/item:translate-x-0.5 group-hover/item:-translate-y-0.5 transition-all shrink-0" />
-                  </Link>
-                </div>
+      {featuredProjects.length > 0 && (
+        <section className="py-24 bg-[#0B0B0C] border-b border-white/10">
+          <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+              <div className="max-w-2xl space-y-3">
+                <span className="text-xs font-extrabold uppercase tracking-widest text-[#C6F432]">
+                  CLIENT WORK
+                </span>
+                <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
+                  Tailored Software for Real Business Needs.
+                </h2>
+                <p className="text-base text-white/70">
+                  A selection of custom systems, portals, and digital products engineered for our enterprise partners.
+                </p>
               </div>
 
-              <div className="pt-6 relative z-10 border-t border-white/10 mt-6">
-                <Link
-                  className="inline-flex items-center gap-2 text-sm font-bold text-[#20B8D5] hover:text-white transition-colors group/cta"
-                  href="/products"
-                >
-                  <span>Explore Software Products</span>
-                  <ArrowRight className="w-4 h-4 group-hover/cta:translate-x-1.5 transition-transform" />
-                </Link>
-              </div>
+              <Link
+                href="/projects"
+                className="inline-flex items-center gap-2 text-sm font-bold text-white/80 hover:text-white hover:gap-3 transition-all"
+              >
+                <span>View All Projects</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
             </div>
-          </TiltCard>
-        </ScrollReveal>
 
-            {/* Block 2: Client Solutions (Selective Glass Card with Rich Services Grid) */}
-            <ScrollReveal direction="up" delay={0.2} className="h-full">
-              <TiltCard maxTilt={4} glareEffect={true} className="h-full">
-                <div className="mrm-glass-card rounded-3xl p-8 sm:p-10 flex flex-col justify-between relative overflow-hidden group hover:border-[#087FC4]/40 dark:hover:border-[#20B8D5]/40 transition-all duration-300 shadow-xl h-full">
-              {/* Subtle ambient light in background */}
-              <div className="absolute -right-16 -bottom-16 w-56 h-56 bg-[#087FC4]/10 dark:bg-[#20B8D5]/15 rounded-full blur-3xl pointer-events-none group-hover:scale-125 transition-transform duration-700" />
-
-              <div className="space-y-5 relative z-10">
-                <div className="flex items-center justify-between">
-                  <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full mrm-glass-pill text-[#087FC4] dark:text-[#20B8D5] text-xs font-bold uppercase tracking-wider">
-                    <Code2 className="w-3.5 h-3.5" /> Focus Area 02
-                  </div>
-                  <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-[#087FC4] dark:text-[#20B8D5] mrm-glass-pill px-2.5 py-0.5 rounded-full">
-                    Custom Engineering
-                  </span>
-                </div>
-
-                <div>
-                  <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
-                    Client Solutions
-                  </h3>
-                  <p className="text-[var(--text-secondary)] text-sm sm:text-base leading-relaxed mt-2">
-                    We deliver websites, custom software, web applications, and
-                    digital solutions shaped around business needs.
-                  </p>
-                </div>
-
-                {/* 6 Core Client Services:
-                    1. Web Development (ওয়েব ডেভেলপমেন্ট)
-                    2. E-Commerce Development (ই-কমার্স ডেভেলপমেন্ট)
-                    3. Custom Software Development (কাস্টম সফটওয়্যার ডেভেলপমেন্ট)
-                    4. SaaS & Cloud Applications (সফটওয়্যার ডেভেলপমেন্ট)
-                    5. SEO & Digital Marketing (মার্কেটিং)
-                    6. Mobile App Development
-                */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-2">
-                  <Link
-                    href="/services/web-development"
-                    className="p-3 rounded-2xl bg-white/70 dark:bg-[#103B68]/30 hover:bg-[#F4F8FC] dark:hover:bg-[#103B68]/60 border border-slate-200/80 dark:border-white/10 hover:border-[#087FC4]/40 dark:hover:border-[#20B8D5]/40 transition-all flex items-start gap-3 group/svc"
-                  >
-                    <div className="w-8 h-8 rounded-xl bg-[#087FC4]/10 dark:bg-[#20B8D5]/15 text-[#087FC4] dark:text-[#20B8D5] flex items-center justify-center shrink-0 mt-0.5 group-hover/svc:scale-110 transition-transform">
-                      <Code2 className="w-4 h-4" />
-                    </div>
-                    <div className="min-w-0">
-                      <h4 className="text-xs sm:text-sm font-bold text-[#10243B] dark:text-white group-hover/svc:text-[#087FC4] dark:group-hover/svc:text-[#20B8D5] transition-colors truncate">
-                        Web Development
-                      </h4>
-                      <p className="text-[11px] text-[var(--text-muted)] line-clamp-1 mt-0.5">
-                        High-performance responsive web applications
-                      </p>
-                    </div>
-                  </Link>
-
-                  <Link
-                    href="/services"
-                    className="p-3 rounded-2xl bg-white/70 dark:bg-[#103B68]/30 hover:bg-[#F4F8FC] dark:hover:bg-[#103B68]/60 border border-slate-200/80 dark:border-white/10 hover:border-[#087FC4]/40 dark:hover:border-[#20B8D5]/40 transition-all flex items-start gap-3 group/svc"
-                  >
-                    <div className="w-8 h-8 rounded-xl bg-[#087FC4]/10 dark:bg-[#20B8D5]/15 text-[#087FC4] dark:text-[#20B8D5] flex items-center justify-center shrink-0 mt-0.5 group-hover/svc:scale-110 transition-transform">
-                      <ShoppingCart className="w-4 h-4" />
-                    </div>
-                    <div className="min-w-0">
-                      <h4 className="text-xs sm:text-sm font-bold text-[#10243B] dark:text-white group-hover/svc:text-[#087FC4] dark:group-hover/svc:text-[#20B8D5] transition-colors truncate">
-                        E-Commerce Solutions
-                      </h4>
-                      <p className="text-[11px] text-[var(--text-muted)] line-clamp-1 mt-0.5">
-                        Modern online stores &amp; payment gateways
-                      </p>
-                    </div>
-                  </Link>
-
-                  <Link
-                    href="/services/custom-software-development"
-                    className="p-3 rounded-2xl bg-white/70 dark:bg-[#103B68]/30 hover:bg-[#F4F8FC] dark:hover:bg-[#103B68]/60 border border-slate-200/80 dark:border-white/10 hover:border-[#087FC4]/40 dark:hover:border-[#20B8D5]/40 transition-all flex items-start gap-3 group/svc"
-                  >
-                    <div className="w-8 h-8 rounded-xl bg-[#087FC4]/10 dark:bg-[#20B8D5]/15 text-[#087FC4] dark:text-[#20B8D5] flex items-center justify-center shrink-0 mt-0.5 group-hover/svc:scale-110 transition-transform">
-                      <Cpu className="w-4 h-4" />
-                    </div>
-                    <div className="min-w-0">
-                      <h4 className="text-xs sm:text-sm font-bold text-[#10243B] dark:text-white group-hover/svc:text-[#087FC4] dark:group-hover/svc:text-[#20B8D5] transition-colors truncate">
-                        Custom Software Dev
-                      </h4>
-                      <p className="text-[11px] text-[var(--text-muted)] line-clamp-1 mt-0.5">
-                        Tailored business automation systems
-                      </p>
-                    </div>
-                  </Link>
-
-                  <Link
-                    href="/services/saas-development"
-                    className="p-3 rounded-2xl bg-white/70 dark:bg-[#103B68]/30 hover:bg-[#F4F8FC] dark:hover:bg-[#103B68]/60 border border-slate-200/80 dark:border-white/10 hover:border-[#087FC4]/40 dark:hover:border-[#20B8D5]/40 transition-all flex items-start gap-3 group/svc"
-                  >
-                    <div className="w-8 h-8 rounded-xl bg-[#087FC4]/10 dark:bg-[#20B8D5]/15 text-[#087FC4] dark:text-[#20B8D5] flex items-center justify-center shrink-0 mt-0.5 group-hover/svc:scale-110 transition-transform">
-                      <Cloud className="w-4 h-4" />
-                    </div>
-                    <div className="min-w-0">
-                      <h4 className="text-xs sm:text-sm font-bold text-[#10243B] dark:text-white group-hover/svc:text-[#087FC4] dark:group-hover/svc:text-[#20B8D5] transition-colors truncate">
-                        SaaS &amp; Cloud Platforms
-                      </h4>
-                      <p className="text-[11px] text-[var(--text-muted)] line-clamp-1 mt-0.5">
-                        Multi-tenant architectures &amp; cloud scaling
-                      </p>
-                    </div>
-                  </Link>
-
-                  <Link
-                    href="/services"
-                    className="p-3 rounded-2xl bg-white/70 dark:bg-[#103B68]/30 hover:bg-[#F4F8FC] dark:hover:bg-[#103B68]/60 border border-slate-200/80 dark:border-white/10 hover:border-[#087FC4]/40 dark:hover:border-[#20B8D5]/40 transition-all flex items-start gap-3 group/svc"
-                  >
-                    <div className="w-8 h-8 rounded-xl bg-[#087FC4]/10 dark:bg-[#20B8D5]/15 text-[#087FC4] dark:text-[#20B8D5] flex items-center justify-center shrink-0 mt-0.5 group-hover/svc:scale-110 transition-transform">
-                      <TrendingUp className="w-4 h-4" />
-                    </div>
-                    <div className="min-w-0">
-                      <h4 className="text-xs sm:text-sm font-bold text-[#10243B] dark:text-white group-hover/svc:text-[#087FC4] dark:group-hover/svc:text-[#20B8D5] transition-colors truncate">
-                        SEO &amp; Digital Marketing
-                      </h4>
-                      <p className="text-[11px] text-[var(--text-muted)] line-clamp-1 mt-0.5">
-                        Brand growth, audience reach &amp; analytics
-                      </p>
-                    </div>
-                  </Link>
-
-                  <Link
-                    href="/services/mobile-apps"
-                    className="p-3 rounded-2xl bg-white/70 dark:bg-[#103B68]/30 hover:bg-[#F4F8FC] dark:hover:bg-[#103B68]/60 border border-slate-200/80 dark:border-white/10 hover:border-[#087FC4]/40 dark:hover:border-[#20B8D5]/40 transition-all flex items-start gap-3 group/svc"
-                  >
-                    <div className="w-8 h-8 rounded-xl bg-[#087FC4]/10 dark:bg-[#20B8D5]/15 text-[#087FC4] dark:text-[#20B8D5] flex items-center justify-center shrink-0 mt-0.5 group-hover/svc:scale-110 transition-transform">
-                      <Smartphone className="w-4 h-4" />
-                    </div>
-                    <div className="min-w-0">
-                      <h4 className="text-xs sm:text-sm font-bold text-[#10243B] dark:text-white group-hover/svc:text-[#087FC4] dark:group-hover/svc:text-[#20B8D5] transition-colors truncate">
-                        Mobile App Development
-                      </h4>
-                      <p className="text-[11px] text-[var(--text-muted)] line-clamp-1 mt-0.5">
-                        Native &amp; cross-platform iOS and Android
-                      </p>
-                    </div>
-                  </Link>
-                </div>
-              </div>
-
-              <div className="pt-6 border-t border-[var(--border-subtle)] mt-6">
-                <Link
-                  className="inline-flex items-center gap-2 text-sm font-bold text-[#087FC4] dark:text-[#20B8D5] hover:underline group/cta"
-                  href="/services"
-                >
-                  <span>Explore What We Do</span>
-                  <ArrowRight className="w-4 h-4 group-hover/cta:translate-x-1.5 transition-transform" />
-                </Link>
-              </div>
-            </div>
-          </TiltCard>
-        </ScrollReveal>
-          </div>
-        </div>
-      </section>
-
-      {/* =====================================================================
-          SECTION 04 — OUR PRODUCTS (Selective Liquid Glass Cards & Interactive Image Switcher)
-          ===================================================================== */}
-      <AlternatingProductShowcase products={products} />
-
-      {/* =====================================================================
-          SECTION 05 — SERVICES (Structured Solid Cards for High Readability)
-          ===================================================================== */}
-      <section className="py-20 lg:py-28 bg-[var(--bg-secondary)] border-y border-[var(--border-subtle)]">
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
-          <ScrollReveal direction="up" delay={0.08} className="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-6">
-            <div className="max-w-2xl">
-              <span className="text-xs font-extrabold uppercase tracking-widest text-[#087FC4] dark:text-[#20B8D5]">
-                OUR SERVICES
-              </span>
-              <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mt-2 mb-3">
-                From Digital Ideas to Fully Built Solutions.
-              </h2>
-              <p className="text-base sm:text-lg text-[var(--text-secondary)] leading-relaxed">
-                Whether you need a modern website, custom software, a scalable
-                web application, or support for your digital growth, we work to
-                turn your requirements into practical solutions.
-              </p>
-            </div>
-            <Link
-              className="px-6 py-3 rounded-[10px] bg-[#087FC4] hover:bg-[#087FC4]/90 text-white font-bold text-sm inline-flex items-center gap-2 shrink-0 self-start md:self-auto shadow-md"
-              href="/services"
-            >
-              Explore All Services <ArrowRight className="w-4 h-4" />
-            </Link>
-          </ScrollReveal>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {services.map((service, index) => {
-              const displayNum = String(service.order || service.sortOrder || index + 1).padStart(2, '0');
-              return (
-                <ScrollReveal key={service.slug || index} direction="up" delay={Math.min(index * 0.05, 0.4)} className="h-full">
-                  <TiltCard maxTilt={3} glareEffect={true} className="h-full">
-                    <Link
-                      className="mrm-solid-card rounded-3xl p-8 flex flex-col justify-between group hover:border-[#087FC4] dark:hover:border-[#20B8D5] transition-all duration-300 transform hover:-translate-y-1.5 shadow-md hover:shadow-2xl relative overflow-hidden h-full"
-                      href={`/services/${service.slug}`}
-                    >
-                      {/* Subtle Glow Effect on Hover */}
-                      <div className="absolute -right-12 -top-12 w-32 h-32 rounded-full bg-[#087FC4]/10 dark:bg-[#20B8D5]/10 blur-2xl group-hover:scale-150 transition-transform duration-500 pointer-events-none" />
-
-                      <div>
-                        <div className="flex items-center justify-between mb-6">
-                          <span className="text-xs font-mono font-black px-3 py-1 rounded-lg bg-[#087FC4]/10 text-[#087FC4] dark:text-[#20B8D5]">
-                            {displayNum}
-                          </span>
-                          <div className="w-9 h-9 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-subtle)] flex items-center justify-center text-[var(--text-secondary)] group-hover:bg-[#087FC4] group-hover:text-white group-hover:border-transparent transition-all duration-300">
-                            <ArrowUpRight className="w-4 h-4" />
-                          </div>
-                        </div>
-
-                        <h3 className="text-xl font-extrabold text-[var(--text-primary)] group-hover:text-[#087FC4] dark:group-hover:text-[#20B8D5] transition-colors mb-3">
-                          {service.title}
-                        </h3>
-
-                        <p className="text-sm text-[var(--text-secondary)] leading-relaxed line-clamp-3">
-                          {service.summary}
-                        </p>
-                      </div>
-
-                      <div className="pt-6 mt-6 border-t border-[var(--border-subtle)] flex items-center justify-between text-xs font-bold text-[#087FC4] dark:text-[#20B8D5]">
-                        <span>Learn More</span>
-                        <ArrowRight className="w-3.5 h-3.5 transform group-hover:translate-x-1 transition-transform" />
-                      </div>
-                    </Link>
-                  </TiltCard>
-                </ScrollReveal>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* =====================================================================
-          SECTION 06 — WHY CHOOSE MRM INFOTECH (6 Value Cards)
-          ===================================================================== */}
-      <section className="py-20 lg:py-28 bg-[var(--bg-primary)]">
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
-          <ScrollReveal direction="up" delay={0.08} className="max-w-3xl mb-14">
-            <span className="text-xs font-extrabold uppercase tracking-widest text-[#087FC4] dark:text-[#20B8D5]">
-              WHY WORK WITH US
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mt-2 mb-4">
-              Built With Purpose. Driven by Quality. Focused on Impact.
-            </h2>
-            <p className="text-base sm:text-lg text-[var(--text-secondary)] leading-relaxed">
-              Good technology starts with understanding the problem. We focus on
-              clear requirements, thoughtful planning, quality development, and
-              solutions that serve meaningful business goals.
-            </p>
-          </ScrollReveal>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {WHY_CHOOSE_VALUES.map((item, index) => {
-              const Icon = item.icon;
-              return (
-                <ScrollReveal key={item.title} direction="up" delay={index * 0.08} className="h-full">
-                  <TiltCard maxTilt={3} className="h-full">
-                    <div
-                      className="mrm-glass-card rounded-2xl p-7 space-y-3 transition-all duration-300 h-full"
-                    >
-                      <div className="w-11 h-11 rounded-xl mrm-glass-pill text-[#087FC4] dark:text-[#20B8D5] flex items-center justify-center">
-                        <Icon className="w-5 h-5" />
-                      </div>
-                      <h3 className="text-lg font-extrabold">{item.title}</h3>
-                      <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
-                        {item.description}
-                      </p>
-                    </div>
-                  </TiltCard>
-                </ScrollReveal>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* =====================================================================
-          SECTION 07 — FEATURED PROJECTS (Live Database Records or Glass Empty State)
-          ===================================================================== */}
-      <section className="py-20 lg:py-28 bg-[var(--bg-secondary)] border-t border-[var(--border-subtle)]">
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
-          <ScrollReveal direction="up" delay={0.08} className="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-6">
-            <div className="max-w-2xl">
-              <span className="text-xs font-extrabold uppercase tracking-widest text-[#087FC4] dark:text-[#20B8D5]">
-                SELECTED WORK
-              </span>
-              <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mt-2 mb-3">
-                Ideas in Action. Solutions in Practice.
-              </h2>
-              <p className="text-base sm:text-lg text-[var(--text-secondary)] leading-relaxed">
-                Explore selected digital projects that reflect our approach to
-                design, development, and practical problem-solving.
-              </p>
-            </div>
-            <Link
-              className="inline-flex items-center gap-2 text-sm font-bold text-[#087FC4] dark:text-[#20B8D5] hover:underline"
-              href="/projects"
-            >
-              View All Projects <ArrowRight className="w-4 h-4" />
-            </Link>
-          </ScrollReveal>
-
-          {featuredProjects.length === 0 ? (
-            <GlassEmptyState
-              badge="Live Portfolio Feed"
-              title="No Portfolio Projects Published Yet"
-              description="This section is connected directly to the live MRM InfoTech database. Add and publish projects from the Admin Dashboard to showcase them here."
-              adminHref="/admin/dashboard/projects"
-              adminLabel="Add Project in Admin CMS"
-              publicHref="/start-project"
-              publicLabel="Start Your Project"
-            />
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {featuredProjects.map((project, index) => {
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {featuredProjects.map((project) => {
                 const title =
-                  project.title ||
-                  project.translations?.[0]?.title ||
-                  project.slug;
+                  project.title || project.translations?.[0]?.title || project.slug;
                 const summary =
-                  project.summary ||
-                  project.translations?.[0]?.summary ||
-                  '';
-                const frontendTech: string[] = Array.isArray(
-                  project.frontendTechSummary,
-                )
-                  ? project.frontendTechSummary
-                  : [];
-                const backendTech: string[] = Array.isArray(
-                  project.backendTechSummary,
-                )
-                  ? project.backendTechSummary
-                  : [];
+                  project.summary || project.translations?.[0]?.summary || '';
+                const frontendTech = project.frontendTechSummary || [];
+                const backendTech = project.backendTechSummary || [];
 
                 return (
-                  <ScrollReveal key={project.id || project.slug} direction="up" delay={Math.min(index * 0.08, 0.4)} className="h-full">
-                    <TiltCard maxTilt={3} glareEffect={true} className="h-full">
-                      <div
-                        className="mrm-glass-card rounded-2xl overflow-hidden flex flex-col justify-between transition-all duration-300 h-full"
-                      >
-                        <div className="p-6">
-                          <span className="text-[11px] font-bold uppercase tracking-wider text-[#087FC4] dark:text-[#20B8D5]">
-                            {project.projectWorkStatus || 'PUBLISHED'}
-                          </span>
-                          <h3 className="text-xl font-extrabold mt-1 mb-2">
-                            {title}
-                          </h3>
-                          <p className="text-sm text-[var(--text-secondary)] line-clamp-3 leading-relaxed">
-                            {summary}
-                          </p>
-                          {(frontendTech.length > 0 || backendTech.length > 0) && (
-                            <div className="pt-4 flex flex-wrap gap-1.5">
-                              {[...frontendTech.slice(0, 3), ...backendTech.slice(0, 3)].map(
-                                (tech) => (
-                                  <span
-                                    key={tech}
-                                    className="text-[11px] px-2.5 py-0.5 rounded-md mrm-glass-pill font-medium"
-                                  >
-                                    {tech}
-                                  </span>
-                                ),
-                              )}
-                            </div>
-                          )}
-                        </div>
-                        <div className="px-6 py-4 border-t border-[var(--border-subtle)] flex items-center justify-between">
-                          <Link
-                            className="text-xs font-bold text-[#087FC4] dark:text-[#20B8D5] hover:underline inline-flex items-center gap-1"
-                            href={`/projects/${project.slug}`}
+                  <GlassCard
+                    key={project.id || project.slug}
+                    title={title}
+                    tag={project.projectWorkStatus || 'COMPLETED'}
+                    description={summary}
+                    ctaText="Project Details"
+                    ctaHref={`/projects/${project.slug}`}
+                    metaInfo={
+                      <div className="flex items-center gap-2">
+                        {project.liveUrl && (
+                          <a
+                            href={project.liveUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-xs font-semibold text-white/70 hover:text-white inline-flex items-center gap-1"
                           >
-                            Project Details <ArrowRight className="w-3.5 h-3.5" />
-                          </Link>
-                          {project.liveUrl && (
-                            <a
-                              href={project.liveUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-xs font-semibold text-[var(--text-muted)] hover:text-[#087FC4] inline-flex items-center gap-1"
-                            >
-                              Live Preview <ExternalLink className="w-3 h-3" />
-                            </a>
-                          )}
-                        </div>
+                            <ExternalLink className="w-3 h-3" /> Live
+                          </a>
+                        )}
+                        <span className="text-[11px] text-white/40 font-mono">
+                          {[...frontendTech, ...backendTech].slice(0, 2).join(' • ')}
+                        </span>
                       </div>
-                    </TiltCard>
-                  </ScrollReveal>
+                    }
+                  />
                 );
               })}
             </div>
-          )}
-        </div>
-      </section>
+          </div>
+        </section>
+      )}
 
       {/* =====================================================================
           SECTION 08 — HOW WE WORK (5-Step Sequential Timeline)
           ===================================================================== */}
-      <section className="py-20 lg:py-28 bg-[var(--bg-primary)] border-t border-[var(--border-subtle)]">
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
-          <ScrollReveal direction="up" delay={0.08} className="max-w-3xl mb-16">
-            <span className="text-xs font-extrabold uppercase tracking-widest text-[#087FC4] dark:text-[#20B8D5]">
+      <section className="py-24 bg-[#0B0B0C] border-b border-white/10">
+        <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-3xl mb-16 space-y-3">
+            <span className="text-xs font-extrabold uppercase tracking-widest text-[#C6F432]">
               OUR APPROACH
             </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mt-2 mb-4">
-              A Thoughtful Process. From First Conversation to Final Delivery.
+            <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
+              A Thoughtful Process. From Conversation to Delivery.
             </h2>
-            <p className="text-base sm:text-lg text-[var(--text-secondary)] leading-relaxed">
-              Every successful solution begins with a clear understanding of the
-              goal. Our process helps turn requirements into carefully planned,
-              tested, and usable digital experiences.
+            <p className="text-base text-white/70">
+              Every successful digital solution begins with a clear understanding of the goal. Our process turns requirements into carefully engineered, tested, and usable systems.
             </p>
-          </ScrollReveal>
+          </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
             {WORK_PROCESS_STEPS.map((step, index) => (
-              <ScrollReveal key={step.number} direction="up" delay={index * 0.09} className="h-full">
-                <TiltCard maxTilt={3} className="h-full">
-                  <div
-                    className="mrm-glass-card rounded-2xl p-6 flex flex-col justify-between transition-all duration-300 h-full"
-                  >
+              <ScrollReveal key={step.number} direction="up" delay={index * 0.08} className="h-full">
+                <TiltCard maxTilt={4} className="h-full">
+                  <div className="clear-glass-card rounded-2xl p-6 flex flex-col justify-between h-full">
                     <div>
-                      <span className="inline-block text-2xl font-black text-[#087FC4] dark:text-[#20B8D5] font-mono mb-4">
+                      <span className="inline-block text-2xl font-black text-[#C6F432] font-mono mb-4">
                         {step.number}
                       </span>
-                      <h3 className="text-lg font-extrabold mb-2">{step.title}</h3>
-                      <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
+                      <h3 className="text-lg font-extrabold text-white mb-2">{step.title}</h3>
+                      <p className="text-xs text-white/70 leading-relaxed">
                         {step.description}
                       </p>
                     </div>
-                    <div className="mt-6 h-1 w-10 rounded-full bg-gradient-to-r from-[#087FC4] to-[#20B8D5]" />
+                    <div className="mt-6 h-1 w-10 rounded-full bg-[#C6F432]" />
                   </div>
                 </TiltCard>
               </ScrollReveal>
@@ -1310,121 +1007,184 @@ export default async function HomePage() {
       </section>
 
       {/* =====================================================================
-          SECTION 09 — TECHNOLOGY EXPERTISE (Liquid Glass Badges)
+          SECTION 09 — TECHNOLOGY EXPERTISE (Clear Glass Pills)
           ===================================================================== */}
-      <section className="py-20 lg:py-24 bg-[var(--bg-secondary)] border-y border-[var(--border-subtle)]">
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <ScrollReveal direction="up" delay={0.08} className="max-w-2xl mx-auto mb-12">
-            <span className="text-xs font-extrabold uppercase tracking-widest text-[#087FC4] dark:text-[#20B8D5]">
+      <section className="py-20 bg-[#0B0B0C] border-b border-white/10 text-center">
+        <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-2xl mx-auto mb-12 space-y-3">
+            <span className="text-xs font-extrabold uppercase tracking-widest text-[#C6F432]">
               OUR TECHNOLOGY
             </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mt-2 mb-4">
+            <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
               The Right Tools. Thoughtfully Applied.
             </h2>
-            <p className="text-base sm:text-lg text-[var(--text-secondary)] leading-relaxed">
-              We work with modern development technologies and tools, selecting
-              the right combination for each project&apos;s needs, performance
-              requirements, and long-term maintainability.
+            <p className="text-base text-white/70">
+              We work with modern development technologies and tools, selecting the right combination for each project&apos;s performance, concurrency, and maintainability.
             </p>
-          </ScrollReveal>
+          </div>
 
-          <ScrollReveal direction="up" delay={0.16} className="flex flex-wrap items-center justify-center gap-4 max-w-4xl mx-auto">
+          <div className="flex flex-wrap items-center justify-center gap-4 max-w-4xl mx-auto">
             {APPROVED_TECHNOLOGIES.map((tech) => (
               <div
                 key={tech.name}
-                className="mrm-glass-pill px-6 py-4 rounded-2xl flex items-center gap-3.5 hover:scale-105 transition-transform duration-300"
+                className="clear-glass-pill px-6 py-4 rounded-2xl flex items-center gap-3.5 hover:scale-105 transition-transform duration-300"
               >
-                <div className="w-2.5 h-2.5 rounded-full bg-gradient-to-r from-[#087FC4] to-[#20B8D5]" />
+                <div className="w-2.5 h-2.5 rounded-full bg-[#C6F432] shadow-[0_0_8px_#C6F432]" />
                 <div className="text-left">
-                  <p className="font-extrabold text-sm sm:text-base leading-none">
+                  <p className="font-extrabold text-sm sm:text-base text-white leading-none">
                     {tech.name}
                   </p>
-                  <p className="text-[11px] text-[var(--text-muted)] mt-1">
+                  <p className="text-[11px] text-white/50 mt-1">
                     {tech.role}
                   </p>
                 </div>
               </div>
             ))}
-          </ScrollReveal>
+          </div>
         </div>
       </section>
 
       {/* =====================================================================
-          SECTION 10, 11, 12 — CASE STUDIES, TEAM & BLOG (Shown When Published)
+          SECTION 10 — CASE STUDIES & TEAM ROSTER
           ===================================================================== */}
       {featuredCaseStudies.length > 0 && (
-        <section className="py-20 bg-[var(--bg-primary)]">
-          <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
-            <span className="text-xs font-extrabold uppercase tracking-widest text-[#087FC4] dark:text-[#20B8D5]">
-              BEHIND THE SOLUTIONS
-            </span>
-            <h2 className="text-3xl font-extrabold mt-2 mb-8">
-              Understanding Challenges. Creating Meaningful Solutions.
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <section className="py-24 bg-[#0B0B0C] border-b border-white/10">
+          <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+              <div className="max-w-2xl space-y-3">
+                <span className="text-xs font-extrabold uppercase tracking-widest text-[#C6F432]">
+                  BEHIND THE SOLUTIONS
+                </span>
+                <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
+                  Understanding Challenges. Creating Meaningful Solutions.
+                </h2>
+                <p className="text-base text-white/70">
+                  Case studies showcasing deep technical problem-solving and architectural execution.
+                </p>
+              </div>
+
+              <Link
+                href="/case-studies"
+                className="inline-flex items-center gap-2 text-sm font-bold text-white/80 hover:text-white hover:gap-3 transition-all"
+              >
+                <span>All Case Studies</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {featuredCaseStudies.map((study) => (
-                <Link
+                <GlassCard
                   key={study.id || study.slug}
-                  className="mrm-glass-card rounded-2xl p-7 block transition-all duration-300"
-                  href={`/case-studies/${study.slug}`}
-                >
-                  <h3 className="text-xl font-extrabold mb-2">
-                    {study.title || study.translations?.[0]?.title || study.slug}
-                  </h3>
-                  <p className="text-sm text-[var(--text-secondary)] line-clamp-3">
-                    {study.summary || study.translations?.[0]?.summary || ''}
-                  </p>
-                </Link>
+                  title={study.title || study.translations?.[0]?.title || study.slug}
+                  tag="CASE STUDY"
+                  description={study.summary || study.translations?.[0]?.summary || ''}
+                  ctaText="Read Case Study"
+                  ctaHref={`/case-studies/${study.slug}`}
+                />
               ))}
             </div>
           </div>
         </section>
       )}
 
+      {/* Team Roster with Circular Photo Avatars */}
       {activeTeam.length > 0 && (
-        <section className="py-20 bg-[var(--bg-primary)] border-t border-[var(--border-subtle)]">
-          <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
-            <span className="text-xs font-extrabold uppercase tracking-widest text-[#087FC4] dark:text-[#20B8D5]">
-              THE PEOPLE BEHIND THE WORK
-            </span>
-            <h2 className="text-3xl font-extrabold mt-2 mb-8">
-              Driven by Ideas. United by a Vision.
-            </h2>
+        <section className="py-24 bg-[#0B0B0C] border-b border-white/10">
+          <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+              <div className="max-w-2xl space-y-3">
+                <span className="text-xs font-extrabold uppercase tracking-widest text-[#C6F432]">
+                  THE PEOPLE BEHIND THE WORK
+                </span>
+                <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
+                  Driven by Ideas. United by Vision.
+                </h2>
+                <p className="text-base text-white/70">
+                  Meet the engineers, architects, and product builders driving MRM InfoTech.
+                </p>
+              </div>
+
+              <Link
+                href="/team"
+                className="inline-flex items-center gap-2 text-sm font-bold text-white/80 hover:text-white hover:gap-3 transition-all"
+              >
+                <span>Full Team Roster</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {activeTeam.map((member) => {
                 const name =
                   member.name || member.translations?.[0]?.name || member.slug || 'Team Member';
                 const role =
-                  member.role ||
-                  member.translations?.[0]?.role ||
-                  'Specialist';
+                  member.role || member.translations?.[0]?.role || 'Specialist';
                 const photo = member.photo || member.photoUrl || null;
 
                 return (
                   <div
                     key={member.id || member.slug}
-                    className="mrm-glass-card rounded-2xl p-6 text-center group hover:border-[#087FC4]/40 transition-all duration-300"
+                    className="clear-glass-card rounded-3xl p-7 text-center transition-all duration-300 hover:scale-[1.03] flex flex-col items-center justify-between"
                   >
-                    <div className="w-20 h-20 rounded-full p-0.5 bg-gradient-to-tr from-[#087FC4] to-[#20B8D5] shadow-md shadow-[#087FC4]/20 flex items-center justify-center mx-auto mb-4 group-hover:scale-105 transition-transform duration-300">
-                      <div className="w-full h-full rounded-full overflow-hidden bg-white dark:bg-[#07162C] flex items-center justify-center">
-                        {photo ? (
-                          <img
-                            src={photo}
-                            alt={name}
-                            className="w-full h-full object-cover rounded-full"
-                            loading="lazy"
-                          />
-                        ) : (
-                          <div className="w-full h-full rounded-full bg-gradient-to-tr from-[#087FC4] to-[#20B8D5] text-white font-bold text-lg flex items-center justify-center">
-                            {String(name).charAt(0).toUpperCase()}
-                          </div>
-                        )}
+                    <div className="w-full flex flex-col items-center">
+                      {/* Circular Photo Avatar */}
+                      <div className="relative w-24 h-24 rounded-full ring-2 ring-white/20 p-1 mb-4 shadow-xl">
+                        <div className="w-full h-full rounded-full overflow-hidden bg-white/10 flex items-center justify-center">
+                          {photo ? (
+                            <img
+                              src={photo}
+                              alt={name}
+                              className="w-full h-full object-cover rounded-full"
+                              loading="lazy"
+                            />
+                          ) : (
+                            <div className="w-full h-full rounded-full bg-white/15 text-white font-black text-xl flex items-center justify-center">
+                              {String(name).charAt(0).toUpperCase()}
+                            </div>
+                          )}
+                        </div>
                       </div>
+
+                      <h3 className="font-extrabold text-lg text-white tracking-tight">
+                        {name}
+                      </h3>
+                      <p className="text-xs font-bold text-[#C6F432] mt-1 uppercase tracking-wider">
+                        {role}
+                      </p>
+
+                      {member.bio && (
+                        <p className="text-xs text-white/50 mt-3 line-clamp-2 leading-relaxed">
+                          {member.bio}
+                        </p>
+                      )}
                     </div>
-                    <h3 className="font-extrabold text-base text-slate-900 dark:text-white">{name}</h3>
-                    <p className="text-xs text-[#087FC4] dark:text-[#20B8D5] mt-1 font-semibold">
-                      {role}
-                    </p>
+
+                    {/* Social Handles */}
+                    <div className="mt-5 pt-4 border-t border-white/10 w-full flex items-center justify-center gap-3">
+                      {member.linkedinUrl && (
+                        <a
+                          href={member.linkedinUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-1.5 rounded-full text-white/60 hover:text-white hover:bg-white/10 transition-colors"
+                          aria-label="LinkedIn"
+                        >
+                          <LinkedinIcon className="w-4 h-4" />
+                        </a>
+                      )}
+                      {member.githubUrl && (
+                        <a
+                          href={member.githubUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-1.5 rounded-full text-white/60 hover:text-white hover:bg-white/10 transition-colors"
+                          aria-label="GitHub"
+                        >
+                          <GithubIcon className="w-4 h-4" />
+                        </a>
+                      )}
+                    </div>
                   </div>
                 );
               })}
@@ -1433,105 +1193,72 @@ export default async function HomePage() {
         </section>
       )}
 
-      {latestPosts.length > 0 && (
-        <section className="py-20 bg-[var(--bg-primary)] border-t border-[var(--border-subtle)]">
-          <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
-            <span className="text-xs font-extrabold uppercase tracking-widest text-[#087FC4] dark:text-[#20B8D5]">
-              THOUGHTS &amp; PERSPECTIVES
-            </span>
-            <h2 className="text-3xl font-extrabold mt-2 mb-8">
-              Ideas Worth Exploring. Knowledge Worth Sharing.
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {latestPosts.map((post) => (
-                <Link
-                  key={post.id || post.slug}
-                  className="mrm-glass-card rounded-2xl p-7 block transition-all duration-300"
-                  href={`/blog/${post.slug}`}
-                >
-                  <div className="flex items-center gap-2 text-xs font-bold text-[#087FC4] dark:text-[#20B8D5] mb-2">
-                    <BookOpen className="w-3.5 h-3.5" /> Article
-                  </div>
-                  <h3 className="text-xl font-extrabold mb-2">
-                    {post.title || post.translations?.[0]?.title || post.slug}
-                  </h3>
-                  <p className="text-sm text-[var(--text-secondary)] line-clamp-3">
-                    {post.excerpt || post.translations?.[0]?.excerpt || ''}
-                  </p>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
       {/* =====================================================================
-          SECTION 13 — FAQ (Clean Solid Accordion)
+          SECTION 11 — FAQ ACCORDION
           ===================================================================== */}
-      <section className="py-20 lg:py-28 bg-[var(--bg-primary)]">
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
-          <ScrollReveal direction="up" delay={0.08} className="text-center max-w-2xl mx-auto mb-14">
-            <span className="text-xs font-extrabold uppercase tracking-widest text-[#087FC4] dark:text-[#20B8D5]">
+      <section className="py-24 bg-[#0B0B0C] border-b border-white/10">
+        <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-2xl mx-auto mb-16 space-y-3">
+            <span className="text-xs font-extrabold uppercase tracking-widest text-[#C6F432]">
               COMMON QUESTIONS
             </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mt-2 mb-4">
+            <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
               Questions Before We Get Started?
             </h2>
-            <p className="text-base sm:text-lg text-[var(--text-secondary)] leading-relaxed">
-              Find answers to common questions about our products, services,
-              development approach, and working with MRM InfoTech.
+            <p className="text-base text-white/70">
+              Find answers to common questions about our products, services, development approach, and working with MRM InfoTech.
             </p>
-          </ScrollReveal>
+          </div>
 
           <HomeFaqAccordion items={apiFaqs} />
         </div>
       </section>
 
       {/* =====================================================================
-          SECTION 14 — FINAL CTA (Large Immersive Liquid Glass Panel)
+          SECTION 12 — FINAL HIGH-CONVERSION CTA BANNER
+          Featuring the 10% Lime Green (#C6F432) Conversion Button
           ===================================================================== */}
-      <section className="py-20 lg:py-28 bg-[#071A35] relative overflow-hidden">
+      <section className="relative py-24 sm:py-32 bg-[#0B0B0C] overflow-hidden">
+        {/* Ambient green glow in the background */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute -top-24 left-1/4 w-96 h-96 rounded-full bg-[#20B8D5]/20 blur-[120px]"
-        />
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -bottom-24 right-1/4 w-96 h-96 rounded-full bg-[#087FC4]/25 blur-[120px]"
-        />
+          className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-60"
+        >
+          <div className="w-[600px] h-[400px] rounded-full lime-glow-beam blur-3xl" />
+        </div>
 
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <ScrollReveal direction="up" delay={0.08} className="mrm-glass-cta rounded-3xl p-8 sm:p-14 lg:p-16 text-center max-w-4xl mx-auto">
-            <span className="inline-block px-3.5 py-1 rounded-full bg-[#20B8D5]/15 border border-[#20B8D5]/30 text-[#20B8D5] text-xs font-extrabold uppercase tracking-widest mb-4">
+        <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="rounded-3xl border border-white/15 bg-white/[0.03] backdrop-blur-2xl p-8 sm:p-16 text-center max-w-4xl mx-auto shadow-2xl space-y-6">
+            <span className="inline-block px-4 py-1.5 rounded-full clear-glass-pill text-[#C6F432] text-xs font-extrabold uppercase tracking-widest">
               LET&apos;S CREATE SOMETHING MEANINGFUL
             </span>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight mb-5">
-              Have an Idea? Let&apos;s Turn It Into Something Real.
+
+            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight">
+              Have an Idea? Let&apos;s Turn It <br className="hidden sm:inline" />
+              Into Something Real.
             </h2>
-            <p className="text-slate-200 text-base sm:text-lg max-w-2xl mx-auto mb-9 leading-relaxed">
-              Whether you&apos;re planning a new digital product, need a custom
-              software solution, or want to strengthen your online presence,
-              we&apos;d love to hear what you&apos;re working on.
+
+            <p className="text-white/70 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
+              Whether you&apos;re planning a new digital product, need a custom software solution, or want to strengthen your online presence, we&apos;d love to hear what you&apos;re working on.
             </p>
-            <div className="flex flex-wrap items-center justify-center gap-4">
-              <MagneticButton pullFactor={0.22}>
-                <Link
-                  className="px-8 py-4 rounded-[10px] bg-gradient-to-r from-[#087FC4] to-[#20B8D5] text-white font-bold text-sm sm:text-base shadow-lg shadow-[#087FC4]/30 hover:opacity-95 transition-all inline-flex items-center gap-2"
-                  href="/start-project"
-                >
-                  Start a Project <ArrowRight className="w-4 h-4" />
-                </Link>
-              </MagneticButton>
-              <MagneticButton pullFactor={0.22}>
-                <Link
-                  className="px-8 py-4 rounded-[10px] bg-white/10 hover:bg-white/20 border border-white/25 text-white font-bold text-sm sm:text-base transition-all inline-flex items-center"
-                  href="/contact"
-                >
-                  Talk to Our Team
-                </Link>
-              </MagneticButton>
+
+            <div className="pt-4 flex flex-wrap items-center justify-center gap-4">
+              <CTAButton
+                size="lg"
+                href="/start-project"
+                className="shadow-[0_0_28px_rgba(198,244,50,0.35)]"
+              >
+                Start a Project <ArrowRight className="w-4 h-4 ml-1 inline-block" />
+              </CTAButton>
+
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center rounded-xl px-8 py-3.5 text-sm font-bold text-white border border-white/20 bg-white/[0.04] backdrop-blur-md hover:bg-white/10 hover:border-white/30 transition-all duration-200"
+              >
+                Talk to Our Team
+              </Link>
             </div>
-          </ScrollReveal>
+          </div>
         </div>
       </section>
     </div>
