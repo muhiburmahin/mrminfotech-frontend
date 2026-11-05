@@ -17,6 +17,33 @@
 }
 
 :root {
+  /* ========================================================================
+     60-30-10 RIGID COLOR DISTRIBUTION SYSTEM
+     - 60% Dominant: Midnight Black (#0B0B0C)
+     - 30% Structural: Pure White (#FFFFFF)
+     - 10% Accent: Lime Green (#C6F432) exclusive to interactive CTA elements
+     ======================================================================== */
+  --dominant-60: #0B0B0C;
+  --dominant-60-rgb: 11, 11, 12;
+  --glass-surface: rgba(11, 11, 12, 0.40);
+
+  --structural-30: #FFFFFF;
+  --structural-30-rgb: 255, 255, 255;
+  --glass-border: rgba(255, 255, 255, 0.20);
+  --text-primary-30: #FFFFFF;
+  --text-secondary-30: rgba(255, 255, 255, 0.70);
+  --text-muted-30: rgba(255, 255, 255, 0.45);
+
+  --accent-10: #C6F432;
+  --accent-10-rgb: 198, 244, 50;
+  --accent-10-hover: #D4F755;
+  --accent-10-active: #B2E022;
+  --accent-10-contrast: #0B0B0C;
+  --accent-10-glow: rgba(198, 244, 50, 0.25);
+
+  --glass-blur: 16px;
+  --ease-locked: cubic-bezier(0.4, 0, 0.2, 1);
+
   /* Official MRM InfoTech Brand Palette */
   --brand-navy: #071A35;
   --brand-secondary: #103B68;
@@ -383,3 +410,51 @@ body {
     transform: none !important;
   }
 }
+
+/* ==========================================================================
+   60-30-10 RIGID COLOR DISTRIBUTION SYSTEM CLASSES
+   ========================================================================== */
+.bg-dominant-60 {
+  background-color: var(--dominant-60, #0B0B0C) !important;
+}
+
+.text-structural-30 {
+  color: var(--structural-30, #FFFFFF) !important;
+}
+
+.glass-card-603010 {
+  background: var(--glass-surface, rgba(11, 11, 12, 0.40)) !important;
+  border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.20)) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: transform 400ms cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card-603010:hover {
+  transform: perspective(1000px) scale(1.05);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.85), 0 0 30px rgba(198, 244, 50, 0.08);
+  border-color: rgba(255, 255, 255, 0.35);
+  z-index: 20;
+}
+
+.btn-accent-10 {
+  background-color: var(--accent-10, #C6F432) !important;
+  color: var(--accent-10-contrast, #0B0B0C) !important;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1),
+              transform 250ms cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-accent-10:hover {
+  background-color: var(--accent-10-hover, #D4F755) !important;
+  box-shadow: 0 0 24px rgba(198, 244, 50, 0.40);
+  transform: scale(1.02);
+}
+
+.btn-accent-10:active {
+  background-color: var(--accent-10-active, #B2E022) !important;
+  transform: scale(0.98);
+}
+

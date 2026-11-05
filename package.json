@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build --webpack",
+    "build": "node scripts/lint-design-tokens.mjs && next build --webpack",
     "start": "next start",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "node scripts/lint-design-tokens.mjs && tsc --noEmit",
+    "lint:tokens": "node scripts/lint-design-tokens.mjs",
     "lint": "eslint"
   },
   "dependencies": {

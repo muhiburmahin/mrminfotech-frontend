@@ -1,13 +1,11 @@
 import React from 'react';
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import {
   Code2,
   Cpu,
   Layers,
   BarChart3,
   Layout,
-  ArrowRight,
   Database,
   Cloud,
   Shield,
@@ -17,6 +15,8 @@ import {
 } from 'lucide-react';
 import { PublicApiService } from '@/services/public-api.service';
 import GlassEmptyState from '@/components/ui/GlassEmptyState';
+import { GlassCard } from '@/components/ui/design-system/GlassCard';
+import { MasonryGrid } from '@/components/ui/design-system/MasonryGrid';
 
 export const metadata: Metadata = {
   title: 'Specialized Enterprise Services | MRM InfoTech Ltd.',
@@ -39,32 +39,32 @@ export default async function ServicesPage() {
   const hasServices = sortedServices.length > 0;
 
   const getServiceIcon = (slug: string) => {
-    if (slug.includes('web') || slug.includes('frontend')) return Code2;
-    if (slug.includes('custom') || slug.includes('software')) return Cpu;
-    if (slug.includes('saas') || slug.includes('cloud')) return Cloud;
-    if (slug.includes('auto') || slug.includes('work')) return Workflow;
-    if (slug.includes('seo') || slug.includes('market')) return BarChart3;
-    if (slug.includes('ui') || slug.includes('ux') || slug.includes('design')) return Layout;
-    if (slug.includes('mobile') || slug.includes('app')) return Smartphone;
-    if (slug.includes('data') || slug.includes('db')) return Database;
-    if (slug.includes('sec') || slug.includes('audit')) return Shield;
-    if (slug.includes('consult')) return Compass;
-    return Layers;
+    if (slug.includes('web') || slug.includes('frontend')) return <Code2 className="w-5 h-5 text-white" />;
+    if (slug.includes('custom') || slug.includes('software')) return <Cpu className="w-5 h-5 text-white" />;
+    if (slug.includes('saas') || slug.includes('cloud')) return <Cloud className="w-5 h-5 text-white" />;
+    if (slug.includes('auto') || slug.includes('work')) return <Workflow className="w-5 h-5 text-white" />;
+    if (slug.includes('seo') || slug.includes('market')) return <BarChart3 className="w-5 h-5 text-white" />;
+    if (slug.includes('ui') || slug.includes('ux') || slug.includes('design')) return <Layout className="w-5 h-5 text-white" />;
+    if (slug.includes('mobile') || slug.includes('app')) return <Smartphone className="w-5 h-5 text-white" />;
+    if (slug.includes('data') || slug.includes('db')) return <Database className="w-5 h-5 text-white" />;
+    if (slug.includes('sec') || slug.includes('audit')) return <Shield className="w-5 h-5 text-white" />;
+    if (slug.includes('consult')) return <Compass className="w-5 h-5 text-white" />;
+    return <Layers className="w-5 h-5 text-white" />;
   };
 
   return (
-    <div className="w-full flex flex-col bg-white dark:bg-[#07162C] transition-colors duration-150">
+    <div className="w-full flex flex-col bg-[#0B0B0C] text-[#FFFFFF] transition-colors duration-150 min-h-screen">
       {/* Header Banner */}
-      <section className="bg-slate-50 dark:bg-[#07162C] text-slate-900 dark:text-white pt-20 pb-16 border-b border-slate-200 dark:border-[#1E3557] transition-colors duration-150">
+      <section className="bg-[#0B0B0C] text-white pt-24 pb-16 border-b border-white/10 transition-colors duration-150">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl space-y-4">
-            <span className="text-xs font-bold text-[#087FC4] dark:text-[#20B8D5] uppercase tracking-wider">
+            <span className="text-xs font-bold text-white/80 uppercase tracking-widest px-3 py-1 rounded-full bg-white/10 border border-white/15">
               Engineering Disciplines
             </span>
-            <h1 className="text-4xl sm:text-5xl font-black tracking-tight text-slate-900 dark:text-white">
-              Enterprise Software Services & Technical Advisory
+            <h1 className="text-4xl sm:text-5xl font-black tracking-tight text-[#FFFFFF]">
+              Enterprise Software Services &amp; Technical Advisory
             </h1>
-            <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300">
+            <p className="text-base sm:text-lg text-white/70">
               Full-lifecycle engineering built with strict NestJS and PostgreSQL architectural principles. From rapid microservices to national cloud migrations.
             </p>
           </div>
@@ -72,12 +72,12 @@ export default async function ServicesPage() {
       </section>
 
       {/* Services Grid */}
-      <section className="py-20 bg-white dark:bg-[#07162C]">
+      <section className="py-20 bg-[#0B0B0C] flex-1">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {hasServices ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <MasonryGrid category="Services">
               {sortedServices.map((service, index) => {
-                const Icon = getServiceIcon(service.slug);
+                const icon = getServiceIcon(service.slug);
                 const name =
                   service.name ||
                   service.title ||
@@ -89,52 +89,24 @@ export default async function ServicesPage() {
                 const displayNum = String(service.order || service.sortOrder || index + 1).padStart(2, '0');
 
                 return (
-                  <div
+                  <GlassCard
                     key={service.slug}
-                    className="liquid-glass-card rounded-2xl p-7 flex flex-col justify-between group hover:border-[#087FC4] dark:hover:border-[#20B8D5] transition-all duration-300 relative overflow-hidden"
-                  >
-                    {/* Hover Glow */}
-                    <div className="absolute -right-12 -top-12 w-32 h-32 rounded-full bg-[#087FC4]/10 dark:bg-[#20B8D5]/10 blur-2xl group-hover:scale-150 transition-transform duration-500 pointer-events-none" />
-
-                    <div className="space-y-4">
-                      <div className="flex items-center justify-between">
-                        <div className="w-12 h-12 rounded-xl bg-[#087FC4]/10 dark:bg-[#20B8D5]/15 text-[#087FC4] dark:text-[#20B8D5] flex items-center justify-center group-hover:scale-105 transition-transform">
-                          <Icon className="w-6 h-6" />
-                        </div>
-                        <span className="text-xs font-mono font-black px-2.5 py-1 rounded-lg bg-[#087FC4]/10 text-[#087FC4] dark:text-[#20B8D5]">
-                          {displayNum}
-                        </span>
-                      </div>
-
-                      <div>
-                        <h2 className="text-xl font-black text-[#15243A] dark:text-white group-hover:text-[#087FC4] dark:group-hover:text-[#20B8D5] transition-colors">
-                          {name}
-                        </h2>
-                        <p className="mt-2 text-xs sm:text-sm text-[#66758A] dark:text-slate-300 leading-relaxed line-clamp-3">
-                          {summary}
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="pt-6 mt-6 border-t border-slate-100 dark:border-[#1E3557]/60 flex items-center justify-between">
-                      <Link
-                        href={`/services/${service.slug}`}
-                        className="inline-flex items-center gap-1.5 text-xs font-bold text-[#087FC4] dark:text-[#20B8D5] group-hover:gap-2.5 transition-all"
-                      >
-                        <span>Detailed Scope</span>
-                        <ArrowRight className="w-3.5 h-3.5" />
-                      </Link>
-                      <Link
-                        href={`/start-project?service=${service.slug}`}
-                        className="text-[11px] font-semibold text-[#0052CC] dark:text-[#20B8D5] hover:underline"
-                      >
-                        Request Quote &rarr;
-                      </Link>
-                    </div>
-                  </div>
+                    title={name}
+                    subtitle={`Service #${displayNum}`}
+                    description={summary}
+                    tag={`#${displayNum}`}
+                    icon={icon}
+                    ctaText="Detailed Scope"
+                    ctaHref={`/services/${service.slug}`}
+                    metaInfo={
+                      <span className="text-white/60 text-xs font-mono">
+                        {service.slug}
+                      </span>
+                    }
+                  />
                 );
               })}
-            </div>
+            </MasonryGrid>
           ) : (
             <GlassEmptyState
               badge="Core Disciplines"

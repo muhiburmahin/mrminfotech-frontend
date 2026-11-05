@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { ThemeProvider } from '@/context/ThemeContext';
 import { LanguageProvider } from '@/context/LanguageContext';
+import { DesignSystemProvider } from '@/components/providers/DesignSystemProvider';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -84,13 +85,15 @@ export default function RootLayout({
       </head>
       <body
         suppressHydrationWarning
-        className="min-h-screen flex flex-col bg-white dark:bg-[#07162C] text-[#15243A] dark:text-[#F8FAFC] font-sans antialiased selection:bg-[#087FC4] selection:text-white transition-colors duration-150"
+        className="min-h-screen flex flex-col bg-[#0B0B0C] text-[#FFFFFF] font-sans antialiased selection:bg-[#C6F432] selection:text-[#0B0B0C] transition-colors duration-150"
       >
-        <ThemeProvider>
-          <LanguageProvider>
-            {children}
-          </LanguageProvider>
-        </ThemeProvider>
+        <DesignSystemProvider>
+          <ThemeProvider>
+            <LanguageProvider>
+              {children}
+            </LanguageProvider>
+          </ThemeProvider>
+        </DesignSystemProvider>
       </body>
     </html>
   );
