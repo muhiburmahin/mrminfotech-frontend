@@ -225,6 +225,38 @@ export function ProductBuilderForm({
     noIndex,
   });
 
+  // Clean sub-items of database timestamps and auto-assigned foreign keys before sending to API
+  const sanitizeSubList = (list?: any[]) => {
+    if (!Array.isArray(list)) return undefined;
+    return list.map((item) => {
+      const { productId: _p, createdAt: _c, updatedAt: _u, ...clean } = item;
+      return clean;
+    });
+  };
+
+  const sanitizeForApi = (snapshot: ProductRecord) => {
+    const {
+      id: _id,
+      categoryName: _catName,
+      category: _cat,
+      features: _feats,
+      faqs: _faqs,
+      createdAt: _ca,
+      updatedAt: _ua,
+      ...rest
+    } = snapshot as any;
+
+    return {
+      ...rest,
+      mediaItems: sanitizeSubList(snapshot.mediaItems),
+      richFeatures: sanitizeSubList(snapshot.richFeatures),
+      benefits: sanitizeSubList(snapshot.benefits),
+      links: sanitizeSubList(snapshot.links),
+      demonstrations: sanitizeSubList(snapshot.demonstrations),
+      productFaqs: sanitizeSubList(snapshot.productFaqs),
+    };
+  };
+
   // Architectural Adjustment 2: Independent Section / Tab Save
   const handleSaveSection = async (section: ProductSection) => {
     if (!title.trim() || !slug.trim()) {
@@ -273,17 +305,17 @@ export function ProductBuilderForm({
           categoryId: categoryId || undefined,
         };
       } else if (section === 'media') {
-        sectionPayload = { mediaItems };
+        sectionPayload = { mediaItems: sanitizeSubList(mediaItems) };
       } else if (section === 'features') {
-        sectionPayload = { richFeatures };
+        sectionPayload = { richFeatures: sanitizeSubList(richFeatures) };
       } else if (section === 'benefits') {
-        sectionPayload = { benefits };
+        sectionPayload = { benefits: sanitizeSubList(benefits) };
       } else if (section === 'links') {
-        sectionPayload = { links };
+        sectionPayload = { links: sanitizeSubList(links) };
       } else if (section === 'demonstrations') {
-        sectionPayload = { demonstrations };
+        sectionPayload = { demonstrations: sanitizeSubList(demonstrations) };
       } else if (section === 'faqs') {
-        sectionPayload = { productFaqs };
+        sectionPayload = { productFaqs: sanitizeSubList(productFaqs) };
       } else if (section === 'visibility') {
         sectionPayload = {
           status,
@@ -334,7 +366,8 @@ export function ProductBuilderForm({
     setIsSaving(true);
     setErrorMsg(null);
 
-    const payload = getCurrentSnapshot();
+    const snapshot = getCurrentSnapshot();
+    const payload = sanitizeForApi(snapshot);
 
     try {
       if (productId) {

@@ -94,7 +94,7 @@ export default async function ProductDetailPage({ params, searchParams }: PagePr
     PublicApiService.getProducts<ProductRecord[]>({ placement: 'catalog' }),
   ]);
 
-  if (!product || (!product.allowPublicDetail && !isPreview)) {
+  if (!product || (product.allowPublicDetail === false && !isPreview)) {
     notFound();
   }
 
