@@ -9,9 +9,9 @@
  */
 
 export type ThemeId =
-  | 'classic-navy-coral'
   | 'mrm-brand-cyan'
   | 'midnight-lime'
+  | 'classic-navy-coral'
   | 'forest-purple'
   | 'it-blue';
 
@@ -52,61 +52,61 @@ export interface ThemeDefinition {
 
 export const THEME_TEMPLATES: Record<ThemeId, ThemeDefinition> = Object.freeze({
   /**
-   * Theme 2: Classic Navy & Coral (DEFAULT ACTIVE THEME)
-   * 60% Navy Blue (#0A192F), 30% Cream (#FAF5EE / #D6CBB8), 10% Punchy Coral (#FF6B6B)
+   * Theme 1: MRM Brand Identity (Official Logo-based Electric Cyan & Cosmic Navy - DEFAULT ACTIVE THEME)
+   * 60% Cosmic Navy (#030914 / #07152B), 30% Pure White & Slate (#FFFFFF / #94B5D6), 10% Electric Celestial Cyan (#00E5FF)
    */
-  'classic-navy-coral': Object.freeze({
-    id: 'classic-navy-coral',
-    name: 'Classic Navy & Coral',
-    tagline: 'Deep corporate navy canvas with warm cream typography and punchy coral conversion accents.',
+  'mrm-brand-cyan': Object.freeze({
+    id: 'mrm-brand-cyan',
+    name: 'MRM Brand Identity',
+    tagline: 'Official MRM InfoTech logo signature: deep cosmic navy canvas, pure white typography, and electric celestial cyan with orbital glow.',
     isDefault: true,
     distribution: {
       dominant60: {
-        name: 'Navy Blue',
-        canvasHex: '#071324',
-        surfaceHex: '#0A192F',
-        cardHex: '#0F223D',
-        glassBg: 'rgba(15, 34, 61, 0.75)',
+        name: 'Cosmic Royal Navy',
+        canvasHex: '#030914',
+        surfaceHex: '#07152B',
+        cardHex: '#0C203E',
+        glassBg: 'rgba(12, 32, 62, 0.75)',
       },
       structural30: {
-        name: 'Cream & Slate Navy',
-        textPrimaryHex: '#FAF5EE',
-        textSecondaryHex: '#D6CBB8',
-        borderHex: '#1E3A5F',
-        borderGlass: 'rgba(30, 58, 95, 0.70)',
+        name: 'Pure White & Celestial Slate',
+        textPrimaryHex: '#FFFFFF',
+        textSecondaryHex: '#94B5D6',
+        borderHex: '#153359',
+        borderGlass: 'rgba(21, 51, 89, 0.70)',
       },
       accent10: {
-        name: 'Punchy Coral',
-        hex: '#FF6B6B',
-        hoverHex: '#FF8585',
-        activeHex: '#E6474C',
-        contrastTextHex: '#071324',
-        glowRgba: 'rgba(255, 107, 107, 0.35)',
-        subtleRgba: 'rgba(255, 107, 107, 0.15)',
+        name: 'Electric Celestial Cyan',
+        hex: '#00E5FF',
+        hoverHex: '#33ECFF',
+        activeHex: '#00B8D4',
+        contrastTextHex: '#030914',
+        glowRgba: 'rgba(0, 229, 255, 0.38)',
+        subtleRgba: 'rgba(0, 229, 255, 0.15)',
       },
     },
     cssVars: {
-      '--theme-bg-canvas': '#071324',
-      '--theme-bg-surface': '#0A192F',
-      '--theme-bg-card': '#0F223D',
-      '--theme-bg-glass': 'rgba(15, 34, 61, 0.75)',
-      '--theme-text-primary': '#FAF5EE',
-      '--theme-text-secondary': '#D6CBB8',
-      '--theme-text-muted': 'rgba(214, 203, 184, 0.65)',
-      '--theme-border': '#1E3A5F',
-      '--theme-border-glass': 'rgba(30, 58, 95, 0.70)',
-      '--theme-accent': '#FF6B6B',
-      '--theme-accent-hover': '#FF8585',
-      '--theme-accent-active': '#E6474C',
-      '--theme-accent-text': '#071324',
-      '--theme-accent-glow': 'rgba(255, 107, 107, 0.35)',
-      '--theme-accent-subtle': 'rgba(255, 107, 107, 0.15)',
-      '--theme-aurora-glow': 'rgba(255, 107, 107, 0.25)',
+      '--theme-bg-canvas': '#030914',
+      '--theme-bg-surface': '#07152B',
+      '--theme-bg-card': '#0C203E',
+      '--theme-bg-glass': 'rgba(12, 32, 62, 0.75)',
+      '--theme-text-primary': '#FFFFFF',
+      '--theme-text-secondary': '#94B5D6',
+      '--theme-text-muted': 'rgba(148, 181, 214, 0.65)',
+      '--theme-border': '#153359',
+      '--theme-border-glass': 'rgba(21, 51, 89, 0.70)',
+      '--theme-accent': '#00E5FF',
+      '--theme-accent-hover': '#33ECFF',
+      '--theme-accent-active': '#00B8D4',
+      '--theme-accent-text': '#030914',
+      '--theme-accent-glow': 'rgba(0, 229, 255, 0.38)',
+      '--theme-accent-subtle': 'rgba(0, 229, 255, 0.15)',
+      '--theme-aurora-glow': 'rgba(0, 229, 255, 0.25)',
     },
   }),
 
   /**
-   * Theme 1: Midnight Black & Lime Green
+   * Theme 2: Midnight Black & Lime Green
    * 60% Midnight Black (#0B0B0C), 30% Pure White (#FFFFFF), 10% Vibrant Lime Green (#C6F432)
    */
   'midnight-lime': Object.freeze({
@@ -160,8 +160,62 @@ export const THEME_TEMPLATES: Record<ThemeId, ThemeDefinition> = Object.freeze({
   }),
 
   /**
-   * Theme 3: Forest Green & Electric Purple
-   * 60% Forest Green (#081C15), 30% Sand Beige (#F5EBE1), 10% Electric Purple (#B845FF)
+   * Theme 3: Classic Navy & Coral
+   * 60% Navy Blue (#071324 / #0A192F), 30% Cream (#FAF5EE / #D6CBB8), 10% Punchy Coral (#FF6B6B)
+   */
+  'classic-navy-coral': Object.freeze({
+    id: 'classic-navy-coral',
+    name: 'Classic Navy & Coral',
+    tagline: 'Deep corporate navy canvas with warm cream typography and punchy coral conversion accents.',
+    isDefault: false,
+    distribution: {
+      dominant60: {
+        name: 'Navy Blue',
+        canvasHex: '#071324',
+        surfaceHex: '#0A192F',
+        cardHex: '#0F223D',
+        glassBg: 'rgba(15, 34, 61, 0.75)',
+      },
+      structural30: {
+        name: 'Cream & Slate Navy',
+        textPrimaryHex: '#FAF5EE',
+        textSecondaryHex: '#D6CBB8',
+        borderHex: '#1E3A5F',
+        borderGlass: 'rgba(30, 58, 95, 0.70)',
+      },
+      accent10: {
+        name: 'Punchy Coral',
+        hex: '#FF6B6B',
+        hoverHex: '#FF8585',
+        activeHex: '#E6474C',
+        contrastTextHex: '#071324',
+        glowRgba: 'rgba(255, 107, 107, 0.35)',
+        subtleRgba: 'rgba(255, 107, 107, 0.15)',
+      },
+    },
+    cssVars: {
+      '--theme-bg-canvas': '#071324',
+      '--theme-bg-surface': '#0A192F',
+      '--theme-bg-card': '#0F223D',
+      '--theme-bg-glass': 'rgba(15, 34, 61, 0.75)',
+      '--theme-text-primary': '#FAF5EE',
+      '--theme-text-secondary': '#D6CBB8',
+      '--theme-text-muted': 'rgba(214, 203, 184, 0.65)',
+      '--theme-border': '#1E3A5F',
+      '--theme-border-glass': 'rgba(30, 58, 95, 0.70)',
+      '--theme-accent': '#FF6B6B',
+      '--theme-accent-hover': '#FF8585',
+      '--theme-accent-active': '#E6474C',
+      '--theme-accent-text': '#071324',
+      '--theme-accent-glow': 'rgba(255, 107, 107, 0.35)',
+      '--theme-accent-subtle': 'rgba(255, 107, 107, 0.15)',
+      '--theme-aurora-glow': 'rgba(255, 107, 107, 0.25)',
+    },
+  }),
+
+  /**
+   * Theme 4: Forest Green & Electric Purple
+   * 60% Forest Green (#061510 / #0B2019), 30% Sand Beige (#F5EBE1), 10% Electric Purple (#BF5AF2)
    */
   'forest-purple': Object.freeze({
     id: 'forest-purple',
@@ -214,119 +268,66 @@ export const THEME_TEMPLATES: Record<ThemeId, ThemeDefinition> = Object.freeze({
   }),
 
   /**
-   * Theme 4: Professional IT Blue
-   * 60% Dark Navy (#060D1D & #0A192F), 30% Pure White & Soft Grey (#8892B0), 10% Electric Cyan (#00D2FF)
+   * Theme 5: Enterprise Royal Cobalt (Deep Dark Corporate Blue)
+   * 60% Midnight Steel Navy (#050C1A), 30% Crisp Silver White (#F8FAFC), 10% Royal Cobalt Blue (#2563EB)
    */
   'it-blue': Object.freeze({
     id: 'it-blue',
-    name: 'Professional IT Blue',
-    tagline: 'Modern enterprise IT architecture combining dark navy depth, soft grey telemetry, and electric cyan.',
+    name: 'Enterprise Royal Cobalt',
+    tagline: 'Deep corporate dark blue architecture with crisp silver typography and authoritative royal cobalt conversion accents.',
     isDefault: false,
     distribution: {
       dominant60: {
-        name: 'Dark Navy Blue',
-        canvasHex: '#060D1D',
-        surfaceHex: '#0A192F',
-        cardHex: '#0D223F',
-        glassBg: 'rgba(10, 25, 47, 0.75)',
+        name: 'Dark Steel Navy',
+        canvasHex: '#050C1A',
+        surfaceHex: '#0A1526',
+        cardHex: '#0F1E36',
+        glassBg: 'rgba(15, 30, 54, 0.75)',
       },
       structural30: {
-        name: 'Soft Grey & Deep Blue Dividers',
-        textPrimaryHex: '#FFFFFF',
-        textSecondaryHex: '#8892B0',
-        borderHex: '#1B2A4A',
-        borderGlass: 'rgba(27, 42, 74, 0.70)',
+        name: 'Crisp Silver & Slate Dividers',
+        textPrimaryHex: '#F8FAFC',
+        textSecondaryHex: '#94A3B8',
+        borderHex: '#1E293B',
+        borderGlass: 'rgba(30, 41, 59, 0.70)',
       },
       accent10: {
-        name: 'Electric Cyan-Blue',
-        hex: '#00D2FF',
-        hoverHex: '#007BFF',
-        activeHex: '#0056B3',
-        contrastTextHex: '#060D1D',
-        glowRgba: 'rgba(0, 210, 255, 0.35)',
-        subtleRgba: 'rgba(0, 210, 255, 0.15)',
+        name: 'Royal Cobalt Blue',
+        hex: '#2563EB',
+        hoverHex: '#3B82F6',
+        activeHex: '#1D4ED8',
+        contrastTextHex: '#FFFFFF',
+        glowRgba: 'rgba(37, 99, 235, 0.45)',
+        subtleRgba: 'rgba(37, 99, 235, 0.15)',
       },
     },
     cssVars: {
-      '--theme-bg-canvas': '#060D1D',
-      '--theme-bg-surface': '#0A192F',
-      '--theme-bg-card': '#0D223F',
-      '--theme-bg-glass': 'rgba(10, 25, 47, 0.75)',
-      '--theme-text-primary': '#FFFFFF',
-      '--theme-text-secondary': '#8892B0',
-      '--theme-text-muted': 'rgba(136, 146, 176, 0.65)',
-      '--theme-border': '#1B2A4A',
-      '--theme-border-glass': 'rgba(27, 42, 74, 0.70)',
-      '--theme-accent': '#00D2FF',
-      '--theme-accent-hover': '#007BFF',
-      '--theme-accent-active': '#0056B3',
-      '--theme-accent-text': '#060D1D',
-      '--theme-accent-glow': 'rgba(0, 210, 255, 0.35)',
-      '--theme-accent-subtle': 'rgba(0, 210, 255, 0.15)',
-      '--theme-aurora-glow': 'rgba(0, 210, 255, 0.22)',
-    },
-  }),
-
-  /**
-   * Theme 5: MRM Brand Identity (Official Logo-based Electric Cyan & Royal Blue)
-   * 60% Cosmic Navy (#030914 / #07152B), 30% Pure White & Slate (#FFFFFF / #94B5D6), 10% Electric Neon Cyan (#00E5FF)
-   */
-  'mrm-brand-cyan': Object.freeze({
-    id: 'mrm-brand-cyan',
-    name: 'MRM Brand Identity',
-    tagline: 'Official MRM InfoTech logo signature: deep cosmic navy canvas, pure white typography, and electric neon cyan with orbital celestial blue.',
-    distribution: {
-      dominant60: {
-        name: 'Cosmic Royal Navy',
-        canvasHex: '#030914',
-        surfaceHex: '#07152B',
-        cardHex: '#0C203E',
-        glassBg: 'rgba(12, 32, 62, 0.75)',
-      },
-      structural30: {
-        name: 'Pure White & Cyber Slate',
-        textPrimaryHex: '#FFFFFF',
-        textSecondaryHex: '#94B5D6',
-        borderHex: '#153359',
-        borderGlass: 'rgba(21, 51, 89, 0.70)',
-      },
-      accent10: {
-        name: 'Electric Neon Cyan',
-        hex: '#00E5FF',
-        hoverHex: '#33ECFF',
-        activeHex: '#00B8D4',
-        contrastTextHex: '#030914',
-        glowRgba: 'rgba(0, 229, 255, 0.38)',
-        subtleRgba: 'rgba(0, 229, 255, 0.15)',
-      },
-    },
-    cssVars: {
-      '--theme-bg-canvas': '#030914',
-      '--theme-bg-surface': '#07152B',
-      '--theme-bg-card': '#0C203E',
-      '--theme-bg-glass': 'rgba(12, 32, 62, 0.75)',
-      '--theme-text-primary': '#FFFFFF',
-      '--theme-text-secondary': '#94B5D6',
-      '--theme-text-muted': 'rgba(148, 181, 214, 0.65)',
-      '--theme-border': '#153359',
-      '--theme-border-glass': 'rgba(21, 51, 89, 0.70)',
-      '--theme-accent': '#00E5FF',
-      '--theme-accent-hover': '#33ECFF',
-      '--theme-accent-active': '#00B8D4',
-      '--theme-accent-text': '#030914',
-      '--theme-accent-glow': 'rgba(0, 229, 255, 0.38)',
-      '--theme-accent-subtle': 'rgba(0, 229, 255, 0.15)',
-      '--theme-aurora-glow': 'rgba(0, 229, 255, 0.25)',
+      '--theme-bg-canvas': '#050C1A',
+      '--theme-bg-surface': '#0A1526',
+      '--theme-bg-card': '#0F1E36',
+      '--theme-bg-glass': 'rgba(15, 30, 54, 0.75)',
+      '--theme-text-primary': '#F8FAFC',
+      '--theme-text-secondary': '#94A3B8',
+      '--theme-text-muted': 'rgba(148, 163, 184, 0.65)',
+      '--theme-border': '#1E293B',
+      '--theme-border-glass': 'rgba(30, 41, 59, 0.70)',
+      '--theme-accent': '#2563EB',
+      '--theme-accent-hover': '#3B82F6',
+      '--theme-accent-active': '#1D4ED8',
+      '--theme-accent-text': '#FFFFFF',
+      '--theme-accent-glow': 'rgba(37, 99, 235, 0.45)',
+      '--theme-accent-subtle': 'rgba(37, 99, 235, 0.15)',
+      '--theme-aurora-glow': 'rgba(37, 99, 235, 0.25)',
     },
   }),
 });
 
-export const DEFAULT_THEME_ID: ThemeId = 'classic-navy-coral';
+export const DEFAULT_THEME_ID: ThemeId = 'mrm-brand-cyan';
 
 export const THEME_LIST: ThemeDefinition[] = [
-  THEME_TEMPLATES['classic-navy-coral'],
   THEME_TEMPLATES['mrm-brand-cyan'],
   THEME_TEMPLATES['midnight-lime'],
+  THEME_TEMPLATES['classic-navy-coral'],
   THEME_TEMPLATES['forest-purple'],
   THEME_TEMPLATES['it-blue'],
 ];

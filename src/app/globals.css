@@ -17,13 +17,57 @@
 }
 
 :root,
-[data-theme="classic-navy-coral"] {
+[data-theme="mrm-brand-cyan"] {
   /* ========================================================================
-     THEME 2: CLASSIC NAVY & CORAL (DEFAULT ACTIVE THEME)
-     - 60% Dominant: Navy Blue (#0A192F / #071324)
-     - 30% Structural: Cream (#FAF5EE / #D6CBB8), Border (#1E3A5F)
-     - 10% Accent: Punchy Coral (#FF6B6B / #FF8585)
+     THEME 1: MRM BRAND IDENTITY (DEFAULT ACTIVE THEME - OFFICIAL LOGO)
+     - 60% Dominant: Cosmic Royal Navy (#030914 / #07152B)
+     - 30% Structural: Pure White (#FFFFFF) & Celestial Slate (#94B5D6), Border (#153359)
+     - 10% Accent: Electric Celestial Cyan (#00E5FF / #33ECFF)
      ======================================================================== */
+  --theme-bg-canvas: #030914;
+  --theme-bg-surface: #07152B;
+  --theme-bg-card: #0C203E;
+  --theme-bg-glass: rgba(12, 32, 62, 0.75);
+
+  --theme-text-primary: #FFFFFF;
+  --theme-text-secondary: #94B5D6;
+  --theme-text-muted: rgba(148, 181, 214, 0.65);
+
+  --theme-border: #153359;
+  --theme-border-glass: rgba(21, 51, 89, 0.70);
+
+  --theme-accent: #00E5FF;
+  --theme-accent-hover: #33ECFF;
+  --theme-accent-active: #00B8D4;
+  --theme-accent-text: #030914;
+  --theme-accent-glow: rgba(0, 229, 255, 0.38);
+  --theme-accent-subtle: rgba(0, 229, 255, 0.15);
+  --theme-aurora-glow: rgba(0, 229, 255, 0.25);
+
+  --dominant-60: #030914;
+  --dominant-60-rgb: 3, 9, 20;
+  --glass-surface: rgba(12, 32, 62, 0.75);
+
+  --structural-30: #FFFFFF;
+  --structural-30-rgb: 255, 255, 255;
+  --glass-border: rgba(21, 51, 89, 0.70);
+  --text-primary-30: #FFFFFF;
+  --text-secondary-30: #94B5D6;
+  --text-muted-30: rgba(148, 181, 214, 0.65);
+
+  --accent-10: #00E5FF;
+  --accent-10-rgb: 0, 229, 255;
+  --accent-10-hover: #33ECFF;
+  --accent-10-active: #00B8D4;
+  --accent-10-contrast: #030914;
+  --accent-10-glow: rgba(0, 229, 255, 0.38);
+
+  --glass-blur: 16px;
+  --ease-locked: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme="classic-navy-coral"] {
+  /* THEME 3: CLASSIC NAVY & CORAL */
   --theme-bg-canvas: #071324;
   --theme-bg-surface: #0A192F;
   --theme-bg-card: #0F223D;
@@ -149,85 +193,44 @@
 }
 
 [data-theme="it-blue"] {
-  /* THEME 4: PROFESSIONAL IT BLUE */
-  --theme-bg-canvas: #060D1D;
-  --theme-bg-surface: #0A192F;
-  --theme-bg-card: #0D223F;
-  --theme-bg-glass: rgba(10, 25, 47, 0.75);
+  /* THEME 5: ENTERPRISE ROYAL COBALT (DEEP DARK CORPORATE BLUE) */
+  --theme-bg-canvas: #050C1A;
+  --theme-bg-surface: #0A1526;
+  --theme-bg-card: #0F1E36;
+  --theme-bg-glass: rgba(15, 30, 54, 0.75);
 
-  --theme-text-primary: #FFFFFF;
-  --theme-text-secondary: #8892B0;
-  --theme-text-muted: rgba(136, 146, 176, 0.65);
+  --theme-text-primary: #F8FAFC;
+  --theme-text-secondary: #94A3B8;
+  --theme-text-muted: rgba(148, 163, 184, 0.65);
 
-  --theme-border: #1B2A4A;
-  --theme-border-glass: rgba(27, 42, 74, 0.70);
+  --theme-border: #1E293B;
+  --theme-border-glass: rgba(30, 41, 59, 0.70);
 
-  --theme-accent: #00D2FF;
-  --theme-accent-hover: #007BFF;
-  --theme-accent-active: #0056B3;
-  --theme-accent-text: #060D1D;
-  --theme-accent-glow: rgba(0, 210, 255, 0.35);
-  --theme-accent-subtle: rgba(0, 210, 255, 0.15);
-  --theme-aurora-glow: rgba(0, 210, 255, 0.22);
+  --theme-accent: #2563EB;
+  --theme-accent-hover: #3B82F6;
+  --theme-accent-active: #1D4ED8;
+  --theme-accent-text: #FFFFFF;
+  --theme-accent-glow: rgba(37, 99, 235, 0.45);
+  --theme-accent-subtle: rgba(37, 99, 235, 0.15);
+  --theme-aurora-glow: rgba(37, 99, 235, 0.25);
 
-  --dominant-60: #060D1D;
-  --dominant-60-rgb: 6, 13, 29;
-  --glass-surface: rgba(10, 25, 47, 0.75);
+  --dominant-60: #050C1A;
+  --dominant-60-rgb: 5, 12, 26;
+  --glass-surface: rgba(15, 30, 54, 0.75);
 
-  --structural-30: #FFFFFF;
-  --structural-30-rgb: 255, 255, 255;
-  --glass-border: rgba(27, 42, 74, 0.70);
-  --text-primary-30: #FFFFFF;
-  --text-secondary-30: #8892B0;
-  --text-muted-30: rgba(136, 146, 176, 0.65);
+  --structural-30: #F8FAFC;
+  --structural-30-rgb: 248, 250, 252;
+  --glass-border: rgba(30, 41, 59, 0.70);
+  --text-primary-30: #F8FAFC;
+  --text-secondary-30: #94A3B8;
+  --text-muted-30: rgba(148, 163, 184, 0.65);
 
-  --accent-10: #00D2FF;
-  --accent-10-rgb: 0, 210, 255;
-  --accent-10-hover: #007BFF;
-  --accent-10-active: #0056B3;
-  --accent-10-contrast: #060D1D;
-  --accent-10-glow: rgba(0, 210, 255, 0.35);
-}
-
-[data-theme="mrm-brand-cyan"] {
-  /* THEME 5: MRM BRAND SIGNATURE (ELECTRIC CYAN & ROYAL BLUE) */
-  --theme-bg-canvas: #030914;
-  --theme-bg-surface: #07152B;
-  --theme-bg-card: #0C203E;
-  --theme-bg-glass: rgba(12, 32, 62, 0.75);
-
-  --theme-text-primary: #FFFFFF;
-  --theme-text-secondary: #94B5D6;
-  --theme-text-muted: rgba(148, 181, 214, 0.65);
-
-  --theme-border: #153359;
-  --theme-border-glass: rgba(21, 51, 89, 0.70);
-
-  --theme-accent: #00E5FF;
-  --theme-accent-hover: #33ECFF;
-  --theme-accent-active: #00B8D4;
-  --theme-accent-text: #030914;
-  --theme-accent-glow: rgba(0, 229, 255, 0.38);
-  --theme-accent-subtle: rgba(0, 229, 255, 0.15);
-  --theme-aurora-glow: rgba(0, 229, 255, 0.25);
-
-  --dominant-60: #030914;
-  --dominant-60-rgb: 3, 9, 20;
-  --glass-surface: rgba(12, 32, 62, 0.75);
-
-  --structural-30: #FFFFFF;
-  --structural-30-rgb: 255, 255, 255;
-  --glass-border: rgba(21, 51, 89, 0.70);
-  --text-primary-30: #FFFFFF;
-  --text-secondary-30: #94B5D6;
-  --text-muted-30: rgba(148, 181, 214, 0.65);
-
-  --accent-10: #00E5FF;
-  --accent-10-rgb: 0, 229, 255;
-  --accent-10-hover: #33ECFF;
-  --accent-10-active: #00B8D4;
-  --accent-10-contrast: #030914;
-  --accent-10-glow: rgba(0, 229, 255, 0.38);
+  --accent-10: #2563EB;
+  --accent-10-rgb: 37, 99, 235;
+  --accent-10-hover: #3B82F6;
+  --accent-10-active: #1D4ED8;
+  --accent-10-contrast: #FFFFFF;
+  --accent-10-glow: rgba(37, 99, 235, 0.45);
 }
 
 :root {

@@ -336,7 +336,7 @@ export function Navbar() {
                 <ChevronDown
                   className={`w-3.5 h-3.5 transition-transform duration-200 ${
                     activeDropdown === 'products'
-                      ? 'rotate-180 text-[#C6F432]'
+                      ? 'rotate-180 text-[var(--theme-accent)]'
                       : 'text-white/50'
                   }`}
                 />
@@ -459,13 +459,13 @@ export function Navbar() {
                 >
                   <div className="w-[520px] rounded-2xl clear-glass-card shadow-2xl p-4 border border-white/15 bg-[#0B0B0C]/95 backdrop-blur-2xl">
                     <div className="flex items-center justify-between pb-2.5 mb-2.5 border-b border-white/10">
-                      <span className="text-[11px] font-bold uppercase tracking-wider text-[#C6F432]">
+                      <span className="text-[11px] font-bold uppercase tracking-wider text-[var(--theme-accent)]">
                         Client Engineering Services
                       </span>
                       <Link
                         href="/services"
                         onClick={closeAll}
-                        className="text-xs font-semibold text-[#C6F432] hover:underline"
+                        className="text-xs font-semibold text-[var(--theme-accent)] hover:underline"
                       >
                         All Services →
                       </Link>
@@ -481,11 +481,11 @@ export function Navbar() {
                             onClick={closeAll}
                             className="flex items-start gap-2.5 p-2 rounded-xl hover:bg-white/10 transition-colors group"
                           >
-                            <div className="w-7 h-7 rounded-lg bg-white/10 text-[#C6F432] flex items-center justify-center shrink-0 mt-0.5">
+                            <div className="w-7 h-7 rounded-lg bg-white/10 text-[var(--theme-accent)] flex items-center justify-center shrink-0 mt-0.5">
                               <Icon className="w-3.5 h-3.5" />
                             </div>
                             <div>
-                              <h5 className="text-xs font-bold text-white group-hover:text-[#C6F432] transition-colors">
+                              <h5 className="text-xs font-bold text-white group-hover:text-[var(--theme-accent)] transition-colors">
                                 {s.name}
                               </h5>
                               <p className="text-[11px] text-white/50 leading-tight mt-0.5">

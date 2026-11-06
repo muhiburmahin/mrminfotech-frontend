@@ -470,9 +470,9 @@ export default async function HomePage() {
   const latestPosts: PublishedBlogPost[] = apiBlogPosts.slice(0, 3);
 
   const getProductIcon = (slug: string) => {
-    if (slug.includes('edumanage') || slug.includes('school')) return <GraduationCap className="w-5 h-5 text-[#C6F432]" />;
-    if (slug.includes('medisheba') || slug.includes('health')) return <HeartPulse className="w-5 h-5 text-[#C6F432]" />;
-    return <Building2 className="w-5 h-5 text-[#C6F432]" />;
+    if (slug.includes('edumanage') || slug.includes('school')) return <GraduationCap className="w-5 h-5 text-[var(--theme-accent)]" />;
+    if (slug.includes('medisheba') || slug.includes('health')) return <HeartPulse className="w-5 h-5 text-[var(--theme-accent)]" />;
+    return <Building2 className="w-5 h-5 text-[var(--theme-accent)]" />;
   };
 
   const getServiceIcon = (slug: string) => {
@@ -1004,24 +1004,24 @@ export default async function HomePage() {
           <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
               <div className="max-w-2xl space-y-3">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full clear-glass-pill text-xs font-bold text-white tracking-widest uppercase">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#C6F432]" />
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full clear-glass-pill text-xs font-bold text-[var(--theme-text-primary)] tracking-widest uppercase">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[var(--theme-accent)]" />
                   CLIENT WORK
                 </div>
-                <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
+                <h2 className="text-3xl sm:text-5xl font-black text-[var(--theme-text-primary)] tracking-tight">
                   Tailored Software for{' '}
-                  <span className="font-serif italic font-normal text-[#C6F432] neon-text-glow">
+                  <span className="font-serif italic font-normal text-[var(--theme-accent)] neon-text-glow">
                     Real Business Needs.
                   </span>
                 </h2>
-                <p className="text-base text-white/70">
+                <p className="text-base text-[var(--theme-text-secondary)]">
                   A selection of custom systems, portals, and digital products engineered for our enterprise partners.
                 </p>
               </div>
 
               <Link
                 href="/projects"
-                className="inline-flex items-center gap-2 text-sm font-bold text-white/80 hover:text-[#C6F432] hover:gap-3 transition-all"
+                className="inline-flex items-center gap-2 text-sm font-bold text-[var(--theme-text-primary)]/80 hover:text-[var(--theme-accent)] hover:gap-3 transition-all"
               >
                 <span>View All Projects</span>
                 <ArrowRight className="w-4 h-4" />
@@ -1052,12 +1052,12 @@ export default async function HomePage() {
                             href={project.liveUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-xs font-semibold text-white/70 hover:text-[#C6F432] inline-flex items-center gap-1"
+                            className="text-xs font-semibold text-[var(--theme-text-secondary)] hover:text-[var(--theme-accent)] inline-flex items-center gap-1"
                           >
                             <ExternalLink className="w-3 h-3" /> Live
                           </a>
                         )}
-                        <span className="text-[11px] text-[#C6F432] font-mono">
+                        <span className="text-[11px] text-[var(--theme-accent)] font-mono">
                           {[...frontendTech, ...backendTech].slice(0, 2).join(' • ')}
                         </span>
                       </div>
@@ -1076,17 +1076,17 @@ export default async function HomePage() {
       <AmbientSection variant="bento-grid" className="py-24">
         <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mb-16 space-y-3">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full clear-glass-pill text-xs font-bold text-white tracking-widest uppercase">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#C6F432]" />
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full clear-glass-pill text-xs font-bold text-[var(--theme-text-primary)] tracking-widest uppercase">
+              <span className="w-1.5 h-1.5 rounded-full bg-[var(--theme-accent)]" />
               OUR APPROACH
             </div>
-            <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
+            <h2 className="text-3xl sm:text-5xl font-black text-[var(--theme-text-primary)] tracking-tight">
               A Thoughtful Process.{' '}
-              <span className="font-serif italic font-normal text-[#C6F432] neon-text-glow">
+              <span className="font-serif italic font-normal text-[var(--theme-accent)] neon-text-glow">
                 From Conversation to Delivery.
               </span>
             </h2>
-            <p className="text-base text-white/70">
+            <p className="text-base text-[var(--theme-text-secondary)]">
               Every successful digital solution begins with a clear understanding of the goal. Our process turns requirements into carefully engineered, tested, and usable systems.
             </p>
           </div>
@@ -1095,17 +1095,17 @@ export default async function HomePage() {
             {WORK_PROCESS_STEPS.map((step, index) => (
               <ScrollReveal key={step.number} direction="up" delay={index * 0.08} className="h-full">
                 <TiltCard maxTilt={4} className="h-full">
-                  <div className="bg-gradient-to-b from-white/[0.08] to-white/[0.02] backdrop-blur-2xl border border-white/[0.1] border-t-2 border-t-lime-400/40 rounded-3xl p-6 flex flex-col justify-between h-full group hover:border-lime-400/50 hover:shadow-[0_0_30px_rgba(198,244,50,0.15)] transition-all">
+                  <div className="bg-gradient-to-b from-white/[0.08] to-white/[0.02] backdrop-blur-2xl border border-[var(--theme-border-glass)] border-t-2 border-t-[var(--theme-accent)]/50 rounded-3xl p-6 flex flex-col justify-between h-full group hover:border-[var(--theme-accent)]/60 hover:shadow-[0_0_30px_var(--theme-accent-glow)] transition-all">
                     <div>
-                      <span className="inline-block text-2xl font-black text-[#C6F432] font-mono mb-4">
+                      <span className="inline-block text-2xl font-black text-[var(--theme-accent)] font-mono mb-4">
                         {step.number}
                       </span>
-                      <h3 className="text-lg font-black text-white mb-2">{step.title}</h3>
-                      <p className="text-xs text-white/70 leading-relaxed">
+                      <h3 className="text-lg font-black text-[var(--theme-text-primary)] mb-2">{step.title}</h3>
+                      <p className="text-xs text-[var(--theme-text-secondary)] leading-relaxed">
                         {step.description}
                       </p>
                     </div>
-                    <div className="mt-6 h-1 w-10 rounded-full bg-[#C6F432] shadow-[0_0_10px_#C6F432]" />
+                    <div className="mt-6 h-1 w-10 rounded-full bg-[var(--theme-accent)] shadow-[0_0_10px_var(--theme-accent-glow)]" />
                   </div>
                 </TiltCard>
               </ScrollReveal>
@@ -1120,17 +1120,17 @@ export default async function HomePage() {
       <AmbientSection variant="center-orb" className="py-24 text-center">
         <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl mx-auto mb-12 space-y-3">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full clear-glass-pill text-xs font-bold text-white tracking-widest uppercase">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#C6F432]" />
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full clear-glass-pill text-xs font-bold text-[var(--theme-text-primary)] tracking-widest uppercase">
+              <span className="w-1.5 h-1.5 rounded-full bg-[var(--theme-accent)]" />
               OUR TECHNOLOGY
             </div>
-            <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
+            <h2 className="text-3xl sm:text-5xl font-black text-[var(--theme-text-primary)] tracking-tight">
               The Right Tools.{' '}
-              <span className="font-serif italic font-normal text-[#C6F432] neon-text-glow">
+              <span className="font-serif italic font-normal text-[var(--theme-accent)] neon-text-glow">
                 Thoughtfully Applied.
               </span>
             </h2>
-            <p className="text-base text-white/70">
+            <p className="text-base text-[var(--theme-text-secondary)]">
               We work with modern development technologies and tools, selecting the right combination for each project&apos;s performance, concurrency, and maintainability.
             </p>
           </div>
@@ -1139,14 +1139,14 @@ export default async function HomePage() {
             {APPROVED_TECHNOLOGIES.map((tech) => (
               <div
                 key={tech.name}
-                className="bg-white/[0.04] backdrop-blur-md border border-white/10 hover:border-lime-400/40 px-6 py-4 rounded-2xl flex items-center gap-3.5 hover:scale-105 transition-all duration-300 shadow-sm"
+                className="bg-white/[0.04] backdrop-blur-md border border-[var(--theme-border-glass)] hover:border-[var(--theme-accent)]/50 px-6 py-4 rounded-2xl flex items-center gap-3.5 hover:scale-105 transition-all duration-300 shadow-sm"
               >
-                <div className="w-2.5 h-2.5 rounded-full bg-[#C6F432] shadow-[0_0_8px_#C6F432]" />
+                <div className="w-2.5 h-2.5 rounded-full bg-[var(--theme-accent)] shadow-[0_0_8px_var(--theme-accent-glow)]" />
                 <div className="text-left">
-                  <p className="font-black text-sm sm:text-base text-white leading-none">
+                  <p className="font-black text-sm sm:text-base text-[var(--theme-text-primary)] leading-none">
                     {tech.name}
                   </p>
-                  <p className="text-[11px] text-white/50 mt-1">
+                  <p className="text-[11px] text-[var(--theme-text-muted)] mt-1">
                     {tech.role}
                   </p>
                 </div>
@@ -1164,24 +1164,24 @@ export default async function HomePage() {
           <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
               <div className="max-w-2xl space-y-3">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full clear-glass-pill text-xs font-bold text-white tracking-widest uppercase">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#C6F432]" />
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full clear-glass-pill text-xs font-bold text-[var(--theme-text-primary)] tracking-widest uppercase">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[var(--theme-accent)]" />
                   BEHIND THE SOLUTIONS
                 </div>
-                <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
+                <h2 className="text-3xl sm:text-5xl font-black text-[var(--theme-text-primary)] tracking-tight">
                   Understanding Challenges.{' '}
-                  <span className="font-serif italic font-normal text-[#C6F432] neon-text-glow">
+                  <span className="font-serif italic font-normal text-[var(--theme-accent)] neon-text-glow">
                     Creating Meaningful Solutions.
                   </span>
                 </h2>
-                <p className="text-base text-white/70">
+                <p className="text-base text-[var(--theme-text-secondary)]">
                   Case studies showcasing deep technical problem-solving and architectural execution.
                 </p>
               </div>
 
               <Link
                 href="/case-studies"
-                className="inline-flex items-center gap-2 text-sm font-bold text-white/80 hover:text-[#C6F432] hover:gap-3 transition-all"
+                className="inline-flex items-center gap-2 text-sm font-bold text-[var(--theme-text-primary)]/80 hover:text-[var(--theme-accent)] hover:gap-3 transition-all"
               >
                 <span>All Case Studies</span>
                 <ArrowRight className="w-4 h-4" />
@@ -1210,24 +1210,24 @@ export default async function HomePage() {
           <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
               <div className="max-w-2xl space-y-3">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full clear-glass-pill text-xs font-bold text-white tracking-widest uppercase">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#C6F432]" />
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full clear-glass-pill text-xs font-bold text-[var(--theme-text-primary)] tracking-widest uppercase">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[var(--theme-accent)]" />
                   THE PEOPLE BEHIND THE WORK
                 </div>
-                <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
+                <h2 className="text-3xl sm:text-5xl font-black text-[var(--theme-text-primary)] tracking-tight">
                   Driven by Ideas.{' '}
-                  <span className="font-serif italic font-normal text-[#C6F432] neon-text-glow">
+                  <span className="font-serif italic font-normal text-[var(--theme-accent)] neon-text-glow">
                     United by Vision.
                   </span>
                 </h2>
-                <p className="text-base text-white/70">
+                <p className="text-base text-[var(--theme-text-secondary)]">
                   Meet the engineers, architects, and product builders driving MRM InfoTech.
                 </p>
               </div>
 
               <Link
                 href="/team"
-                className="inline-flex items-center gap-2 text-sm font-bold text-white/80 hover:text-[#C6F432] hover:gap-3 transition-all"
+                className="inline-flex items-center gap-2 text-sm font-bold text-[var(--theme-text-primary)]/80 hover:text-[var(--theme-accent)] hover:gap-3 transition-all"
               >
                 <span>Full Team Roster</span>
                 <ArrowRight className="w-4 h-4" />
@@ -1245,11 +1245,11 @@ export default async function HomePage() {
                 return (
                   <div
                     key={member.id || member.slug}
-                    className="bg-gradient-to-b from-white/[0.08] to-white/[0.02] backdrop-blur-2xl border border-white/[0.1] border-t-2 border-t-lime-400/40 rounded-3xl p-7 text-center transition-all duration-300 hover:scale-[1.03] hover:border-lime-400/50 hover:shadow-[0_0_35px_rgba(198,244,50,0.18)] flex flex-col items-center justify-between group"
+                    className="bg-gradient-to-b from-white/[0.08] to-white/[0.02] backdrop-blur-2xl border border-[var(--theme-border-glass)] border-t-2 border-t-[var(--theme-accent)]/50 rounded-3xl p-7 text-center transition-all duration-300 hover:scale-[1.03] hover:border-[var(--theme-accent)]/60 hover:shadow-[0_0_35px_var(--theme-accent-glow)] flex flex-col items-center justify-between group"
                   >
                     <div className="w-full flex flex-col items-center">
                       {/* Circular Photo Avatar with Glowing Halo Ring */}
-                      <div className="relative w-24 h-24 rounded-full ring-2 ring-[#C6F432] shadow-[0_0_24px_rgba(198,244,50,0.35)] p-1 mb-4">
+                      <div className="relative w-24 h-24 rounded-full ring-2 ring-[var(--theme-accent)] shadow-[0_0_24px_var(--theme-accent-glow)] p-1 mb-4">
                         <div className="w-full h-full rounded-full overflow-hidden bg-white/10 flex items-center justify-center">
                           {photo ? (
                             <img
@@ -1259,35 +1259,35 @@ export default async function HomePage() {
                               loading="lazy"
                             />
                           ) : (
-                            <div className="w-full h-full rounded-full bg-white/15 text-white font-black text-xl flex items-center justify-center">
+                            <div className="w-full h-full rounded-full bg-white/15 text-[var(--theme-text-primary)] font-black text-xl flex items-center justify-center">
                               {String(name).charAt(0).toUpperCase()}
                             </div>
                           )}
                         </div>
                       </div>
 
-                      <h3 className="font-black text-lg text-white tracking-tight group-hover:text-[#C6F432] transition-colors">
+                      <h3 className="font-black text-lg text-[var(--theme-text-primary)] tracking-tight group-hover:text-[var(--theme-accent)] transition-colors">
                         {name}
                       </h3>
-                      <p className="text-xs font-bold text-[#C6F432] mt-1 uppercase tracking-wider">
+                      <p className="text-xs font-bold text-[var(--theme-accent)] mt-1 uppercase tracking-wider">
                         {role}
                       </p>
 
                       {member.bio && (
-                        <p className="text-xs text-white/60 mt-3 line-clamp-2 leading-relaxed">
+                        <p className="text-xs text-[var(--theme-text-secondary)] mt-3 line-clamp-2 leading-relaxed">
                           {member.bio}
                         </p>
                       )}
                     </div>
 
                     {/* Social Handles */}
-                    <div className="mt-5 pt-4 border-t border-white/10 w-full flex items-center justify-center gap-3">
+                    <div className="mt-5 pt-4 border-t border-[var(--theme-border)]/40 w-full flex items-center justify-center gap-3">
                       {member.linkedinUrl && (
                         <a
                           href={member.linkedinUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="p-1.5 rounded-full text-white/60 hover:text-[#C6F432] hover:bg-white/10 transition-colors"
+                          className="p-1.5 rounded-full text-[var(--theme-text-muted)] hover:text-[var(--theme-accent)] hover:bg-white/10 transition-colors"
                           aria-label="LinkedIn"
                         >
                           <LinkedinIcon className="w-4 h-4" />
@@ -1298,7 +1298,7 @@ export default async function HomePage() {
                           href={member.githubUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="p-1.5 rounded-full text-white/60 hover:text-[#C6F432] hover:bg-white/10 transition-colors"
+                          className="p-1.5 rounded-full text-[var(--theme-text-muted)] hover:text-[var(--theme-accent)] hover:bg-white/10 transition-colors"
                           aria-label="GitHub"
                         >
                           <GithubIcon className="w-4 h-4" />
@@ -1319,17 +1319,17 @@ export default async function HomePage() {
       <AmbientSection variant="center-orb" className="py-24">
         <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-16 space-y-3">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full clear-glass-pill text-xs font-bold text-white tracking-widest uppercase">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#C6F432]" />
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full clear-glass-pill text-xs font-bold text-[var(--theme-text-primary)] tracking-widest uppercase">
+              <span className="w-1.5 h-1.5 rounded-full bg-[var(--theme-accent)]" />
               COMMON QUESTIONS
             </div>
-            <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
+            <h2 className="text-3xl sm:text-5xl font-black text-[var(--theme-text-primary)] tracking-tight">
               Questions Before We{' '}
-              <span className="font-serif italic font-normal text-[#C6F432] neon-text-glow">
+              <span className="font-serif italic font-normal text-[var(--theme-accent)] neon-text-glow">
                 Get Started?
               </span>
             </h2>
-            <p className="text-base text-white/70">
+            <p className="text-base text-[var(--theme-text-secondary)]">
               Find answers to common questions about our products, services, development approach, and working with MRM InfoTech.
             </p>
           </div>
@@ -1340,23 +1340,23 @@ export default async function HomePage() {
 
       {/* =====================================================================
           SECTION 12 — FINAL HIGH-CONVERSION CTA BANNER
-          Featuring the 10% Lime Green (#C6F432) Conversion Button
+          10% Interactive Accent Conversion Button
           ===================================================================== */}
       <AmbientSection variant="dual-side" className="py-24 sm:py-32">
         <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="rounded-3xl border border-white/15 bg-gradient-to-b from-white/[0.06] to-white/[0.02] backdrop-blur-2xl p-8 sm:p-16 text-center max-w-4xl mx-auto shadow-2xl space-y-6">
-            <span className="inline-block px-4 py-1.5 rounded-full clear-glass-pill text-[#C6F432] text-xs font-extrabold uppercase tracking-widest">
+          <div className="rounded-3xl border border-[var(--theme-border-glass)] bg-gradient-to-b from-white/[0.06] to-white/[0.02] backdrop-blur-2xl p-8 sm:p-16 text-center max-w-4xl mx-auto shadow-2xl space-y-6">
+            <span className="inline-block px-4 py-1.5 rounded-full clear-glass-pill text-[var(--theme-accent)] text-xs font-extrabold uppercase tracking-widest">
               LET&apos;S CREATE SOMETHING MEANINGFUL
             </span>
 
-            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight">
+            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black text-[var(--theme-text-primary)] tracking-tight leading-tight">
               Have an Idea? Let&apos;s Turn It <br className="hidden sm:inline" />
-              <span className="font-serif italic font-normal text-[#C6F432] neon-text-glow">
+              <span className="font-serif italic font-normal text-[var(--theme-accent)] neon-text-glow">
                 Into Something Real.
               </span>
             </h2>
 
-            <p className="text-white/70 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
+            <p className="text-[var(--theme-text-secondary)] text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
               Whether you&apos;re planning a new digital product, need a custom software solution, or want to strengthen your online presence, we&apos;d love to hear what you&apos;re working on.
             </p>
 
@@ -1364,14 +1364,14 @@ export default async function HomePage() {
               <CTAButton
                 size="lg"
                 href="/start-project"
-                className="shadow-[0_0_32px_rgba(198,244,50,0.45)]"
+                className="shadow-[0_0_32px_var(--theme-accent-glow)]"
               >
                 Start a Project <ArrowRight className="w-4 h-4 ml-1 inline-block" />
               </CTAButton>
 
               <Link
                 href="/contact"
-                className="inline-flex items-center justify-center rounded-xl px-8 py-3.5 text-sm font-bold text-white border border-white/20 bg-white/[0.04] backdrop-blur-md hover:bg-white/10 hover:border-white/30 transition-all duration-200"
+                className="inline-flex items-center justify-center rounded-xl px-8 py-3.5 text-sm font-bold text-[var(--theme-text-primary)] border border-white/20 bg-white/[0.04] backdrop-blur-md hover:bg-white/10 hover:border-white/30 transition-all duration-200"
               >
                 Talk to Our Team
               </Link>

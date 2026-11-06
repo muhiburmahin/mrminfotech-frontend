@@ -88,11 +88,11 @@ const PROBLEMS: ProblemItem[] = [
 
 export default function ProblemsWeSolveSection() {
   return (
-    <section className="relative py-24 sm:py-28 bg-[#06080d] border-b border-white/[0.08] overflow-hidden text-white">
+    <section className="relative py-24 sm:py-28 bg-[var(--theme-bg-canvas)] border-b border-[var(--theme-border-glass)] overflow-hidden text-[var(--theme-text-primary)]">
       {/* Volumetric Center Ambient Orb */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[380px] bg-lime-400/12 rounded-full blur-[140px] z-0"
+        className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[380px] bg-[var(--theme-accent)]/10 rounded-full blur-[140px] z-0"
       />
       <div
         aria-hidden="true"
@@ -103,24 +103,24 @@ export default function ProblemsWeSolveSection() {
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
           <div className="max-w-2xl space-y-3">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full clear-glass-pill text-[#C6F432] text-xs font-bold uppercase tracking-wider">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full clear-glass-pill text-[var(--theme-accent)] text-xs font-bold uppercase tracking-wider">
               <AlertCircle className="w-3.5 h-3.5" />
               <span>Real-World Engineering Focus</span>
             </div>
-            <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-white leading-tight">
+            <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-[var(--theme-text-primary)] leading-tight">
               Problems We Solve.{' '}
-              <span className="font-serif italic font-normal text-[#C6F432] neon-text-glow">
+              <span className="font-serif italic font-normal text-[var(--theme-accent)] neon-text-glow">
                 Software That Serves Real Needs.
               </span>
             </h2>
-            <p className="text-base sm:text-lg text-white/70 leading-relaxed">
+            <p className="text-base sm:text-lg text-[var(--theme-text-secondary)] leading-relaxed">
               We don&apos;t build technology for the sake of buzzwords. Every software product and custom solution we engineer directly eliminates operational friction, paper chaos, and system disconnects.
             </p>
           </div>
 
           <Link
             href="/services"
-            className="inline-flex items-center gap-2 text-sm font-bold text-white/80 hover:text-[#C6F432] hover:gap-3 transition-all shrink-0 self-start md:self-auto"
+            className="inline-flex items-center gap-2 text-sm font-bold text-[var(--theme-text-primary)]/80 hover:text-[var(--theme-accent)] hover:gap-3 transition-all shrink-0 self-start md:self-auto"
           >
             <span>Explore Engineering Solutions</span>
             <ArrowRight className="w-4 h-4 transition-transform" />
@@ -134,33 +134,33 @@ export default function ProblemsWeSolveSection() {
             return (
               <div
                 key={problem.id}
-                className="bg-gradient-to-b from-white/[0.08] to-white/[0.02] backdrop-blur-2xl border border-white/[0.1] border-t-2 border-t-lime-400/40 rounded-3xl p-7 flex flex-col justify-between group hover:border-lime-400/50 hover:shadow-[0_0_35px_rgba(198,244,50,0.18)] transition-all duration-300"
+                className="bg-gradient-to-b from-white/[0.08] to-white/[0.02] backdrop-blur-2xl border border-[var(--theme-border-glass)] border-t-2 border-t-[var(--theme-accent)]/50 rounded-3xl p-7 flex flex-col justify-between group hover:border-[var(--theme-accent)]/60 hover:shadow-[0_0_35px_var(--theme-accent-glow)] transition-all duration-300"
               >
                 <div>
                   <div className="flex items-center justify-between gap-3 mb-5">
-                    <div className="w-12 h-12 rounded-2xl bg-white/[0.06] border border-white/10 flex items-center justify-center text-[#C6F432] shadow-md group-hover:scale-105 transition-transform">
+                    <div className="w-12 h-12 rounded-2xl bg-white/[0.06] border border-white/10 flex items-center justify-center text-[var(--theme-accent)] shadow-md group-hover:scale-105 transition-transform">
                       <Icon className="w-6 h-6" />
                     </div>
-                    <span className="text-[11px] font-semibold text-white/50 bg-white/[0.05] border border-white/10 px-2.5 py-1 rounded-md">
+                    <span className="text-[11px] font-semibold text-[var(--theme-text-muted)] bg-white/[0.05] border border-white/10 px-2.5 py-1 rounded-md">
                       {problem.subtitle}
                     </span>
                   </div>
 
-                  <h3 className="text-xl font-black text-white mb-2.5 group-hover:text-[#C6F432] transition-colors">
+                  <h3 className="text-xl font-black text-[var(--theme-text-primary)] mb-2.5 group-hover:text-[var(--theme-accent)] transition-colors">
                     {problem.title}
                   </h3>
 
-                  <p className="text-sm text-white/70 leading-relaxed">
+                  <p className="text-sm text-[var(--theme-text-secondary)] leading-relaxed">
                     {problem.description}
                   </p>
                 </div>
 
-                <div className="pt-6 mt-6 border-t border-white/10">
+                <div className="pt-6 mt-6 border-t border-[var(--theme-border)]/40">
                   <Link
                     href={problem.solvedBy.href}
-                    className="inline-flex items-center gap-1.5 text-xs font-bold text-[#C6F432] hover:underline group/link"
+                    className="inline-flex items-center gap-1.5 text-xs font-bold text-[var(--theme-accent)] hover:underline group/link"
                   >
-                    <CheckCircle2 className="w-3.5 h-3.5 text-[#C6F432] shrink-0" />
+                    <CheckCircle2 className="w-3.5 h-3.5 text-[var(--theme-accent)] shrink-0" />
                     <span>{problem.solvedBy.label}</span>
                     <ArrowRight className="w-3 h-3 group-hover/link:translate-x-1 transition-transform" />
                   </Link>
@@ -175,33 +175,33 @@ export default function ProblemsWeSolveSection() {
             return (
               <div
                 key={problem.id}
-                className="bg-gradient-to-b from-white/[0.08] to-white/[0.02] backdrop-blur-2xl border border-white/[0.1] border-t-2 border-t-lime-400/40 rounded-3xl p-7 flex flex-col justify-between group hover:border-lime-400/50 hover:shadow-[0_0_35px_rgba(198,244,50,0.18)] transition-all duration-300 md:col-span-1 lg:col-span-1.5"
+                className="bg-gradient-to-b from-white/[0.08] to-white/[0.02] backdrop-blur-2xl border border-[var(--theme-border-glass)] border-t-2 border-t-[var(--theme-accent)]/50 rounded-3xl p-7 flex flex-col justify-between group hover:border-[var(--theme-accent)]/60 hover:shadow-[0_0_35px_var(--theme-accent-glow)] transition-all duration-300 md:col-span-1 lg:col-span-1.5"
               >
                 <div>
                   <div className="flex items-center justify-between gap-3 mb-5">
-                    <div className="w-12 h-12 rounded-2xl bg-white/[0.06] border border-white/10 flex items-center justify-center text-[#C6F432] shadow-md group-hover:scale-105 transition-transform">
+                    <div className="w-12 h-12 rounded-2xl bg-white/[0.06] border border-white/10 flex items-center justify-center text-[var(--theme-accent)] shadow-md group-hover:scale-105 transition-transform">
                       <Icon className="w-6 h-6" />
                     </div>
-                    <span className="text-[11px] font-semibold text-white/50 bg-white/[0.05] border border-white/10 px-2.5 py-1 rounded-md">
+                    <span className="text-[11px] font-semibold text-[var(--theme-text-muted)] bg-white/[0.05] border border-white/10 px-2.5 py-1 rounded-md">
                       {problem.subtitle}
                     </span>
                   </div>
 
-                  <h3 className="text-xl font-black text-white mb-2.5 group-hover:text-[#C6F432] transition-colors">
+                  <h3 className="text-xl font-black text-[var(--theme-text-primary)] mb-2.5 group-hover:text-[var(--theme-accent)] transition-colors">
                     {problem.title}
                   </h3>
 
-                  <p className="text-sm text-white/70 leading-relaxed">
+                  <p className="text-sm text-[var(--theme-text-secondary)] leading-relaxed">
                     {problem.description}
                   </p>
                 </div>
 
-                <div className="pt-6 mt-6 border-t border-white/10">
+                <div className="pt-6 mt-6 border-t border-[var(--theme-border)]/40">
                   <Link
                     href={problem.solvedBy.href}
-                    className="inline-flex items-center gap-1.5 text-xs font-bold text-[#C6F432] hover:underline group/link"
+                    className="inline-flex items-center gap-1.5 text-xs font-bold text-[var(--theme-accent)] hover:underline group/link"
                   >
-                    <CheckCircle2 className="w-3.5 h-3.5 text-[#C6F432] shrink-0" />
+                    <CheckCircle2 className="w-3.5 h-3.5 text-[var(--theme-accent)] shrink-0" />
                     <span>{problem.solvedBy.label}</span>
                     <ArrowRight className="w-3 h-3 group-hover/link:translate-x-1 transition-transform" />
                   </Link>

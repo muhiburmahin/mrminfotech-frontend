@@ -28,17 +28,17 @@ function getContrastRatio(fg, bg) {
 
 const THEMES = [
   {
-    id: 'classic-navy-coral',
-    name: 'Theme 2: Classic Navy & Coral (DEFAULT ACTIVE THEME)',
-    bg: '#071324',
-    text: '#FAF5EE',
-    accent: '#FF6B6B',
-    accentText: '#071324', // Navy on Punchy Coral => 6.13:1 (Exceeds 4.5:1 WCAG AA)
+    id: 'mrm-brand-cyan',
+    name: 'Theme 1: MRM Brand Identity (Official Logo Electric Cyan - DEFAULT ACTIVE THEME)',
+    bg: '#030914',
+    text: '#FFFFFF',
+    accent: '#00E5FF',
+    accentText: '#030914', // Cosmic Navy on Electric Cyan => 12.87:1 (Exceeds 4.5:1 WCAG AA)
     isDefault: true,
   },
   {
     id: 'midnight-lime',
-    name: 'Theme 1: Midnight Black & Lime Green',
+    name: 'Theme 2: Midnight Black & Lime Green',
     bg: '#0B0B0C',
     text: '#FFFFFF',
     accent: '#C6F432',
@@ -46,8 +46,17 @@ const THEMES = [
     isDefault: false,
   },
   {
+    id: 'classic-navy-coral',
+    name: 'Theme 3: Classic Navy & Coral',
+    bg: '#071324',
+    text: '#FAF5EE',
+    accent: '#FF6B6B',
+    accentText: '#071324', // Navy on Punchy Coral => 6.13:1
+    isDefault: false,
+  },
+  {
     id: 'forest-purple',
-    name: 'Theme 3: Forest Green & Electric Purple',
+    name: 'Theme 4: Forest Green & Electric Purple',
     bg: '#061510',
     text: '#F5EBE1',
     accent: '#BF5AF2',
@@ -56,20 +65,11 @@ const THEMES = [
   },
   {
     id: 'it-blue',
-    name: 'Theme 4: Professional IT Blue',
-    bg: '#060D1D',
-    text: '#FFFFFF',
-    accent: '#00D2FF',
-    accentText: '#060D1D', // Dark Navy on Electric Cyan => 10.77:1
-    isDefault: false,
-  },
-  {
-    id: 'mrm-brand-cyan',
-    name: 'Theme 5: MRM Brand Identity (Official Logo Electric Cyan)',
-    bg: '#030914',
-    text: '#FFFFFF',
-    accent: '#00E5FF',
-    accentText: '#030914', // Cosmic Navy on Electric Cyan => 12.87:1
+    name: 'Theme 5: Enterprise Royal Cobalt Blue',
+    bg: '#050C1A',
+    text: '#F8FAFC',
+    accent: '#2563EB',
+    accentText: '#FFFFFF', // Crisp White on Royal Cobalt => 5.17:1
     isDefault: false,
   },
 ];

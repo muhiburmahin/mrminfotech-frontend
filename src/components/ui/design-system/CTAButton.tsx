@@ -64,14 +64,14 @@ export function CTAButton({
     rounded-full transition-all duration-250 cursor-pointer
     disabled:opacity-40 disabled:cursor-not-allowed disabled:pointer-events-none
     focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2
-    focus-visible:ring-[#C6F432] focus-visible:ring-offset-[#0B0B0C]
+    focus-visible:ring-[var(--theme-accent)] focus-visible:ring-offset-[var(--theme-bg-canvas)]
     active:scale-98
   `;
 
   // Dynamic styling inheriting active theme CSS variables with locked easing
   const dynamicStyle: React.CSSProperties = {
-    backgroundColor: 'var(--theme-accent, #FF6B6B)',
-    color: 'var(--theme-accent-text, #071324)',
+    backgroundColor: 'var(--theme-accent, #00E5FF)',
+    color: 'var(--theme-accent-text, #030914)',
     transitionTimingFunction: DESIGN_TOKENS.motion.easing,
     transitionDuration: DESIGN_TOKENS.motion.durationNormal,
   };

@@ -51,24 +51,24 @@ export default function HomeFaqAccordion({ items }: { items?: FaqItemData[] }) {
             key={faq.id || idx}
             className={`rounded-2xl border transition-all duration-300 overflow-hidden ${
               isOpen
-                ? 'bg-gradient-to-b from-white/[0.08] to-white/[0.03] backdrop-blur-xl border-lime-400/40 shadow-[0_0_25px_rgba(198,244,50,0.12)]'
-                : 'bg-white/[0.03] backdrop-blur-md border-white/[0.08] hover:border-white/20'
+                ? 'bg-gradient-to-b from-white/[0.08] to-white/[0.03] backdrop-blur-xl border-[var(--theme-accent)]/50 shadow-[0_0_25px_var(--theme-accent-glow)]'
+                : 'bg-white/[0.03] backdrop-blur-md border-[var(--theme-border-glass)] hover:border-white/20'
             }`}
           >
             <button
               type="button"
               onClick={() => setOpenIdx(isOpen ? null : idx)}
               aria-expanded={isOpen}
-              className="w-full px-6 py-5 text-left flex items-center justify-between gap-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C6F432] cursor-pointer"
+              className="w-full px-6 py-5 text-left flex items-center justify-between gap-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--theme-accent)] cursor-pointer"
             >
-              <span className="font-bold text-base sm:text-lg text-white">
+              <span className="font-bold text-base sm:text-lg text-[var(--theme-text-primary)]">
                 {faq.question}
               </span>
               <span
                 className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 border transition-all duration-300 ${
                   isOpen
-                    ? 'rotate-180 bg-[#C6F432] text-[#0B0B0C] border-[#C6F432] shadow-sm'
-                    : 'text-white/60 border-white/15 bg-white/[0.05]'
+                    ? 'rotate-180 bg-[var(--theme-accent)] text-[var(--theme-accent-text)] border-[var(--theme-accent)] shadow-sm'
+                    : 'text-[var(--theme-text-secondary)] border-white/15 bg-white/[0.05]'
                 }`}
               >
                 <ChevronDown className="w-4 h-4" />
@@ -83,7 +83,7 @@ export default function HomeFaqAccordion({ items }: { items?: FaqItemData[] }) {
                   transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
                   className="overflow-hidden"
                 >
-                  <div className="px-6 pb-6 pt-2 text-sm sm:text-base text-white/70 leading-relaxed border-t border-white/[0.08]">
+                  <div className="px-6 pb-6 pt-2 text-sm sm:text-base text-[var(--theme-text-secondary)] leading-relaxed border-t border-[var(--theme-border)]/40">
                     {faq.answer}
                   </div>
                 </motion.div>

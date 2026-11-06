@@ -61,7 +61,7 @@ export function ThemeManagement() {
       <div className="p-6 md:p-8 rounded-3xl bg-white dark:bg-[#0A192F] border border-slate-200 dark:border-[#1E3A5F] shadow-sm relative overflow-hidden">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-[#00D2FF]/10 text-[#00D2FF] border border-[#00D2FF]/20">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-[var(--theme-accent)]/10 text-[var(--theme-accent)] border border-[var(--theme-accent)]/25">
               <Palette className="w-3.5 h-3.5" />
               <span>GLOBAL DYNAMIC THEME MANAGEMENT SYSTEM</span>
             </div>
@@ -86,7 +86,7 @@ export function ThemeManagement() {
               </button>
             )}
             <div className="px-4 py-3 rounded-2xl bg-slate-50 dark:bg-[#071324] border border-slate-200 dark:border-[#1E3A5F] flex items-center gap-3">
-              <span className="w-3 h-3 rounded-full bg-[var(--theme-accent,#FF6B6B)] animate-pulse" />
+              <span className="w-3 h-3 rounded-full bg-[var(--theme-accent,#00E5FF)] animate-pulse" />
               <div>
                 <p className="text-[10px] uppercase font-bold text-slate-400 dark:text-[#D6CBB8]/60">
                   Currently Active Theme
@@ -155,7 +155,7 @@ export function ThemeManagement() {
               key={theme.id}
               className={`rounded-3xl border transition-all duration-300 p-6 flex flex-col justify-between space-y-6 ${
                 isActive
-                  ? 'border-[var(--theme-accent,#FF6B6B)] bg-white dark:bg-[#0A192F] shadow-xl shadow-[var(--theme-accent-glow,#FF6B6B)]/10 ring-2 ring-[var(--theme-accent,#FF6B6B)]/30'
+                  ? 'border-[var(--theme-accent,#00E5FF)] bg-white dark:bg-[#0A192F] shadow-xl shadow-[var(--theme-accent-glow,#00E5FF)]/10 ring-2 ring-[var(--theme-accent,#00E5FF)]/30'
                   : 'border-slate-200 dark:border-[#1E3A5F] bg-white dark:bg-[#0A192F] hover:border-slate-300 dark:hover:border-[#2A4E7A] shadow-sm'
               }`}
             >
