@@ -356,12 +356,15 @@ const WORK_PROCESS_STEPS = [
 const APPROVED_TECHNOLOGIES = [
   { name: 'React', role: 'Frontend UI' },
   { name: 'Next.js 16', role: 'Full-Stack Framework' },
-  { name: 'TypeScript', role: 'Type Safety' },
+  { name: 'TypeScript', role: 'Strict Type Safety' },
   { name: 'Node.js', role: 'Server Runtime' },
   { name: 'NestJS', role: 'Modular Backend' },
-  { name: 'PostgreSQL', role: 'ACID Database' },
-  { name: 'Prisma & Redis', role: 'High-Speed Cache' },
-  { name: 'Tailwind CSS', role: 'Design System' },
+  { name: 'PostgreSQL', role: 'ACID Relational DB' },
+  { name: 'Prisma ORM', role: 'Type-Safe Data Layer' },
+  { name: 'Redis Cache', role: 'In-Memory Caching' },
+  { name: 'Tailwind CSS', role: 'Design Tokens' },
+  { name: 'Docker Swarm', role: 'Container Orchestration' },
+  { name: 'Cloudflare', role: 'Edge CDN & Security' },
 ];
 
 const ENTERPRISE_STACKS = [
@@ -1268,13 +1271,13 @@ export default async function HomePage() {
           SECTION 07 — CLIENT WORK / PROJECTS
           ===================================================================== */}
       {featuredProjects.length > 0 && (
-        <AmbientSection id="projects" variant="horizon" className="py-24">
+        <AmbientSection id="projects" variant="horizon" className="py-24 sm:py-32">
           <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
               <div className="max-w-2xl space-y-3">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full clear-glass-pill text-xs font-bold text-[var(--theme-text-primary)] tracking-widest uppercase">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[var(--theme-accent)]" />
-                  CLIENT WORK
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[var(--theme-accent)]/10 border border-[var(--theme-accent)]/20 text-xs font-bold text-[var(--theme-accent)] tracking-widest uppercase">
+                  <Briefcase className="w-3.5 h-3.5" />
+                  <span>CLIENT WORK & TAILORED ENGINEERING</span>
                 </div>
                 <h2 className="text-3xl sm:text-5xl font-black text-[var(--theme-text-primary)] tracking-tight">
                   Tailored Software for{' '}
@@ -1282,55 +1285,96 @@ export default async function HomePage() {
                     Real Business Needs.
                   </span>
                 </h2>
-                <p className="text-base text-[var(--theme-text-secondary)]">
-                  A selection of custom systems, portals, and digital products engineered for our enterprise partners.
+                <p className="text-base sm:text-lg text-[var(--theme-text-secondary)]">
+                  A curated selection of custom systems, portals, and digital products engineered for our enterprise partners.
                 </p>
               </div>
 
               <Link
                 href="/projects"
-                className="inline-flex items-center gap-2 text-sm font-bold text-[var(--theme-text-primary)]/80 hover:text-[var(--theme-accent)] hover:gap-3 transition-all"
+                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl border border-[var(--theme-border-glass)] bg-[var(--theme-bg-surface)] text-sm font-bold text-[var(--theme-text-primary)] hover:border-[var(--theme-accent)]/50 hover:text-[var(--theme-accent)] transition-all shrink-0 self-start md:self-auto group"
               >
                 <span>View All Projects</span>
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {featuredProjects.map((project) => {
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+              {featuredProjects.map((project, pIdx) => {
                 const title =
                   project.title || project.translations?.[0]?.title || project.slug;
                 const summary =
                   project.summary || project.translations?.[0]?.summary || '';
                 const frontendTech = project.frontendTechSummary || [];
                 const backendTech = project.backendTechSummary || [];
+                const techList = [...frontendTech, ...backendTech].slice(0, 3);
 
                 return (
-                  <GlassCard
-                    key={project.id || project.slug}
-                    title={title}
-                    tag={project.projectWorkStatus || 'COMPLETED'}
-                    description={summary}
-                    ctaText="Project Details"
-                    ctaHref={`/projects/${project.slug}`}
-                    metaInfo={
-                      <div className="flex items-center gap-2">
+                  <div
+                    key={project.id || project.slug || pIdx}
+                    className="rounded-3xl border border-[var(--theme-border-glass)] bg-[var(--theme-bg-surface)]/90 backdrop-blur-2xl p-7 sm:p-8 flex flex-col justify-between shadow-lg hover:shadow-2xl hover:border-[var(--theme-accent)]/60 hover:shadow-[0_20px_45px_-15px_rgba(0,0,0,0.8),0_0_25px_var(--theme-accent-glow)] hover:-translate-y-1.5 transition-all duration-300 group"
+                  >
+                    <div className="space-y-4">
+                      {/* Status Tag & External Live Link */}
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-mono font-bold uppercase bg-[var(--theme-accent)]/15 text-[var(--theme-accent)] border border-[var(--theme-accent)]/30">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[var(--theme-accent)] animate-pulse" />
+                          {project.projectWorkStatus || 'COMPLETED'}
+                        </span>
+
                         {project.liveUrl && (
                           <a
                             href={project.liveUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-xs font-semibold text-[var(--theme-text-secondary)] hover:text-[var(--theme-accent)] inline-flex items-center gap-1"
+                            className="inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-lg bg-[var(--theme-bg-canvas)] text-[var(--theme-text-secondary)] border border-[var(--theme-border-glass)] hover:text-[var(--theme-accent)] hover:border-[var(--theme-accent)]/40 transition-all"
                           >
-                            <ExternalLink className="w-3 h-3" /> Live
+                            <ExternalLink className="w-3 h-3 text-[var(--theme-accent)]" />
+                            <span>Live</span>
                           </a>
                         )}
-                        <span className="text-[11px] text-[var(--theme-accent)] font-mono">
-                          {[...frontendTech, ...backendTech].slice(0, 2).join(' • ')}
-                        </span>
                       </div>
-                    }
-                  />
+
+                      {/* Project Title */}
+                      <h3 className="text-xl sm:text-2xl font-bold text-[var(--theme-text-primary)] group-hover:text-[var(--theme-accent)] transition-colors line-clamp-1">
+                        {title}
+                      </h3>
+
+                      {/* Summary */}
+                      <p className="text-sm text-[var(--theme-text-secondary)] leading-relaxed line-clamp-3">
+                        {summary}
+                      </p>
+
+                      {/* Tech Stack Pills */}
+                      {techList.length > 0 && (
+                        <div className="flex flex-wrap items-center gap-2 pt-2">
+                          {techList.map((tech) => (
+                            <span
+                              key={tech}
+                              className="px-2.5 py-1 rounded-lg bg-[var(--theme-bg-canvas)] border border-[var(--theme-border-glass)] text-[11px] font-mono text-[var(--theme-text-muted)]"
+                            >
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Card Footer: Explore Project Link */}
+                    <div className="pt-6 mt-6 border-t border-[var(--theme-border-glass)] flex items-center justify-between">
+                      <Link
+                        href={`/projects/${project.slug}`}
+                        className="inline-flex items-center gap-1.5 text-xs font-bold text-[var(--theme-accent)] hover:opacity-80 transition-opacity"
+                      >
+                        <span>Project Details</span>
+                        <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                      </Link>
+
+                      <span className="text-[10px] font-mono text-[var(--theme-text-muted)]">
+                        #{String(pIdx + 1).padStart(2, '0')}
+                      </span>
+                    </div>
+                  </div>
                 );
               })}
             </div>
@@ -1341,12 +1385,12 @@ export default async function HomePage() {
       {/* =====================================================================
           SECTION 08 — HOW WE WORK (5-Step Sequential Timeline)
           ===================================================================== */}
-      <AmbientSection variant="bento-grid" className="py-24">
+      <AmbientSection variant="bento-grid" className="py-24 sm:py-32 relative">
         <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mb-16 space-y-3">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full clear-glass-pill text-xs font-bold text-[var(--theme-text-primary)] tracking-widest uppercase">
-              <span className="w-1.5 h-1.5 rounded-full bg-[var(--theme-accent)]" />
-              OUR APPROACH
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[var(--theme-accent)]/10 border border-[var(--theme-accent)]/20 text-xs font-bold text-[var(--theme-accent)] tracking-widest uppercase">
+              <Workflow className="w-3.5 h-3.5" />
+              <span>OUR 5-STEP ENGINEERING PROCESS</span>
             </div>
             <h2 className="text-3xl sm:text-5xl font-black text-[var(--theme-text-primary)] tracking-tight">
               A Thoughtful Process.{' '}
@@ -1354,30 +1398,45 @@ export default async function HomePage() {
                 From Conversation to Delivery.
               </span>
             </h2>
-            <p className="text-base text-[var(--theme-text-secondary)]">
+            <p className="text-base sm:text-lg text-[var(--theme-text-secondary)] leading-relaxed">
               Every successful digital solution begins with a clear understanding of the goal. Our process turns requirements into carefully engineered, tested, and usable systems.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
-            {WORK_PROCESS_STEPS.map((step, index) => (
-              <ScrollReveal key={step.number} direction="up" delay={index * 0.08} className="h-full">
-                <TiltCard maxTilt={4} className="h-full">
-                  <div className="bg-gradient-to-b from-white/[0.08] to-white/[0.02] backdrop-blur-2xl border border-[var(--theme-border-glass)] border-t-2 border-t-[var(--theme-accent)]/50 rounded-3xl p-6 flex flex-col justify-between h-full group hover:border-[var(--theme-accent)]/60 hover:shadow-[0_0_30px_var(--theme-accent-glow)] transition-all">
-                    <div>
-                      <span className="inline-block text-2xl font-black text-[var(--theme-accent)] font-mono mb-4">
-                        {step.number}
-                      </span>
-                      <h3 className="text-lg font-black text-[var(--theme-text-primary)] mb-2">{step.title}</h3>
-                      <p className="text-xs text-[var(--theme-text-secondary)] leading-relaxed">
-                        {step.description}
-                      </p>
+          <div className="relative">
+            {/* Desktop Horizontal Glowing Timeline Connector */}
+            <div className="hidden lg:block absolute top-12 left-10 right-10 h-0.5 bg-gradient-to-r from-[var(--theme-accent)]/20 via-[var(--theme-accent)]/70 to-[var(--theme-accent)]/20 pointer-events-none z-0" />
+
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 relative z-10">
+              {WORK_PROCESS_STEPS.map((step, index) => (
+                <ScrollReveal key={step.number} direction="up" delay={index * 0.08} className="h-full">
+                  <TiltCard maxTilt={4} className="h-full">
+                    <div className="bg-[var(--theme-bg-surface)]/90 backdrop-blur-2xl border border-[var(--theme-border-glass)] border-t-2 border-t-[var(--theme-accent)]/70 hover:border-[var(--theme-accent)] hover:shadow-[0_20px_45px_-12px_rgba(0,0,0,0.85),0_0_30px_var(--theme-accent-glow)] rounded-3xl p-6 sm:p-7 flex flex-col justify-between h-full group hover:-translate-y-2 transition-all duration-300">
+                      <div>
+                        {/* Step Number with Glow Indicator */}
+                        <div className="flex items-center justify-between mb-4">
+                          <span className="text-3xl font-black text-[var(--theme-accent)] font-mono drop-shadow-[0_0_12px_var(--theme-accent-glow)]">
+                            {step.number}
+                          </span>
+                          <span className="w-2.5 h-2.5 rounded-full bg-[var(--theme-accent)]/30 group-hover:bg-[var(--theme-accent)] group-hover:scale-125 transition-all shadow-[0_0_8px_var(--theme-accent-glow)]" />
+                        </div>
+
+                        <h3 className="text-xl font-bold text-[var(--theme-text-primary)] group-hover:text-[var(--theme-accent)] transition-colors mb-2.5">
+                          {step.title}
+                        </h3>
+
+                        <p className="text-xs sm:text-sm text-[var(--theme-text-secondary)] leading-relaxed">
+                          {step.description}
+                        </p>
+                      </div>
+
+                      {/* Dynamic Expanding Progress Accent Line */}
+                      <div className="mt-6 h-1 w-12 rounded-full bg-[var(--theme-accent)]/50 group-hover:w-full group-hover:bg-[var(--theme-accent)] transition-all duration-500 shadow-[0_0_10px_var(--theme-accent-glow)]" />
                     </div>
-                    <div className="mt-6 h-1 w-10 rounded-full bg-[var(--theme-accent)] shadow-[0_0_10px_var(--theme-accent-glow)]" />
-                  </div>
-                </TiltCard>
-              </ScrollReveal>
-            ))}
+                  </TiltCard>
+                </ScrollReveal>
+              ))}
+            </div>
           </div>
         </div>
       </AmbientSection>
@@ -1385,12 +1444,12 @@ export default async function HomePage() {
       {/* =====================================================================
           SECTION 09 — TECHNOLOGY EXPERTISE (Clear Glass Pills)
           ===================================================================== */}
-      <AmbientSection variant="center-orb" className="py-24 text-center">
+      <AmbientSection variant="center-orb" className="py-24 sm:py-32 text-center">
         <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-2xl mx-auto mb-12 space-y-3">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full clear-glass-pill text-xs font-bold text-[var(--theme-text-primary)] tracking-widest uppercase">
-              <span className="w-1.5 h-1.5 rounded-full bg-[var(--theme-accent)]" />
-              OUR TECHNOLOGY
+          <div className="max-w-2xl mx-auto mb-14 space-y-3">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[var(--theme-accent)]/10 border border-[var(--theme-accent)]/20 text-xs font-bold text-[var(--theme-accent)] tracking-widest uppercase">
+              <Cpu className="w-3.5 h-3.5" />
+              <span>PRODUCTION-READY TECH STACK</span>
             </div>
             <h2 className="text-3xl sm:text-5xl font-black text-[var(--theme-text-primary)] tracking-tight">
               The Right Tools.{' '}
@@ -1398,23 +1457,23 @@ export default async function HomePage() {
                 Thoughtfully Applied.
               </span>
             </h2>
-            <p className="text-base text-[var(--theme-text-secondary)]">
-              We work with modern development technologies and tools, selecting the right combination for each project&apos;s performance, concurrency, and maintainability.
+            <p className="text-base sm:text-lg text-[var(--theme-text-secondary)] leading-relaxed">
+              We engineer with modern development technologies and battle-tested tools, selecting the right combination for each project&apos;s performance, concurrency, and sovereign data security.
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-4 max-w-4xl mx-auto">
+          <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-5 max-w-5xl mx-auto">
             {APPROVED_TECHNOLOGIES.map((tech) => (
               <div
                 key={tech.name}
-                className="bg-white/[0.04] backdrop-blur-md border border-[var(--theme-border-glass)] hover:border-[var(--theme-accent)]/50 px-6 py-4 rounded-2xl flex items-center gap-3.5 hover:scale-105 transition-all duration-300 shadow-sm"
+                className="bg-[var(--theme-bg-surface)]/90 backdrop-blur-xl border border-[var(--theme-border-glass)] hover:border-[var(--theme-accent)]/60 hover:shadow-[0_12px_30px_-8px_rgba(0,0,0,0.8),0_0_20px_var(--theme-accent-glow)] px-5 sm:px-6 py-4 rounded-2xl flex items-center gap-4 hover:scale-105 transition-all duration-300 shadow-md group cursor-default"
               >
-                <div className="w-2.5 h-2.5 rounded-full bg-[var(--theme-accent)] shadow-[0_0_8px_var(--theme-accent-glow)]" />
+                <div className="w-2.5 h-2.5 rounded-full bg-[var(--theme-accent)] group-hover:scale-125 shadow-[0_0_10px_var(--theme-accent-glow)] transition-all shrink-0" />
                 <div className="text-left">
-                  <p className="font-black text-sm sm:text-base text-[var(--theme-text-primary)] leading-none">
+                  <p className="font-bold text-sm sm:text-base text-[var(--theme-text-primary)] group-hover:text-[var(--theme-accent)] transition-colors leading-none">
                     {tech.name}
                   </p>
-                  <p className="text-[11px] text-[var(--theme-text-muted)] mt-1">
+                  <p className="text-[11px] font-mono text-[var(--theme-text-muted)] mt-1">
                     {tech.role}
                   </p>
                 </div>

@@ -89,3 +89,4 @@ export default function ProductsCatalogHero({ totalProducts }: ProductsCatalogHe
     </section>
   );
 }
+

@@ -72,3 +72,4 @@ export default function ProductFaqAccordion({ faqs, productTitle }: ProductFaqAc
     </section>
   );
 }
+

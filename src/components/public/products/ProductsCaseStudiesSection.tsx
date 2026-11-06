@@ -96,3 +96,4 @@ export default function ProductsCaseStudiesSection({ caseStudies }: ProductsCase
     </section>
   );
 }
+

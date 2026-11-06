@@ -299,3 +299,4 @@ export function ProductPreviewModal({ product, isOpen, onClose }: ProductPreview
     </div>
   );
 }
+

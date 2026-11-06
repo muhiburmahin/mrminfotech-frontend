@@ -90,3 +90,4 @@ export function ProductKpiCards({ kpi, selectedFilter, onSelectFilter }: Product
     </div>
   );
 }
+
