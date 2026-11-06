@@ -75,13 +75,22 @@ interface PublishedProductRaw {
   tagline?: string;
   description?: string;
   summary?: string;
+  shortDescription?: string;
+  categoryName?: string;
+  productType?: string;
   images?: string[];
+  mediaItems?: Array<{ url: string; title?: string; isPrimary?: boolean }>;
+  features?: Array<{ title: string; shortDescription?: string }>;
+  integrations?: string[];
   liveUrl?: string | null;
   caseStudy?: string | null;
   sourceCodeUrl?: string | null;
   isSourcePrivate?: boolean;
   stage?: string;
   sortOrder?: number;
+  homepageOrder?: number;
+  displayOrder?: number;
+  isFeatured?: boolean;
   translations?: Array<{
     title?: string;
     name?: string;
@@ -97,6 +106,8 @@ interface ProductItem {
   category: string;
   description: string;
   images?: string[];
+  features?: string[];
+  integrations?: string[];
   liveUrl: string | null;
   caseStudy?: string | null;
   sourceCodeUrl?: string | null;
@@ -104,6 +115,7 @@ interface ProductItem {
   stage?: string;
   ctaLabel: string;
   sortOrder?: number;
+  isFeatured?: boolean;
 }
 
 interface PublishedServiceRaw {
@@ -375,7 +387,7 @@ export default async function HomePage() {
     apiBlogPosts,
     apiFaqs,
   ] = await Promise.all([
-    fetchBackendList<PublishedProductRaw>('/products?locale=en&sortBy=sortOrder&order=asc'),
+    fetchBackendList<PublishedProductRaw>('/products?placement=homepage'),
     fetchBackendList<PublishedServiceRaw>('/services?locale=en&limit=50&sort=sortOrder&order=asc'),
     fetchBackendList<PublishedProject>('/projects?locale=en'),
     fetchBackendList<PublishedCaseStudy>('/case-studies?locale=en'),
@@ -385,7 +397,9 @@ export default async function HomePage() {
   ]);
 
   const sortedApiProducts = [...apiProducts].sort(
-    (a, b) => (a.sortOrder ?? 999) - (b.sortOrder ?? 999)
+    (a, b) =>
+      (a.homepageOrder ?? a.displayOrder ?? a.sortOrder ?? 999) -
+      (b.homepageOrder ?? b.displayOrder ?? b.sortOrder ?? 999)
   );
 
   const products: ProductItem[] =
@@ -399,14 +413,26 @@ export default async function HomePage() {
             p.translations?.[0]?.title ||
             p.slug,
           category:
-            p.tagline || p.translations?.[0]?.tagline || 'Software Product',
+            p.categoryName ||
+            p.productType ||
+            p.tagline ||
+            p.translations?.[0]?.tagline ||
+            'Software Product',
           description:
+            p.shortDescription ||
             p.description ||
             p.summary ||
             p.translations?.[0]?.description ||
             p.translations?.[0]?.summary ||
             '',
-          images: Array.isArray(p.images) ? p.images : [],
+          images:
+            Array.isArray(p.images) && p.images.length > 0
+              ? p.images
+              : Array.isArray(p.mediaItems)
+              ? p.mediaItems.map((m) => m.url)
+              : [],
+          features: Array.isArray(p.features) ? p.features.map((f) => f.title) : [],
+          integrations: Array.isArray(p.integrations) ? p.integrations : [],
           liveUrl: p.liveUrl || null,
           caseStudy: p.caseStudy || null,
           sourceCodeUrl: p.sourceCodeUrl || null,
@@ -416,7 +442,8 @@ export default async function HomePage() {
             p.slug === 'multi-institution-platform'
               ? 'Explore Platform'
               : 'Explore Product',
-          sortOrder: p.sortOrder,
+          sortOrder: p.homepageOrder ?? p.displayOrder ?? p.sortOrder,
+          isFeatured: Boolean(p.isFeatured),
         }))
       : FALLBACK_PRODUCTS;
 
@@ -905,32 +932,38 @@ export default async function HomePage() {
               const isEduManage = product.slug.includes('edumanage') || product.slug.includes('school');
               const isMediSheba = product.slug.includes('medisheba') || product.slug.includes('health');
 
-              const features = isEduManage
-                ? [
-                    'Biometric RFID attendance sync with instant guardian SMS alerts',
-                    'Automated grading engine & marksheet print for BD Board standards',
-                    'Digital fee collection via bKash, Nagad & automatic reconciliation',
-                    'Role-based dashboards for Principal, Teachers, Accounts & Guardians',
-                  ]
-                : isMediSheba
-                ? [
-                    'Barcode test tube tracking ensuring zero specimen cross-contamination',
-                    'Automated pathology reporting with normal range reference validation',
-                    'Encrypted doctor digital signatures & watermarked PDF verification',
-                    'Online patient report portal with instant SMS link & OTP access',
-                  ]
-                : [
-                    'Multi-tenant database isolation & custom domain routing with auto-SSL',
-                    'Unified control cockpit deploying institutional sites in 1-click',
-                    'Centralized notice engine broadcasting circulars across 50+ websites',
-                    'Granular RBAC security compliance and zero-trust administrative logs',
-                  ];
+              const features =
+                product.features && product.features.length > 0
+                  ? product.features.slice(0, 4)
+                  : isEduManage
+                  ? [
+                      'Biometric RFID attendance sync with instant guardian SMS alerts',
+                      'Automated grading engine & marksheet print for BD Board standards',
+                      'Digital fee collection via bKash, Nagad & automatic reconciliation',
+                      'Role-based dashboards for Principal, Teachers, Accounts & Guardians',
+                    ]
+                  : isMediSheba
+                  ? [
+                      'Barcode test tube tracking ensuring zero specimen cross-contamination',
+                      'Automated pathology reporting with normal range reference validation',
+                      'Encrypted doctor digital signatures & watermarked PDF verification',
+                      'Online patient report portal with instant SMS link & OTP access',
+                    ]
+                  : [
+                      'Multi-tenant database isolation & custom domain routing with auto-SSL',
+                      'Unified control cockpit deploying institutional sites in 1-click',
+                      'Centralized notice engine broadcasting circulars across 50+ websites',
+                      'Granular RBAC security compliance and zero-trust administrative logs',
+                    ];
 
-              const techTags = isEduManage
-                ? ['Next.js 14', 'NestJS', 'PostgreSQL', 'Tailwind CSS', 'Redis Queue']
-                : isMediSheba
-                ? ['React', 'Node.js', 'PostgreSQL', 'Thermal Printer API', 'SMS Gateway']
-                : ['Next.js', 'TypeScript', 'Prisma', 'PostgreSQL', 'Docker Swarm', 'Cloudflare CDN'];
+              const techTags =
+                product.integrations && product.integrations.length > 0
+                  ? product.integrations.slice(0, 5)
+                  : isEduManage
+                  ? ['Next.js 14', 'NestJS', 'PostgreSQL', 'Tailwind CSS', 'Redis Queue']
+                  : isMediSheba
+                  ? ['React', 'Node.js', 'PostgreSQL', 'Thermal Printer API', 'SMS Gateway']
+                  : ['Next.js', 'TypeScript', 'Prisma', 'PostgreSQL', 'Docker Swarm', 'Cloudflare CDN'];
 
               return (
                 <div
@@ -952,6 +985,11 @@ export default async function HomePage() {
                           <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                           {product.stage || 'LIVE IN PRODUCTION'}
                         </span>
+                        {product.isFeatured && (
+                          <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-[var(--theme-accent)] text-[var(--theme-accent-text)]">
+                            ★ FEATURED
+                          </span>
+                        )}
                       </div>
 
                       <div className="space-y-2">

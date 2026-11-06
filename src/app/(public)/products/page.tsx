@@ -1,36 +1,61 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import { PublicApiService } from '@/services/public-api.service';
-import { FeaturedProducts } from '@/components/home/FeaturedProducts';
+import type { ProductRecord, ProductCategory } from '@/types/product.types';
+import ProductsCatalogHero from '@/components/public/products/ProductsCatalogHero';
+import FeaturedProductSpotlight from '@/components/public/products/FeaturedProductSpotlight';
+import ProductsCatalogClient from '@/components/public/products/ProductsCatalogClient';
+import ProductsCaseStudiesSection from '@/components/public/products/ProductsCaseStudiesSection';
+import ProductsFinalCta from '@/components/public/products/ProductsFinalCta';
 
 export const metadata: Metadata = {
-  title: 'Cloud SaaS Products | MRM InfoTech Ltd.',
+  title: 'Cloud SaaS Products & Digital Platforms | MRM InfoTech',
   description:
-    'Discover MRM InfoTech’s proprietary cloud platforms: EduManage BD for educational institutions, MediSheba BD for healthcare automation, and Multi-Institution Platform.',
+    'Discover MRM InfoTech’s proprietary cloud software platforms: EduManage BD for institutional education, MediSheba BD for healthcare, and Multi-Institution Platform.',
+  alternates: {
+    canonical: '/products',
+  },
+  openGraph: {
+    title: 'Cloud SaaS Products & Digital Platforms | MRM InfoTech',
+    description:
+      'Purpose-built digital software platforms engineered for automated workflows, sovereign data security, and enterprise efficiency.',
+    type: 'website',
+  },
 };
 
+export const revalidate = 60; // ISR revalidation every 60 seconds
+
 export default async function ProductsPage() {
-  const products = await PublicApiService.getProducts('en');
+  const [rawProducts, rawCategories, rawCaseStudies] = await Promise.all([
+    PublicApiService.getProducts<ProductRecord[]>({ placement: 'catalog' }),
+    PublicApiService.getProductCategories<ProductCategory[]>(),
+    PublicApiService.getCaseStudies<any[]>('en'),
+  ]);
+
+  const products: ProductRecord[] = Array.isArray(rawProducts) ? rawProducts : [];
+  const categories: ProductCategory[] = Array.isArray(rawCategories) ? rawCategories : [];
+  const caseStudies: any[] = Array.isArray(rawCaseStudies) ? rawCaseStudies : [];
+
+  // Pick highest-priority product marked as featured, or fallback to first
+  const featuredProduct =
+    products.find((p) => p.isFeatured) || (products.length > 0 ? products[0] : null);
 
   return (
-    <div className="w-full flex flex-col bg-[#0B0B0C] text-[#FFFFFF] transition-colors duration-150 min-h-screen">
-      <section className="bg-[#0B0B0C] text-white pt-24 pb-16 border-b border-white/10 transition-colors duration-150">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl space-y-4">
-            <span className="text-xs font-bold text-white/80 uppercase tracking-widest px-3 py-1 rounded-full bg-white/10 border border-white/15">
-              Proprietary Cloud Platforms
-            </span>
-            <h1 className="text-4xl sm:text-5xl font-black tracking-tight text-[#FFFFFF]">
-              Software Products Built for Essential Bangladesh Industries
-            </h1>
-            <p className="text-base sm:text-lg text-white/70">
-              Battle-tested multi-tenant platforms delivering automated workflows, local payment reconciliation, and sovereign data compliance.
-            </p>
-          </div>
-        </div>
-      </section>
+    <div className="w-full flex flex-col min-h-screen bg-[var(--theme-bg-canvas)] text-[var(--theme-text-primary)] transition-colors duration-150">
+      {/* 01. Products Hero Section */}
+      <ProductsCatalogHero totalProducts={products.length} />
 
-      <FeaturedProducts products={products} />
+      {/* 02. Featured Product Spotlight */}
+      <FeaturedProductSpotlight product={featuredProduct} />
+
+      {/* 03 & 04. Category Filter Bar + Asymmetric Bento Showcase */}
+      <ProductsCatalogClient initialProducts={products} categories={categories} />
+
+      {/* 05. Associated Case Studies (Zero gap if none exist) */}
+      <ProductsCaseStudiesSection caseStudies={caseStudies} />
+
+      {/* 06. Final Enterprise Conversion CTA */}
+      <ProductsFinalCta />
     </div>
   );
 }
