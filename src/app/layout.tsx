@@ -34,8 +34,23 @@ export const metadata: Metadata = {
     'SaaS Architecture',
     'ERP Systems Dhaka',
   ],
-  authors: [{ name: 'MRM InfoTech Ltd.' }],
+  authors: [{ name: 'MRM InfoTech Ltd.', url: 'https://mrminfotech.com' }],
   creator: 'MRM InfoTech Ltd.',
+  publisher: 'MRM InfoTech Ltd.',
+  alternates: {
+    canonical: 'https://mrminfotech.com',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
   openGraph: {
     type: 'website',
     locale: 'en_US',
@@ -64,7 +79,7 @@ const themeInitScript = `
       if (savedTheme && validThemes.indexOf(savedTheme) !== -1) {
         document.documentElement.setAttribute('data-theme', savedTheme);
       } else {
-        document.documentElement.setAttribute('data-theme', 'mrm-brand-cyan');
+        document.documentElement.setAttribute('data-theme', 'it-blue');
       }
       var savedMode = localStorage.getItem('mrm_theme_mode');
       if (savedMode === 'light') {

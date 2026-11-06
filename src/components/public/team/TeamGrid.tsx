@@ -2,7 +2,7 @@
 'use client';
 
 import React from 'react';
-import { Mail, Users, Sparkles } from 'lucide-react';
+import { Mail, Users } from 'lucide-react';
 import { LinkedinIcon, GithubIcon } from '@/components/public/shared/SocialIcons';
 import { TiltCard } from '@/components/ui/animations/TiltCard';
 import { ScrollReveal } from '@/components/ui/animations/ScrollReveal';
@@ -38,14 +38,14 @@ export function TeamGrid({ members }: TeamGridProps) {
   if (!members || members.length === 0) {
     return (
       <div className="text-center py-20 px-4">
-        <div className="w-16 h-16 rounded-full bg-slate-100 dark:bg-[#07162C] border border-slate-200 dark:border-[#1E3557] flex items-center justify-center mx-auto mb-4 text-[#087FC4] dark:text-[#20B8D5]">
+        <div className="w-16 h-16 rounded-2xl bg-[var(--theme-bg-surface)] border border-[var(--theme-border-glass)] flex items-center justify-center mx-auto mb-4 text-[var(--theme-accent)]">
           <Users className="w-8 h-8" />
         </div>
-        <h3 className="text-xl font-bold text-slate-900 dark:text-white">
+        <h3 className="text-xl font-bold text-[var(--theme-text-primary)]">
           Team Profiles Coming Soon
         </h3>
-        <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-2 max-w-md mx-auto">
-          Our engineering leadership and team profiles are being updated. Check back soon!
+        <p className="text-xs sm:text-sm text-[var(--theme-text-secondary)] mt-2 max-w-md mx-auto">
+          Our engineering leadership and team profiles are being synchronized from the verified database.
         </p>
       </div>
     );
@@ -70,18 +70,18 @@ export function TeamGrid({ members }: TeamGridProps) {
         return (
           <ScrollReveal key={member.id || member.slug || idx} delay={idx * 0.08} direction="up">
             <TiltCard maxTilt={8} className="h-full">
-              <div className="liquid-glass-card rounded-3xl p-6 sm:p-7 flex flex-col justify-between items-center text-center h-full relative group transition-all duration-300 hover:border-[#087FC4]/40 hover:shadow-xl hover:shadow-[#087FC4]/10">
+              <div className="rounded-3xl p-6 sm:p-7 flex flex-col justify-between items-center text-center h-full relative group transition-all duration-300 bg-[var(--theme-bg-surface)] border border-[var(--theme-border-glass)] hover:border-[var(--theme-accent)]/50 hover:shadow-[0_0_30px_var(--theme-accent-subtle)] shadow-xl">
                 {/* Department Badge */}
                 <div className="absolute top-4 right-4">
-                  <span className="text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-1 rounded-full bg-[#087FC4]/10 dark:bg-[#20B8D5]/15 text-[#087FC4] dark:text-[#20B8D5] border border-[#087FC4]/20 dark:border-[#20B8D5]/25">
+                  <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-[var(--theme-accent)]/15 text-[var(--theme-accent)] border border-[var(--theme-accent)]/30">
                     {dept}
                   </span>
                 </div>
 
-                {/* Circular Photo with Gradient Border */}
+                {/* Circular Photo with Dynamic Accent Ring */}
                 <div className="mt-2 mb-5">
-                  <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-full p-1 bg-gradient-to-tr from-[#087FC4] via-[#109AD7] to-[#20B8D5] shadow-lg shadow-[#087FC4]/25 flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
-                    <div className="w-full h-full rounded-full overflow-hidden bg-white dark:bg-[#07162C] flex items-center justify-center">
+                  <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-full p-1 ring-2 ring-[var(--theme-accent)] shadow-lg shadow-[var(--theme-accent-glow)] flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
+                    <div className="w-full h-full rounded-full overflow-hidden bg-[var(--theme-bg-canvas)] flex items-center justify-center">
                       {photo ? (
                         <img
                           src={photo}
@@ -90,7 +90,7 @@ export function TeamGrid({ members }: TeamGridProps) {
                           loading="lazy"
                         />
                       ) : (
-                        <span className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-tr from-[#087FC4] to-[#20B8D5]">
+                        <span className="text-2xl font-black text-[var(--theme-accent)]">
                           {name.charAt(0).toUpperCase()}
                         </span>
                       )}
@@ -100,28 +100,28 @@ export function TeamGrid({ members }: TeamGridProps) {
 
                 {/* Identity & Role */}
                 <div className="space-y-1.5 w-full flex-1 flex flex-col justify-start">
-                  <h3 className="text-lg sm:text-xl font-black text-slate-900 dark:text-white tracking-tight group-hover:text-[#087FC4] dark:group-hover:text-[#20B8D5] transition-colors">
+                  <h3 className="text-lg sm:text-xl font-black text-[var(--theme-text-primary)] tracking-tight group-hover:text-[var(--theme-accent)] transition-colors">
                     {name}
                   </h3>
-                  <p className="text-xs font-bold text-[#087FC4] dark:text-[#20B8D5]">
+                  <p className="text-xs font-bold text-[var(--theme-accent)]">
                     {role}
                   </p>
 
                   {bio && (
-                    <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed mt-3 line-clamp-3">
+                    <p className="text-xs text-[var(--theme-text-secondary)] leading-relaxed mt-3 line-clamp-3">
                       {bio}
                     </p>
                   )}
                 </div>
 
                 {/* Social Connects / Email */}
-                <div className="pt-5 mt-4 w-full border-t border-slate-100 dark:border-[#1E3557]/60 flex items-center justify-center gap-4">
+                <div className="pt-5 mt-4 w-full border-t border-[var(--theme-border-glass)] flex items-center justify-center gap-3">
                   {member.linkedinUrl && (
                     <a
                       href={member.linkedinUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-2 rounded-xl text-slate-400 hover:text-[#0A66C2] hover:bg-[#0A66C2]/10 transition-all cursor-pointer"
+                      className="p-2 rounded-xl text-[var(--theme-text-muted)] hover:text-[var(--theme-accent)] hover:bg-[var(--theme-accent)]/10 transition-all cursor-pointer"
                       title="LinkedIn Profile"
                     >
                       <LinkedinIcon className="w-4 h-4" />
@@ -133,7 +133,7 @@ export function TeamGrid({ members }: TeamGridProps) {
                       href={member.githubUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-2 rounded-xl text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-800 transition-all cursor-pointer"
+                      className="p-2 rounded-xl text-[var(--theme-text-muted)] hover:text-[var(--theme-accent)] hover:bg-[var(--theme-accent)]/10 transition-all cursor-pointer"
                       title="GitHub Profile"
                     >
                       <GithubIcon className="w-4 h-4" />
@@ -143,7 +143,7 @@ export function TeamGrid({ members }: TeamGridProps) {
                   {member.email && (
                     <a
                       href={`mailto:${member.email}`}
-                      className="p-2 rounded-xl text-slate-400 hover:text-amber-500 hover:bg-amber-500/10 transition-all cursor-pointer"
+                      className="p-2 rounded-xl text-[var(--theme-text-muted)] hover:text-[var(--theme-accent)] hover:bg-[var(--theme-accent)]/10 transition-all cursor-pointer"
                       title={`Email: ${member.email}`}
                     >
                       <Mail className="w-4 h-4" />

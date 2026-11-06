@@ -52,9 +52,16 @@ import {
 import { LinkedinIcon, GithubIcon } from '@/components/public/shared/SocialIcons';
 
 export const metadata: Metadata = {
-  title: 'MRM InfoTech | Software Products & Enterprise Digital Solutions',
+  title: 'Software Products & Enterprise Digital Solutions',
   description:
-    'We Turn Ideas Into Technology That Moves Businesses Forward. Explore EduManage BD, MediSheba BD, Multi-Institution Website Platform, and enterprise software engineering.',
+    'We turn ideas into technology that moves businesses forward. Enterprise software, EduManage BD, MediSheba BD, and scalable cloud digital solutions.',
+  alternates: {
+    canonical: '/',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 const API_BASE_URL =

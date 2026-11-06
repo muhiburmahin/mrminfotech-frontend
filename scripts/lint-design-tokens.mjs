@@ -29,12 +29,12 @@ function getContrastRatio(fg, bg) {
 const THEMES = [
   {
     id: 'mrm-brand-cyan',
-    name: 'Theme 1: MRM Brand Identity (Official Logo Electric Cyan - DEFAULT ACTIVE THEME)',
+    name: 'Theme 1: MRM Brand Identity (Official Logo Electric Cyan)',
     bg: '#030914',
     text: '#FFFFFF',
     accent: '#00E5FF',
     accentText: '#030914', // Cosmic Navy on Electric Cyan => 12.87:1 (Exceeds 4.5:1 WCAG AA)
-    isDefault: true,
+    isDefault: false,
   },
   {
     id: 'midnight-lime',
@@ -65,12 +65,12 @@ const THEMES = [
   },
   {
     id: 'it-blue',
-    name: 'Theme 5: Enterprise Royal Cobalt Blue',
+    name: 'Theme 5: Enterprise Royal Cobalt Blue (DEFAULT ACTIVE THEME)',
     bg: '#050C1A',
     text: '#F8FAFC',
     accent: '#2563EB',
     accentText: '#FFFFFF', // Crisp White on Royal Cobalt => 5.17:1
-    isDefault: false,
+    isDefault: true,
   },
 ];
 
@@ -93,5 +93,5 @@ if (failures > 0) {
 }
 
 console.log(`\n✅ [All 5 Themes Verified]: 60-30-10 distribution and WCAG contrast validated!`);
-console.log(`   Default Active Theme: Theme 2 (Classic Navy & Coral)\n`);
+console.log(`   Default Active Theme: Theme 5 (Enterprise Royal Cobalt Blue)\n`);
 process.exit(0);

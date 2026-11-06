@@ -1,7 +1,7 @@
 /**
  * @file tokens.ts
  * @description Design System Tokens synchronized with the Dynamic Theme Management System.
- * Default active theme: Theme 2 (Classic Navy & Coral).
+ * Default active theme: Theme 5 (Enterprise Royal Cobalt - it-blue).
  */
 
 import {

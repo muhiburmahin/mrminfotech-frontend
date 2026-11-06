@@ -59,7 +59,6 @@ export const THEME_TEMPLATES: Record<ThemeId, ThemeDefinition> = Object.freeze({
     id: 'mrm-brand-cyan',
     name: 'MRM Brand Identity',
     tagline: 'Official MRM InfoTech logo signature: deep cosmic navy canvas, pure white typography, and electric celestial cyan with orbital glow.',
-    isDefault: true,
     distribution: {
       dominant60: {
         name: 'Cosmic Royal Navy',
@@ -268,14 +267,14 @@ export const THEME_TEMPLATES: Record<ThemeId, ThemeDefinition> = Object.freeze({
   }),
 
   /**
-   * Theme 5: Enterprise Royal Cobalt (Deep Dark Corporate Blue)
+   * Theme 5: Enterprise Royal Cobalt (Deep Dark Corporate Blue - DEFAULT ACTIVE THEME)
    * 60% Midnight Steel Navy (#050C1A), 30% Crisp Silver White (#F8FAFC), 10% Royal Cobalt Blue (#2563EB)
    */
   'it-blue': Object.freeze({
     id: 'it-blue',
     name: 'Enterprise Royal Cobalt',
     tagline: 'Deep corporate dark blue architecture with crisp silver typography and authoritative royal cobalt conversion accents.',
-    isDefault: false,
+    isDefault: true,
     distribution: {
       dominant60: {
         name: 'Dark Steel Navy',
@@ -322,7 +321,7 @@ export const THEME_TEMPLATES: Record<ThemeId, ThemeDefinition> = Object.freeze({
   }),
 });
 
-export const DEFAULT_THEME_ID: ThemeId = 'mrm-brand-cyan';
+export const DEFAULT_THEME_ID: ThemeId = 'it-blue';
 
 export const THEME_LIST: ThemeDefinition[] = [
   THEME_TEMPLATES['mrm-brand-cyan'],
