@@ -2,6 +2,15 @@ import { fetchApi } from './client';
 import { authRequest } from './auth.service';
 import type { CompanyProfile } from './types';
 import type { HomepageConfig, BrandAppearanceConfig } from '@/types/homepage';
+import type {
+  ProductRecord,
+  ProductCategory,
+  ProductKpiStats,
+  ProductSection,
+  ReorderContext,
+  ProductStatus,
+  LaunchStage,
+} from '@/types/product.types';
 
 export async function adminLogin(credentials: { email: string; password: string }) {
   return fetchApi<{ user: { id: string; email: string; role: string } }>('/auth/login', {
@@ -24,32 +33,139 @@ export interface AdminProductPayload {
   sortOrder?: number;
 }
 
-export async function getAdminProducts() {
-  const res = await authRequest<{ data: Array<Record<string, unknown>> }>('/admin/products?limit=50&sortBy=sortOrder&order=asc');
-  return res.data;
+export interface AdminProductListResponse {
+  data: ProductRecord[];
+  kpi: ProductKpiStats;
+  meta: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+  };
 }
 
-export async function createAdminProduct(payload: AdminProductPayload) {
-  const res = await authRequest('/admin/products', {
+export async function getAdminProducts(params?: {
+  status?: string;
+  stage?: string;
+  category?: string;
+  search?: string;
+  page?: number;
+  limit?: number;
+  sortBy?: string;
+  order?: 'asc' | 'desc';
+}): Promise<AdminProductListResponse> {
+  const query = new URLSearchParams();
+  if (params?.status) query.set('status', params.status);
+  if (params?.stage) query.set('stage', params.stage);
+  if (params?.category) query.set('category', params.category);
+  if (params?.search) query.set('search', params.search);
+  if (params?.page) query.set('page', String(params.page));
+  query.set('limit', String(params?.limit || 50));
+  query.set('sortBy', params?.sortBy || 'displayOrder');
+  query.set('order', params?.order || 'asc');
+
+  const res = await authRequest<AdminProductListResponse>(`/admin/products?${query.toString()}`);
+  const unwrapped = res.data as AdminProductListResponse;
+  if (unwrapped && Array.isArray(unwrapped.data)) {
+    return unwrapped;
+  }
+  // Fallback if data is raw array
+  const rawList = Array.isArray(res.data) ? (res.data as unknown as ProductRecord[]) : [];
+  return {
+    data: rawList,
+    kpi: {
+      total: rawList.length,
+      published: rawList.filter((p) => p.status === 'PUBLISHED').length,
+      draft: rawList.filter((p) => p.status === 'DRAFT').length,
+      featured: rawList.filter((p) => p.isFeatured).length,
+      comingSoon: rawList.filter((p) => p.stage === 'COMING_SOON').length,
+      archived: rawList.filter((p) => p.status === 'ARCHIVED').length,
+    },
+    meta: {
+      page: 1,
+      limit: rawList.length || 50,
+      total: rawList.length,
+      totalPages: 1,
+    },
+  };
+}
+
+export async function getAdminProductById(id: string): Promise<ProductRecord> {
+  const res = await authRequest<ProductRecord>(`/admin/products/${encodeURIComponent(id)}`);
+  return res.data as ProductRecord;
+}
+
+export async function createAdminProduct(payload: Partial<ProductRecord>): Promise<ProductRecord> {
+  const res = await authRequest<ProductRecord>('/admin/products', {
     method: 'POST',
     body: JSON.stringify(payload),
   });
-  return res.data;
+  return res.data as ProductRecord;
 }
 
-export async function updateAdminProduct(id: string, payload: Partial<AdminProductPayload>) {
-  const res = await authRequest('/admin/products/' + encodeURIComponent(id), {
+export async function updateAdminProduct(id: string, payload: Partial<ProductRecord>): Promise<ProductRecord> {
+  const res = await authRequest<ProductRecord>('/admin/products/' + encodeURIComponent(id), {
     method: 'PATCH',
     body: JSON.stringify(payload),
   });
-  return res.data;
+  return res.data as ProductRecord;
 }
 
-export async function deleteAdminProduct(id: string) {
-  const res = await authRequest('/admin/products/' + encodeURIComponent(id), {
+export async function updateAdminProductSection(
+  id: string,
+  section: ProductSection,
+  data: Record<string, unknown>
+): Promise<ProductRecord> {
+  const res = await authRequest<ProductRecord>(`/admin/products/${encodeURIComponent(id)}/section`, {
+    method: 'PATCH',
+    body: JSON.stringify({ section, data }),
+  });
+  return res.data as ProductRecord;
+}
+
+export async function reorderAdminProducts(
+  context: ReorderContext,
+  items: Array<{ id: string; order: number }>
+): Promise<{ success: boolean; count: number }> {
+  const res = await authRequest<{ success: boolean; count: number }>('/admin/products/reorder', {
+    method: 'PATCH',
+    body: JSON.stringify({ context, items }),
+  });
+  return res.data as { success: boolean; count: number };
+}
+
+export async function duplicateAdminProduct(id: string): Promise<ProductRecord> {
+  const res = await authRequest<ProductRecord>(`/admin/products/${encodeURIComponent(id)}/duplicate`, {
+    method: 'POST',
+  });
+  return res.data as ProductRecord;
+}
+
+export async function updateAdminProductStatus(
+  id: string,
+  status: ProductStatus,
+  stage?: LaunchStage
+): Promise<{ success: boolean; status: ProductStatus; stage?: LaunchStage }> {
+  const res = await authRequest<{ success: boolean; status: ProductStatus; stage?: LaunchStage }>(
+    `/admin/products/${encodeURIComponent(id)}/status`,
+    {
+      method: 'PATCH',
+      body: JSON.stringify({ status, stage }),
+    }
+  );
+  return res.data as { success: boolean; status: ProductStatus; stage?: LaunchStage };
+}
+
+export async function deleteAdminProduct(id: string): Promise<{ message: string }> {
+  const res = await authRequest<{ message: string }>('/admin/products/' + encodeURIComponent(id), {
     method: 'DELETE',
   });
-  return res.data;
+  return res.data as { message: string };
+}
+
+export async function getAdminProductCategories(): Promise<ProductCategory[]> {
+  const res = await authRequest<ProductCategory[]>('/products/categories');
+  return (res.data as ProductCategory[]) || [];
 }
 
 // ──────────────────────── Projects (Case Studies) Admin ────────────────────────
