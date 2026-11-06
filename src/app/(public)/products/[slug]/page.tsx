@@ -39,7 +39,8 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const product: ProductRecord | null = await PublicApiService.getProductBySlug(slug, 'en');
+  const cleanSlug = decodeURIComponent(slug).trim().replace(/\s+/g, '-').replace(/-+/g, '-');
+  const product: ProductRecord | null = await PublicApiService.getProductBySlug(cleanSlug, 'en');
 
   if (!product) {
     return {
@@ -88,9 +89,10 @@ export default async function ProductDetailPage({ params, searchParams }: PagePr
   const { slug } = await params;
   const { preview } = await searchParams;
   const isPreview = preview === 'true';
+  const cleanSlug = decodeURIComponent(slug).trim().replace(/\s+/g, '-').replace(/-+/g, '-');
 
   const [product, allProducts] = await Promise.all([
-    PublicApiService.getProductBySlug<ProductRecord>(slug, 'en', isPreview),
+    PublicApiService.getProductBySlug<ProductRecord>(cleanSlug, 'en', isPreview),
     PublicApiService.getProducts<ProductRecord[]>({ placement: 'catalog' }),
   ]);
 

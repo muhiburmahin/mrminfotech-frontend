@@ -54,13 +54,20 @@ import { LinkedinIcon, GithubIcon } from '@/components/public/shared/SocialIcons
 export const metadata: Metadata = {
   title: 'Software Products & Enterprise Digital Solutions',
   description:
-    'We turn ideas into technology that moves businesses forward. Enterprise software, EduManage BD, MediSheba BD, and scalable cloud digital solutions.',
+    'We turn ideas into technology that moves businesses forward with scalable cloud SaaS products, EduManage BD, MediSheba BD, and enterprise engineering.',
   alternates: {
-    canonical: '/',
+    canonical: 'https://mrminfotech.com',
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
   },
 };
 
@@ -127,6 +134,8 @@ interface PublishedServiceRaw {
   icon?: string | null;
   sortOrder?: number;
   order?: number;
+  homepageOrder?: number;
+  displayOrder?: number;
   translations?: Array<{
     name?: string;
     title?: string;
@@ -391,7 +400,7 @@ export default async function HomePage() {
     apiFaqs,
   ] = await Promise.all([
     fetchBackendList<PublishedProductRaw>('/products?placement=homepage'),
-    fetchBackendList<PublishedServiceRaw>('/services?locale=en&limit=50&sort=sortOrder&order=asc'),
+    fetchBackendList<PublishedServiceRaw>('/services?placement=homepage'),
     fetchBackendList<PublishedProject>('/projects?locale=en'),
     fetchBackendList<PublishedCaseStudy>('/case-studies?locale=en'),
     fetchBackendList<PublishedTeamMember>('/team?locale=en'),
@@ -451,18 +460,8 @@ export default async function HomePage() {
       : FALLBACK_PRODUCTS;
 
   const sortedApiServices = [...apiServices].sort((a, b) => {
-    const orderA =
-      typeof a.sortOrder === 'number'
-        ? a.sortOrder
-        : typeof a.order === 'number'
-        ? a.order
-        : 999;
-    const orderB =
-      typeof b.sortOrder === 'number'
-        ? b.sortOrder
-        : typeof b.order === 'number'
-        ? b.order
-        : 999;
+    const orderA = a.homepageOrder ?? a.displayOrder ?? a.sortOrder ?? a.order ?? 999;
+    const orderB = b.homepageOrder ?? b.displayOrder ?? b.sortOrder ?? b.order ?? 999;
     return orderA - orderB;
   });
 

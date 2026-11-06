@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     template: '%s | MRM InfoTech',
   },
   description:
-    'MRM InfoTech Ltd. develops cloud SaaS platforms (EduManage BD, MediSheba BD) and engineers mission-critical enterprise software solutions with high concurrency, security, and proven architecture in Bangladesh.',
+    'MRM InfoTech develops cloud SaaS platforms (EduManage BD, MediSheba BD) and engineers mission-critical enterprise software solutions in Bangladesh.',
   keywords: [
     'MRM InfoTech',
     'EduManage BD',
@@ -133,19 +133,20 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <head>
+        <link rel="publisher" href="https://mrminfotech.com" />
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
       <body
         suppressHydrationWarning
         className="min-h-screen flex flex-col bg-[var(--theme-bg-canvas)] text-[var(--theme-text-primary)] font-sans antialiased selection:bg-[var(--theme-accent)] selection:text-[var(--theme-accent-text)] transition-colors duration-150"
       >
-        <DesignSystemProvider>
-          <ThemeProvider initialThemeId={initialTheme}>
+        <ThemeProvider initialThemeId={initialTheme}>
+          <DesignSystemProvider>
             <LanguageProvider>
               {children}
             </LanguageProvider>
-          </ThemeProvider>
-        </DesignSystemProvider>
+          </DesignSystemProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

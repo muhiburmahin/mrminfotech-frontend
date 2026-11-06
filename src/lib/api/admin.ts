@@ -215,43 +215,154 @@ export async function deleteAdminProject(id: string) {
   return res.data;
 }
 
-export interface AdminServicePayload {
-  title?: string;
-  name?: string;
-  slug: string;
-  summary?: string;
-  description?: string;
-  icon?: string | null;
-  sortOrder?: number;
+import type {
+  ServiceRecord,
+  ServiceCategory,
+  AdminServiceListResponse,
+  ServiceSection,
+  ReorderPlacement,
+} from '@/types/service.types';
+
+export interface AdminServicePayload extends Partial<ServiceRecord> {
   order?: number;
   isActive?: boolean;
   isPublished?: boolean;
+}
+
+export async function getAdminServices(params?: {
   status?: string;
+  category?: string;
+  search?: string;
+  isFeatured?: boolean;
+  page?: number;
+  limit?: number;
+  sortBy?: string;
+  order?: 'asc' | 'desc';
+}): Promise<AdminServiceListResponse> {
+  const query = new URLSearchParams();
+  if (params?.status) query.set('status', params.status);
+  if (params?.category) query.set('category', params.category);
+  if (params?.search) query.set('q', params.search);
+  if (params?.isFeatured !== undefined) query.set('isFeatured', String(params.isFeatured));
+  if (params?.page) query.set('page', String(params.page));
+  query.set('limit', String(params?.limit || 50));
+  query.set('sort', params?.sortBy || 'sortOrder');
+  query.set('order', params?.order || 'asc');
+
+  const res = await authRequest<AdminServiceListResponse>(`/admin/services?${query.toString()}`);
+  const unwrapped = res.data as AdminServiceListResponse;
+  if (unwrapped && Array.isArray(unwrapped.data)) {
+    return unwrapped;
+  }
+  const rawList = Array.isArray(res.data) ? (res.data as unknown as ServiceRecord[]) : [];
+  return {
+    data: rawList,
+    kpi: {
+      total: rawList.length,
+      published: rawList.filter((s) => s.status === 'PUBLISHED').length,
+      draft: rawList.filter((s) => s.status === 'DRAFT').length,
+      featured: rawList.filter((s) => s.isFeatured).length,
+      comingSoon: rawList.filter((s) => s.status === 'IN_REVIEW' || s.status === 'SCHEDULED').length,
+      archived: rawList.filter((s) => s.status === 'ARCHIVED').length,
+    },
+    meta: {
+      page: 1,
+      limit: rawList.length || 50,
+      total: rawList.length,
+      totalPages: 1,
+    },
+  };
 }
 
-export async function getAdminServices() {
-  const res = await authRequest<{ data: Array<Record<string, unknown>> }>('/admin/services?limit=100&sort=sortOrder&order=asc');
-  return res.data;
+export async function getAdminServiceById(id: string): Promise<ServiceRecord> {
+  const res = await authRequest<ServiceRecord>(`/admin/services/${encodeURIComponent(id)}`);
+  return res.data as ServiceRecord;
 }
 
-export async function createAdminService(payload: AdminServicePayload) {
-  const res = await authRequest('/admin/services', {
+export async function createAdminService(payload: Partial<ServiceRecord>): Promise<ServiceRecord> {
+  const res = await authRequest<ServiceRecord>('/admin/services', {
     method: 'POST',
     body: JSON.stringify(payload),
   });
-  return res.data;
+  return res.data as ServiceRecord;
 }
 
-export async function updateAdminService(id: string, payload: Partial<AdminServicePayload>) {
-  const res = await authRequest('/admin/services/' + encodeURIComponent(id), {
+export async function updateAdminService(id: string, payload: Partial<ServiceRecord>): Promise<ServiceRecord> {
+  const res = await authRequest<ServiceRecord>('/admin/services/' + encodeURIComponent(id), {
     method: 'PATCH',
     body: JSON.stringify(payload),
   });
-  return res.data;
+  return res.data as ServiceRecord;
+}
+
+export async function updateAdminServiceSection(
+  id: string,
+  section: ServiceSection,
+  data: Record<string, unknown>
+): Promise<ServiceRecord> {
+  const res = await authRequest<ServiceRecord>(`/admin/services/${encodeURIComponent(id)}/section`, {
+    method: 'PATCH',
+    body: JSON.stringify({ section, data }),
+  });
+  return res.data as ServiceRecord;
+}
+
+export async function reorderAdminServices(
+  placement: ReorderPlacement,
+  items: Array<{ id: string; order: number }>
+): Promise<{ success: boolean; count: number }> {
+  const res = await authRequest<{ success: boolean; count: number }>('/admin/services/reorder', {
+    method: 'PATCH',
+    body: JSON.stringify({ placement, items }),
+  });
+  return res.data as { success: boolean; count: number };
+}
+
+export async function duplicateAdminService(id: string): Promise<ServiceRecord> {
+  const res = await authRequest<ServiceRecord>(`/admin/services/${encodeURIComponent(id)}/duplicate`, {
+    method: 'POST',
+  });
+  return res.data as ServiceRecord;
+}
+
+export async function updateAdminServiceStatus(id: string, status: string): Promise<ServiceRecord> {
+  const res = await authRequest<ServiceRecord>(`/admin/services/${encodeURIComponent(id)}/status`, {
+    method: 'PATCH',
+    body: JSON.stringify({ status }),
+  });
+  return res.data as ServiceRecord;
 }
 
 export async function deleteAdminService(id: string) {
   const res = await authRequest('/admin/services/' + encodeURIComponent(id), {
+    method: 'DELETE',
+  });
+  return res.data;
+}
+
+export async function getAdminServiceCategories(): Promise<ServiceCategory[]> {
+  const res = await authRequest<ServiceCategory[]>('/admin/services/categories');
+  return (Array.isArray(res.data) ? res.data : []) as ServiceCategory[];
+}
+
+export async function createAdminServiceCategory(data: Partial<ServiceCategory>): Promise<ServiceCategory> {
+  const res = await authRequest<ServiceCategory>('/admin/services/categories', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
+  return res.data as ServiceCategory;
+}
+
+export async function updateAdminServiceCategory(id: string, data: Partial<ServiceCategory>): Promise<ServiceCategory> {
+  const res = await authRequest<ServiceCategory>(`/admin/services/categories/${encodeURIComponent(id)}`, {
+    method: 'PATCH',
+    body: JSON.stringify(data),
+  });
+  return res.data as ServiceCategory;
+}
+
+export async function deleteAdminServiceCategory(id: string) {
+  const res = await authRequest(`/admin/services/categories/${encodeURIComponent(id)}`, {
     method: 'DELETE',
   });
   return res.data;

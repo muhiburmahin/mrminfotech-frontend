@@ -89,11 +89,37 @@ export const PublicApiService = {
       null as unknown as T
     );
   },
-  getServices<T = any>(locale = 'en'): Promise<T> {
-    return fetchBackend<T>(`/services?locale=${locale}&limit=50&sort=sortOrder&order=asc`, [] as unknown as T);
+  getServices<T = any>(
+    options?:
+      | {
+          locale?: string;
+          placement?: 'homepage' | 'nav' | 'catalog';
+          category?: string;
+          search?: string;
+          limit?: number;
+        }
+      | string
+  ): Promise<T> {
+    if (typeof options === 'string') {
+      return fetchBackend<T>(`/services?locale=${options}&limit=50`, [] as unknown as T);
+    }
+    const query = new URLSearchParams();
+    query.set('locale', options?.locale || 'en');
+    if (options?.placement) query.set('placement', options.placement);
+    if (options?.category) query.set('category', options.category);
+    if (options?.search) query.set('q', options.search);
+    query.set('limit', String(options?.limit || 50));
+    return fetchBackend<T>(`/services?${query.toString()}`, [] as unknown as T);
   },
-  getServiceBySlug<T = any>(slug: string, locale = 'en'): Promise<T> {
-    return fetchBackend<T>(`/services/${encodeURIComponent(slug)}?locale=${locale}`, null as unknown as T);
+  getServiceCategories<T = any>(): Promise<T> {
+    return fetchBackend<T>('/services/categories', [] as unknown as T);
+  },
+  getServiceBySlug<T = any>(slug: string, locale = 'en', preview = false): Promise<T> {
+    const previewParam = preview ? '&preview=true' : '';
+    return fetchBackend<T>(
+      `/services/${encodeURIComponent(slug)}?locale=${locale}${previewParam}`,
+      null as unknown as T
+    );
   },
   getProjects<T = any>(locale = 'en'): Promise<T> {
     return fetchBackend<T>(`/projects?locale=${locale}`, [] as unknown as T);

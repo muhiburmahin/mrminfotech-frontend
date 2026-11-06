@@ -124,6 +124,10 @@ export function Navbar() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [dynamicProducts, setDynamicProducts] = useState<any[]>(PRODUCTS_DATA);
 
+  // Dynamic Navigation Services from CMS
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [dynamicServices, setDynamicServices] = useState<any[]>(SERVICES_DATA);
+
   useEffect(() => {
     let active = true;
     PublicApiService.getProducts({ placement: 'nav' })
@@ -133,10 +137,36 @@ export function Navbar() {
         }
       })
       .catch(() => { });
+
+    PublicApiService.getServices({ placement: 'nav' })
+      .then((items) => {
+        if (active && Array.isArray(items) && items.length > 0) {
+          setDynamicServices(
+            items.map((s: any) => ({
+              name: s.title || s.name,
+              desc: s.tagline || s.shortDescription || 'Enterprise digital engineering',
+              href: `/services/${s.slug}`,
+              icon: getServiceNavIcon(s.icon, s.slug),
+            }))
+          );
+        }
+      })
+      .catch(() => { });
+
     return () => {
       active = false;
     };
   }, []);
+
+  const getServiceNavIcon = (iconName?: string, slug?: string) => {
+    const s = (iconName || slug || '').toLowerCase();
+    if (s.includes('web') || s.includes('globe')) return Code2;
+    if (s.includes('software') || s.includes('cpu')) return Cpu;
+    if (s.includes('mobile') || s.includes('smartphone')) return Smartphone;
+    if (s.includes('ui') || s.includes('ux') || s.includes('palette')) return Layout;
+    if (s.includes('sec') || s.includes('shield')) return ShieldCheck;
+    return Layers;
+  };
 
   const getProductNavIcon = (slug?: string, catName?: string) => {
     if (slug?.includes('edumanage') || catName?.toLowerCase().includes('edu')) return GraduationCap;
@@ -492,7 +522,7 @@ export function Navbar() {
                       </div>
 
                       <div className="grid grid-cols-2 gap-2">
-                        {SERVICES_DATA.map((s) => {
+                        {dynamicServices.map((s) => {
                           const Icon = s.icon;
                           return (
                             <Link
@@ -749,7 +779,7 @@ export function Navbar() {
               </button>
               {mobileServicesOpen && (
                 <div className="pl-4 pr-2 py-1 space-y-1 bg-[var(--theme-bg-canvas)]/80 border border-[var(--theme-border-glass)] rounded-xl my-1">
-                  {SERVICES_DATA.map((s) => (
+                  {dynamicServices.map((s) => (
                     <Link
                       key={s.name}
                       href={s.href}

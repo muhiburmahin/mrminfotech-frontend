@@ -1,20 +1,19 @@
 'use client';
 
 import React, { createContext, useContext, useEffect } from 'react';
-import { DESIGN_TOKENS } from '@/design-system/tokens';
+import { useThemeContext } from '@/context/ThemeContext';
+import { THEME_TEMPLATES, ThemeId } from '@/lib/theme/themes';
 
 interface DesignSystemContextValue {
-  tokens: typeof DESIGN_TOKENS;
   dominant60: string;
   structural30: string;
   accent10: string;
 }
 
 const DesignSystemContext = createContext<DesignSystemContextValue>({
-  tokens: DESIGN_TOKENS,
-  dominant60: DESIGN_TOKENS.dominant60.hex,
-  structural30: DESIGN_TOKENS.structural30.hex,
-  accent10: DESIGN_TOKENS.accent10.hex,
+  dominant60: '#050C1A',
+  structural30: '#F8FAFC',
+  accent10: '#2563EB',
 });
 
 export const useDesignSystem = () => useContext(DesignSystemContext);
@@ -22,52 +21,49 @@ export const useDesignSystem = () => useContext(DesignSystemContext);
 /**
  * DesignSystemProvider - Global Layout Wrapper
  * 
- * Injects CSS variables enforcing the 60-30-10 palette at the document root:
- * - 60% Dominant Background: Midnight Black (#0B0B0C)
- * - 30% Secondary Structural: Pure White (#FFFFFF)
- * - 10% Exclusive Accent: Lime Green (#C6F432)
+ * Synchronizes the 60-30-10 palette tokens dynamically with the currently
+ * active theme (default: Enterprise Royal Cobalt) and responds instantly to theme switches.
  */
 export function DesignSystemProvider({ children }: { children: React.ReactNode }) {
+  const { activeThemeId, previewThemeId } = useThemeContext();
+  const currentThemeId = (previewThemeId || activeThemeId || 'it-blue') as ThemeId;
+  const currentTheme = THEME_TEMPLATES[currentThemeId] || THEME_TEMPLATES['it-blue'];
+
+  const dominant60 = currentTheme.distribution.dominant60.canvasHex;
+  const structural30 = currentTheme.distribution.structural30.textPrimaryHex;
+  const accent10 = currentTheme.distribution.accent10.hex;
+
   useEffect(() => {
     if (typeof document === 'undefined') return;
     const root = document.documentElement;
 
     // 60% Dominant Tokens
-    root.style.setProperty('--dominant-60', DESIGN_TOKENS.dominant60.hex);
-    root.style.setProperty('--dominant-60-rgb', DESIGN_TOKENS.dominant60.rgb);
-    root.style.setProperty('--glass-surface', DESIGN_TOKENS.dominant60.glassSurface);
+    root.style.setProperty('--dominant-60', currentTheme.distribution.dominant60.canvasHex);
+    root.style.setProperty('--glass-surface', currentTheme.distribution.dominant60.glassBg);
 
     // 30% Structural Tokens
-    root.style.setProperty('--structural-30', DESIGN_TOKENS.structural30.hex);
-    root.style.setProperty('--structural-30-rgb', DESIGN_TOKENS.structural30.rgb);
-    root.style.setProperty('--glass-border', DESIGN_TOKENS.structural30.glassBorder);
-    root.style.setProperty('--text-primary-30', DESIGN_TOKENS.structural30.textPrimary);
-    root.style.setProperty('--text-secondary-30', DESIGN_TOKENS.structural30.textSecondary);
-    root.style.setProperty('--text-muted-30', DESIGN_TOKENS.structural30.textMuted);
+    root.style.setProperty('--structural-30', currentTheme.distribution.structural30.textPrimaryHex);
+    root.style.setProperty('--glass-border', currentTheme.distribution.structural30.borderGlass);
+    root.style.setProperty('--text-primary-30', currentTheme.distribution.structural30.textPrimaryHex);
+    root.style.setProperty('--text-secondary-30', currentTheme.distribution.structural30.textSecondaryHex);
 
     // 10% Interactive Accent Tokens
-    root.style.setProperty('--accent-10', DESIGN_TOKENS.accent10.hex);
-    root.style.setProperty('--accent-10-rgb', DESIGN_TOKENS.accent10.rgb);
-    root.style.setProperty('--accent-10-hover', DESIGN_TOKENS.accent10.hover);
-    root.style.setProperty('--accent-10-active', DESIGN_TOKENS.accent10.active);
-    root.style.setProperty('--accent-10-contrast', DESIGN_TOKENS.accent10.contrastText);
-    root.style.setProperty('--accent-10-glow', DESIGN_TOKENS.accent10.glow);
-
-    // Glassmorphism & Motion
-    root.style.setProperty('--glass-blur', DESIGN_TOKENS.glassmorphism.backdropBlur);
-    root.style.setProperty('--ease-locked', DESIGN_TOKENS.motion.easing);
-  }, []);
+    root.style.setProperty('--accent-10', currentTheme.distribution.accent10.hex);
+    root.style.setProperty('--accent-10-hover', currentTheme.distribution.accent10.hoverHex);
+    root.style.setProperty('--accent-10-active', currentTheme.distribution.accent10.activeHex);
+    root.style.setProperty('--accent-10-contrast', currentTheme.distribution.accent10.contrastTextHex);
+    root.style.setProperty('--accent-10-glow', currentTheme.distribution.accent10.glowRgba);
+  }, [currentTheme]);
 
   return (
     <DesignSystemContext.Provider
       value={{
-        tokens: DESIGN_TOKENS,
-        dominant60: DESIGN_TOKENS.dominant60.hex,
-        structural30: DESIGN_TOKENS.structural30.hex,
-        accent10: DESIGN_TOKENS.accent10.hex,
+        dominant60,
+        structural30,
+        accent10,
       }}
     >
-      <div className="min-h-screen bg-[#0B0B0C] text-[#FFFFFF] antialiased selection:bg-[#C6F432] selection:text-[#0B0B0C]">
+      <div className="min-h-screen bg-[var(--theme-bg-canvas)] text-[var(--theme-text-primary)] antialiased selection:bg-[var(--theme-accent)] selection:text-[var(--theme-accent-text)] transition-colors duration-150">
         {children}
       </div>
     </DesignSystemContext.Provider>

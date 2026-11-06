@@ -230,6 +230,9 @@ export function ProductBuilderForm({
     if (!Array.isArray(list)) return undefined;
     return list.map((item) => {
       const { productId: _p, createdAt: _c, updatedAt: _u, ...clean } = item;
+      if (clean.id && (typeof clean.id !== 'string' || clean.id.startsWith('temp-') || clean.id.length < 32)) {
+        delete clean.id;
+      }
       return clean;
     });
   };
@@ -526,7 +529,15 @@ export function ProductBuilderForm({
                 <input
                   type="text"
                   value={slug}
-                  onChange={(e) => setSlug(e.target.value.toLowerCase().replace(/[^a-z0-9-]+/g, '-'))}
+                  onChange={(e) =>
+                    setSlug(
+                      e.target.value
+                        .toLowerCase()
+                        .replace(/\s+/g, '-')
+                        .replace(/[^a-z0-9-]/g, '')
+                        .replace(/-+/g, '-')
+                    )
+                  }
                   placeholder="e.g. edumanage-bd"
                   className="w-full px-3.5 py-2 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm font-mono focus:border-blue-500 focus:outline-hidden"
                 />
