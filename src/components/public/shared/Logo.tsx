@@ -73,7 +73,7 @@ export function Logo({
           <div className="flex items-center">
             <span className={`font-black tracking-tight ${textSizes[size]} text-white`}>
               MRM{' '}
-              <span className="text-[#C6F432]">
+              <span className="text-[var(--theme-accent)]">
                 InfoTech
               </span>
             </span>
@@ -83,8 +83,8 @@ export function Logo({
             <span
               className={`font-extrabold tracking-[0.18em] uppercase ${taglineSizes[size]} text-white/50`}
             >
-              IDEAS <span className="text-[#C6F432] font-black">•</span> PRODUCTS{' '}
-              <span className="text-[#C6F432] font-black">•</span> IMPACT
+              IDEAS <span className="text-[var(--theme-accent)] font-black">•</span> PRODUCTS{' '}
+              <span className="text-[var(--theme-accent)] font-black">•</span> IMPACT
             </span>
           )}
         </div>

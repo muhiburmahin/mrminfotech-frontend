@@ -68,11 +68,11 @@ export function CTAButton({
     active:scale-98
   `;
 
-  // Inline style guarantees locked token consumption & cubic-bezier(0.4, 0, 0.2, 1) easing
+  // Dynamic styling inheriting active theme CSS variables with locked easing
   const dynamicStyle: React.CSSProperties = {
-    backgroundColor: DESIGN_TOKENS.accent10.hex, // #C6F432
-    color: DESIGN_TOKENS.accent10.contrastText,  // #0B0B0C
-    transitionTimingFunction: DESIGN_TOKENS.motion.easing, // cubic-bezier(0.4, 0, 0.2, 1)
+    backgroundColor: 'var(--theme-accent, #FF6B6B)',
+    color: 'var(--theme-accent-text, #071324)',
+    transitionTimingFunction: DESIGN_TOKENS.motion.easing,
     transitionDuration: DESIGN_TOKENS.motion.durationNormal,
   };
 
@@ -88,8 +88,8 @@ export function CTAButton({
     ${baseClasses}
     ${sizeClasses}
     ${fullWidth ? 'w-full' : ''}
-    hover:bg-[#D4F755] hover:shadow-[0_0_24px_rgba(198,244,50,0.40)] hover:scale-[1.02]
-    active:bg-[#B2E022] active:scale-[0.98]
+    hover:brightness-110 hover:shadow-[0_0_24px_var(--theme-accent-glow)] hover:scale-[1.02]
+    active:scale-[0.98]
     ${className}
   `.replace(/\s+/g, ' ').trim();
 

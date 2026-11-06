@@ -19,8 +19,7 @@ interface AmbientSectionProps {
 
 /**
  * AmbientSection - Reusable High-Craft Dark UI Wrapper with Ambient Aurora Lighting
- * Enforces #06080d base background, section-by-section lighting variation,
- * and avoids flat repetitive black.
+ * Dynamically reacts to the active Global Theme variables (--theme-bg-canvas, --theme-accent, etc.)
  */
 export function AmbientSection({
   children,
@@ -31,18 +30,18 @@ export function AmbientSection({
   return (
     <section
       id={id}
-      className={`relative overflow-hidden bg-[#06080d] text-white border-b border-white/[0.08] ${className}`}
+      className={`relative overflow-hidden bg-[var(--theme-bg-canvas)] text-[var(--theme-text-primary)] border-b border-[var(--theme-border)]/60 ${className}`}
     >
       {/* 1. Variant: Hero Rays (Intense vertical volumetric light rays + center aurora) */}
       {variant === 'hero-rays' && (
         <>
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 w-[95%] max-w-[1200px] h-[550px] bg-lime-400/25 rounded-full blur-[140px] z-0"
+            className="pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 w-[95%] max-w-[1200px] h-[550px] bg-[var(--theme-accent-glow)] rounded-full blur-[140px] z-0 opacity-80"
           />
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-0 bg-[repeating-linear-gradient(90deg,transparent,transparent_32px,rgba(163,230,53,0.06)_32px,rgba(163,230,53,0.06)_33px)] [mask-image:radial-gradient(ellipse_at_bottom,black_35%,transparent_75%)] z-0"
+            className="pointer-events-none absolute inset-0 bg-[repeating-linear-gradient(90deg,transparent,transparent_32px,var(--theme-accent-subtle)_32px,var(--theme-accent-subtle)_33px)] [mask-image:radial-gradient(ellipse_at_bottom,black_40%,transparent_80%)] z-0 opacity-75"
           />
         </>
       )}
@@ -52,7 +51,7 @@ export function AmbientSection({
         <>
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-emerald-400/15 rounded-full blur-[140px] z-0"
+            className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-[var(--theme-accent-glow)] rounded-full blur-[140px] z-0 opacity-50"
           />
           <div
             aria-hidden="true"
@@ -66,7 +65,7 @@ export function AmbientSection({
         <>
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute -bottom-24 left-1/2 -translate-x-1/2 w-[850px] h-[280px] bg-lime-400/20 rounded-full blur-[130px] z-0"
+            className="pointer-events-none absolute -bottom-24 left-1/2 -translate-x-1/2 w-[850px] h-[280px] bg-[var(--theme-aurora-glow)] rounded-full blur-[130px] z-0 opacity-85"
           />
           <div
             aria-hidden="true"
@@ -75,16 +74,16 @@ export function AmbientSection({
         </>
       )}
 
-      {/* 4. Variant: Dual Side (Mixing primary lime on left and secondary cyan/blue on right) */}
+      {/* 4. Variant: Dual Side (Mixing primary accent on left and subtle complement on right) */}
       {variant === 'dual-side' && (
         <>
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute top-1/4 -left-28 w-[500px] h-[500px] bg-lime-400/12 rounded-full blur-[140px] z-0"
+            className="pointer-events-none absolute top-1/4 -left-28 w-[500px] h-[500px] bg-[var(--theme-accent-glow)] rounded-full blur-[140px] z-0 opacity-40"
           />
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute bottom-1/4 -right-28 w-[500px] h-[500px] bg-cyan-400/12 rounded-full blur-[140px] z-0"
+            className="pointer-events-none absolute bottom-1/4 -right-28 w-[500px] h-[500px] bg-[var(--theme-aurora-glow)] rounded-full blur-[140px] z-0 opacity-40"
           />
           <div
             aria-hidden="true"
@@ -98,7 +97,7 @@ export function AmbientSection({
         <>
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 w-[700px] h-[320px] bg-lime-400/18 rounded-full blur-[130px] z-0"
+            className="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 w-[700px] h-[320px] bg-[var(--theme-accent-glow)] rounded-full blur-[130px] z-0 opacity-60"
           />
           <div
             aria-hidden="true"
@@ -112,7 +111,7 @@ export function AmbientSection({
         <>
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute top-1/3 left-1/2 -translate-x-1/2 w-[750px] h-[400px] bg-lime-400/12 rounded-full blur-[150px] z-0"
+            className="pointer-events-none absolute top-1/3 left-1/2 -translate-x-1/2 w-[750px] h-[400px] bg-[var(--theme-accent-glow)] rounded-full blur-[150px] z-0 opacity-40"
           />
           <div
             aria-hidden="true"

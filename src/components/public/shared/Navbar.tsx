@@ -194,8 +194,8 @@ export function Navbar() {
       ref={navRef}
       className={`sticky top-0 z-50 w-full transition-all duration-200 ${
         isScrolled
-          ? 'bg-[#0B0B0C]/90 backdrop-blur-2xl border-b border-white/15 shadow-2xl'
-          : 'bg-[#0B0B0C]/80 backdrop-blur-xl border-b border-white/10'
+          ? 'bg-[var(--theme-bg-surface)]/90 backdrop-blur-2xl border-b border-[var(--theme-border)] shadow-2xl'
+          : 'bg-[var(--theme-bg-surface)]/80 backdrop-blur-xl border-b border-[var(--theme-border)]/60'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -239,7 +239,7 @@ export function Navbar() {
                 <ChevronDown
                   className={`w-3.5 h-3.5 transition-transform duration-200 ${
                     activeDropdown === 'about'
-                      ? 'rotate-180 text-[#C6F432]'
+                      ? 'rotate-180 text-[var(--theme-accent)]'
                       : 'text-white/50'
                   }`}
                 />
@@ -445,7 +445,7 @@ export function Navbar() {
                 <ChevronDown
                   className={`w-3.5 h-3.5 transition-transform duration-200 ${
                     activeDropdown === 'services'
-                      ? 'rotate-180 text-[#C6F432]'
+                      ? 'rotate-180 text-[var(--theme-accent)]'
                       : 'text-white/50'
                   }`}
                 />
@@ -522,7 +522,7 @@ export function Navbar() {
                 <ChevronDown
                   className={`w-3.5 h-3.5 transition-transform duration-200 ${
                     activeDropdown === 'projects'
-                      ? 'rotate-180 text-[#C6F432]'
+                      ? 'rotate-180 text-[var(--theme-accent)]'
                       : 'text-white/50'
                   }`}
                 />
@@ -534,9 +534,9 @@ export function Navbar() {
                   onMouseEnter={() => handleMouseEnter('projects')}
                   onMouseLeave={handleMouseLeave}
                 >
-                  <div className="w-[300px] rounded-2xl clear-glass-card shadow-2xl p-3 border border-white/15 bg-[#0B0B0C]/95 backdrop-blur-2xl">
+                  <div className="w-[300px] rounded-2xl clear-glass-card shadow-2xl p-3 border border-white/15 bg-[var(--theme-bg-surface)]/95 backdrop-blur-2xl">
                     <div className="pb-2 mb-2 border-b border-white/10 px-2">
-                      <span className="text-[11px] font-bold uppercase tracking-wider text-[#C6F432]">
+                      <span className="text-[11px] font-bold uppercase tracking-wider text-[var(--theme-accent)]">
                         Portfolio &amp; Proof
                       </span>
                     </div>
@@ -550,7 +550,7 @@ export function Navbar() {
                             onClick={closeAll}
                             className="flex items-center gap-2.5 px-2.5 py-2 rounded-xl text-xs font-medium text-white/80 hover:text-white hover:bg-white/10 transition-colors group"
                           >
-                            <div className="w-6 h-6 rounded-md bg-white/10 text-[#C6F432] flex items-center justify-center shrink-0">
+                            <div className="w-6 h-6 rounded-md bg-white/10 text-[var(--theme-accent)] flex items-center justify-center shrink-0">
                               <Icon className="w-3.5 h-3.5" />
                             </div>
                             <span className="truncate">{p.name}</span>
@@ -595,7 +595,7 @@ export function Navbar() {
             <ThemeToggle />
             <Link
               href="/start-project"
-              className="inline-flex items-center justify-center gap-1.5 px-5 py-2 rounded-full text-[13px] font-black text-[#0B0B0C] bg-[#C6F432] hover:bg-[#D4F755] shadow-lg shadow-[#C6F432]/30 active:scale-[0.98] transition-all duration-200"
+              className="inline-flex items-center justify-center gap-1.5 px-5 py-2 rounded-full text-[13px] font-black text-[var(--theme-accent-text)] bg-[var(--theme-accent)] hover:brightness-110 shadow-lg shadow-[var(--theme-accent-glow)] active:scale-[0.98] transition-all duration-200"
             >
               <span>Start a Project</span>
               <ArrowRight className="w-3.5 h-3.5" />

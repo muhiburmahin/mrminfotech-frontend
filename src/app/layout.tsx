@@ -4,6 +4,7 @@ import './globals.css';
 import { ThemeProvider } from '@/context/ThemeContext';
 import { LanguageProvider } from '@/context/LanguageContext';
 import { DesignSystemProvider } from '@/components/providers/DesignSystemProvider';
+import { DEFAULT_THEME_ID, isValidThemeId, ThemeId } from '@/lib/theme/themes';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -58,26 +59,51 @@ export const metadata: Metadata = {
 const themeInitScript = `
   (function() {
     try {
-      var saved = localStorage.getItem('mrm_theme_mode');
-      var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      if (saved === 'dark' || (!saved && prefersDark)) {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
+      var savedTheme = localStorage.getItem('mrm_active_theme_id');
+      var validThemes = ['classic-navy-coral', 'midnight-lime', 'forest-purple', 'it-blue'];
+      if (savedTheme && validThemes.indexOf(savedTheme) !== -1) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
       }
+      document.documentElement.classList.add('dark');
     } catch (e) {}
   })();
 `;
 
-export default function RootLayout({
+async function getActiveTheme(): Promise<ThemeId> {
+  try {
+    const apiUrl =
+      process.env.INTERNAL_API_URL ||
+      process.env.NEXT_PUBLIC_API_URL ||
+      'http://localhost:5000/api/v1';
+    const res = await fetch(`${apiUrl}/site-settings`, {
+      next: { revalidate: 30 },
+    });
+    if (res.ok) {
+      const json = await res.json();
+      const settings = Array.isArray(json.data) ? json.data : Array.isArray(json) ? json : [];
+      const themeSetting = settings.find((s: { key: string }) => s.key === 'theme.active');
+      if (themeSetting?.value && isValidThemeId(themeSetting.value)) {
+        return themeSetting.value as ThemeId;
+      }
+    }
+  } catch {
+    // Backend offline or building statically
+  }
+  return DEFAULT_THEME_ID;
+}
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const initialTheme = await getActiveTheme();
+
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} scroll-smooth`}
+      data-theme={initialTheme}
+      className={`${geistSans.variable} ${geistMono.variable} scroll-smooth dark`}
       suppressHydrationWarning
     >
       <head>
@@ -85,10 +111,10 @@ export default function RootLayout({
       </head>
       <body
         suppressHydrationWarning
-        className="min-h-screen flex flex-col bg-[#0B0B0C] text-[#FFFFFF] font-sans antialiased selection:bg-[#C6F432] selection:text-[#0B0B0C] transition-colors duration-150"
+        className="min-h-screen flex flex-col bg-[var(--theme-bg-canvas)] text-[var(--theme-text-primary)] font-sans antialiased selection:bg-[var(--theme-accent)] selection:text-[var(--theme-accent-text)] transition-colors duration-150"
       >
         <DesignSystemProvider>
-          <ThemeProvider>
+          <ThemeProvider initialThemeId={initialTheme}>
             <LanguageProvider>
               {children}
             </LanguageProvider>

@@ -159,6 +159,7 @@ export interface AdminTeamPayload {
   consentGiven?: boolean;
   slug?: string;
   department?: string | null;
+  photoId?: string | null;
 }
 
 export async function getAdminTeamMembers() {
@@ -340,3 +341,4 @@ export async function uploadMediaFiles(files: File[]): Promise<string[]> {
   }
   return urls;
 }
+

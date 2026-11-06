@@ -16,42 +16,180 @@
   --color-muted-text: var(--text-muted);
 }
 
-:root {
+:root,
+[data-theme="classic-navy-coral"] {
   /* ========================================================================
-     60-30-10 RIGID COLOR DISTRIBUTION SYSTEM
-     - 60% Dominant: Midnight Black (#0B0B0C)
-     - 30% Structural: Pure White (#FFFFFF)
-     - 10% Accent: Lime Green (#C6F432) exclusive to interactive CTA elements
+     THEME 2: CLASSIC NAVY & CORAL (DEFAULT ACTIVE THEME)
+     - 60% Dominant: Navy Blue (#0A192F / #071324)
+     - 30% Structural: Cream (#FAF5EE / #D6CBB8), Border (#1E3A5F)
+     - 10% Accent: Punchy Coral (#FF6B6B / #FF8585)
      ======================================================================== */
+  --theme-bg-canvas: #071324;
+  --theme-bg-surface: #0A192F;
+  --theme-bg-card: #0F223D;
+  --theme-bg-glass: rgba(15, 34, 61, 0.75);
+
+  --theme-text-primary: #FAF5EE;
+  --theme-text-secondary: #D6CBB8;
+  --theme-text-muted: rgba(214, 203, 184, 0.65);
+
+  --theme-border: #1E3A5F;
+  --theme-border-glass: rgba(30, 58, 95, 0.70);
+
+  --theme-accent: #FF6B6B;
+  --theme-accent-hover: #FF8585;
+  --theme-accent-active: #E6474C;
+  --theme-accent-text: #071324;
+  --theme-accent-glow: rgba(255, 107, 107, 0.35);
+  --theme-accent-subtle: rgba(255, 107, 107, 0.15);
+  --theme-aurora-glow: rgba(255, 107, 107, 0.25);
+
+  --dominant-60: #0A192F;
+  --dominant-60-rgb: 10, 25, 47;
+  --glass-surface: rgba(15, 34, 61, 0.75);
+
+  --structural-30: #FAF5EE;
+  --structural-30-rgb: 250, 245, 238;
+  --glass-border: rgba(30, 58, 95, 0.70);
+  --text-primary-30: #FAF5EE;
+  --text-secondary-30: #D6CBB8;
+  --text-muted-30: rgba(214, 203, 184, 0.65);
+
+  --accent-10: #FF6B6B;
+  --accent-10-rgb: 255, 107, 107;
+  --accent-10-hover: #FF8585;
+  --accent-10-active: #E6474C;
+  --accent-10-contrast: #071324;
+  --accent-10-glow: rgba(255, 107, 107, 0.35);
+
+  --glass-blur: 16px;
+  --ease-locked: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme="midnight-lime"] {
+  /* THEME 1: MIDNIGHT BLACK & LIME GREEN */
+  --theme-bg-canvas: #0B0B0C;
+  --theme-bg-surface: #121215;
+  --theme-bg-card: #17171C;
+  --theme-bg-glass: rgba(18, 18, 21, 0.75);
+
+  --theme-text-primary: #FFFFFF;
+  --theme-text-secondary: #A1A1AA;
+  --theme-text-muted: rgba(161, 161, 170, 0.65);
+
+  --theme-border: #27272A;
+  --theme-border-glass: rgba(39, 39, 42, 0.70);
+
+  --theme-accent: #C6F432;
+  --theme-accent-hover: #D4F755;
+  --theme-accent-active: #B2E022;
+  --theme-accent-text: #0B0B0C;
+  --theme-accent-glow: rgba(198, 244, 50, 0.35);
+  --theme-accent-subtle: rgba(198, 244, 50, 0.15);
+  --theme-aurora-glow: rgba(198, 244, 50, 0.22);
+
   --dominant-60: #0B0B0C;
   --dominant-60-rgb: 11, 11, 12;
-  --glass-surface: rgba(11, 11, 12, 0.40);
+  --glass-surface: rgba(18, 18, 21, 0.75);
 
   --structural-30: #FFFFFF;
   --structural-30-rgb: 255, 255, 255;
-  --glass-border: rgba(255, 255, 255, 0.20);
+  --glass-border: rgba(39, 39, 42, 0.70);
   --text-primary-30: #FFFFFF;
-  --text-secondary-30: rgba(255, 255, 255, 0.70);
-  --text-muted-30: rgba(255, 255, 255, 0.45);
+  --text-secondary-30: #A1A1AA;
+  --text-muted-30: rgba(161, 161, 170, 0.65);
 
   --accent-10: #C6F432;
   --accent-10-rgb: 198, 244, 50;
   --accent-10-hover: #D4F755;
   --accent-10-active: #B2E022;
   --accent-10-contrast: #0B0B0C;
-  --accent-10-glow: rgba(198, 244, 50, 0.25);
+  --accent-10-glow: rgba(198, 244, 50, 0.35);
+}
 
-  --glass-blur: 16px;
-  --ease-locked: cubic-bezier(0.4, 0, 0.2, 1);
+[data-theme="forest-purple"] {
+  /* THEME 3: FOREST GREEN & ELECTRIC PURPLE */
+  --theme-bg-canvas: #061510;
+  --theme-bg-surface: #0B2019;
+  --theme-bg-card: #112E24;
+  --theme-bg-glass: rgba(17, 46, 36, 0.75);
 
-  /* Official MRM InfoTech Brand Palette */
-  --brand-navy: #071A35;
-  --brand-secondary: #103B68;
-  --brand-blue: #087FC4;
-  --brand-cyan: #20B8D5;
-  --brand-navy-primary: #071A35;
-  --brand-navy-secondary: #103B68;
+  --theme-text-primary: #F5EBE1;
+  --theme-text-secondary: #C4BAA9;
+  --theme-text-muted: rgba(196, 186, 169, 0.65);
 
+  --theme-border: #1C4738;
+  --theme-border-glass: rgba(28, 71, 56, 0.70);
+
+  --theme-accent: #BF5AF2;
+  --theme-accent-hover: #D07BFA;
+  --theme-accent-active: #9D2FE6;
+  --theme-accent-text: #061510;
+  --theme-accent-glow: rgba(191, 90, 242, 0.35);
+  --theme-accent-subtle: rgba(191, 90, 242, 0.15);
+  --theme-aurora-glow: rgba(191, 90, 242, 0.22);
+
+  --dominant-60: #0B2019;
+  --dominant-60-rgb: 11, 32, 25;
+  --glass-surface: rgba(17, 46, 36, 0.75);
+
+  --structural-30: #F5EBE1;
+  --structural-30-rgb: 245, 235, 225;
+  --glass-border: rgba(28, 71, 56, 0.70);
+  --text-primary-30: #F5EBE1;
+  --text-secondary-30: #C4BAA9;
+  --text-muted-30: rgba(196, 186, 169, 0.65);
+
+  --accent-10: #BF5AF2;
+  --accent-10-rgb: 191, 90, 242;
+  --accent-10-hover: #D07BFA;
+  --accent-10-active: #9D2FE6;
+  --accent-10-contrast: #061510;
+  --accent-10-glow: rgba(191, 90, 242, 0.35);
+}
+
+[data-theme="it-blue"] {
+  /* THEME 4: PROFESSIONAL IT BLUE */
+  --theme-bg-canvas: #060D1D;
+  --theme-bg-surface: #0A192F;
+  --theme-bg-card: #0D223F;
+  --theme-bg-glass: rgba(10, 25, 47, 0.75);
+
+  --theme-text-primary: #FFFFFF;
+  --theme-text-secondary: #8892B0;
+  --theme-text-muted: rgba(136, 146, 176, 0.65);
+
+  --theme-border: #1B2A4A;
+  --theme-border-glass: rgba(27, 42, 74, 0.70);
+
+  --theme-accent: #00D2FF;
+  --theme-accent-hover: #007BFF;
+  --theme-accent-active: #0056B3;
+  --theme-accent-text: #060D1D;
+  --theme-accent-glow: rgba(0, 210, 255, 0.35);
+  --theme-accent-subtle: rgba(0, 210, 255, 0.15);
+  --theme-aurora-glow: rgba(0, 210, 255, 0.22);
+
+  --dominant-60: #060D1D;
+  --dominant-60-rgb: 6, 13, 29;
+  --glass-surface: rgba(10, 25, 47, 0.75);
+
+  --structural-30: #FFFFFF;
+  --structural-30-rgb: 255, 255, 255;
+  --glass-border: rgba(27, 42, 74, 0.70);
+  --text-primary-30: #FFFFFF;
+  --text-secondary-30: #8892B0;
+  --text-muted-30: rgba(136, 146, 176, 0.65);
+
+  --accent-10: #00D2FF;
+  --accent-10-rgb: 0, 210, 255;
+  --accent-10-hover: #007BFF;
+  --accent-10-active: #0056B3;
+  --accent-10-contrast: #060D1D;
+  --accent-10-glow: rgba(0, 210, 255, 0.35);
+}
+
+:root {
   /* Light Mode Tokens (Cool White + Subtle Blue Tint) */
   --bg-primary: #F7FAFE;
   --bg-secondary: #EFF5FB;
@@ -462,68 +600,70 @@ body {
   background: radial-gradient(circle at 50% 50%, rgba(198, 244, 50, 0.22) 0%, rgba(11, 11, 12, 0) 70%);
 }
 
-.lime-glow-beam {
-  background: radial-gradient(ellipse 80% 70% at 50% 90%, rgba(198, 244, 50, 0.50) 0%, rgba(198, 244, 50, 0.25) 38%, rgba(198, 244, 50, 0.08) 65%, rgba(11, 11, 12, 0) 85%);
+/* Dynamic Volumetric Light Beam & Vertical Light Rays Driven by Active Theme */
+.lime-glow-beam,
+.theme-glow-beam {
+  background: radial-gradient(ellipse 80% 70% at 50% 90%, var(--theme-accent-glow) 0%, var(--theme-accent-subtle) 38%, transparent 85%);
 }
 
-/* Radiant Volumetric Light Beam & Vertical Light Rays (As shown in Reference Screenshot) */
 .hero-aurora-beam {
-  background: radial-gradient(ellipse 75% 65% at 50% 92%, rgba(198, 244, 50, 0.55) 0%, rgba(198, 244, 50, 0.28) 40%, rgba(198, 244, 50, 0.08) 65%, transparent 85%);
+  background: radial-gradient(ellipse 75% 65% at 50% 92%, var(--theme-accent-glow) 0%, var(--theme-aurora-glow) 40%, var(--theme-accent-subtle) 65%, transparent 85%);
   filter: blur(40px);
 }
 
 .hero-light-rays {
-  background: repeating-linear-gradient(90deg, transparent, transparent 32px, rgba(198, 244, 50, 0.09) 32px, rgba(198, 244, 50, 0.09) 33px);
+  background: repeating-linear-gradient(90deg, transparent, transparent 32px, var(--theme-accent-subtle) 32px, var(--theme-accent-subtle) 33px);
   mask-image: radial-gradient(ellipse at 50% 85%, black 30%, transparent 75%);
   -webkit-mask-image: radial-gradient(ellipse at 50% 85%, black 30%, transparent 75%);
 }
 
 .neon-card-glow {
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(198, 244, 50, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 30px var(--theme-accent-subtle), inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
 .neon-card-glow:hover {
-  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.9), 0 0 45px rgba(198, 244, 50, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.9), 0 0 45px var(--theme-accent-glow), inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 .neon-text-glow {
-  text-shadow: 0 0 20px rgba(198, 244, 50, 0.5), 0 0 40px rgba(198, 244, 50, 0.25);
+  text-shadow: 0 0 20px var(--theme-accent-glow), 0 0 40px var(--theme-accent-subtle);
 }
 
-
-.lime-glow-cone {
-  background: conic-gradient(from 180deg at 50% 100%, rgba(198, 244, 50, 0.15) 0deg, rgba(11, 11, 12, 0) 60deg, rgba(11, 11, 12, 0) 300deg, rgba(198, 244, 50, 0.15) 360deg);
+.lime-glow-cone,
+.theme-glow-cone {
+  background: conic-gradient(from 180deg at 50% 100%, var(--theme-accent-subtle) 0deg, transparent 60deg, transparent 300deg, var(--theme-accent-subtle) 360deg);
 }
 
-/* Clear Frosted Glassmorphic Utilities */
+/* Clear Frosted Glassmorphic Utilities Powered by Dynamic Theme Variables */
 .clear-glass {
-  background: rgba(255, 255, 255, 0.03) !important;
+  background: var(--theme-bg-glass) !important;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.14) !important;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  border: 1px solid var(--theme-border-glass) !important;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.10);
 }
 
 .clear-glass-card {
-  background: rgba(11, 11, 12, 0.70) !important;
+  background: var(--theme-bg-glass) !important;
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
-  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  border: 1px solid var(--theme-border-glass) !important;
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.65);
   transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .clear-glass-card:hover {
-  border-color: rgba(255, 255, 255, 0.30) !important;
-  box-shadow: 0 26px 60px rgba(0, 0, 0, 0.85), 0 0 30px rgba(198, 244, 50, 0.10) !important;
+  border-color: var(--theme-accent) !important;
+  box-shadow: 0 26px 60px rgba(0, 0, 0, 0.85), 0 0 30px var(--theme-accent-subtle) !important;
   transform: translateY(-3px);
 }
 
 .clear-glass-pill {
-  background: rgba(255, 255, 255, 0.05) !important;
+  background: var(--theme-bg-glass) !important;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border: 1px solid var(--theme-border-glass) !important;
+  color: var(--theme-text-primary);
 }
 
 

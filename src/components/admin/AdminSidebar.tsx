@@ -17,6 +17,7 @@ import {
   ShieldCheck,
   Users,
   X,
+  Sliders,
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 
@@ -100,9 +101,14 @@ export function AdminSidebar({ onCloseMobile }: { onCloseMobile?: () => void }) 
           badge: user?.twoFactorEnabled ? '2FA On' : undefined,
         },
         {
-          label: 'Settings & Theme',
-          href: '/admin/dashboard/settings',
+          label: 'Theme Management',
+          href: '/admin/dashboard/theme',
           icon: Palette,
+        },
+        {
+          label: 'Settings & Brand',
+          href: '/admin/dashboard/settings',
+          icon: Sliders,
           permission: 'setting:read',
         },
       ],

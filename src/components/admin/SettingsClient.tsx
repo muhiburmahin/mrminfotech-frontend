@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { Building2, Palette } from 'lucide-react';
 import { CompanyProfileForm } from '@/components/admin/forms/CompanyProfileForm';
-import { ThemeConfigurator } from '@/components/admin/forms/ThemeConfigurator';
+import { ThemeManagement } from '@/components/admin/ThemeManagement';
 
 export function SettingsClient() {
   const [activeTab, setActiveTab] = useState<'company' | 'theme'>('company');
@@ -41,7 +41,7 @@ export function SettingsClient() {
 
       {/* Tab Panels */}
       {activeTab === 'company' && <CompanyProfileForm />}
-      {activeTab === 'theme' && <ThemeConfigurator />}
+      {activeTab === 'theme' && <ThemeManagement />}
     </div>
   );
 }

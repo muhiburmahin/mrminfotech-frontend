@@ -1,12 +1,37 @@
 'use client';
 
-import React, { createContext, useContext, useEffect, useState, useCallback, useSyncExternalStore } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+  useSyncExternalStore,
+} from 'react';
 import type { BrandAppearanceConfig } from '@/types/homepage';
 import { DEFAULT_BRAND_APPEARANCE } from '@/types/homepage';
+import {
+  ThemeId,
+  ThemeDefinition,
+  THEME_TEMPLATES,
+  DEFAULT_THEME_ID,
+  getTheme,
+  isValidThemeId,
+} from '@/lib/theme/themes';
+import { authRequest } from '@/lib/api/auth.service';
 
 export type Theme = 'light' | 'dark';
 
-interface ThemeContextValue {
+export interface ThemeContextValue {
+  // Global 4-Theme Engine
+  activeThemeId: ThemeId;
+  previewThemeId: ThemeId | null;
+  activeTheme: ThemeDefinition;
+  setPreviewThemeId: (id: ThemeId | null) => void;
+  setGlobalThemeId: (id: ThemeId) => Promise<boolean>;
+  isApplying: boolean;
+
+  // Backwards compatibility for light/dark & legacy appearance
   theme: Theme;
   toggleTheme: () => void;
   setTheme: (theme: Theme) => void;
@@ -18,81 +43,140 @@ const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
 
 const THEME_STORAGE_KEY = 'mrm_theme_mode';
 const BRAND_STORAGE_KEY = 'mrm_brand_appearance';
+export const ACTIVE_THEME_STORAGE_KEY = 'mrm_active_theme_id';
+
 const emptySubscribe = () => () => {};
 
-function applyThemeVariables(appearance: BrandAppearanceConfig, activeTheme: Theme) {
-  if (typeof document === 'undefined') return;
-  const root = document.documentElement;
-
-  // Primary brand palette
-  root.style.setProperty('--brand-navy', appearance.darkNavy);
-  root.style.setProperty('--brand-secondary', appearance.secondaryColor);
-  root.style.setProperty('--brand-blue', appearance.primaryColor);
-  root.style.setProperty('--brand-cyan', appearance.accentColor);
-
-  root.style.setProperty('--color-brand-navy', appearance.darkNavy);
-  root.style.setProperty('--color-brand-secondary', appearance.secondaryColor);
-  root.style.setProperty('--color-brand-blue', appearance.primaryColor);
-  root.style.setProperty('--color-brand-cyan', appearance.accentColor);
-
-  // Mode tokens
-  if (activeTheme === 'dark') {
-    root.style.setProperty('--background', appearance.darkBackground || '#07162C');
-    root.style.setProperty('--surface', '#0B1E3B');
-    root.style.setProperty('--foreground', '#F8FAFC');
-    root.style.setProperty('--muted', '#94A3B8');
-    root.style.setProperty('--border', '#1E3557');
-  } else {
-    root.style.setProperty('--background', appearance.lightBackground || '#FFFFFF');
-    root.style.setProperty('--surface', '#F4F8FC');
-    root.style.setProperty('--foreground', appearance.mainText || '#15243A');
-    root.style.setProperty('--muted', appearance.mutedText || '#66758A');
-    root.style.setProperty('--border', appearance.borderColor || '#E3EAF2');
-  }
-}
-
-export function ThemeProvider({ children }: { children: React.ReactNode }) {
+export function ThemeProvider({
+  children,
+  initialThemeId = DEFAULT_THEME_ID,
+}: {
+  children: React.ReactNode;
+  initialThemeId?: ThemeId;
+}) {
   const isMounted = useSyncExternalStore(
     emptySubscribe,
     () => true,
     () => false
   );
 
-  // Synchronous client initializer without effect cascading
-  const [theme, setThemeState] = useState<Theme>(() => {
+  const [activeThemeId, setActiveThemeId] = useState<ThemeId>(() => {
     if (typeof window !== 'undefined') {
       try {
-        const saved = localStorage.getItem(THEME_STORAGE_KEY) as Theme | null;
-        if (saved === 'light' || saved === 'dark') return saved;
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-          return 'dark';
-        }
+        const saved = localStorage.getItem(ACTIVE_THEME_STORAGE_KEY);
+        if (saved && isValidThemeId(saved)) return saved as ThemeId;
       } catch {
         // Fallback
       }
     }
-    return 'light';
+    return isValidThemeId(initialThemeId) ? initialThemeId : DEFAULT_THEME_ID;
   });
 
-  const [brandAppearance, setBrandAppearanceState] = useState<BrandAppearanceConfig>(() => {
-    if (typeof window !== 'undefined') {
-      try {
-        const savedBrand = localStorage.getItem(BRAND_STORAGE_KEY);
-        if (savedBrand) return JSON.parse(savedBrand);
-      } catch {
-        // Fallback
-      }
-    }
-    return DEFAULT_BRAND_APPEARANCE;
-  });
+  const [previewThemeId, setPreviewThemeIdState] = useState<ThemeId | null>(null);
+  const [isApplying, setIsApplying] = useState(false);
 
-  // Synchronize CSS class and CSS variables on mount or when theme/branding changes
+  // Legacy light/dark mode support
+  const [theme, setThemeState] = useState<Theme>('dark');
+  const [brandAppearance, setBrandAppearanceState] = useState<BrandAppearanceConfig>(
+    DEFAULT_BRAND_APPEARANCE
+  );
+
+  // Sync data-theme attribute on <html> whenever active or preview theme changes
   useEffect(() => {
+    if (typeof document === 'undefined') return;
+    const targetTheme = previewThemeId || activeThemeId;
+    document.documentElement.setAttribute('data-theme', targetTheme);
+    document.documentElement.classList.toggle('dark', true);
+  }, [activeThemeId, previewThemeId]);
+
+  // Listen to cross-tab storage / custom events
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const handleStorage = (e: StorageEvent) => {
+      if (e.key === ACTIVE_THEME_STORAGE_KEY && e.newValue && isValidThemeId(e.newValue)) {
+        setActiveThemeId(e.newValue as ThemeId);
+      }
+    };
+
+    const handleCustomChange = (e: Event) => {
+      const customEvent = e as CustomEvent<ThemeId>;
+      if (customEvent.detail && isValidThemeId(customEvent.detail)) {
+        setActiveThemeId(customEvent.detail);
+      }
+    };
+
+    window.addEventListener('storage', handleStorage);
+    window.addEventListener('mrm_theme_changed', handleCustomChange);
+    return () => {
+      window.removeEventListener('storage', handleStorage);
+      window.removeEventListener('mrm_theme_changed', handleCustomChange);
+    };
+  }, []);
+
+  const setPreviewThemeId = useCallback((id: ThemeId | null) => {
+    setPreviewThemeIdState(id);
     if (typeof document !== 'undefined') {
-      document.documentElement.classList.toggle('dark', theme === 'dark');
-      applyThemeVariables(brandAppearance, theme);
+      const target = id || activeThemeId;
+      document.documentElement.setAttribute('data-theme', target);
     }
-  }, [theme, brandAppearance]);
+  }, [activeThemeId]);
+
+  const setGlobalThemeId = useCallback(async (newId: ThemeId): Promise<boolean> => {
+    if (!isValidThemeId(newId)) return false;
+    setIsApplying(true);
+
+    try {
+      // Persist to backend database via SiteSetting key 'theme.active'
+      try {
+        await authRequest('/admin/site-settings/theme.active', {
+          method: 'PATCH',
+          body: JSON.stringify({
+            group: 'appearance',
+            value: newId,
+            isPublic: true,
+          }),
+        });
+      } catch (patchErr) {
+        // Fallback to POST if setting record does not yet exist
+        console.warn('PATCH /admin/site-settings/theme.active failed, trying POST:', patchErr);
+        await authRequest('/admin/site-settings', {
+          method: 'POST',
+          body: JSON.stringify({
+            key: 'theme.active',
+            group: 'appearance',
+            value: newId,
+            isPublic: true,
+          }),
+        });
+      }
+
+      // Update local storage and in-memory state
+      if (typeof window !== 'undefined') {
+        localStorage.setItem(ACTIVE_THEME_STORAGE_KEY, newId);
+        window.dispatchEvent(new CustomEvent('mrm_theme_changed', { detail: newId }));
+      }
+
+      setActiveThemeId(newId);
+      setPreviewThemeIdState(null);
+      if (typeof document !== 'undefined') {
+        document.documentElement.setAttribute('data-theme', newId);
+      }
+
+      return true;
+    } catch (err) {
+      console.error('Failed to persist global theme to backend:', err);
+      // Still update locally for user feedback
+      setActiveThemeId(newId);
+      setPreviewThemeIdState(null);
+      if (typeof window !== 'undefined') {
+        localStorage.setItem(ACTIVE_THEME_STORAGE_KEY, newId);
+      }
+      return false;
+    } finally {
+      setIsApplying(false);
+    }
+  }, []);
 
   const setTheme = useCallback((newTheme: Theme) => {
     setThemeState(newTheme);
@@ -101,11 +185,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     } catch {
       // Storage error ignored
     }
-    if (typeof document !== 'undefined') {
-      document.documentElement.classList.toggle('dark', newTheme === 'dark');
-      applyThemeVariables(brandAppearance, newTheme);
-    }
-  }, [brandAppearance]);
+  }, []);
 
   const toggleTheme = useCallback(() => {
     const nextTheme: Theme = theme === 'dark' ? 'light' : 'dark';
@@ -119,12 +199,17 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     } catch {
       // Storage error ignored
     }
-    applyThemeVariables(appearance, theme);
-  }, [theme]);
+  }, []);
 
   return (
     <ThemeContext.Provider
       value={{
+        activeThemeId,
+        previewThemeId,
+        activeTheme: getTheme(previewThemeId || activeThemeId),
+        setPreviewThemeId,
+        setGlobalThemeId,
+        isApplying,
         theme,
         toggleTheme,
         setTheme,
