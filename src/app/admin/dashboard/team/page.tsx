@@ -24,6 +24,7 @@ import {
   updateAdminTeamMember,
   deleteAdminTeamMember,
 } from '@/lib/api/admin';
+import Link from 'next/link';
 import { TeamForm, AdminTeamRecord } from '@/components/admin/forms/TeamForm';
 
 export default function AdminTeamPage() {
@@ -41,7 +42,14 @@ export default function AdminTeamPage() {
     setLoading(true);
     setError(null);
     try {
-      const data = await getAdminTeamMembers();
+      let data: unknown;
+      if (typeof getAdminTeamMembers === 'function') {
+        data = await getAdminTeamMembers();
+      } else {
+        const mod = await import('@/lib/api/admin');
+        data = await mod.getAdminTeamMembers();
+      }
+
       const rawList = Array.isArray(data)
         ? data
         : Array.isArray((data as unknown as { data: AdminTeamRecord[] })?.data)
@@ -58,7 +66,11 @@ export default function AdminTeamPage() {
       setTeamMembers(sorted as AdminTeamRecord[]);
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : 'টিম মেম্বারদের তালিকা লোড করতে ব্যর্থ হয়েছে';
-      setError(msg);
+      if (msg.includes('401') || msg.toLowerCase().includes('unauthorized')) {
+        setError('AUTH_EXPIRED: আপনার অ্যাডমিন সেশনের মেয়াদ শেষ হয়ে গেছে। অনুগ্রহ করে পুনরায় লগইন করুন।');
+      } else {
+        setError(msg);
+      }
     } finally {
       setLoading(false);
     }
@@ -248,8 +260,16 @@ export default function AdminTeamPage() {
 
       {/* Global Alerts */}
       {error && (
-        <div className="p-4 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-500 text-xs font-medium">
-          {error}
+        <div className="p-4 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-500 text-xs font-medium flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+          <span>{error.replace('AUTH_EXPIRED: ', '')}</span>
+          {error.includes('AUTH_EXPIRED') && (
+            <Link
+              href="/admin/login"
+              className="px-3.5 py-1.5 rounded-lg bg-rose-500 text-white font-bold text-xs hover:bg-rose-600 transition-colors shrink-0"
+            >
+              পুনরায় লগইন করুন (Go to Login)
+            </Link>
+          )}
         </div>
       )}
 

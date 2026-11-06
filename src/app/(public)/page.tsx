@@ -24,10 +24,16 @@ import {
   Activity,
   Workflow,
   BookOpen,
+  Cloud,
+  Database,
+  Smartphone,
+  Palette,
+  Briefcase,
 } from 'lucide-react';
 import HomeFaqAccordion from '@/components/public/home/HomeFaqAccordion';
 import ProblemsWeSolveSection from '@/components/public/home/ProblemsWeSolveSection';
 import { MrmHeroShowcaseTriad } from '@/components/public/home/MrmHeroShowcaseTriad';
+import { AmbientSection } from '@/components/ui/AmbientSection';
 import GlassEmptyState from '@/components/ui/GlassEmptyState';
 import { GlassCard } from '@/components/ui/design-system/GlassCard';
 import { MasonryGrid } from '@/components/ui/design-system/MasonryGrid';
@@ -464,9 +470,43 @@ export default async function HomePage() {
   const latestPosts: PublishedBlogPost[] = apiBlogPosts.slice(0, 3);
 
   const getProductIcon = (slug: string) => {
-    if (slug.includes('edumanage') || slug.includes('school')) return <GraduationCap className="w-5 h-5 text-white" />;
-    if (slug.includes('medisheba') || slug.includes('health')) return <HeartPulse className="w-5 h-5 text-white" />;
-    return <Building2 className="w-5 h-5 text-white" />;
+    if (slug.includes('edumanage') || slug.includes('school')) return <GraduationCap className="w-5 h-5 text-[#C6F432]" />;
+    if (slug.includes('medisheba') || slug.includes('health')) return <HeartPulse className="w-5 h-5 text-[#C6F432]" />;
+    return <Building2 className="w-5 h-5 text-[#C6F432]" />;
+  };
+
+  const getServiceIcon = (slug: string) => {
+    switch (slug) {
+      case 'custom-software-development':
+        return <Code2 className="w-5 h-5 text-[#C6F432]" />;
+      case 'web-application-development':
+        return <Globe className="w-5 h-5 text-[#C6F432]" />;
+      case 'mobile-app-development':
+        return <Smartphone className="w-5 h-5 text-[#C6F432]" />;
+      case 'enterprise-erp-solutions':
+        return <Layers className="w-5 h-5 text-[#C6F432]" />;
+      case 'cloud-devops-infrastructure':
+        return <Cloud className="w-5 h-5 text-[#C6F432]" />;
+      case 'ai-machine-learning-solutions':
+        return <Cpu className="w-5 h-5 text-[#C6F432]" />;
+      case 'ui-ux-design':
+        return <Palette className="w-5 h-5 text-[#C6F432]" />;
+      case 'cybersecurity-compliance':
+        return <ShieldCheck className="w-5 h-5 text-[#C6F432]" />;
+      case 'database-architecture-migration':
+        return <Database className="w-5 h-5 text-[#C6F432]" />;
+      default:
+        return <Zap className="w-5 h-5 text-[#C6F432]" />;
+    }
+  };
+
+  const formatServiceTitle = (title: string, slug?: string): string => {
+    if (title && !title.includes('-')) return title;
+    const raw = title || slug || '';
+    return raw
+      .split('-')
+      .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+      .join(' ');
   };
 
   return (
@@ -481,7 +521,7 @@ export default async function HomePage() {
           - Volumetric vertical light beam (.hero-aurora-beam) + Cyber light rays (.hero-light-rays)
           - 3 Luminous interactive showcase cards (MrmHeroShowcaseTriad)
           ===================================================================== */}
-      <section className="relative pt-12 pb-24 lg:pt-16 lg:pb-32 overflow-hidden border-b border-white/10 bg-[#0B0B0C]">
+      <AmbientSection variant="hero-rays" className="pt-12 pb-24 lg:pt-16 lg:pb-32">
         {/* Volumetric Aurora Beam (Intense vertical green glow from bottom up) */}
         <div
           aria-hidden="true"
@@ -605,52 +645,52 @@ export default async function HomePage() {
           {/* The 3 Radiant Showcase Glass Cards (Sitting inside the glowing light beam) */}
           <MrmHeroShowcaseTriad />
         </div>
-      </section>
+      </AmbientSection>
 
       {/* =====================================================================
           SECTION 02 — ENTERPRISE TELEMETRY & TECH MARQUEE
           ===================================================================== */}
-      <section className="py-12 bg-[#0B0B0C] border-b border-white/10 relative z-10">
+      <AmbientSection variant="horizon" className="py-14 z-10">
         <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 pb-10 border-b border-white/10">
             <div>
-              <div className="text-3xl sm:text-4xl font-black text-white font-mono">
+              <div className="text-3xl sm:text-5xl font-black text-white font-mono">
                 <CountUp end={99.9} decimals={1} suffix="%" />
               </div>
-              <p className="text-xs font-bold uppercase tracking-wider text-white mt-1">
+              <p className="text-xs font-bold uppercase tracking-wider text-[#C6F432] mt-2">
                 Uptime SLA
               </p>
-              <p className="text-[11px] text-white/50">Enterprise resilience guaranteed</p>
+              <p className="text-[11px] text-white/50 mt-0.5">Enterprise resilience guaranteed</p>
             </div>
 
             <div>
-              <div className="text-3xl sm:text-4xl font-black text-white font-mono">
+              <div className="text-3xl sm:text-5xl font-black text-white font-mono">
                 <CountUp end={14} suffix="+" />
               </div>
-              <p className="text-xs font-bold uppercase tracking-wider text-white mt-1">
+              <p className="text-xs font-bold uppercase tracking-wider text-[#C6F432] mt-2">
                 Disciplines
               </p>
-              <p className="text-[11px] text-white/50">Full-stack software engineering</p>
+              <p className="text-[11px] text-white/50 mt-0.5">Full-stack software engineering</p>
             </div>
 
             <div>
-              <div className="text-3xl sm:text-4xl font-black text-white font-mono">
+              <div className="text-3xl sm:text-5xl font-black text-white font-mono">
                 <CountUp end={100} suffix="%" />
               </div>
-              <p className="text-xs font-bold uppercase tracking-wider text-white mt-1">
+              <p className="text-xs font-bold uppercase tracking-wider text-[#C6F432] mt-2">
                 Verified Code
               </p>
-              <p className="text-[11px] text-white/50">Security &amp; audit compliant</p>
+              <p className="text-[11px] text-white/50 mt-0.5">Security &amp; audit compliant</p>
             </div>
 
             <div>
-              <div className="text-3xl sm:text-4xl font-black text-white font-mono">
+              <div className="text-3xl sm:text-5xl font-black text-white font-mono">
                 24/7
               </div>
-              <p className="text-xs font-bold uppercase tracking-wider text-white mt-1">
+              <p className="text-xs font-bold uppercase tracking-wider text-[#C6F432] mt-2">
                 System Telemetry
               </p>
-              <p className="text-[11px] text-white/50">Active cloud observability</p>
+              <p className="text-[11px] text-white/50 mt-0.5">Active cloud observability</p>
             </div>
           </div>
 
@@ -662,7 +702,7 @@ export default async function HomePage() {
               {ENTERPRISE_STACKS.map((tech) => (
                 <div
                   key={tech}
-                  className="flex items-center gap-2 text-xs font-bold text-white/80 px-4 py-2 rounded-full clear-glass-pill shrink-0"
+                  className="flex items-center gap-2 text-xs font-bold text-white/90 px-4 py-2 rounded-full clear-glass-pill shrink-0 border border-white/10 hover:border-lime-400/40 transition-colors"
                 >
                   <span className="w-1.5 h-1.5 rounded-full bg-[#C6F432]" />
                   <span>{tech}</span>
@@ -671,20 +711,23 @@ export default async function HomePage() {
             </InfiniteMarquee>
           </div>
         </div>
-      </section>
+      </AmbientSection>
 
       {/* =====================================================================
           SECTION 03 — WHO WE ARE & 3 CLEAR GLASS PILLARS
           ===================================================================== */}
-      <section className="py-20 lg:py-28 bg-[#0B0B0C] border-b border-white/10">
+      <AmbientSection variant="center-orb" className="py-20 lg:py-28">
         <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           <ScrollReveal direction="left" delay={0.1} className="lg:col-span-6 space-y-5">
-            <span className="text-xs font-extrabold uppercase tracking-widest text-[#C6F432]">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full clear-glass-pill text-xs font-bold text-[#C6F432] tracking-widest uppercase">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#C6F432]" />
               WHO WE ARE
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white leading-tight">
+            </div>
+            <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-white leading-tight">
               Technology With Purpose. <br />
-              Solutions With Impact.
+              <span className="font-serif italic font-normal text-[#C6F432] neon-text-glow">
+                Solutions With Impact.
+              </span>
             </h2>
             <p className="text-base sm:text-lg text-white/70 leading-relaxed">
               MRM InfoTech is a technology company focused on building software
@@ -696,10 +739,11 @@ export default async function HomePage() {
             </p>
             <div className="pt-2">
               <Link
-                className="inline-flex items-center gap-2 font-bold text-sm sm:text-base text-[#C6F432] hover:underline"
+                className="inline-flex items-center gap-2 font-bold text-sm sm:text-base text-[#C6F432] hover:gap-3 transition-all"
                 href="/about"
               >
-                Discover MRM InfoTech <ArrowRight className="w-4 h-4" />
+                <span>Discover MRM InfoTech</span>
+                <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
           </ScrollReveal>
@@ -707,11 +751,11 @@ export default async function HomePage() {
           {/* 3 Clear Frosted Glass Pillars */}
           <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
             <ScrollReveal direction="up" delay={0.15}>
-              <div className="clear-glass-card rounded-2xl p-6 space-y-2 h-full">
+              <div className="bg-gradient-to-b from-white/[0.08] to-white/[0.02] backdrop-blur-2xl border border-white/[0.1] border-t-2 border-t-lime-400/40 rounded-3xl p-6 space-y-3 h-full hover:border-lime-400/50 hover:shadow-[0_0_30px_rgba(198,244,50,0.15)] transition-all">
                 <span className="text-xs font-extrabold uppercase tracking-widest text-[#C6F432] font-mono">
                   01 • IDEAS
                 </span>
-                <h3 className="font-bold text-base text-white">Problem-First Discovery</h3>
+                <h3 className="font-black text-lg text-white">Problem-First Discovery</h3>
                 <p className="text-xs text-white/70 leading-relaxed">
                   Every product and client solution starts by understanding real operational needs.
                 </p>
@@ -719,11 +763,11 @@ export default async function HomePage() {
             </ScrollReveal>
 
             <ScrollReveal direction="up" delay={0.25}>
-              <div className="clear-glass-card rounded-2xl p-6 space-y-2 h-full">
+              <div className="bg-gradient-to-b from-white/[0.08] to-white/[0.02] backdrop-blur-2xl border border-white/[0.1] border-t-2 border-t-lime-400/40 rounded-3xl p-6 space-y-3 h-full hover:border-lime-400/50 hover:shadow-[0_0_30px_rgba(198,244,50,0.15)] transition-all">
                 <span className="text-xs font-extrabold uppercase tracking-widest text-[#C6F432] font-mono">
                   02 • PRODUCTS
                 </span>
-                <h3 className="font-bold text-base text-white">Thoughtful Engineering</h3>
+                <h3 className="font-black text-lg text-white">Thoughtful Engineering</h3>
                 <p className="text-xs text-white/70 leading-relaxed">
                   Clean architecture, scalable databases, and intuitive interfaces built to last.
                 </p>
@@ -731,11 +775,11 @@ export default async function HomePage() {
             </ScrollReveal>
 
             <ScrollReveal direction="up" delay={0.35}>
-              <div className="clear-glass-card rounded-2xl p-6 space-y-2 h-full">
+              <div className="bg-gradient-to-b from-white/[0.08] to-white/[0.02] backdrop-blur-2xl border border-white/[0.1] border-t-2 border-t-lime-400/40 rounded-3xl p-6 space-y-3 h-full hover:border-lime-400/50 hover:shadow-[0_0_30px_rgba(198,244,50,0.15)] transition-all">
                 <span className="text-xs font-extrabold uppercase tracking-widest text-[#C6F432] font-mono">
                   03 • IMPACT
                 </span>
-                <h3 className="font-bold text-base text-white">Measurable Value</h3>
+                <h3 className="font-black text-lg text-white">Measurable Value</h3>
                 <p className="text-xs text-white/70 leading-relaxed">
                   Digital systems that simplify daily workflows and support long-term growth.
                 </p>
@@ -743,12 +787,12 @@ export default async function HomePage() {
             </ScrollReveal>
           </div>
         </div>
-      </section>
+      </AmbientSection>
 
       {/* =====================================================================
           SECTION 04 — FLAGSHIP SOFTWARE PRODUCTS (#products)
           ===================================================================== */}
-      <section id="products" className="py-24 bg-[#0B0B0C] border-b border-white/10 relative">
+      <AmbientSection id="products" variant="dual-side" className="py-24">
         <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
             <div className="max-w-2xl space-y-3">
@@ -757,7 +801,10 @@ export default async function HomePage() {
                 PROPRIETARY SAAS ECOSYSTEM
               </div>
               <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
-                Our Flagship Software Products
+                Our Flagship{' '}
+                <span className="font-serif italic font-normal text-[#C6F432] neon-text-glow">
+                  Software Products
+                </span>
               </h2>
               <p className="text-base text-white/70">
                 Purpose-built digital platforms solving real-world challenges in education, healthcare, and multi-institutional governance.
@@ -766,7 +813,7 @@ export default async function HomePage() {
 
             <Link
               href="/products"
-              className="inline-flex items-center gap-2 text-sm font-bold text-white/80 hover:text-white hover:gap-3 transition-all"
+              className="inline-flex items-center gap-2 text-sm font-bold text-white/80 hover:text-[#C6F432] hover:gap-3 transition-all"
             >
               <span>Explore All Products</span>
               <ArrowRight className="w-4 h-4" />
@@ -817,13 +864,14 @@ export default async function HomePage() {
             })}
           </MasonryGrid>
         </div>
-      </section>
+      </AmbientSection>
 
       {/* =====================================================================
           SECTION 05 — OUR SERVICES (#services)
           Honoring Admin Serial Number Priority (01, 02, 03...)
+          Transformed into Northline-Grade Radiant Frosted Glass Cards
           ===================================================================== */}
-      <section id="services" className="py-24 bg-[#0B0B0C] border-b border-white/10 relative">
+      <AmbientSection id="services" variant="top-spotlight" className="py-24">
         <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
             <div className="max-w-2xl space-y-3">
@@ -831,24 +879,27 @@ export default async function HomePage() {
                 <span className="w-1.5 h-1.5 rounded-full bg-[#C6F432]" />
                 OUR SERVICES
               </div>
-              <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
-                From Digital Ideas to Fully Built Solutions.
+              <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight">
+                From Digital Ideas to{' '}
+                <span className="font-serif italic font-normal text-[#C6F432] neon-text-glow">
+                  Fully Built
+                </span>{' '}
+                Solutions.
               </h2>
               <p className="text-base text-white/70">
                 Whether you need a modern website, custom software, a scalable web application, or support for your digital growth, we turn your requirements into practical solutions.
               </p>
             </div>
 
-            <Link
+            <CTAButton
               href="/services"
-              className="inline-flex items-center gap-2 text-sm font-bold text-white/80 hover:text-white hover:gap-3 transition-all"
+              className="shrink-0"
             >
-              <span>Explore All Services</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
+              Explore All Services <ArrowRight className="w-4 h-4 ml-1 inline-block" />
+            </CTAButton>
           </div>
 
-          <MasonryGrid category="Services">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {services.map((service, index) => {
               const displayOrder = typeof service.order === 'number'
                 ? service.order
@@ -858,24 +909,46 @@ export default async function HomePage() {
               const formattedSerial = String(displayOrder).padStart(2, '0');
 
               return (
-                <GlassCard
+                <Link
                   key={service.slug}
-                  title={service.title}
-                  tag={`SERIES ${formattedSerial}`}
-                  description={service.summary}
-                  ctaText="Learn More"
-                  ctaHref={`/services/${service.slug}`}
-                  metaInfo={
-                    <span className="font-mono text-xs text-[#C6F432] font-bold">
+                  href={`/services/${service.slug}`}
+                  className="bg-gradient-to-b from-white/[0.08] to-white/[0.02] backdrop-blur-2xl border border-white/[0.1] border-t-2 border-t-lime-400/40 rounded-3xl p-7 flex flex-col justify-between group hover:border-lime-400/50 hover:shadow-[0_0_35px_rgba(198,244,50,0.18)] transition-all duration-300 relative overflow-hidden"
+                >
+                  <div>
+                    <div className="flex items-center justify-between mb-5">
+                      <span className="font-mono text-2xl font-black text-white/30 group-hover:text-[#C6F432] transition-colors">
+                        {formattedSerial}
+                      </span>
+                      <div className="w-11 h-11 rounded-2xl bg-white/[0.06] border border-white/10 flex items-center justify-center text-[#C6F432] shadow-sm group-hover:scale-110 transition-transform">
+                        {getServiceIcon(service.slug)}
+                      </div>
+                      <ArrowUpRight className="w-5 h-5 text-white/40 group-hover:text-white transition-colors" />
+                    </div>
+
+                    <h3 className="text-xl font-black text-white tracking-tight group-hover:text-[#C6F432] transition-colors">
+                      {formatServiceTitle(service.title, service.slug)}
+                    </h3>
+
+                    <p className="mt-2.5 text-sm text-white/70 line-clamp-3 leading-relaxed">
+                      {service.summary}
+                    </p>
+                  </div>
+
+                  <div className="mt-6 pt-5 border-t border-white/10 flex items-center justify-between">
+                    <span className="text-xs font-bold text-[#C6F432] tracking-wider uppercase inline-flex items-center gap-1.5 group-hover:gap-2.5 transition-all">
+                      <span>Learn More</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </span>
+                    <span className="text-[10px] font-mono font-bold text-white/40 uppercase">
                       #{formattedSerial} PRIORITY
                     </span>
-                  }
-                />
+                  </div>
+                </Link>
               );
             })}
-          </MasonryGrid>
+          </div>
         </div>
-      </section>
+      </AmbientSection>
 
       {/* =====================================================================
           SECTION 06 — PROBLEMS WE SOLVE
@@ -886,15 +959,19 @@ export default async function HomePage() {
           SECTION 07 — CLIENT WORK / PROJECTS
           ===================================================================== */}
       {featuredProjects.length > 0 && (
-        <section className="py-24 bg-[#0B0B0C] border-b border-white/10">
+        <AmbientSection id="projects" variant="horizon" className="py-24">
           <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
               <div className="max-w-2xl space-y-3">
-                <span className="text-xs font-extrabold uppercase tracking-widest text-[#C6F432]">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full clear-glass-pill text-xs font-bold text-white tracking-widest uppercase">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#C6F432]" />
                   CLIENT WORK
-                </span>
+                </div>
                 <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
-                  Tailored Software for Real Business Needs.
+                  Tailored Software for{' '}
+                  <span className="font-serif italic font-normal text-[#C6F432] neon-text-glow">
+                    Real Business Needs.
+                  </span>
                 </h2>
                 <p className="text-base text-white/70">
                   A selection of custom systems, portals, and digital products engineered for our enterprise partners.
@@ -903,7 +980,7 @@ export default async function HomePage() {
 
               <Link
                 href="/projects"
-                className="inline-flex items-center gap-2 text-sm font-bold text-white/80 hover:text-white hover:gap-3 transition-all"
+                className="inline-flex items-center gap-2 text-sm font-bold text-white/80 hover:text-[#C6F432] hover:gap-3 transition-all"
               >
                 <span>View All Projects</span>
                 <ArrowRight className="w-4 h-4" />
@@ -934,12 +1011,12 @@ export default async function HomePage() {
                             href={project.liveUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-xs font-semibold text-white/70 hover:text-white inline-flex items-center gap-1"
+                            className="text-xs font-semibold text-white/70 hover:text-[#C6F432] inline-flex items-center gap-1"
                           >
                             <ExternalLink className="w-3 h-3" /> Live
                           </a>
                         )}
-                        <span className="text-[11px] text-white/40 font-mono">
+                        <span className="text-[11px] text-[#C6F432] font-mono">
                           {[...frontendTech, ...backendTech].slice(0, 2).join(' • ')}
                         </span>
                       </div>
@@ -949,20 +1026,24 @@ export default async function HomePage() {
               })}
             </div>
           </div>
-        </section>
+        </AmbientSection>
       )}
 
       {/* =====================================================================
           SECTION 08 — HOW WE WORK (5-Step Sequential Timeline)
           ===================================================================== */}
-      <section className="py-24 bg-[#0B0B0C] border-b border-white/10">
+      <AmbientSection variant="bento-grid" className="py-24">
         <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mb-16 space-y-3">
-            <span className="text-xs font-extrabold uppercase tracking-widest text-[#C6F432]">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full clear-glass-pill text-xs font-bold text-white tracking-widest uppercase">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#C6F432]" />
               OUR APPROACH
-            </span>
+            </div>
             <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
-              A Thoughtful Process. From Conversation to Delivery.
+              A Thoughtful Process.{' '}
+              <span className="font-serif italic font-normal text-[#C6F432] neon-text-glow">
+                From Conversation to Delivery.
+              </span>
             </h2>
             <p className="text-base text-white/70">
               Every successful digital solution begins with a clear understanding of the goal. Our process turns requirements into carefully engineered, tested, and usable systems.
@@ -973,36 +1054,40 @@ export default async function HomePage() {
             {WORK_PROCESS_STEPS.map((step, index) => (
               <ScrollReveal key={step.number} direction="up" delay={index * 0.08} className="h-full">
                 <TiltCard maxTilt={4} className="h-full">
-                  <div className="clear-glass-card rounded-2xl p-6 flex flex-col justify-between h-full">
+                  <div className="bg-gradient-to-b from-white/[0.08] to-white/[0.02] backdrop-blur-2xl border border-white/[0.1] border-t-2 border-t-lime-400/40 rounded-3xl p-6 flex flex-col justify-between h-full group hover:border-lime-400/50 hover:shadow-[0_0_30px_rgba(198,244,50,0.15)] transition-all">
                     <div>
                       <span className="inline-block text-2xl font-black text-[#C6F432] font-mono mb-4">
                         {step.number}
                       </span>
-                      <h3 className="text-lg font-extrabold text-white mb-2">{step.title}</h3>
+                      <h3 className="text-lg font-black text-white mb-2">{step.title}</h3>
                       <p className="text-xs text-white/70 leading-relaxed">
                         {step.description}
                       </p>
                     </div>
-                    <div className="mt-6 h-1 w-10 rounded-full bg-[#C6F432]" />
+                    <div className="mt-6 h-1 w-10 rounded-full bg-[#C6F432] shadow-[0_0_10px_#C6F432]" />
                   </div>
                 </TiltCard>
               </ScrollReveal>
             ))}
           </div>
         </div>
-      </section>
+      </AmbientSection>
 
       {/* =====================================================================
           SECTION 09 — TECHNOLOGY EXPERTISE (Clear Glass Pills)
           ===================================================================== */}
-      <section className="py-20 bg-[#0B0B0C] border-b border-white/10 text-center">
+      <AmbientSection variant="center-orb" className="py-24 text-center">
         <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl mx-auto mb-12 space-y-3">
-            <span className="text-xs font-extrabold uppercase tracking-widest text-[#C6F432]">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full clear-glass-pill text-xs font-bold text-white tracking-widest uppercase">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#C6F432]" />
               OUR TECHNOLOGY
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
-              The Right Tools. Thoughtfully Applied.
+            </div>
+            <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
+              The Right Tools.{' '}
+              <span className="font-serif italic font-normal text-[#C6F432] neon-text-glow">
+                Thoughtfully Applied.
+              </span>
             </h2>
             <p className="text-base text-white/70">
               We work with modern development technologies and tools, selecting the right combination for each project&apos;s performance, concurrency, and maintainability.
@@ -1013,11 +1098,11 @@ export default async function HomePage() {
             {APPROVED_TECHNOLOGIES.map((tech) => (
               <div
                 key={tech.name}
-                className="clear-glass-pill px-6 py-4 rounded-2xl flex items-center gap-3.5 hover:scale-105 transition-transform duration-300"
+                className="bg-white/[0.04] backdrop-blur-md border border-white/10 hover:border-lime-400/40 px-6 py-4 rounded-2xl flex items-center gap-3.5 hover:scale-105 transition-all duration-300 shadow-sm"
               >
                 <div className="w-2.5 h-2.5 rounded-full bg-[#C6F432] shadow-[0_0_8px_#C6F432]" />
                 <div className="text-left">
-                  <p className="font-extrabold text-sm sm:text-base text-white leading-none">
+                  <p className="font-black text-sm sm:text-base text-white leading-none">
                     {tech.name}
                   </p>
                   <p className="text-[11px] text-white/50 mt-1">
@@ -1028,21 +1113,25 @@ export default async function HomePage() {
             ))}
           </div>
         </div>
-      </section>
+      </AmbientSection>
 
       {/* =====================================================================
           SECTION 10 — CASE STUDIES & TEAM ROSTER
           ===================================================================== */}
       {featuredCaseStudies.length > 0 && (
-        <section className="py-24 bg-[#0B0B0C] border-b border-white/10">
+        <AmbientSection variant="dual-side" className="py-24">
           <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
               <div className="max-w-2xl space-y-3">
-                <span className="text-xs font-extrabold uppercase tracking-widest text-[#C6F432]">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full clear-glass-pill text-xs font-bold text-white tracking-widest uppercase">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#C6F432]" />
                   BEHIND THE SOLUTIONS
-                </span>
+                </div>
                 <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
-                  Understanding Challenges. Creating Meaningful Solutions.
+                  Understanding Challenges.{' '}
+                  <span className="font-serif italic font-normal text-[#C6F432] neon-text-glow">
+                    Creating Meaningful Solutions.
+                  </span>
                 </h2>
                 <p className="text-base text-white/70">
                   Case studies showcasing deep technical problem-solving and architectural execution.
@@ -1051,7 +1140,7 @@ export default async function HomePage() {
 
               <Link
                 href="/case-studies"
-                className="inline-flex items-center gap-2 text-sm font-bold text-white/80 hover:text-white hover:gap-3 transition-all"
+                className="inline-flex items-center gap-2 text-sm font-bold text-white/80 hover:text-[#C6F432] hover:gap-3 transition-all"
               >
                 <span>All Case Studies</span>
                 <ArrowRight className="w-4 h-4" />
@@ -1071,20 +1160,24 @@ export default async function HomePage() {
               ))}
             </div>
           </div>
-        </section>
+        </AmbientSection>
       )}
 
       {/* Team Roster with Circular Photo Avatars */}
       {activeTeam.length > 0 && (
-        <section className="py-24 bg-[#0B0B0C] border-b border-white/10">
+        <AmbientSection id="team" variant="dual-side" className="py-24">
           <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
               <div className="max-w-2xl space-y-3">
-                <span className="text-xs font-extrabold uppercase tracking-widest text-[#C6F432]">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full clear-glass-pill text-xs font-bold text-white tracking-widest uppercase">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#C6F432]" />
                   THE PEOPLE BEHIND THE WORK
-                </span>
+                </div>
                 <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
-                  Driven by Ideas. United by Vision.
+                  Driven by Ideas.{' '}
+                  <span className="font-serif italic font-normal text-[#C6F432] neon-text-glow">
+                    United by Vision.
+                  </span>
                 </h2>
                 <p className="text-base text-white/70">
                   Meet the engineers, architects, and product builders driving MRM InfoTech.
@@ -1093,7 +1186,7 @@ export default async function HomePage() {
 
               <Link
                 href="/team"
-                className="inline-flex items-center gap-2 text-sm font-bold text-white/80 hover:text-white hover:gap-3 transition-all"
+                className="inline-flex items-center gap-2 text-sm font-bold text-white/80 hover:text-[#C6F432] hover:gap-3 transition-all"
               >
                 <span>Full Team Roster</span>
                 <ArrowRight className="w-4 h-4" />
@@ -1111,11 +1204,11 @@ export default async function HomePage() {
                 return (
                   <div
                     key={member.id || member.slug}
-                    className="clear-glass-card rounded-3xl p-7 text-center transition-all duration-300 hover:scale-[1.03] flex flex-col items-center justify-between"
+                    className="bg-gradient-to-b from-white/[0.08] to-white/[0.02] backdrop-blur-2xl border border-white/[0.1] border-t-2 border-t-lime-400/40 rounded-3xl p-7 text-center transition-all duration-300 hover:scale-[1.03] hover:border-lime-400/50 hover:shadow-[0_0_35px_rgba(198,244,50,0.18)] flex flex-col items-center justify-between group"
                   >
                     <div className="w-full flex flex-col items-center">
-                      {/* Circular Photo Avatar */}
-                      <div className="relative w-24 h-24 rounded-full ring-2 ring-white/20 p-1 mb-4 shadow-xl">
+                      {/* Circular Photo Avatar with Glowing Halo Ring */}
+                      <div className="relative w-24 h-24 rounded-full ring-2 ring-[#C6F432] shadow-[0_0_24px_rgba(198,244,50,0.35)] p-1 mb-4">
                         <div className="w-full h-full rounded-full overflow-hidden bg-white/10 flex items-center justify-center">
                           {photo ? (
                             <img
@@ -1132,7 +1225,7 @@ export default async function HomePage() {
                         </div>
                       </div>
 
-                      <h3 className="font-extrabold text-lg text-white tracking-tight">
+                      <h3 className="font-black text-lg text-white tracking-tight group-hover:text-[#C6F432] transition-colors">
                         {name}
                       </h3>
                       <p className="text-xs font-bold text-[#C6F432] mt-1 uppercase tracking-wider">
@@ -1140,7 +1233,7 @@ export default async function HomePage() {
                       </p>
 
                       {member.bio && (
-                        <p className="text-xs text-white/50 mt-3 line-clamp-2 leading-relaxed">
+                        <p className="text-xs text-white/60 mt-3 line-clamp-2 leading-relaxed">
                           {member.bio}
                         </p>
                       )}
@@ -1153,7 +1246,7 @@ export default async function HomePage() {
                           href={member.linkedinUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="p-1.5 rounded-full text-white/60 hover:text-white hover:bg-white/10 transition-colors"
+                          className="p-1.5 rounded-full text-white/60 hover:text-[#C6F432] hover:bg-white/10 transition-colors"
                           aria-label="LinkedIn"
                         >
                           <LinkedinIcon className="w-4 h-4" />
@@ -1164,7 +1257,7 @@ export default async function HomePage() {
                           href={member.githubUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="p-1.5 rounded-full text-white/60 hover:text-white hover:bg-white/10 transition-colors"
+                          className="p-1.5 rounded-full text-white/60 hover:text-[#C6F432] hover:bg-white/10 transition-colors"
                           aria-label="GitHub"
                         >
                           <GithubIcon className="w-4 h-4" />
@@ -1176,20 +1269,24 @@ export default async function HomePage() {
               })}
             </div>
           </div>
-        </section>
+        </AmbientSection>
       )}
 
       {/* =====================================================================
           SECTION 11 — FAQ ACCORDION
           ===================================================================== */}
-      <section className="py-24 bg-[#0B0B0C] border-b border-white/10">
+      <AmbientSection variant="center-orb" className="py-24">
         <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-16 space-y-3">
-            <span className="text-xs font-extrabold uppercase tracking-widest text-[#C6F432]">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full clear-glass-pill text-xs font-bold text-white tracking-widest uppercase">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#C6F432]" />
               COMMON QUESTIONS
-            </span>
+            </div>
             <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
-              Questions Before We Get Started?
+              Questions Before We{' '}
+              <span className="font-serif italic font-normal text-[#C6F432] neon-text-glow">
+                Get Started?
+              </span>
             </h2>
             <p className="text-base text-white/70">
               Find answers to common questions about our products, services, development approach, and working with MRM InfoTech.
@@ -1198,30 +1295,24 @@ export default async function HomePage() {
 
           <HomeFaqAccordion items={apiFaqs} />
         </div>
-      </section>
+      </AmbientSection>
 
       {/* =====================================================================
           SECTION 12 — FINAL HIGH-CONVERSION CTA BANNER
           Featuring the 10% Lime Green (#C6F432) Conversion Button
           ===================================================================== */}
-      <section className="relative py-24 sm:py-32 bg-[#0B0B0C] overflow-hidden">
-        {/* Ambient green glow in the background */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-60"
-        >
-          <div className="w-[600px] h-[400px] rounded-full lime-glow-beam blur-3xl" />
-        </div>
-
+      <AmbientSection variant="dual-side" className="py-24 sm:py-32">
         <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="rounded-3xl border border-white/15 bg-white/[0.03] backdrop-blur-2xl p-8 sm:p-16 text-center max-w-4xl mx-auto shadow-2xl space-y-6">
+          <div className="rounded-3xl border border-white/15 bg-gradient-to-b from-white/[0.06] to-white/[0.02] backdrop-blur-2xl p-8 sm:p-16 text-center max-w-4xl mx-auto shadow-2xl space-y-6">
             <span className="inline-block px-4 py-1.5 rounded-full clear-glass-pill text-[#C6F432] text-xs font-extrabold uppercase tracking-widest">
               LET&apos;S CREATE SOMETHING MEANINGFUL
             </span>
 
             <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight">
               Have an Idea? Let&apos;s Turn It <br className="hidden sm:inline" />
-              Into Something Real.
+              <span className="font-serif italic font-normal text-[#C6F432] neon-text-glow">
+                Into Something Real.
+              </span>
             </h2>
 
             <p className="text-white/70 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
@@ -1232,7 +1323,7 @@ export default async function HomePage() {
               <CTAButton
                 size="lg"
                 href="/start-project"
-                className="shadow-[0_0_28px_rgba(198,244,50,0.35)]"
+                className="shadow-[0_0_32px_rgba(198,244,50,0.45)]"
               >
                 Start a Project <ArrowRight className="w-4 h-4 ml-1 inline-block" />
               </CTAButton>
@@ -1246,7 +1337,7 @@ export default async function HomePage() {
             </div>
           </div>
         </div>
-      </section>
+      </AmbientSection>
     </div>
   );
 }

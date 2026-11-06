@@ -43,25 +43,32 @@ export default function HomeFaqAccordion({ items }: { items?: FaqItemData[] }) {
   const [openIdx, setOpenIdx] = useState<number | null>(0);
 
   return (
-    <div className="space-y-3.5 max-w-3xl mx-auto">
+    <div className="space-y-4 max-w-3xl mx-auto">
       {list.map((faq, idx) => {
         const isOpen = openIdx === idx;
         return (
-          <div key={faq.id || idx} className="mrm-glass-card rounded-2xl overflow-hidden transition-all duration-300">
+          <div
+            key={faq.id || idx}
+            className={`rounded-2xl border transition-all duration-300 overflow-hidden ${
+              isOpen
+                ? 'bg-gradient-to-b from-white/[0.08] to-white/[0.03] backdrop-blur-xl border-lime-400/40 shadow-[0_0_25px_rgba(198,244,50,0.12)]'
+                : 'bg-white/[0.03] backdrop-blur-md border-white/[0.08] hover:border-white/20'
+            }`}
+          >
             <button
               type="button"
               onClick={() => setOpenIdx(isOpen ? null : idx)}
               aria-expanded={isOpen}
-              className="w-full px-6 py-5 text-left flex items-center justify-between gap-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#087FC4] cursor-pointer"
+              className="w-full px-6 py-5 text-left flex items-center justify-between gap-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C6F432] cursor-pointer"
             >
-              <span className="font-bold text-base sm:text-lg text-[var(--text-primary)]">
+              <span className="font-bold text-base sm:text-lg text-white">
                 {faq.question}
               </span>
               <span
-                className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 mrm-glass-pill transition-transform duration-300 ${
+                className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 border transition-all duration-300 ${
                   isOpen
-                    ? 'rotate-180 bg-[#087FC4] text-white border-transparent'
-                    : 'text-[#087FC4] dark:text-[#20B8D5]'
+                    ? 'rotate-180 bg-[#C6F432] text-[#0B0B0C] border-[#C6F432] shadow-sm'
+                    : 'text-white/60 border-white/15 bg-white/[0.05]'
                 }`}
               >
                 <ChevronDown className="w-4 h-4" />
@@ -76,7 +83,7 @@ export default function HomeFaqAccordion({ items }: { items?: FaqItemData[] }) {
                   transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
                   className="overflow-hidden"
                 >
-                  <div className="px-6 pb-6 pt-2 text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed border-t border-[var(--border-subtle)]">
+                  <div className="px-6 pb-6 pt-2 text-sm sm:text-base text-white/70 leading-relaxed border-t border-white/[0.08]">
                     {faq.answer}
                   </div>
                 </motion.div>

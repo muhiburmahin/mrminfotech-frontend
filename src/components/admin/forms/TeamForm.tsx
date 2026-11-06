@@ -130,7 +130,11 @@ export function TeamForm({ initialData, onSaved, onCancel }: TeamFormProps) {
       }
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : 'ছবি আপলোড করতে ব্যর্থ হয়েছে';
-      setError(msg);
+      if (msg.includes('401') || msg.toLowerCase().includes('unauthorized')) {
+        setError('AUTH_EXPIRED: আপনার অ্যাডমিন সেশনের মেয়াদ শেষ হয়ে গেছে (401)। অনুগ্রহ করে পুনরায় লগইন করে চেষ্টা করুন।');
+      } else {
+        setError(msg);
+      }
     } finally {
       setIsUploading(false);
       if (fileInputRef.current) {
@@ -240,9 +244,21 @@ export function TeamForm({ initialData, onSaved, onCancel }: TeamFormProps) {
 
       {/* Notifications */}
       {error && (
-        <div className="p-4 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-500 text-xs flex items-center gap-2 font-medium">
-          <XCircle className="w-4 h-4 shrink-0" />
-          <span>{error}</span>
+        <div className="p-4 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-500 text-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 font-medium">
+          <div className="flex items-center gap-2">
+            <XCircle className="w-4 h-4 shrink-0" />
+            <span>{error.replace('AUTH_EXPIRED: ', '')}</span>
+          </div>
+          {error.includes('AUTH_EXPIRED') && (
+            <a
+              href="/admin/login"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-3 py-1 rounded-lg bg-rose-500 text-white font-bold text-xs hover:bg-rose-600 transition-colors shrink-0"
+            >
+              পুনরায় লগইন করুন ↗
+            </a>
+          )}
         </div>
       )}
 
