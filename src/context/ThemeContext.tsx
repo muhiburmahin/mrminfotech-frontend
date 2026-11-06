@@ -75,19 +75,32 @@ export function ThemeProvider({
   const [previewThemeId, setPreviewThemeIdState] = useState<ThemeId | null>(null);
   const [isApplying, setIsApplying] = useState(false);
 
-  // Legacy light/dark mode support
-  const [theme, setThemeState] = useState<Theme>('dark');
+  // Light/dark mode support (persisted via localStorage)
+  const [theme, setThemeState] = useState<Theme>(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const saved = localStorage.getItem(THEME_STORAGE_KEY);
+        if (saved === 'light' || saved === 'dark') return saved;
+      } catch {
+        // Fallback
+      }
+    }
+    return 'dark';
+  });
   const [brandAppearance, setBrandAppearanceState] = useState<BrandAppearanceConfig>(
     DEFAULT_BRAND_APPEARANCE
   );
 
-  // Sync data-theme attribute on <html> whenever active or preview theme changes
+  // Sync data-theme and light/dark classes on <html> whenever active/preview theme or mode changes
   useEffect(() => {
     if (typeof document === 'undefined') return;
     const targetTheme = previewThemeId || activeThemeId;
     document.documentElement.setAttribute('data-theme', targetTheme);
-    document.documentElement.classList.toggle('dark', true);
-  }, [activeThemeId, previewThemeId]);
+    document.documentElement.setAttribute('data-mode', theme);
+    const isDark = theme === 'dark';
+    document.documentElement.classList.toggle('dark', isDark);
+    document.documentElement.classList.toggle('light', !isDark);
+  }, [activeThemeId, previewThemeId, theme]);
 
   // Listen to cross-tab storage / custom events
   useEffect(() => {
@@ -182,6 +195,12 @@ export function ThemeProvider({
     setThemeState(newTheme);
     try {
       localStorage.setItem(THEME_STORAGE_KEY, newTheme);
+      if (typeof document !== 'undefined') {
+        const isDark = newTheme === 'dark';
+        document.documentElement.setAttribute('data-mode', newTheme);
+        document.documentElement.classList.toggle('dark', isDark);
+        document.documentElement.classList.toggle('light', !isDark);
+      }
     } catch {
       // Storage error ignored
     }

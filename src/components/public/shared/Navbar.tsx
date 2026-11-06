@@ -70,7 +70,6 @@ const PRODUCTS_DATA = [
     desc: 'Complete School, College & University management with grading, attendance & fees.',
     href: '/products/edumanage-bd',
     icon: GraduationCap,
-    color: '#087FC4',
     badge: 'Live',
   },
   {
@@ -79,7 +78,6 @@ const PRODUCTS_DATA = [
     desc: 'Clinical, diagnostic & pathology management system with barcode report tracking.',
     href: '/products/medisheba-bd',
     icon: HeartPulse,
-    color: '#20B8D5',
     badge: 'Live',
   },
   {
@@ -88,7 +86,6 @@ const PRODUCTS_DATA = [
     desc: 'Centralized multi-tenant portal for chain schools and institutional clusters.',
     href: '/products/multi-institution-platform',
     icon: Building2,
-    color: '#103B68',
     badge: 'Enterprise',
   },
 ];
@@ -156,13 +153,12 @@ export function Navbar() {
     };
   }, []);
 
-
   const closeAll = () => {
     setActiveDropdown(null);
     setMobileOpen(false);
   };
 
-  // Safe hover handlers with invisible hover bridge so cursor never drops dropdown
+  // Safe hover handlers with invisible hover bridge
   const handleMouseEnter = (menuKey: 'about' | 'products' | 'services' | 'projects') => {
     if (closeTimeoutRef.current) {
       clearTimeout(closeTimeoutRef.current);
@@ -194,8 +190,8 @@ export function Navbar() {
       ref={navRef}
       className={`sticky top-0 z-50 w-full transition-all duration-200 ${
         isScrolled
-          ? 'bg-[var(--theme-bg-surface)]/90 backdrop-blur-2xl border-b border-[var(--theme-border)] shadow-2xl'
-          : 'bg-[var(--theme-bg-surface)]/80 backdrop-blur-xl border-b border-[var(--theme-border)]/60'
+          ? 'bg-[var(--theme-bg-surface)]/90 backdrop-blur-2xl border-b border-[var(--theme-border-glass)] shadow-2xl'
+          : 'bg-[var(--theme-bg-surface)]/80 backdrop-blur-xl border-b border-[var(--theme-border-glass)]/60'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -211,14 +207,14 @@ export function Navbar() {
               onClick={closeAll}
               className={`px-3.5 py-1.5 rounded-full text-[13px] font-semibold transition-all ${
                 pathname === '/'
-                  ? 'text-white bg-white/10 border border-white/20 shadow-xs'
-                  : 'text-white/70 hover:text-white hover:bg-white/5'
+                  ? 'text-[var(--theme-accent)] bg-[var(--theme-accent)]/15 border border-[var(--theme-accent)]/30 shadow-xs'
+                  : 'text-[var(--theme-text-secondary)] hover:text-[var(--theme-text-primary)] hover:bg-white/[0.05]'
               }`}
             >
               Home
             </Link>
 
-            {/* 2. ABOUT (Tailored Liquid Glass Dropdown) */}
+            {/* 2. ABOUT (Tailored Dynamic Glass Dropdown) */}
             <div
               className="relative"
               onMouseEnter={() => handleMouseEnter('about')}
@@ -229,8 +225,8 @@ export function Navbar() {
                 onClick={() => toggleDropdown('about')}
                 className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[13px] font-semibold transition-all cursor-pointer ${
                   activeDropdown === 'about' || isAboutActive
-                    ? 'text-white bg-white/10 border border-white/20 shadow-xs'
-                    : 'text-white/70 hover:text-white hover:bg-white/5'
+                    ? 'text-[var(--theme-accent)] bg-[var(--theme-accent)]/15 border border-[var(--theme-accent)]/30 shadow-xs'
+                    : 'text-[var(--theme-text-secondary)] hover:text-[var(--theme-text-primary)] hover:bg-white/[0.05]'
                 }`}
                 aria-expanded={activeDropdown === 'about'}
                 aria-haspopup="true"
@@ -240,7 +236,7 @@ export function Navbar() {
                   className={`w-3.5 h-3.5 transition-transform duration-200 ${
                     activeDropdown === 'about'
                       ? 'rotate-180 text-[var(--theme-accent)]'
-                      : 'text-white/50'
+                      : 'text-[var(--theme-text-muted)]'
                   }`}
                 />
               </button>
@@ -252,13 +248,13 @@ export function Navbar() {
                   onMouseEnter={() => handleMouseEnter('about')}
                   onMouseLeave={handleMouseLeave}
                 >
-                  <div className="w-[380px] rounded-2xl mrm-glass-strong shadow-2xl p-4 border border-[#E1EAF3] dark:border-[#20B8D5]/25">
-                    <div className="flex items-center justify-between pb-2.5 mb-2.5 border-b border-[#E3EAF2] dark:border-[#1E3557] px-2">
+                  <div className="w-[380px] rounded-2xl bg-[var(--theme-bg-surface)]/95 backdrop-blur-2xl shadow-2xl p-4 border border-[var(--theme-border-glass)] shadow-[0_20px_50px_rgba(0,0,0,0.45)]">
+                    <div className="flex items-center justify-between pb-2.5 mb-2.5 border-b border-[var(--theme-border-glass)] px-2">
                       <div>
-                        <h4 className="text-[11px] font-bold uppercase tracking-wider text-[#087FC4] dark:text-[#20B8D5]">
+                        <h4 className="text-[11px] font-bold uppercase tracking-wider text-[var(--theme-accent)]">
                           Inside MRM InfoTech
                         </h4>
-                        <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                        <p className="text-[11px] text-[var(--theme-text-secondary)]">
                           Our vision, engineering team &amp; career opportunities
                         </p>
                       </div>
@@ -272,23 +268,23 @@ export function Navbar() {
                             key={item.title}
                             href={item.href}
                             onClick={closeAll}
-                            className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-[#F4F8FC] dark:hover:bg-[#103B68]/40 border border-transparent hover:border-[#087FC4]/20 dark:hover:border-[#20B8D5]/25 transition-all group"
+                            className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-[var(--theme-accent)]/10 border border-transparent hover:border-[var(--theme-accent)]/30 transition-all group"
                           >
-                            <div className="w-9 h-9 rounded-xl mrm-glass-pill text-[#087FC4] dark:text-[#20B8D5] group-hover:bg-[#087FC4] group-hover:text-white transition-all flex items-center justify-center shrink-0 mt-0.5">
+                            <div className="w-9 h-9 rounded-xl bg-[var(--theme-accent)]/15 text-[var(--theme-accent)] group-hover:bg-[var(--theme-accent)] group-hover:text-[var(--theme-accent-text)] transition-all flex items-center justify-center shrink-0 mt-0.5">
                               <Icon className="w-4 h-4" />
                             </div>
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center gap-2">
-                                <span className="text-sm font-bold text-[#10243B] dark:text-white group-hover:text-[#087FC4] dark:group-hover:text-[#20B8D5] transition-colors">
+                                <span className="text-sm font-bold text-[var(--theme-text-primary)] group-hover:text-[var(--theme-accent)] transition-colors">
                                   {item.title}
                                 </span>
                                 {item.badge && (
-                                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full mrm-glass-pill text-[#087FC4] dark:text-[#20B8D5]">
+                                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[var(--theme-accent)]/15 text-[var(--theme-accent)] border border-[var(--theme-accent)]/30">
                                     {item.badge}
                                   </span>
                                 )}
                               </div>
-                              <p className="text-xs text-[var(--text-secondary)] dark:text-slate-300 font-normal leading-snug mt-0.5">
+                              <p className="text-xs text-[var(--theme-text-secondary)] font-normal leading-snug mt-0.5">
                                 {item.description}
                               </p>
                             </div>
@@ -297,14 +293,14 @@ export function Navbar() {
                       })}
                     </div>
 
-                    <div className="pt-2.5 mt-2 border-t border-[#E3EAF2] dark:border-[#1E3557] flex items-center justify-between px-2">
-                      <span className="text-[11px] text-[#71839A] dark:text-slate-400 font-normal">
+                    <div className="pt-2.5 mt-2 border-t border-[var(--theme-border-glass)] flex items-center justify-between px-2">
+                      <span className="text-[11px] text-[var(--theme-text-muted)] font-normal">
                         IDEAS • PRODUCTS • IMPACT
                       </span>
                       <Link
                         href="/about"
                         onClick={closeAll}
-                        className="text-xs font-bold text-[#087FC4] dark:text-[#20B8D5] hover:underline inline-flex items-center gap-1"
+                        className="text-xs font-bold text-[var(--theme-accent)] hover:underline inline-flex items-center gap-1"
                       >
                         <span>Learn More</span>
                         <ArrowRight className="w-3.5 h-3.5" />
@@ -326,8 +322,8 @@ export function Navbar() {
                 onClick={() => toggleDropdown('products')}
                 className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[13px] font-semibold transition-all cursor-pointer ${
                   activeDropdown === 'products' || isProductsActive
-                    ? 'text-white bg-white/10 border border-white/20 shadow-xs'
-                    : 'text-white/70 hover:text-white hover:bg-white/5'
+                    ? 'text-[var(--theme-accent)] bg-[var(--theme-accent)]/15 border border-[var(--theme-accent)]/30 shadow-xs'
+                    : 'text-[var(--theme-text-secondary)] hover:text-[var(--theme-text-primary)] hover:bg-white/[0.05]'
                 }`}
                 aria-expanded={activeDropdown === 'products'}
                 aria-haspopup="true"
@@ -337,7 +333,7 @@ export function Navbar() {
                   className={`w-3.5 h-3.5 transition-transform duration-200 ${
                     activeDropdown === 'products'
                       ? 'rotate-180 text-[var(--theme-accent)]'
-                      : 'text-white/50'
+                      : 'text-[var(--theme-text-muted)]'
                   }`}
                 />
               </button>
@@ -348,20 +344,20 @@ export function Navbar() {
                   onMouseEnter={() => handleMouseEnter('products')}
                   onMouseLeave={handleMouseLeave}
                 >
-                  <div className="w-[680px] rounded-2xl mrm-glass-strong shadow-2xl p-5 border border-[#E1EAF3] dark:border-[#20B8D5]/25">
-                    <div className="flex items-center justify-between pb-3 mb-3 border-b border-[#E3EAF2] dark:border-[#1E3557]">
+                  <div className="w-[680px] rounded-2xl bg-[var(--theme-bg-surface)]/95 backdrop-blur-2xl shadow-2xl p-5 border border-[var(--theme-border-glass)] shadow-[0_20px_50px_rgba(0,0,0,0.45)]">
+                    <div className="flex items-center justify-between pb-3 mb-3 border-b border-[var(--theme-border-glass)]">
                       <div>
-                        <h4 className="text-[11px] font-bold uppercase tracking-wider text-[#087FC4] dark:text-[#20B8D5]">
+                        <h4 className="text-[11px] font-bold uppercase tracking-wider text-[var(--theme-accent)]">
                           Proprietary Software Products
                         </h4>
-                        <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
+                        <p className="text-[11px] text-[var(--theme-text-secondary)] mt-0.5">
                           Enterprise cloud software built and maintained by MRM InfoTech
                         </p>
                       </div>
                       <Link
                         href="/products"
                         onClick={closeAll}
-                        className="text-xs font-semibold text-[#087FC4] dark:text-[#20B8D5] hover:underline flex items-center gap-1 group"
+                        className="text-xs font-semibold text-[var(--theme-accent)] hover:underline flex items-center gap-1 group"
                       >
                         <span>All Products</span>
                         <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
@@ -376,31 +372,28 @@ export function Navbar() {
                             key={p.name}
                             href={p.href}
                             onClick={closeAll}
-                            className="flex flex-col justify-between p-3.5 rounded-xl border border-transparent hover:border-[#087FC4]/20 dark:hover:border-[#20B8D5]/30 hover:bg-[#F4F8FC] dark:hover:bg-[#0B1E3B] transition-all group relative"
+                            className="flex flex-col justify-between p-3.5 rounded-xl border border-transparent hover:border-[var(--theme-accent)]/30 hover:bg-[var(--theme-accent)]/10 transition-all group relative"
                           >
                             <div>
                               <div className="flex items-center justify-between mb-2.5">
-                                <div
-                                  className="w-8 h-8 rounded-lg flex items-center justify-center text-white"
-                                  style={{ backgroundColor: p.color }}
-                                >
+                                <div className="w-8 h-8 rounded-lg bg-[var(--theme-accent)]/20 text-[var(--theme-accent)] flex items-center justify-center">
                                   <IconComp className="w-4 h-4" />
                                 </div>
-                                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full mrm-glass-pill text-[#087FC4] dark:text-[#20B8D5]">
+                                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[var(--theme-accent)]/15 text-[var(--theme-accent)] border border-[var(--theme-accent)]/30">
                                   {p.badge}
                                 </span>
                               </div>
-                              <span className="text-[11px] font-semibold text-[#087FC4] dark:text-[#20B8D5] uppercase tracking-wider block">
+                              <span className="text-[11px] font-semibold text-[var(--theme-accent)] uppercase tracking-wider block">
                                 {p.category}
                               </span>
-                              <h5 className="text-xs font-bold text-[#15243A] dark:text-white group-hover:text-[#087FC4] dark:group-hover:text-[#20B8D5] transition-colors mt-0.5">
+                              <h5 className="text-xs font-bold text-[var(--theme-text-primary)] group-hover:text-[var(--theme-accent)] transition-colors mt-0.5">
                                 {p.name}
                               </h5>
-                              <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-snug mt-1 line-clamp-2">
+                              <p className="text-[11px] text-[var(--theme-text-secondary)] leading-snug mt-1 line-clamp-2">
                                 {p.desc}
                               </p>
                             </div>
-                            <div className="pt-2.5 mt-2 border-t border-slate-100 dark:border-slate-800 flex items-center text-[11px] font-semibold text-[#087FC4] dark:text-[#20B8D5] group-hover:translate-x-0.5 transition-transform">
+                            <div className="pt-2.5 mt-2 border-t border-[var(--theme-border-glass)] flex items-center text-[11px] font-semibold text-[var(--theme-accent)] group-hover:translate-x-0.5 transition-transform">
                               Explore details →
                             </div>
                           </Link>
@@ -409,12 +402,12 @@ export function Navbar() {
                     </div>
 
                     {/* Bottom strip in mega menu */}
-                    <div className="mt-3.5 pt-3 border-t border-[#E3EAF2] dark:border-[#1E3557] flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400">
+                    <div className="mt-3.5 pt-3 border-t border-[var(--theme-border-glass)] flex items-center justify-between text-[11px] text-[var(--theme-text-secondary)]">
                       <span>Need a custom software solution tailored to your workflow?</span>
                       <Link
                         href="/start-project"
                         onClick={closeAll}
-                        className="font-bold text-[#087FC4] dark:text-[#20B8D5] hover:underline"
+                        className="font-bold text-[var(--theme-accent)] hover:underline"
                       >
                         Request Institutional Demo →
                       </Link>
@@ -435,8 +428,8 @@ export function Navbar() {
                 onClick={() => toggleDropdown('services')}
                 className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[13px] font-semibold transition-all cursor-pointer ${
                   activeDropdown === 'services' || isServicesActive
-                    ? 'text-white bg-white/10 border border-white/20 shadow-xs'
-                    : 'text-white/70 hover:text-white hover:bg-white/5'
+                    ? 'text-[var(--theme-accent)] bg-[var(--theme-accent)]/15 border border-[var(--theme-accent)]/30 shadow-xs'
+                    : 'text-[var(--theme-text-secondary)] hover:text-[var(--theme-text-primary)] hover:bg-white/[0.05]'
                 }`}
                 aria-expanded={activeDropdown === 'services'}
                 aria-haspopup="true"
@@ -446,7 +439,7 @@ export function Navbar() {
                   className={`w-3.5 h-3.5 transition-transform duration-200 ${
                     activeDropdown === 'services'
                       ? 'rotate-180 text-[var(--theme-accent)]'
-                      : 'text-white/50'
+                      : 'text-[var(--theme-text-muted)]'
                   }`}
                 />
               </button>
@@ -457,8 +450,8 @@ export function Navbar() {
                   onMouseEnter={() => handleMouseEnter('services')}
                   onMouseLeave={handleMouseLeave}
                 >
-                  <div className="w-[520px] rounded-2xl clear-glass-card shadow-2xl p-4 border border-white/15 bg-[#0B0B0C]/95 backdrop-blur-2xl">
-                    <div className="flex items-center justify-between pb-2.5 mb-2.5 border-b border-white/10">
+                  <div className="w-[520px] rounded-2xl bg-[var(--theme-bg-surface)]/95 backdrop-blur-2xl shadow-2xl p-4 border border-[var(--theme-border-glass)] shadow-[0_20px_50px_rgba(0,0,0,0.45)]">
+                    <div className="flex items-center justify-between pb-2.5 mb-2.5 border-b border-[var(--theme-border-glass)]">
                       <span className="text-[11px] font-bold uppercase tracking-wider text-[var(--theme-accent)]">
                         Client Engineering Services
                       </span>
@@ -479,16 +472,16 @@ export function Navbar() {
                             key={s.name}
                             href={s.href}
                             onClick={closeAll}
-                            className="flex items-start gap-2.5 p-2 rounded-xl hover:bg-white/10 transition-colors group"
+                            className="flex items-start gap-2.5 p-2 rounded-xl hover:bg-[var(--theme-accent)]/10 border border-transparent hover:border-[var(--theme-accent)]/30 transition-colors group"
                           >
-                            <div className="w-7 h-7 rounded-lg bg-white/10 text-[var(--theme-accent)] flex items-center justify-center shrink-0 mt-0.5">
+                            <div className="w-7 h-7 rounded-lg bg-[var(--theme-accent)]/15 text-[var(--theme-accent)] flex items-center justify-center shrink-0 mt-0.5">
                               <Icon className="w-3.5 h-3.5" />
                             </div>
                             <div>
-                              <h5 className="text-xs font-bold text-white group-hover:text-[var(--theme-accent)] transition-colors">
+                              <h5 className="text-xs font-bold text-[var(--theme-text-primary)] group-hover:text-[var(--theme-accent)] transition-colors">
                                 {s.name}
                               </h5>
-                              <p className="text-[11px] text-white/50 leading-tight mt-0.5">
+                              <p className="text-[11px] text-[var(--theme-text-secondary)] leading-tight mt-0.5">
                                 {s.desc}
                               </p>
                             </div>
@@ -512,8 +505,8 @@ export function Navbar() {
                 onClick={() => toggleDropdown('projects')}
                 className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[13px] font-semibold transition-all cursor-pointer ${
                   activeDropdown === 'projects' || isProjectsActive
-                    ? 'text-white bg-white/10 border border-white/20 shadow-xs'
-                    : 'text-white/70 hover:text-white hover:bg-white/5'
+                    ? 'text-[var(--theme-accent)] bg-[var(--theme-accent)]/15 border border-[var(--theme-accent)]/30 shadow-xs'
+                    : 'text-[var(--theme-text-secondary)] hover:text-[var(--theme-text-primary)] hover:bg-white/[0.05]'
                 }`}
                 aria-expanded={activeDropdown === 'projects'}
                 aria-haspopup="true"
@@ -523,7 +516,7 @@ export function Navbar() {
                   className={`w-3.5 h-3.5 transition-transform duration-200 ${
                     activeDropdown === 'projects'
                       ? 'rotate-180 text-[var(--theme-accent)]'
-                      : 'text-white/50'
+                      : 'text-[var(--theme-text-muted)]'
                   }`}
                 />
               </button>
@@ -534,8 +527,8 @@ export function Navbar() {
                   onMouseEnter={() => handleMouseEnter('projects')}
                   onMouseLeave={handleMouseLeave}
                 >
-                  <div className="w-[300px] rounded-2xl clear-glass-card shadow-2xl p-3 border border-white/15 bg-[var(--theme-bg-surface)]/95 backdrop-blur-2xl">
-                    <div className="pb-2 mb-2 border-b border-white/10 px-2">
+                  <div className="w-[300px] rounded-2xl bg-[var(--theme-bg-surface)]/95 backdrop-blur-2xl shadow-2xl p-3 border border-[var(--theme-border-glass)] shadow-[0_20px_50px_rgba(0,0,0,0.45)]">
+                    <div className="pb-2 mb-2 border-b border-[var(--theme-border-glass)] px-2">
                       <span className="text-[11px] font-bold uppercase tracking-wider text-[var(--theme-accent)]">
                         Portfolio &amp; Proof
                       </span>
@@ -548,12 +541,12 @@ export function Navbar() {
                             key={p.name}
                             href={p.href}
                             onClick={closeAll}
-                            className="flex items-center gap-2.5 px-2.5 py-2 rounded-xl text-xs font-medium text-white/80 hover:text-white hover:bg-white/10 transition-colors group"
+                            className="flex items-center gap-2.5 px-2.5 py-2 rounded-xl text-xs font-medium text-[var(--theme-text-primary)] hover:bg-[var(--theme-accent)]/10 border border-transparent hover:border-[var(--theme-accent)]/30 transition-colors group"
                           >
-                            <div className="w-6 h-6 rounded-md bg-white/10 text-[var(--theme-accent)] flex items-center justify-center shrink-0">
+                            <div className="w-6 h-6 rounded-md bg-[var(--theme-accent)]/15 text-[var(--theme-accent)] flex items-center justify-center shrink-0">
                               <Icon className="w-3.5 h-3.5" />
                             </div>
-                            <span className="truncate">{p.name}</span>
+                            <span className="truncate group-hover:text-[var(--theme-accent)] transition-colors">{p.name}</span>
                           </Link>
                         );
                       })}
@@ -569,8 +562,8 @@ export function Navbar() {
               onClick={closeAll}
               className={`px-3.5 py-1.5 rounded-full text-[13px] font-semibold transition-all ${
                 isInsightsActive
-                  ? 'text-white bg-white/10 border border-white/20 shadow-xs'
-                  : 'text-white/70 hover:text-white hover:bg-white/5'
+                  ? 'text-[var(--theme-accent)] bg-[var(--theme-accent)]/15 border border-[var(--theme-accent)]/30 shadow-xs'
+                  : 'text-[var(--theme-text-secondary)] hover:text-[var(--theme-text-primary)] hover:bg-white/[0.05]'
               }`}
             >
               Insights
@@ -582,8 +575,8 @@ export function Navbar() {
               onClick={closeAll}
               className={`px-3.5 py-1.5 rounded-full text-[13px] font-semibold transition-all ${
                 isContactActive
-                  ? 'text-white bg-white/10 border border-white/20 shadow-xs'
-                  : 'text-white/70 hover:text-white hover:bg-white/5'
+                  ? 'text-[var(--theme-accent)] bg-[var(--theme-accent)]/15 border border-[var(--theme-accent)]/30 shadow-xs'
+                  : 'text-[var(--theme-text-secondary)] hover:text-[var(--theme-text-primary)] hover:bg-white/[0.05]'
               }`}
             >
               Contact
@@ -608,10 +601,10 @@ export function Navbar() {
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
               type="button"
-              className="w-9 h-9 rounded-lg flex items-center justify-center text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-[#103B68]/40 focus:outline-none transition-colors"
+              className="w-9 h-9 rounded-xl flex items-center justify-center text-[var(--theme-text-primary)] hover:bg-[var(--theme-accent)]/10 border border-[var(--theme-border-glass)] focus:outline-none transition-colors"
               aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
             >
-              {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              {mobileOpen ? <X className="w-5 h-5 text-[var(--theme-accent)]" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>
@@ -619,14 +612,14 @@ export function Navbar() {
 
       {/* Mobile Drawer */}
       {mobileOpen && (
-        <div className="lg:hidden mrm-glass-strong border-b border-[var(--border-subtle)] px-4 pt-2 pb-6 space-y-1 shadow-2xl max-h-[calc(100vh-4rem)] overflow-y-auto animate-in slide-in-from-top-2 duration-150">
+        <div className="lg:hidden bg-[var(--theme-bg-surface)] border-b border-[var(--theme-border-glass)] px-4 pt-2 pb-6 space-y-1 shadow-2xl max-h-[calc(100vh-4rem)] overflow-y-auto animate-in slide-in-from-top-2 duration-150">
           <Link
             href="/"
             onClick={closeAll}
-            className={`block px-3 py-2.5 rounded-lg text-sm font-medium ${
+            className={`block px-3 py-2.5 rounded-xl text-sm font-medium ${
               pathname === '/'
-                ? 'text-[#087FC4] dark:text-[#20B8D5] font-semibold bg-[#F4F8FC] dark:bg-[#103B68]/40'
-                : 'text-[#15243A] dark:text-slate-200 hover:bg-[#F4F8FC] dark:hover:bg-[#0B1E3B]'
+                ? 'text-[var(--theme-accent)] font-semibold bg-[var(--theme-accent)]/15 border border-[var(--theme-accent)]/30'
+                : 'text-[var(--theme-text-primary)] hover:bg-[var(--theme-accent)]/10'
             }`}
           >
             Home
@@ -637,37 +630,37 @@ export function Navbar() {
             <button
               type="button"
               onClick={() => setMobileAboutOpen(!mobileAboutOpen)}
-              className="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium text-[#15243A] dark:text-slate-200 hover:bg-[#F4F8FC] dark:hover:bg-[#0B1E3B]"
+              className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium text-[var(--theme-text-primary)] hover:bg-[var(--theme-accent)]/10"
             >
-              <span className={isAboutActive ? 'text-[#087FC4] dark:text-[#20B8D5] font-bold' : ''}>
+              <span className={isAboutActive ? 'text-[var(--theme-accent)] font-bold' : ''}>
                 About
               </span>
               <ChevronDown
                 className={`w-4 h-4 transition-transform duration-200 ${
-                  mobileAboutOpen ? 'rotate-180 text-[#087FC4] dark:text-[#20B8D5]' : 'text-slate-400'
+                  mobileAboutOpen ? 'rotate-180 text-[var(--theme-accent)]' : 'text-[var(--theme-text-muted)]'
                 }`}
               />
             </button>
             {mobileAboutOpen && (
-              <div className="pl-3 pr-2 py-1.5 space-y-1 bg-[#F4F8FC]/60 dark:bg-[#0B1E3B]/40 rounded-xl my-1">
+              <div className="pl-3 pr-2 py-1.5 space-y-1 bg-[var(--theme-bg-canvas)]/80 border border-[var(--theme-border-glass)] rounded-xl my-1">
                 {ABOUT_MENU_ITEMS.map((item) => (
                   <Link
                     key={item.title}
                     href={item.href}
                     onClick={closeAll}
-                    className="block px-3 py-2 rounded-lg text-xs font-medium text-slate-700 dark:text-slate-300 hover:text-[#087FC4] dark:hover:text-[#20B8D5] hover:bg-white/60 dark:hover:bg-[#103B68]/40"
+                    className="block px-3 py-2 rounded-lg text-xs font-medium text-[var(--theme-text-secondary)] hover:text-[var(--theme-accent)] hover:bg-[var(--theme-accent)]/10"
                   >
                     <div className="flex items-center gap-2">
-                      <span className="font-bold text-sm text-[#10243B] dark:text-white">
+                      <span className="font-bold text-sm text-[var(--theme-text-primary)]">
                         {item.title}
                       </span>
                       {item.badge && (
-                        <span className="text-[10px] font-bold px-1.5 py-0.2 rounded-full mrm-glass-pill text-[#087FC4] dark:text-[#20B8D5]">
+                        <span className="text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-[var(--theme-accent)]/15 text-[var(--theme-accent)] border border-[var(--theme-accent)]/30">
                           {item.badge}
                         </span>
                       )}
                     </div>
-                    <span className="text-[11px] text-[var(--text-secondary)] block mt-0.5">
+                    <span className="text-[11px] text-[var(--theme-text-muted)] block mt-0.5">
                       {item.description}
                     </span>
                   </Link>
@@ -681,25 +674,25 @@ export function Navbar() {
             <button
               type="button"
               onClick={() => setMobileProductsOpen(!mobileProductsOpen)}
-              className="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium text-[#15243A] dark:text-slate-200 hover:bg-[#F4F8FC] dark:hover:bg-[#0B1E3B]"
+              className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium text-[var(--theme-text-primary)] hover:bg-[var(--theme-accent)]/10"
             >
-              <span className={isProductsActive ? 'text-[#087FC4] dark:text-[#20B8D5] font-bold' : ''}>
+              <span className={isProductsActive ? 'text-[var(--theme-accent)] font-bold' : ''}>
                 Products
               </span>
               <ChevronDown
                 className={`w-4 h-4 transition-transform duration-200 ${
-                  mobileProductsOpen ? 'rotate-180 text-[#087FC4] dark:text-[#20B8D5]' : 'text-slate-400'
+                  mobileProductsOpen ? 'rotate-180 text-[var(--theme-accent)]' : 'text-[var(--theme-text-muted)]'
                 }`}
               />
             </button>
             {mobileProductsOpen && (
-              <div className="pl-4 pr-2 py-1 space-y-1 bg-[#F4F8FC]/60 dark:bg-[#0B1E3B]/40 rounded-xl my-1">
+              <div className="pl-4 pr-2 py-1 space-y-1 bg-[var(--theme-bg-canvas)]/80 border border-[var(--theme-border-glass)] rounded-xl my-1">
                 {PRODUCTS_DATA.map((p) => (
                   <Link
                     key={p.name}
                     href={p.href}
                     onClick={closeAll}
-                    className="block px-3 py-2 rounded-md text-xs font-medium text-slate-700 dark:text-slate-300 hover:text-[#087FC4] dark:hover:text-[#20B8D5]"
+                    className="block px-3 py-2 rounded-md text-xs font-medium text-[var(--theme-text-secondary)] hover:text-[var(--theme-accent)] hover:bg-[var(--theme-accent)]/10"
                   >
                     {p.name}
                   </Link>
@@ -707,7 +700,7 @@ export function Navbar() {
                 <Link
                   href="/products"
                   onClick={closeAll}
-                  className="block px-3 py-2 rounded-md text-xs font-bold text-[#087FC4] dark:text-[#20B8D5]"
+                  className="block px-3 py-2 rounded-md text-xs font-bold text-[var(--theme-accent)]"
                 >
                   View All Products →
                 </Link>
@@ -720,25 +713,25 @@ export function Navbar() {
             <button
               type="button"
               onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
-              className="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium text-[#15243A] dark:text-slate-200 hover:bg-[#F4F8FC] dark:hover:bg-[#0B1E3B]"
+              className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium text-[var(--theme-text-primary)] hover:bg-[var(--theme-accent)]/10"
             >
-              <span className={isServicesActive ? 'text-[#087FC4] dark:text-[#20B8D5] font-bold' : ''}>
+              <span className={isServicesActive ? 'text-[var(--theme-accent)] font-bold' : ''}>
                 Services
               </span>
               <ChevronDown
                 className={`w-4 h-4 transition-transform duration-200 ${
-                  mobileServicesOpen ? 'rotate-180 text-[#087FC4] dark:text-[#20B8D5]' : 'text-slate-400'
+                  mobileServicesOpen ? 'rotate-180 text-[var(--theme-accent)]' : 'text-[var(--theme-text-muted)]'
                 }`}
               />
             </button>
             {mobileServicesOpen && (
-              <div className="pl-4 pr-2 py-1 space-y-1 bg-[#F4F8FC]/60 dark:bg-[#0B1E3B]/40 rounded-xl my-1">
+              <div className="pl-4 pr-2 py-1 space-y-1 bg-[var(--theme-bg-canvas)]/80 border border-[var(--theme-border-glass)] rounded-xl my-1">
                 {SERVICES_DATA.map((s) => (
                   <Link
                     key={s.name}
                     href={s.href}
                     onClick={closeAll}
-                    className="block px-3 py-2 rounded-md text-xs font-medium text-slate-700 dark:text-slate-300 hover:text-[#087FC4] dark:hover:text-[#20B8D5]"
+                    className="block px-3 py-2 rounded-md text-xs font-medium text-[var(--theme-text-secondary)] hover:text-[var(--theme-accent)] hover:bg-[var(--theme-accent)]/10"
                   >
                     {s.name}
                   </Link>
@@ -746,7 +739,7 @@ export function Navbar() {
                 <Link
                   href="/services"
                   onClick={closeAll}
-                  className="block px-3 py-2 rounded-md text-xs font-bold text-[#087FC4] dark:text-[#20B8D5]"
+                  className="block px-3 py-2 rounded-md text-xs font-bold text-[var(--theme-accent)]"
                 >
                   View All Services →
                 </Link>
@@ -759,25 +752,25 @@ export function Navbar() {
             <button
               type="button"
               onClick={() => setMobileProjectsOpen(!mobileProjectsOpen)}
-              className="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium text-[#15243A] dark:text-slate-200 hover:bg-[#F4F8FC] dark:hover:bg-[#0B1E3B]"
+              className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium text-[var(--theme-text-primary)] hover:bg-[var(--theme-accent)]/10"
             >
-              <span className={isProjectsActive ? 'text-[#087FC4] dark:text-[#20B8D5] font-bold' : ''}>
+              <span className={isProjectsActive ? 'text-[var(--theme-accent)] font-bold' : ''}>
                 Projects
               </span>
               <ChevronDown
                 className={`w-4 h-4 transition-transform duration-200 ${
-                  mobileProjectsOpen ? 'rotate-180 text-[#087FC4] dark:text-[#20B8D5]' : 'text-slate-400'
+                  mobileProjectsOpen ? 'rotate-180 text-[var(--theme-accent)]' : 'text-[var(--theme-text-muted)]'
                 }`}
               />
             </button>
             {mobileProjectsOpen && (
-              <div className="pl-4 pr-2 py-1 space-y-1 bg-[#F4F8FC]/60 dark:bg-[#0B1E3B]/40 rounded-xl my-1">
+              <div className="pl-4 pr-2 py-1 space-y-1 bg-[var(--theme-bg-canvas)]/80 border border-[var(--theme-border-glass)] rounded-xl my-1">
                 {PROJECTS_DATA.map((p) => (
                   <Link
                     key={p.name}
                     href={p.href}
                     onClick={closeAll}
-                    className="block px-3 py-2 rounded-md text-xs font-medium text-slate-700 dark:text-slate-300 hover:text-[#087FC4] dark:hover:text-[#20B8D5]"
+                    className="block px-3 py-2 rounded-md text-xs font-medium text-[var(--theme-text-secondary)] hover:text-[var(--theme-accent)] hover:bg-[var(--theme-accent)]/10"
                   >
                     {p.name}
                   </Link>
@@ -789,10 +782,10 @@ export function Navbar() {
           <Link
             href="/blog"
             onClick={closeAll}
-            className={`block px-3 py-2.5 rounded-lg text-sm font-medium ${
+            className={`block px-3 py-2.5 rounded-xl text-sm font-medium ${
               isInsightsActive
-                ? 'text-[#087FC4] dark:text-[#20B8D5] font-semibold bg-[#F4F8FC] dark:bg-[#103B68]/40'
-                : 'text-[#15243A] dark:text-slate-200 hover:bg-[#F4F8FC] dark:hover:bg-[#0B1E3B]'
+                ? 'text-[var(--theme-accent)] font-semibold bg-[var(--theme-accent)]/15 border border-[var(--theme-accent)]/30'
+                : 'text-[var(--theme-text-primary)] hover:bg-[var(--theme-accent)]/10'
             }`}
           >
             Insights
@@ -801,10 +794,10 @@ export function Navbar() {
           <Link
             href="/contact"
             onClick={closeAll}
-            className={`block px-3 py-2.5 rounded-lg text-sm font-medium ${
+            className={`block px-3 py-2.5 rounded-xl text-sm font-medium ${
               isContactActive
-                ? 'text-[#087FC4] dark:text-[#20B8D5] font-semibold bg-[#F4F8FC] dark:bg-[#103B68]/40'
-                : 'text-[#15243A] dark:text-slate-200 hover:bg-[#F4F8FC] dark:hover:bg-[#0B1E3B]'
+                ? 'text-[var(--theme-accent)] font-semibold bg-[var(--theme-accent)]/15 border border-[var(--theme-accent)]/30'
+                : 'text-[var(--theme-text-primary)] hover:bg-[var(--theme-accent)]/10'
             }`}
           >
             Contact
@@ -814,7 +807,7 @@ export function Navbar() {
             <Link
               href="/start-project"
               onClick={closeAll}
-              className="flex items-center justify-center gap-2 w-full py-3 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-[#087FC4] to-[#20B8D5] shadow-md transition-opacity hover:opacity-95"
+              className="flex items-center justify-center gap-2 w-full py-3 rounded-xl text-sm font-black text-[var(--theme-accent-text)] bg-[var(--theme-accent)] shadow-lg shadow-[var(--theme-accent-glow)] transition-opacity hover:brightness-110 active:scale-[0.99]"
             >
               <span>Start a Project</span>
               <ArrowRight className="w-4 h-4" />

@@ -60,11 +60,22 @@ const themeInitScript = `
   (function() {
     try {
       var savedTheme = localStorage.getItem('mrm_active_theme_id');
-      var validThemes = ['classic-navy-coral', 'mrm-brand-cyan', 'midnight-lime', 'forest-purple', 'it-blue'];
+      var validThemes = ['mrm-brand-cyan', 'midnight-lime', 'classic-navy-coral', 'forest-purple', 'it-blue'];
       if (savedTheme && validThemes.indexOf(savedTheme) !== -1) {
         document.documentElement.setAttribute('data-theme', savedTheme);
+      } else {
+        document.documentElement.setAttribute('data-theme', 'mrm-brand-cyan');
       }
-      document.documentElement.classList.add('dark');
+      var savedMode = localStorage.getItem('mrm_theme_mode');
+      if (savedMode === 'light') {
+        document.documentElement.classList.remove('dark');
+        document.documentElement.classList.add('light');
+        document.documentElement.setAttribute('data-mode', 'light');
+      } else {
+        document.documentElement.classList.add('dark');
+        document.documentElement.classList.remove('light');
+        document.documentElement.setAttribute('data-mode', 'dark');
+      }
     } catch (e) {}
   })();
 `;

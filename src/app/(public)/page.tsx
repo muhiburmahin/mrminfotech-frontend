@@ -29,6 +29,8 @@ import {
   Smartphone,
   Palette,
   Briefcase,
+  Lightbulb,
+  TrendingUp,
 } from 'lucide-react';
 import HomeFaqAccordion from '@/components/public/home/HomeFaqAccordion';
 import ProblemsWeSolveSection from '@/components/public/home/ProblemsWeSolveSection';
@@ -783,47 +785,71 @@ export default async function HomePage() {
           {/* 3 Clear Frosted Glass Pillars */}
           <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
             <ScrollReveal direction="up" delay={0.15}>
-              <div className="bg-[var(--theme-bg-surface)]/75 backdrop-blur-2xl border border-[var(--theme-border-glass)] border-t-2 border-t-[var(--theme-accent)] rounded-3xl p-6 space-y-3 h-full hover:border-[var(--theme-accent)]/60 hover:shadow-[0_0_30px_var(--theme-accent-glow)] transition-all relative overflow-hidden group">
+              <div className="bg-[var(--theme-bg-surface)]/75 backdrop-blur-2xl border border-[var(--theme-border-glass)] border-t-2 border-t-[var(--theme-accent)] rounded-3xl p-6 space-y-4 h-full hover:border-[var(--theme-accent)]/60 hover:shadow-[0_0_30px_var(--theme-accent-glow)] transition-all relative overflow-hidden group">
+                <div className="flex items-center justify-between">
+                  <div className="w-10 h-10 rounded-xl bg-[var(--theme-accent)]/15 text-[var(--theme-accent)] flex items-center justify-center border border-[var(--theme-accent)]/30 group-hover:scale-110 transition-transform">
+                    <Lightbulb className="w-5 h-5" />
+                  </div>
+                  <span className="text-xs font-mono font-black text-[var(--theme-accent)]">01</span>
+                </div>
                 <span className="text-[52px] font-mono font-black text-[var(--theme-text-secondary)]/[0.07] absolute -bottom-2 -right-1 select-none pointer-events-none">
                   01
                 </span>
-                <span className="text-xs font-extrabold uppercase tracking-widest text-[var(--theme-accent)] font-mono">
-                  01 • IDEAS
-                </span>
-                <h3 className="font-black text-lg text-[var(--theme-text-primary)]">Problem-First Discovery</h3>
-                <p className="text-xs text-[var(--theme-text-secondary)] leading-relaxed">
-                  Every product and client solution starts by understanding real operational needs.
-                </p>
+                <div>
+                  <span className="text-xs font-extrabold uppercase tracking-widest text-[var(--theme-accent)] font-mono">
+                    IDEAS
+                  </span>
+                  <h3 className="font-black text-lg text-[var(--theme-text-primary)] mt-0.5">Problem-First Discovery</h3>
+                  <p className="text-xs text-[var(--theme-text-secondary)] leading-relaxed mt-2">
+                    Every product and client solution starts by understanding real operational needs.
+                  </p>
+                </div>
               </div>
             </ScrollReveal>
 
             <ScrollReveal direction="up" delay={0.25}>
-              <div className="bg-[var(--theme-bg-surface)]/75 backdrop-blur-2xl border border-[var(--theme-border-glass)] border-t-2 border-t-[var(--theme-accent)] rounded-3xl p-6 space-y-3 h-full hover:border-[var(--theme-accent)]/60 hover:shadow-[0_0_30px_var(--theme-accent-glow)] transition-all relative overflow-hidden group">
+              <div className="bg-[var(--theme-bg-surface)]/75 backdrop-blur-2xl border border-[var(--theme-border-glass)] border-t-2 border-t-[var(--theme-accent)] rounded-3xl p-6 space-y-4 h-full hover:border-[var(--theme-accent)]/60 hover:shadow-[0_0_30px_var(--theme-accent-glow)] transition-all relative overflow-hidden group">
+                <div className="flex items-center justify-between">
+                  <div className="w-10 h-10 rounded-xl bg-[var(--theme-accent)]/15 text-[var(--theme-accent)] flex items-center justify-center border border-[var(--theme-accent)]/30 group-hover:scale-110 transition-transform">
+                    <Cpu className="w-5 h-5" />
+                  </div>
+                  <span className="text-xs font-mono font-black text-[var(--theme-accent)]">02</span>
+                </div>
                 <span className="text-[52px] font-mono font-black text-[var(--theme-text-secondary)]/[0.07] absolute -bottom-2 -right-1 select-none pointer-events-none">
                   02
                 </span>
-                <span className="text-xs font-extrabold uppercase tracking-widest text-[var(--theme-accent)] font-mono">
-                  02 • PRODUCTS
-                </span>
-                <h3 className="font-black text-lg text-[var(--theme-text-primary)]">Thoughtful Engineering</h3>
-                <p className="text-xs text-[var(--theme-text-secondary)] leading-relaxed">
-                  Clean architecture, scalable databases, and intuitive interfaces built to last.
-                </p>
+                <div>
+                  <span className="text-xs font-extrabold uppercase tracking-widest text-[var(--theme-accent)] font-mono">
+                    PRODUCTS
+                  </span>
+                  <h3 className="font-black text-lg text-[var(--theme-text-primary)] mt-0.5">Thoughtful Engineering</h3>
+                  <p className="text-xs text-[var(--theme-text-secondary)] leading-relaxed mt-2">
+                    Clean architecture, scalable databases, and intuitive interfaces built to last.
+                  </p>
+                </div>
               </div>
             </ScrollReveal>
 
             <ScrollReveal direction="up" delay={0.35}>
-              <div className="bg-[var(--theme-bg-surface)]/75 backdrop-blur-2xl border border-[var(--theme-border-glass)] border-t-2 border-t-[var(--theme-accent)] rounded-3xl p-6 space-y-3 h-full hover:border-[var(--theme-accent)]/60 hover:shadow-[0_0_30px_var(--theme-accent-glow)] transition-all relative overflow-hidden group">
+              <div className="bg-[var(--theme-bg-surface)]/75 backdrop-blur-2xl border border-[var(--theme-border-glass)] border-t-2 border-t-[var(--theme-accent)] rounded-3xl p-6 space-y-4 h-full hover:border-[var(--theme-accent)]/60 hover:shadow-[0_0_30px_var(--theme-accent-glow)] transition-all relative overflow-hidden group">
+                <div className="flex items-center justify-between">
+                  <div className="w-10 h-10 rounded-xl bg-[var(--theme-accent)]/15 text-[var(--theme-accent)] flex items-center justify-center border border-[var(--theme-accent)]/30 group-hover:scale-110 transition-transform">
+                    <TrendingUp className="w-5 h-5" />
+                  </div>
+                  <span className="text-xs font-mono font-black text-[var(--theme-accent)]">03</span>
+                </div>
                 <span className="text-[52px] font-mono font-black text-[var(--theme-text-secondary)]/[0.07] absolute -bottom-2 -right-1 select-none pointer-events-none">
                   03
                 </span>
-                <span className="text-xs font-extrabold uppercase tracking-widest text-[var(--theme-accent)] font-mono">
-                  03 • IMPACT
-                </span>
-                <h3 className="font-black text-lg text-[var(--theme-text-primary)]">Measurable Value</h3>
-                <p className="text-xs text-[var(--theme-text-secondary)] leading-relaxed">
-                  Digital systems that simplify daily workflows and support long-term growth.
-                </p>
+                <div>
+                  <span className="text-xs font-extrabold uppercase tracking-widest text-[var(--theme-accent)] font-mono">
+                    IMPACT
+                  </span>
+                  <h3 className="font-black text-lg text-[var(--theme-text-primary)] mt-0.5">Measurable Value</h3>
+                  <p className="text-xs text-[var(--theme-text-secondary)] leading-relaxed mt-2">
+                    Digital systems that simplify daily workflows and support long-term growth.
+                  </p>
+                </div>
               </div>
             </ScrollReveal>
           </div>
@@ -832,12 +858,13 @@ export default async function HomePage() {
 
       {/* =====================================================================
           SECTION 04 — FLAGSHIP SOFTWARE PRODUCTS (#products)
+          Sticky Overlapping / Stacking Plate Cards System
           ===================================================================== */}
       <AmbientSection id="products" variant="dual-side" className="py-24">
         <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
             <div className="max-w-2xl space-y-3">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full clear-glass-pill text-xs font-bold text-[var(--theme-text-primary)] tracking-widest uppercase border border-[var(--theme-border-glass)] bg-[var(--theme-bg-surface)]/60">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full clear-glass-pill text-xs font-bold text-[var(--theme-text-primary)] tracking-widest uppercase border border-[var(--theme-border-glass)] bg-[var(--theme-bg-surface)]/60">
                 <span className="w-1.5 h-1.5 rounded-full bg-[var(--theme-accent)] animate-pulse" />
                 PROPRIETARY SAAS ECOSYSTEM
               </div>
@@ -861,56 +888,231 @@ export default async function HomePage() {
             </Link>
           </div>
 
-          <MasonryGrid category="Products">
-            {products.map((product) => {
+          {/* Sticky Stacking Plate Cards Container */}
+          <div className="relative space-y-10 sm:space-y-14 pb-12">
+            {products.map((product, index) => {
               const icon = getProductIcon(product.slug);
-              const previewImg = product.images?.[0] || null;
+              const serial = String(index + 1).padStart(2, '0');
+
+              // Product specific metadata for rich telemetry & dashboard preview
+              const isEduManage = product.slug.includes('edumanage') || product.slug.includes('school');
+              const isMediSheba = product.slug.includes('medisheba') || product.slug.includes('health');
+
+              const features = isEduManage
+                ? [
+                    'Biometric RFID attendance sync with instant guardian SMS alerts',
+                    'Automated grading engine & marksheet print for BD Board standards',
+                    'Digital fee collection via bKash, Nagad & automatic reconciliation',
+                    'Role-based dashboards for Principal, Teachers, Accounts & Guardians',
+                  ]
+                : isMediSheba
+                ? [
+                    'Barcode test tube tracking ensuring zero specimen cross-contamination',
+                    'Automated pathology reporting with normal range reference validation',
+                    'Encrypted doctor digital signatures & watermarked PDF verification',
+                    'Online patient report portal with instant SMS link & OTP access',
+                  ]
+                : [
+                    'Multi-tenant database isolation & custom domain routing with auto-SSL',
+                    'Unified control cockpit deploying institutional sites in 1-click',
+                    'Centralized notice engine broadcasting circulars across 50+ websites',
+                    'Granular RBAC security compliance and zero-trust administrative logs',
+                  ];
+
+              const techTags = isEduManage
+                ? ['Next.js 14', 'NestJS', 'PostgreSQL', 'Tailwind CSS', 'Redis Queue']
+                : isMediSheba
+                ? ['React', 'Node.js', 'PostgreSQL', 'Thermal Printer API', 'SMS Gateway']
+                : ['Next.js', 'TypeScript', 'Prisma', 'PostgreSQL', 'Docker Swarm', 'Cloudflare CDN'];
 
               return (
-                <GlassCard
+                <div
                   key={product.slug}
-                  title={product.title}
-                  subtitle={product.category}
-                  description={product.description}
-                  tag={product.stage || 'LIVE'}
-                  icon={icon}
-                  imageUrl={previewImg || undefined}
-                  ctaText={product.ctaLabel || 'Explore Product'}
-                  ctaHref={`/products/${product.slug}`}
-                  metaInfo={
-                    <div className="flex items-center gap-3">
-                      {product.liveUrl && (
-                        <a
-                          href={product.liveUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1 text-[11px] font-semibold text-[var(--theme-accent)] hover:underline"
+                  className="sticky rounded-3xl p-7 sm:p-10 lg:p-12 border border-[var(--theme-border-glass)] bg-[var(--theme-bg-surface)]/95 backdrop-blur-3xl shadow-[0_30px_70px_-15px_rgba(0,0,0,0.85)] transition-all duration-300"
+                  style={{
+                    top: `calc(100px + ${index * 28}px)`,
+                    zIndex: 10 + index,
+                  }}
+                >
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+                    {/* Left Column: Product Information, Highlights, Stack & Actions */}
+                    <div className="lg:col-span-7 space-y-6">
+                      <div className="flex items-center gap-3 flex-wrap">
+                        <span className="text-xs font-mono font-black text-[var(--theme-accent)] px-3 py-1 rounded-full bg-[var(--theme-accent)]/15 border border-[var(--theme-accent)]/30">
+                          PLATE {serial} • {product.category || 'ENTERPRISE SAAS'}
+                        </span>
+                        <span className="inline-flex items-center gap-1.5 text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                          {product.stage || 'LIVE IN PRODUCTION'}
+                        </span>
+                      </div>
+
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-xl bg-[var(--theme-accent)]/15 text-[var(--theme-accent)] flex items-center justify-center shrink-0 border border-[var(--theme-accent)]/30">
+                            {icon}
+                          </div>
+                          <h3 className="text-2xl sm:text-4xl font-black text-[var(--theme-text-primary)] tracking-tight">
+                            {product.title}
+                          </h3>
+                        </div>
+                        <p className="text-sm sm:text-base text-[var(--theme-text-secondary)] leading-relaxed pt-1">
+                          {product.description}
+                        </p>
+                      </div>
+
+                      {/* Key Capabilities Checklist */}
+                      <div className="space-y-2.5 pt-1">
+                        <p className="text-xs font-extrabold uppercase tracking-wider text-[var(--theme-text-muted)]">
+                          Core Enterprise Capabilities
+                        </p>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                          {features.map((feat) => (
+                            <div key={feat} className="flex items-start gap-2 text-xs text-[var(--theme-text-secondary)]">
+                              <CheckCircle2 className="w-4 h-4 text-[var(--theme-accent)] shrink-0 mt-0.5" />
+                              <span>{feat}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Tech Stack Tags */}
+                      <div className="flex items-center gap-2 flex-wrap pt-2">
+                        {techTags.map((tech) => (
+                          <span
+                            key={tech}
+                            className="text-[11px] font-mono font-semibold px-2.5 py-1 rounded-lg bg-[var(--theme-bg-canvas)] text-[var(--theme-text-secondary)] border border-[var(--theme-border-glass)]"
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+
+                      {/* Action CTA Buttons */}
+                      <div className="flex flex-wrap items-center gap-4 pt-3">
+                        <CTAButton
+                          href={`/products/${product.slug}`}
+                          size="md"
+                          className="shadow-[0_0_20px_var(--theme-accent-glow)]"
                         >
-                          <ExternalLink className="w-3 h-3" /> Live Demo
-                        </a>
-                      )}
-                      {product.isSourcePrivate ? (
-                        <span className="inline-flex items-center gap-1 text-[11px] text-[var(--theme-text-secondary)]/50">
-                          <Lock className="w-3 h-3" /> Private IP
-                        </span>
-                      ) : (
-                        <span className="inline-flex items-center gap-1 text-[11px] text-[var(--theme-text-secondary)]/50">
-                          <Code2 className="w-3 h-3" /> Open Core
-                        </span>
-                      )}
+                          {product.ctaLabel || 'Explore Product'} <ArrowRight className="w-4 h-4 ml-1 inline-block" />
+                        </CTAButton>
+
+                        {product.liveUrl && (
+                          <a
+                            href={product.liveUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1.5 text-xs font-bold text-[var(--theme-text-primary)] px-4 py-2.5 rounded-xl border border-[var(--theme-border-glass)] bg-[var(--theme-bg-canvas)]/60 hover:border-[var(--theme-accent)]/50 hover:text-[var(--theme-accent)] transition-all"
+                          >
+                            <ExternalLink className="w-3.5 h-3.5" /> Live Demo
+                          </a>
+                        )}
+
+                        <Link
+                          href="/start-project"
+                          className="text-xs font-bold text-[var(--theme-text-secondary)] hover:text-[var(--theme-accent)] transition-colors inline-flex items-center gap-1"
+                        >
+                          Request Custom Demo →
+                        </Link>
+                      </div>
                     </div>
-                  }
-                />
+
+                    {/* Right Column: Visual Telemetry / High-Craft Dashboard Preview Mockup */}
+                    <div className="lg:col-span-5">
+                      <div className="rounded-2xl p-5 border border-[var(--theme-border-glass)] bg-[var(--theme-bg-canvas)]/90 shadow-2xl relative overflow-hidden group">
+                        {/* Mockup Header */}
+                        <div className="flex items-center justify-between pb-3 mb-4 border-b border-[var(--theme-border-glass)]">
+                          <div className="flex items-center gap-2">
+                            <span className="w-2.5 h-2.5 rounded-full bg-rose-500/80" />
+                            <span className="w-2.5 h-2.5 rounded-full bg-amber-500/80" />
+                            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" />
+                            <span className="text-[11px] font-mono text-[var(--theme-text-muted)] ml-2">
+                              {product.slug}.mrminfotech.com
+                            </span>
+                          </div>
+                          <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-md bg-[var(--theme-accent)]/15 text-[var(--theme-accent)] border border-[var(--theme-accent)]/20">
+                            HTTPS • 256-BIT
+                          </span>
+                        </div>
+
+                        {/* Telemetry KPIs */}
+                        <div className="grid grid-cols-3 gap-2.5 mb-4">
+                          <div className="p-2.5 rounded-xl bg-[var(--theme-bg-surface)] border border-[var(--theme-border-glass)]">
+                            <span className="text-[10px] font-mono text-[var(--theme-text-muted)] block">
+                              {isEduManage ? 'STUDENTS' : isMediSheba ? 'PATIENTS' : 'TENANTS'}
+                            </span>
+                            <span className="text-base font-black text-[var(--theme-text-primary)] font-mono">
+                              {isEduManage ? '4,820+' : isMediSheba ? '1,420+' : '28 Sites'}
+                            </span>
+                          </div>
+                          <div className="p-2.5 rounded-xl bg-[var(--theme-bg-surface)] border border-[var(--theme-border-glass)]">
+                            <span className="text-[10px] font-mono text-[var(--theme-text-muted)] block">
+                              {isEduManage ? 'ATTENDANCE' : isMediSheba ? 'ACCURACY' : 'UPTIME'}
+                            </span>
+                            <span className="text-base font-black text-[var(--theme-accent)] font-mono">
+                              {isEduManage ? '98.4%' : isMediSheba ? '99.9%' : '99.98%'}
+                            </span>
+                          </div>
+                          <div className="p-2.5 rounded-xl bg-[var(--theme-bg-surface)] border border-[var(--theme-border-glass)]">
+                            <span className="text-[10px] font-mono text-[var(--theme-text-muted)] block">
+                              SPEED
+                            </span>
+                            <span className="text-base font-black text-emerald-400 font-mono">
+                              42ms
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Visual Mockup Graph / Activity Log */}
+                        <div className="p-3.5 rounded-xl bg-[var(--theme-bg-surface)]/80 border border-[var(--theme-border-glass)] space-y-2.5">
+                          <div className="flex items-center justify-between text-[11px] font-mono text-[var(--theme-text-secondary)]">
+                            <span>REAL-TIME PIPELINE ACTIVITY</span>
+                            <span className="text-[var(--theme-accent)]">LIVE SYNC</span>
+                          </div>
+                          <div className="h-20 w-full flex items-end gap-1.5 pt-2">
+                            {[40, 65, 52, 80, 60, 92, 75, 88, 95, 78, 85, 100].map((val, i) => (
+                              <div
+                                key={i}
+                                className="flex-1 bg-[var(--theme-accent)]/20 rounded-t-md hover:bg-[var(--theme-accent)] transition-colors relative group/bar"
+                                style={{ height: `${val}%` }}
+                              >
+                                <span className="absolute -top-6 left-1/2 -translate-x-1/2 opacity-0 group-hover/bar:opacity-100 text-[9px] font-mono font-bold bg-black text-white px-1 rounded pointer-events-none transition-opacity">
+                                  {val}%
+                                </span>
+                              </div>
+                            ))}
+                          </div>
+                          <div className="flex items-center justify-between text-[10px] font-mono text-[var(--theme-text-muted)] pt-1 border-t border-[var(--theme-border-glass)]">
+                            <span>00:00 UTC</span>
+                            <span>ACTIVE CLUSTER: SGP-01</span>
+                            <span>NOW</span>
+                          </div>
+                        </div>
+
+                        {/* Bottom Status Ribbon */}
+                        <div className="mt-3.5 pt-2.5 border-t border-[var(--theme-border-glass)] flex items-center justify-between text-xs">
+                          <span className="text-[11px] text-[var(--theme-text-secondary)] flex items-center gap-1.5">
+                            <ShieldCheck className="w-3.5 h-3.5 text-[var(--theme-accent)]" />
+                            ISO 27001 Security Validated
+                          </span>
+                          <span className="font-mono text-[11px] font-bold text-[var(--theme-accent)]">
+                            ENTERPRISE READY
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               );
             })}
-          </MasonryGrid>
+          </div>
         </div>
       </AmbientSection>
 
       {/* =====================================================================
           SECTION 05 — OUR SERVICES (#services)
-          Honoring Admin Serial Number Priority (01, 02, 03...)
-          Transformed into Northline-Grade Radiant Frosted Glass Cards
+          Strictly first 6 services as requested, followed by prominent CTA banner
           ===================================================================== */}
       <AmbientSection id="services" variant="top-spotlight" className="py-24">
         <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
@@ -934,14 +1136,15 @@ export default async function HomePage() {
 
             <CTAButton
               href="/services"
-              className="shrink-0"
+              className="shrink-0 shadow-[0_0_20px_var(--theme-accent-glow)]"
             >
               Explore All Services <ArrowRight className="w-4 h-4 ml-1 inline-block" />
             </CTAButton>
           </div>
 
+          {/* Strictly First 6 Services in 3x2 Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {services.map((service, index) => {
+            {services.slice(0, 6).map((service, index) => {
               const displayOrder = typeof service.order === 'number'
                 ? service.order
                 : typeof service.sortOrder === 'number'
@@ -987,6 +1190,26 @@ export default async function HomePage() {
                 </Link>
               );
             })}
+          </div>
+
+          {/* Prominent High-Visibility Services CTA Banner */}
+          <div className="mt-12 p-8 sm:p-10 rounded-3xl bg-[var(--theme-bg-surface)]/85 backdrop-blur-2xl border border-[var(--theme-border-glass)] flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl">
+            <div className="space-y-1 text-center md:text-left">
+              <span className="text-xs font-extrabold uppercase tracking-widest text-[var(--theme-accent)]">
+                LOOKING FOR CUSTOM ENGINEERING?
+              </span>
+              <h3 className="text-xl sm:text-2xl font-black text-[var(--theme-text-primary)]">
+                Explore Our Complete Engineering &amp; Software Catalog
+              </h3>
+              <p className="text-sm text-[var(--theme-text-secondary)] max-w-2xl">
+                From microservices and mobile applications to enterprise ERPs and AI workflows, discover how MRM InfoTech turns your vision into reality.
+              </p>
+            </div>
+            <div className="shrink-0">
+              <CTAButton href="/services" size="lg" className="shadow-[0_0_24px_var(--theme-accent-glow)]">
+                View All Services (৬+ বিস্তারিত দেখুন) <ArrowRight className="w-4 h-4 ml-1 inline-block" />
+              </CTAButton>
+            </div>
           </div>
         </div>
       </AmbientSection>
