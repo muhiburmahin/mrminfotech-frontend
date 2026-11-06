@@ -27,6 +27,7 @@ import {
 } from 'lucide-react';
 import HomeFaqAccordion from '@/components/public/home/HomeFaqAccordion';
 import ProblemsWeSolveSection from '@/components/public/home/ProblemsWeSolveSection';
+import { MrmHeroShowcaseTriad } from '@/components/public/home/MrmHeroShowcaseTriad';
 import GlassEmptyState from '@/components/ui/GlassEmptyState';
 import { GlassCard } from '@/components/ui/design-system/GlassCard';
 import { MasonryGrid } from '@/components/ui/design-system/MasonryGrid';
@@ -471,153 +472,138 @@ export default async function HomePage() {
   return (
     <div className="min-h-screen bg-[#0B0B0C] text-[#FFFFFF] overflow-x-hidden selection:bg-[#C6F432] selection:text-[#0B0B0C]">
       {/* =====================================================================
-          SECTION 01 — HERO (ORIGINAL MRM CONTENT WITH STUNNING CLEAR GLASS & AMBIENT LIME GLOW)
-          Enforces 60% Midnight Black (#0B0B0C), 30% Pure White (#FFFFFF), and 10% Candy Lime Green (#C6F432)
+          SECTION 01 — HERO (CENTERED GRAND ARCHITECTURE WITH RADIANT AURORA BEAM & TRIAD)
+          Matching Image 1 Reference Screenshot exactly:
+          - Symmetrical centered composition
+          - Large fashion-contrast typography ("We Turn Ideas Into Technology That Moves Forward.")
+          - Floating side enterprise metrics (99.9%, 100%, 14+, 24/7)
+          - Centered conversion CTAs (Candy Lime Green #C6F432 + Frosted glass)
+          - Volumetric vertical light beam (.hero-aurora-beam) + Cyber light rays (.hero-light-rays)
+          - 3 Luminous interactive showcase cards (MrmHeroShowcaseTriad)
           ===================================================================== */}
-      <section className="relative pt-16 pb-24 lg:pt-24 lg:pb-32 overflow-hidden border-b border-white/10 bg-[#0B0B0C]">
-        {/* Ambient Radial Lime Glow Beam (As shown in screenshot) */}
+      <section className="relative pt-12 pb-24 lg:pt-16 lg:pb-32 overflow-hidden border-b border-white/10 bg-[#0B0B0C]">
+        {/* Volumetric Aurora Beam (Intense vertical green glow from bottom up) */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center opacity-60"
-        >
-          <div className="h-[550px] w-[850px] rounded-full lime-glow-beam blur-3xl" />
-        </div>
+          className="hero-aurora-beam pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 w-[95%] max-w-[1200px] h-[580px] rounded-full z-0 opacity-95"
+        />
 
-        <div className="relative z-10 max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          {/* Left: Original Editorial Copy & Actions */}
-          <ScrollReveal direction="up" delay={0.08} duration={0.65} className="lg:col-span-7 space-y-6">
+        {/* Cyber Light Rays Texture (Vertical light rays shooting upward) */}
+        <div
+          aria-hidden="true"
+          className="hero-light-rays pointer-events-none absolute inset-0 z-0 opacity-85"
+        />
+
+        <div className="relative z-10 max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Flanking Side Performance Metrics (Desktop Absolute) */}
+          <div className="hidden lg:flex absolute top-12 left-4 flex-col gap-10 text-left pointer-events-none select-none z-10">
+            <div>
+              <div className="text-4xl sm:text-5xl font-black tracking-tight text-white font-mono">
+                99.9%
+              </div>
+              <div className="text-[11px] font-extrabold tracking-widest uppercase text-white/50 mt-1">
+                UPTIME SLA
+              </div>
+            </div>
+            <div>
+              <div className="text-4xl sm:text-5xl font-black tracking-tight text-white font-mono">
+                100%
+              </div>
+              <div className="text-[11px] font-extrabold tracking-widest uppercase text-white/50 mt-1">
+                VERIFIED CODE
+              </div>
+            </div>
+          </div>
+
+          <div className="hidden lg:flex absolute top-12 right-4 flex-col gap-10 text-right pointer-events-none select-none z-10">
+            <div>
+              <div className="text-4xl sm:text-5xl font-black tracking-tight text-white font-mono">
+                14+
+              </div>
+              <div className="text-[11px] font-extrabold tracking-widest uppercase text-white/50 mt-1">
+                TECH DISCIPLINES
+              </div>
+            </div>
+            <div>
+              <div className="text-4xl sm:text-5xl font-black tracking-tight text-white font-mono">
+                24/7
+              </div>
+              <div className="text-[11px] font-extrabold tracking-widest uppercase text-white/50 mt-1">
+                ACTIVE TELEMETRY
+              </div>
+            </div>
+          </div>
+
+          {/* Central Hero Headline & Conversion Buttons */}
+          <div className="text-center max-w-3xl mx-auto space-y-6 pt-4">
             <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full clear-glass-pill text-xs font-extrabold tracking-widest uppercase text-white shadow-sm">
               <span className="w-2 h-2 rounded-full bg-[#C6F432] animate-pulse" />
               <span>SOFTWARE PRODUCTS &amp; DIGITAL SOLUTIONS</span>
             </div>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-[54px] font-black tracking-tight leading-[1.12] text-white">
-              We Turn Ideas Into <br className="hidden sm:inline" />
-              <span className="text-[#C6F432]">Technology</span> That Moves Businesses Forward.
+            <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-[76px] font-black tracking-tight leading-[1.08] text-white">
+              We Turn Ideas Into <br />
+              <span className="font-serif italic font-normal text-[#C6F432] neon-text-glow">
+                Technology{' '}
+              </span>
+              <span className="font-serif italic font-normal text-white">
+                That Moves Forward.
+              </span>
             </h1>
 
-            <p className="text-base sm:text-lg text-white/70 max-w-2xl leading-relaxed">
-              We build innovative software products and deliver custom digital
-              solutions that help businesses and organizations simplify
-              operations, solve real-world challenges, and grow with technology.
+            <p className="text-sm sm:text-base md:text-lg text-white/70 max-w-xl mx-auto leading-relaxed">
+              We build innovative SaaS products and deliver custom digital solutions that simplify operations, solve real-world challenges, and move businesses forward.
             </p>
 
-            <div className="flex flex-wrap items-center gap-4 pt-2">
+            {/* Conversion CTA Group */}
+            <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
               <CTAButton
                 size="lg"
                 href="/services"
-                className="shadow-[0_0_24px_rgba(198,244,50,0.35)]"
+                className="shadow-[0_0_32px_rgba(198,244,50,0.45)]"
               >
                 Explore Our Services <ArrowRight className="w-4 h-4 ml-1 inline-block" />
               </CTAButton>
 
               <Link
                 href="/products"
-                className="inline-flex items-center justify-center rounded-xl px-7 py-3.5 text-sm sm:text-base font-bold text-white border border-white/20 bg-white/[0.04] backdrop-blur-md hover:bg-white/10 hover:border-white/30 transition-all duration-200"
+                className="inline-flex items-center justify-center rounded-full px-8 py-3.5 text-sm sm:text-base font-bold text-white border border-white/20 bg-white/[0.04] backdrop-blur-md hover:bg-white/10 hover:border-white/30 transition-all duration-200"
               >
-                Discover Our Products
+                Discover Products
               </Link>
             </div>
 
-            <div className="pt-4 flex items-center gap-3 text-xs font-extrabold tracking-[0.22em] uppercase text-white/50">
-              <span className="text-white">IDEAS</span>
+            <div className="pt-2 flex items-center justify-center gap-3 text-xs font-extrabold tracking-[0.22em] uppercase text-white/45">
+              <span>IDEAS</span>
               <span className="text-[#C6F432] font-black">•</span>
-              <span className="text-white">PRODUCTS</span>
+              <span>PRODUCTS</span>
               <span className="text-[#C6F432] font-black">•</span>
-              <span className="text-white">IMPACT</span>
-            </div>
-          </ScrollReveal>
-
-          {/* Right: Original MRM Ecosystem Floating Card (Refined with Clear Frosted Glass) */}
-          <div className="lg:col-span-5 relative">
-            <TiltCard maxTilt={5} glareEffect={true}>
-              <div className="clear-glass rounded-3xl p-6 sm:p-7 relative z-10 animate-mrm-float shadow-2xl">
-                <div className="flex items-center justify-between pb-4 mb-5 border-b border-white/10">
-                  <div>
-                    <span className="text-[11px] font-extrabold uppercase tracking-widest text-[#C6F432]">
-                      MRM InfoTech Ecosystem
-                    </span>
-                    <h2 className="text-lg font-extrabold text-white mt-0.5">
-                      Products &amp; Custom Engineering
-                    </h2>
-                  </div>
-                  <div className="w-10 h-10 rounded-xl bg-[#C6F432] text-[#0B0B0C] flex items-center justify-center font-black text-lg shadow-md shadow-[#C6F432]/30">
-                    M
-                  </div>
-                </div>
-
-                <div className="space-y-3.5">
-                  <div className="clear-glass-card rounded-2xl p-4 flex items-start gap-3.5">
-                    <div className="p-2.5 rounded-xl bg-white/10 text-white shrink-0">
-                      <Layers className="w-5 h-5 text-[#C6F432]" />
-                    </div>
-                    <div>
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <h3 className="text-sm font-bold text-white">Education Platforms</h3>
-                        <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-[#C6F432]/15 text-[#C6F432] border border-[#C6F432]/30">
-                          EduManage BD
-                        </span>
-                      </div>
-                      <p className="text-xs text-white/70 mt-1">
-                        Academic operations &amp; Multi-Institution Website Platform.
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="clear-glass-card rounded-2xl p-4 flex items-start gap-3.5">
-                    <div className="p-2.5 rounded-xl bg-white/10 text-white shrink-0">
-                      <Cpu className="w-5 h-5 text-[#C6F432]" />
-                    </div>
-                    <div>
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <h3 className="text-sm font-bold text-white">Healthcare Systems</h3>
-                        <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-[#C6F432]/15 text-[#C6F432] border border-[#C6F432]/30">
-                          MediSheba BD
-                        </span>
-                      </div>
-                      <p className="text-xs text-white/70 mt-1">
-                        Diagnostic centre &amp; healthcare service management software.
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="clear-glass-card rounded-2xl p-4 flex items-start gap-3.5">
-                    <div className="p-2.5 rounded-xl bg-white/10 text-white shrink-0">
-                      <Code2 className="w-5 h-5 text-[#C6F432]" />
-                    </div>
-                    <div>
-                      <h3 className="text-sm font-bold text-white">Client Digital Solutions</h3>
-                      <p className="text-xs text-white/70 mt-1">
-                        Custom software, web applications, SaaS &amp; digital marketing.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mt-5 pt-4 border-t border-white/10 flex items-center justify-between text-xs font-semibold text-white/50">
-                  <span>Architecture &amp; Security</span>
-                  <span className="text-[#C6F432] font-bold font-mono">
-                    PostgreSQL • NestJS • Next.js
-                  </span>
-                </div>
-              </div>
-            </TiltCard>
-
-            {/* Floating Secondary Clear Glass Badge */}
-            <div className="mt-4 sm:mt-0 sm:absolute sm:-bottom-5 sm:-left-5 z-20 clear-glass-pill rounded-2xl px-4 py-3 flex items-center gap-3 animate-mrm-float-delayed shadow-xl">
-              <div className="w-8 h-8 rounded-xl bg-[#C6F432]/20 text-[#C6F432] flex items-center justify-center">
-                <Sparkles className="w-4 h-4" />
-              </div>
-              <div>
-                <p className="text-xs font-extrabold text-white">
-                  SaaS Products + Client Solutions
-                </p>
-                <p className="text-[11px] text-white/60">
-                  Engineered for real-world business impact
-                </p>
-              </div>
+              <span>IMPACT</span>
             </div>
           </div>
+
+          {/* Mobile Metrics Bar (Visible only on mobile/tablet screens) */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-8 pb-4 lg:hidden border-y border-white/10 my-8 text-center">
+            <div>
+              <div className="text-2xl font-black text-white font-mono">99.9%</div>
+              <div className="text-[10px] font-extrabold text-white/50 uppercase tracking-wider">Uptime SLA</div>
+            </div>
+            <div>
+              <div className="text-2xl font-black text-white font-mono">100%</div>
+              <div className="text-[10px] font-extrabold text-white/50 uppercase tracking-wider">Verified Code</div>
+            </div>
+            <div>
+              <div className="text-2xl font-black text-white font-mono">14+</div>
+              <div className="text-[10px] font-extrabold text-white/50 uppercase tracking-wider">Disciplines</div>
+            </div>
+            <div>
+              <div className="text-2xl font-black text-white font-mono">24/7</div>
+              <div className="text-[10px] font-extrabold text-white/50 uppercase tracking-wider">Active Telemetry</div>
+            </div>
+          </div>
+
+          {/* The 3 Radiant Showcase Glass Cards (Sitting inside the glowing light beam) */}
+          <MrmHeroShowcaseTriad />
         </div>
       </section>
 

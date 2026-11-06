@@ -194,8 +194,8 @@ export function Navbar() {
       ref={navRef}
       className={`sticky top-0 z-50 w-full transition-all duration-200 ${
         isScrolled
-          ? 'mrm-glass-nav'
-          : 'bg-[var(--bg-primary)]/80 backdrop-blur-md border-b border-[var(--border-subtle)]/70'
+          ? 'bg-[#0B0B0C]/90 backdrop-blur-2xl border-b border-white/15 shadow-2xl'
+          : 'bg-[#0B0B0C]/80 backdrop-blur-xl border-b border-white/10'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -204,15 +204,15 @@ export function Navbar() {
           <Logo variant="dark" size="md" onClick={closeAll} />
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden lg:flex items-center space-x-0.5 xl:space-x-1" aria-label="Main Navigation">
+          <nav className="hidden lg:flex items-center space-x-1" aria-label="Main Navigation">
             {/* 1. Home */}
             <Link
               href="/"
               onClick={closeAll}
-              className={`px-3 py-2 rounded-lg text-[13px] font-medium transition-colors ${
+              className={`px-3.5 py-1.5 rounded-full text-[13px] font-semibold transition-all ${
                 pathname === '/'
-                  ? 'text-[#087FC4] dark:text-[#20B8D5] font-semibold bg-[#F4F8FC] dark:bg-[#103B68]/40'
-                  : 'text-[#15243A] dark:text-slate-200 hover:text-[#087FC4] dark:hover:text-[#20B8D5] hover:bg-[#F4F8FC] dark:hover:bg-[#103B68]/30'
+                  ? 'text-white bg-white/10 border border-white/20 shadow-xs'
+                  : 'text-white/70 hover:text-white hover:bg-white/5'
               }`}
             >
               Home
@@ -227,10 +227,10 @@ export function Navbar() {
               <button
                 type="button"
                 onClick={() => toggleDropdown('about')}
-                className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-[13px] font-medium transition-colors cursor-pointer ${
+                className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[13px] font-semibold transition-all cursor-pointer ${
                   activeDropdown === 'about' || isAboutActive
-                    ? 'text-[#087FC4] dark:text-[#20B8D5] font-semibold bg-[#F4F8FC] dark:bg-[#103B68]/40'
-                    : 'text-[#15243A] dark:text-slate-200 hover:text-[#087FC4] dark:hover:text-[#20B8D5] hover:bg-[#F4F8FC] dark:hover:bg-[#103B68]/30'
+                    ? 'text-white bg-white/10 border border-white/20 shadow-xs'
+                    : 'text-white/70 hover:text-white hover:bg-white/5'
                 }`}
                 aria-expanded={activeDropdown === 'about'}
                 aria-haspopup="true"
@@ -239,8 +239,8 @@ export function Navbar() {
                 <ChevronDown
                   className={`w-3.5 h-3.5 transition-transform duration-200 ${
                     activeDropdown === 'about'
-                      ? 'rotate-180 text-[#087FC4] dark:text-[#20B8D5]'
-                      : 'text-slate-400'
+                      ? 'rotate-180 text-[#C6F432]'
+                      : 'text-white/50'
                   }`}
                 />
               </button>
@@ -324,10 +324,10 @@ export function Navbar() {
               <button
                 type="button"
                 onClick={() => toggleDropdown('products')}
-                className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-[13px] font-medium transition-colors cursor-pointer ${
+                className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[13px] font-semibold transition-all cursor-pointer ${
                   activeDropdown === 'products' || isProductsActive
-                    ? 'text-[#087FC4] dark:text-[#20B8D5] font-semibold bg-[#F4F8FC] dark:bg-[#103B68]/40'
-                    : 'text-[#15243A] dark:text-slate-200 hover:text-[#087FC4] dark:hover:text-[#20B8D5] hover:bg-[#F4F8FC] dark:hover:bg-[#103B68]/30'
+                    ? 'text-white bg-white/10 border border-white/20 shadow-xs'
+                    : 'text-white/70 hover:text-white hover:bg-white/5'
                 }`}
                 aria-expanded={activeDropdown === 'products'}
                 aria-haspopup="true"
@@ -336,8 +336,8 @@ export function Navbar() {
                 <ChevronDown
                   className={`w-3.5 h-3.5 transition-transform duration-200 ${
                     activeDropdown === 'products'
-                      ? 'rotate-180 text-[#087FC4] dark:text-[#20B8D5]'
-                      : 'text-slate-400'
+                      ? 'rotate-180 text-[#C6F432]'
+                      : 'text-white/50'
                   }`}
                 />
               </button>
@@ -433,10 +433,10 @@ export function Navbar() {
               <button
                 type="button"
                 onClick={() => toggleDropdown('services')}
-                className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-[13px] font-medium transition-colors cursor-pointer ${
+                className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[13px] font-semibold transition-all cursor-pointer ${
                   activeDropdown === 'services' || isServicesActive
-                    ? 'text-[#087FC4] dark:text-[#20B8D5] font-semibold bg-[#F4F8FC] dark:bg-[#103B68]/40'
-                    : 'text-[#15243A] dark:text-slate-200 hover:text-[#087FC4] dark:hover:text-[#20B8D5] hover:bg-[#F4F8FC] dark:hover:bg-[#103B68]/30'
+                    ? 'text-white bg-white/10 border border-white/20 shadow-xs'
+                    : 'text-white/70 hover:text-white hover:bg-white/5'
                 }`}
                 aria-expanded={activeDropdown === 'services'}
                 aria-haspopup="true"
@@ -445,8 +445,8 @@ export function Navbar() {
                 <ChevronDown
                   className={`w-3.5 h-3.5 transition-transform duration-200 ${
                     activeDropdown === 'services'
-                      ? 'rotate-180 text-[#087FC4] dark:text-[#20B8D5]'
-                      : 'text-slate-400'
+                      ? 'rotate-180 text-[#C6F432]'
+                      : 'text-white/50'
                   }`}
                 />
               </button>
@@ -457,15 +457,15 @@ export function Navbar() {
                   onMouseEnter={() => handleMouseEnter('services')}
                   onMouseLeave={handleMouseLeave}
                 >
-                  <div className="w-[520px] rounded-2xl mrm-glass-strong shadow-2xl p-4 border border-[#E1EAF3] dark:border-[#20B8D5]/25">
-                    <div className="flex items-center justify-between pb-2.5 mb-2.5 border-b border-[#E3EAF2] dark:border-[#1E3557]">
-                      <span className="text-[11px] font-bold uppercase tracking-wider text-[#087FC4] dark:text-[#20B8D5]">
+                  <div className="w-[520px] rounded-2xl clear-glass-card shadow-2xl p-4 border border-white/15 bg-[#0B0B0C]/95 backdrop-blur-2xl">
+                    <div className="flex items-center justify-between pb-2.5 mb-2.5 border-b border-white/10">
+                      <span className="text-[11px] font-bold uppercase tracking-wider text-[#C6F432]">
                         Client Engineering Services
                       </span>
                       <Link
                         href="/services"
                         onClick={closeAll}
-                        className="text-xs font-semibold text-[#087FC4] dark:text-[#20B8D5] hover:underline"
+                        className="text-xs font-semibold text-[#C6F432] hover:underline"
                       >
                         All Services →
                       </Link>
@@ -479,16 +479,16 @@ export function Navbar() {
                             key={s.name}
                             href={s.href}
                             onClick={closeAll}
-                            className="flex items-start gap-2.5 p-2 rounded-xl hover:bg-[#F4F8FC] dark:hover:bg-[#0B1E3B] transition-colors group"
+                            className="flex items-start gap-2.5 p-2 rounded-xl hover:bg-white/10 transition-colors group"
                           >
-                            <div className="w-7 h-7 rounded-lg bg-[#087FC4]/10 dark:bg-[#20B8D5]/15 text-[#087FC4] dark:text-[#20B8D5] flex items-center justify-center shrink-0 mt-0.5">
+                            <div className="w-7 h-7 rounded-lg bg-white/10 text-[#C6F432] flex items-center justify-center shrink-0 mt-0.5">
                               <Icon className="w-3.5 h-3.5" />
                             </div>
                             <div>
-                              <h5 className="text-xs font-bold text-[#15243A] dark:text-white group-hover:text-[#087FC4] dark:group-hover:text-[#20B8D5] transition-colors">
+                              <h5 className="text-xs font-bold text-white group-hover:text-[#C6F432] transition-colors">
                                 {s.name}
                               </h5>
-                              <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-tight mt-0.5">
+                              <p className="text-[11px] text-white/50 leading-tight mt-0.5">
                                 {s.desc}
                               </p>
                             </div>
@@ -510,10 +510,10 @@ export function Navbar() {
               <button
                 type="button"
                 onClick={() => toggleDropdown('projects')}
-                className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-[13px] font-medium transition-colors cursor-pointer ${
+                className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[13px] font-semibold transition-all cursor-pointer ${
                   activeDropdown === 'projects' || isProjectsActive
-                    ? 'text-[#087FC4] dark:text-[#20B8D5] font-semibold bg-[#F4F8FC] dark:bg-[#103B68]/40'
-                    : 'text-[#15243A] dark:text-slate-200 hover:text-[#087FC4] dark:hover:text-[#20B8D5] hover:bg-[#F4F8FC] dark:hover:bg-[#103B68]/30'
+                    ? 'text-white bg-white/10 border border-white/20 shadow-xs'
+                    : 'text-white/70 hover:text-white hover:bg-white/5'
                 }`}
                 aria-expanded={activeDropdown === 'projects'}
                 aria-haspopup="true"
@@ -522,8 +522,8 @@ export function Navbar() {
                 <ChevronDown
                   className={`w-3.5 h-3.5 transition-transform duration-200 ${
                     activeDropdown === 'projects'
-                      ? 'rotate-180 text-[#087FC4] dark:text-[#20B8D5]'
-                      : 'text-slate-400'
+                      ? 'rotate-180 text-[#C6F432]'
+                      : 'text-white/50'
                   }`}
                 />
               </button>
@@ -534,9 +534,9 @@ export function Navbar() {
                   onMouseEnter={() => handleMouseEnter('projects')}
                   onMouseLeave={handleMouseLeave}
                 >
-                  <div className="w-[300px] rounded-2xl mrm-glass-strong shadow-2xl p-3 border border-[#E1EAF3] dark:border-[#20B8D5]/25">
-                    <div className="pb-2 mb-2 border-b border-[#E3EAF2] dark:border-[#1E3557] px-2">
-                      <span className="text-[11px] font-bold uppercase tracking-wider text-[#087FC4] dark:text-[#20B8D5]">
+                  <div className="w-[300px] rounded-2xl clear-glass-card shadow-2xl p-3 border border-white/15 bg-[#0B0B0C]/95 backdrop-blur-2xl">
+                    <div className="pb-2 mb-2 border-b border-white/10 px-2">
+                      <span className="text-[11px] font-bold uppercase tracking-wider text-[#C6F432]">
                         Portfolio &amp; Proof
                       </span>
                     </div>
@@ -548,9 +548,9 @@ export function Navbar() {
                             key={p.name}
                             href={p.href}
                             onClick={closeAll}
-                            className="flex items-center gap-2.5 px-2.5 py-2 rounded-xl text-xs font-medium text-[#15243A] dark:text-slate-200 hover:text-[#087FC4] dark:hover:text-[#20B8D5] hover:bg-[#F4F8FC] dark:hover:bg-[#0B1E3B] transition-colors group"
+                            className="flex items-center gap-2.5 px-2.5 py-2 rounded-xl text-xs font-medium text-white/80 hover:text-white hover:bg-white/10 transition-colors group"
                           >
-                            <div className="w-6 h-6 rounded-md bg-[#F4F8FC] dark:bg-[#103B68] text-[#087FC4] dark:text-[#20B8D5] flex items-center justify-center shrink-0">
+                            <div className="w-6 h-6 rounded-md bg-white/10 text-[#C6F432] flex items-center justify-center shrink-0">
                               <Icon className="w-3.5 h-3.5" />
                             </div>
                             <span className="truncate">{p.name}</span>
@@ -567,10 +567,10 @@ export function Navbar() {
             <Link
               href="/blog"
               onClick={closeAll}
-              className={`px-3 py-2 rounded-lg text-[13px] font-medium transition-colors ${
+              className={`px-3.5 py-1.5 rounded-full text-[13px] font-semibold transition-all ${
                 isInsightsActive
-                  ? 'text-[#087FC4] dark:text-[#20B8D5] font-semibold bg-[#F4F8FC] dark:bg-[#103B68]/40'
-                  : 'text-[#15243A] dark:text-slate-200 hover:text-[#087FC4] dark:hover:text-[#20B8D5] hover:bg-[#F4F8FC] dark:hover:bg-[#103B68]/30'
+                  ? 'text-white bg-white/10 border border-white/20 shadow-xs'
+                  : 'text-white/70 hover:text-white hover:bg-white/5'
               }`}
             >
               Insights
@@ -580,10 +580,10 @@ export function Navbar() {
             <Link
               href="/contact"
               onClick={closeAll}
-              className={`px-3 py-2 rounded-lg text-[13px] font-medium transition-colors ${
+              className={`px-3.5 py-1.5 rounded-full text-[13px] font-semibold transition-all ${
                 isContactActive
-                  ? 'text-[#087FC4] dark:text-[#20B8D5] font-semibold bg-[#F4F8FC] dark:bg-[#103B68]/40'
-                  : 'text-[#15243A] dark:text-slate-200 hover:text-[#087FC4] dark:hover:text-[#20B8D5] hover:bg-[#F4F8FC] dark:hover:bg-[#103B68]/30'
+                  ? 'text-white bg-white/10 border border-white/20 shadow-xs'
+                  : 'text-white/70 hover:text-white hover:bg-white/5'
               }`}
             >
               Contact
@@ -595,7 +595,7 @@ export function Navbar() {
             <ThemeToggle />
             <Link
               href="/start-project"
-              className="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-lg text-[13px] font-bold text-white bg-gradient-to-r from-[#087FC4] to-[#20B8D5] hover:opacity-95 shadow-md shadow-[#087FC4]/20 active:scale-[0.98] transition-all duration-200"
+              className="inline-flex items-center justify-center gap-1.5 px-5 py-2 rounded-full text-[13px] font-black text-[#0B0B0C] bg-[#C6F432] hover:bg-[#D4F755] shadow-lg shadow-[#C6F432]/30 active:scale-[0.98] transition-all duration-200"
             >
               <span>Start a Project</span>
               <ArrowRight className="w-3.5 h-3.5" />
