@@ -71,7 +71,14 @@ export function ProductBuilderForm({
 
   // Tab 1: Basic Info
   const [title, setTitle] = useState(initialData?.title || initialData?.name || '');
-  const [slug, setSlug] = useState(initialData?.slug || '');
+  const [slug, setSlug] = useState(
+    (initialData?.slug || '')
+      .toLowerCase()
+      .trim()
+      .replace(/\s+/g, '-')
+      .replace(/[^a-z0-9-]/g, '')
+      .replace(/-+/g, '-')
+  );
   const [tagline, setTagline] = useState(initialData?.tagline || '');
   const [shortDescription, setShortDescription] = useState(initialData?.shortDescription || initialData?.summary || '');
   const [description, setDescription] = useState(initialData?.description || '');
@@ -229,9 +236,12 @@ export function ProductBuilderForm({
   const sanitizeSubList = (list?: any[]) => {
     if (!Array.isArray(list)) return undefined;
     return list.map((item) => {
-      const { productId: _p, createdAt: _c, updatedAt: _u, ...clean } = item;
+      const { productId: _p, createdAt: _c, updatedAt: _u, product: _prod, ...clean } = item;
       if (clean.id && (typeof clean.id !== 'string' || clean.id.startsWith('temp-') || clean.id.length < 32)) {
         delete clean.id;
+      }
+      if (clean.description && !clean.shortDescription) {
+        clean.shortDescription = clean.description;
       }
       return clean;
     });
@@ -246,11 +256,20 @@ export function ProductBuilderForm({
       faqs: _faqs,
       createdAt: _ca,
       updatedAt: _ua,
+      caseStudies: _cs,
       ...rest
     } = snapshot as any;
 
+    const cleanSlug = (snapshot.slug || slug || '')
+      .toLowerCase()
+      .trim()
+      .replace(/\s+/g, '-')
+      .replace(/[^a-z0-9-]/g, '')
+      .replace(/-+/g, '-');
+
     return {
       ...rest,
+      slug: cleanSlug,
       mediaItems: sanitizeSubList(snapshot.mediaItems),
       richFeatures: sanitizeSubList(snapshot.richFeatures),
       benefits: sanitizeSubList(snapshot.benefits),

@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import React from 'react';
 import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import Link from 'next/link';
 import {
   ArrowRight,
@@ -89,7 +89,12 @@ export default async function ProductDetailPage({ params, searchParams }: PagePr
   const { slug } = await params;
   const { preview } = await searchParams;
   const isPreview = preview === 'true';
-  const cleanSlug = decodeURIComponent(slug).trim().replace(/\s+/g, '-').replace(/-+/g, '-');
+  const rawSlug = decodeURIComponent(slug);
+  const cleanSlug = rawSlug.trim().replace(/\s+/g, '-').replace(/-+/g, '-');
+
+  if (rawSlug !== cleanSlug) {
+    redirect(`/products/${cleanSlug}`);
+  }
 
   const [product, allProducts] = await Promise.all([
     PublicApiService.getProductBySlug<ProductRecord>(cleanSlug, 'en', isPreview),

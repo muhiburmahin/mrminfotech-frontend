@@ -127,6 +127,8 @@ export interface ServiceRecord {
 
   // Visibility & Placement Toggles
   isFeatured: boolean;
+  isActive?: boolean;
+  isPublished?: boolean;
   showOnServicesPage: boolean;
   showOnHomepage: boolean;
   showInNavbar: boolean;

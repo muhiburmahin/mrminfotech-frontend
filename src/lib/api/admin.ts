@@ -223,11 +223,7 @@ import type {
   ReorderPlacement,
 } from '@/types/service.types';
 
-export interface AdminServicePayload extends Partial<ServiceRecord> {
-  order?: number;
-  isActive?: boolean;
-  isPublished?: boolean;
-}
+export interface AdminServicePayload extends Partial<ServiceRecord> {}
 
 export async function getAdminServices(params?: {
   status?: string;
