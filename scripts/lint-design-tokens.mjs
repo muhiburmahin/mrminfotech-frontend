@@ -63,9 +63,18 @@ const THEMES = [
     accentText: '#060D1D', // Dark Navy on Electric Cyan => 10.77:1
     isDefault: false,
   },
+  {
+    id: 'mrm-brand-cyan',
+    name: 'Theme 5: MRM Brand Identity (Official Logo Electric Cyan)',
+    bg: '#030914',
+    text: '#FFFFFF',
+    accent: '#00E5FF',
+    accentText: '#030914', // Cosmic Navy on Electric Cyan => 12.87:1
+    isDefault: false,
+  },
 ];
 
-console.log(`\n🔍 [Global Theme System Linter] Validating 4 Predefined Themes:`);
+console.log(`\n🔍 [Global Theme System Linter] Validating 5 Predefined Themes:`);
 
 let failures = 0;
 
@@ -83,6 +92,6 @@ if (failures > 0) {
   process.exit(1);
 }
 
-console.log(`\n✅ [All 4 Themes Verified]: 60-30-10 distribution and WCAG contrast validated!`);
+console.log(`\n✅ [All 5 Themes Verified]: 60-30-10 distribution and WCAG contrast validated!`);
 console.log(`   Default Active Theme: Theme 2 (Classic Navy & Coral)\n`);
 process.exit(0);

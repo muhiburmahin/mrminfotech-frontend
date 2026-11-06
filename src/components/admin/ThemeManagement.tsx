@@ -173,6 +173,12 @@ export function ThemeManagement() {
                   </div>
 
                   <div className="flex items-center gap-2">
+                    {theme.id === 'mrm-brand-cyan' && (
+                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-[#00E5FF]/15 text-[#00E5FF] border border-[#00E5FF]/30 flex items-center gap-1 shadow-[0_0_10px_rgba(0,229,255,0.2)]">
+                        <Sparkles className="w-3 h-3" />
+                        Brand Signature
+                      </span>
+                    )}
                     {theme.isDefault && (
                       <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-slate-200 dark:bg-[#1E3A5F] text-slate-700 dark:text-[#D6CBB8]">
                         Default
@@ -405,3 +411,4 @@ export function ThemeManagement() {
 }
 
 export default ThemeManagement;
+

@@ -60,7 +60,7 @@ const themeInitScript = `
   (function() {
     try {
       var savedTheme = localStorage.getItem('mrm_active_theme_id');
-      var validThemes = ['classic-navy-coral', 'midnight-lime', 'forest-purple', 'it-blue'];
+      var validThemes = ['classic-navy-coral', 'mrm-brand-cyan', 'midnight-lime', 'forest-purple', 'it-blue'];
       if (savedTheme && validThemes.indexOf(savedTheme) !== -1) {
         document.documentElement.setAttribute('data-theme', savedTheme);
       }

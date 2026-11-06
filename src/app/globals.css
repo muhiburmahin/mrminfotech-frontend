@@ -189,6 +189,47 @@
   --accent-10-glow: rgba(0, 210, 255, 0.35);
 }
 
+[data-theme="mrm-brand-cyan"] {
+  /* THEME 5: MRM BRAND SIGNATURE (ELECTRIC CYAN & ROYAL BLUE) */
+  --theme-bg-canvas: #030914;
+  --theme-bg-surface: #07152B;
+  --theme-bg-card: #0C203E;
+  --theme-bg-glass: rgba(12, 32, 62, 0.75);
+
+  --theme-text-primary: #FFFFFF;
+  --theme-text-secondary: #94B5D6;
+  --theme-text-muted: rgba(148, 181, 214, 0.65);
+
+  --theme-border: #153359;
+  --theme-border-glass: rgba(21, 51, 89, 0.70);
+
+  --theme-accent: #00E5FF;
+  --theme-accent-hover: #33ECFF;
+  --theme-accent-active: #00B8D4;
+  --theme-accent-text: #030914;
+  --theme-accent-glow: rgba(0, 229, 255, 0.38);
+  --theme-accent-subtle: rgba(0, 229, 255, 0.15);
+  --theme-aurora-glow: rgba(0, 229, 255, 0.25);
+
+  --dominant-60: #030914;
+  --dominant-60-rgb: 3, 9, 20;
+  --glass-surface: rgba(12, 32, 62, 0.75);
+
+  --structural-30: #FFFFFF;
+  --structural-30-rgb: 255, 255, 255;
+  --glass-border: rgba(21, 51, 89, 0.70);
+  --text-primary-30: #FFFFFF;
+  --text-secondary-30: #94B5D6;
+  --text-muted-30: rgba(148, 181, 214, 0.65);
+
+  --accent-10: #00E5FF;
+  --accent-10-rgb: 0, 229, 255;
+  --accent-10-hover: #33ECFF;
+  --accent-10-active: #00B8D4;
+  --accent-10-contrast: #030914;
+  --accent-10-glow: rgba(0, 229, 255, 0.38);
+}
+
 :root {
   /* Light Mode Tokens (Cool White + Subtle Blue Tint) */
   --bg-primary: #F7FAFE;

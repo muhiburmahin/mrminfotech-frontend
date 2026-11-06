@@ -478,25 +478,25 @@ export default async function HomePage() {
   const getServiceIcon = (slug: string) => {
     switch (slug) {
       case 'custom-software-development':
-        return <Code2 className="w-5 h-5 text-[#C6F432]" />;
+        return <Code2 className="w-5 h-5 text-[var(--theme-accent)]" />;
       case 'web-application-development':
-        return <Globe className="w-5 h-5 text-[#C6F432]" />;
+        return <Globe className="w-5 h-5 text-[var(--theme-accent)]" />;
       case 'mobile-app-development':
-        return <Smartphone className="w-5 h-5 text-[#C6F432]" />;
+        return <Smartphone className="w-5 h-5 text-[var(--theme-accent)]" />;
       case 'enterprise-erp-solutions':
-        return <Layers className="w-5 h-5 text-[#C6F432]" />;
+        return <Layers className="w-5 h-5 text-[var(--theme-accent)]" />;
       case 'cloud-devops-infrastructure':
-        return <Cloud className="w-5 h-5 text-[#C6F432]" />;
+        return <Cloud className="w-5 h-5 text-[var(--theme-accent)]" />;
       case 'ai-machine-learning-solutions':
-        return <Cpu className="w-5 h-5 text-[#C6F432]" />;
+        return <Cpu className="w-5 h-5 text-[var(--theme-accent)]" />;
       case 'ui-ux-design':
-        return <Palette className="w-5 h-5 text-[#C6F432]" />;
+        return <Palette className="w-5 h-5 text-[var(--theme-accent)]" />;
       case 'cybersecurity-compliance':
-        return <ShieldCheck className="w-5 h-5 text-[#C6F432]" />;
+        return <ShieldCheck className="w-5 h-5 text-[var(--theme-accent)]" />;
       case 'database-architecture-migration':
-        return <Database className="w-5 h-5 text-[#C6F432]" />;
+        return <Database className="w-5 h-5 text-[var(--theme-accent)]" />;
       default:
-        return <Zap className="w-5 h-5 text-[#C6F432]" />;
+        return <Zap className="w-5 h-5 text-[var(--theme-accent)]" />;
     }
   };
 
@@ -510,7 +510,7 @@ export default async function HomePage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0B0B0C] text-[#FFFFFF] overflow-x-hidden selection:bg-[#C6F432] selection:text-[#0B0B0C]">
+    <div className="min-h-screen bg-[var(--theme-bg-canvas)] text-[var(--theme-text-primary)] overflow-x-hidden selection:bg-[var(--theme-accent)] selection:text-[var(--theme-accent-text)]">
       {/* =====================================================================
           SECTION 01 — HERO (ORIGINAL MRM CONTENT WITH LUMINOUS AURORA BEAM & TRIAD)
           - Original 2-column structure & data preserved with 100% precision
@@ -684,59 +684,59 @@ export default async function HomePage() {
           ===================================================================== */}
       <AmbientSection variant="horizon" className="py-14 z-10">
         <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 pb-10 border-b border-white/10">
-            <div>
-              <div className="text-3xl sm:text-5xl font-black text-white font-mono">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-5 pb-10 border-b border-[var(--theme-border)]/50">
+            <div className="p-6 rounded-3xl bg-[var(--theme-bg-surface)]/70 backdrop-blur-2xl border border-[var(--theme-border-glass)] hover:border-[var(--theme-accent)]/40 hover:shadow-[0_0_25px_var(--theme-accent-subtle)] transition-all group">
+              <div className="text-3xl sm:text-5xl font-black text-[var(--theme-text-primary)] font-mono">
                 <CountUp end={99.9} decimals={1} suffix="%" />
               </div>
-              <p className="text-xs font-bold uppercase tracking-wider text-[#C6F432] mt-2">
+              <p className="text-xs font-bold uppercase tracking-wider text-[var(--theme-accent)] mt-2">
                 Uptime SLA
               </p>
-              <p className="text-[11px] text-white/50 mt-0.5">Enterprise resilience guaranteed</p>
+              <p className="text-[11px] text-[var(--theme-text-secondary)]/70 mt-0.5">Enterprise resilience guaranteed</p>
             </div>
 
-            <div>
-              <div className="text-3xl sm:text-5xl font-black text-white font-mono">
+            <div className="p-6 rounded-3xl bg-[var(--theme-bg-surface)]/70 backdrop-blur-2xl border border-[var(--theme-border-glass)] hover:border-[var(--theme-accent)]/40 hover:shadow-[0_0_25px_var(--theme-accent-subtle)] transition-all group">
+              <div className="text-3xl sm:text-5xl font-black text-[var(--theme-text-primary)] font-mono">
                 <CountUp end={14} suffix="+" />
               </div>
-              <p className="text-xs font-bold uppercase tracking-wider text-[#C6F432] mt-2">
+              <p className="text-xs font-bold uppercase tracking-wider text-[var(--theme-accent)] mt-2">
                 Disciplines
               </p>
-              <p className="text-[11px] text-white/50 mt-0.5">Full-stack software engineering</p>
+              <p className="text-[11px] text-[var(--theme-text-secondary)]/70 mt-0.5">Full-stack software engineering</p>
             </div>
 
-            <div>
-              <div className="text-3xl sm:text-5xl font-black text-white font-mono">
+            <div className="p-6 rounded-3xl bg-[var(--theme-bg-surface)]/70 backdrop-blur-2xl border border-[var(--theme-border-glass)] hover:border-[var(--theme-accent)]/40 hover:shadow-[0_0_25px_var(--theme-accent-subtle)] transition-all group">
+              <div className="text-3xl sm:text-5xl font-black text-[var(--theme-text-primary)] font-mono">
                 <CountUp end={100} suffix="%" />
               </div>
-              <p className="text-xs font-bold uppercase tracking-wider text-[#C6F432] mt-2">
+              <p className="text-xs font-bold uppercase tracking-wider text-[var(--theme-accent)] mt-2">
                 Verified Code
               </p>
-              <p className="text-[11px] text-white/50 mt-0.5">Security &amp; audit compliant</p>
+              <p className="text-[11px] text-[var(--theme-text-secondary)]/70 mt-0.5">Security &amp; audit compliant</p>
             </div>
 
-            <div>
-              <div className="text-3xl sm:text-5xl font-black text-white font-mono">
+            <div className="p-6 rounded-3xl bg-[var(--theme-bg-surface)]/70 backdrop-blur-2xl border border-[var(--theme-border-glass)] hover:border-[var(--theme-accent)]/40 hover:shadow-[0_0_25px_var(--theme-accent-subtle)] transition-all group">
+              <div className="text-3xl sm:text-5xl font-black text-[var(--theme-text-primary)] font-mono">
                 24/7
               </div>
-              <p className="text-xs font-bold uppercase tracking-wider text-[#C6F432] mt-2">
+              <p className="text-xs font-bold uppercase tracking-wider text-[var(--theme-accent)] mt-2">
                 System Telemetry
               </p>
-              <p className="text-[11px] text-white/50 mt-0.5">Active cloud observability</p>
+              <p className="text-[11px] text-[var(--theme-text-secondary)]/70 mt-0.5">Active cloud observability</p>
             </div>
           </div>
 
           <div className="pt-8">
-            <div className="text-[10px] font-extrabold uppercase tracking-widest text-white/40 mb-4 text-center">
+            <div className="text-[11px] font-extrabold uppercase tracking-widest text-[var(--theme-text-secondary)]/60 mb-5 text-center">
               ENGINEERED WITH MODERN ENTERPRISE TECH STACKS &amp; STANDARDS
             </div>
             <InfiniteMarquee speed={32}>
               {ENTERPRISE_STACKS.map((tech) => (
                 <div
                   key={tech}
-                  className="flex items-center gap-2 text-xs font-bold text-white/90 px-4 py-2 rounded-full clear-glass-pill shrink-0 border border-white/10 hover:border-lime-400/40 transition-colors"
+                  className="flex items-center gap-2 text-xs font-bold text-[var(--theme-text-primary)]/90 px-4 py-2 rounded-full clear-glass-pill shrink-0 border border-[var(--theme-border-glass)] hover:border-[var(--theme-accent)] hover:shadow-[0_0_14px_var(--theme-accent-subtle)] transition-all"
                 >
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#C6F432]" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-[var(--theme-accent)]" />
                   <span>{tech}</span>
                 </div>
               ))}
@@ -751,17 +751,17 @@ export default async function HomePage() {
       <AmbientSection variant="center-orb" className="py-20 lg:py-28">
         <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           <ScrollReveal direction="left" delay={0.1} className="lg:col-span-6 space-y-5">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full clear-glass-pill text-xs font-bold text-[#C6F432] tracking-widest uppercase">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#C6F432]" />
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full clear-glass-pill text-xs font-bold text-[var(--theme-accent)] tracking-widest uppercase border border-[var(--theme-accent)]/30 bg-[var(--theme-accent)]/10">
+              <span className="w-1.5 h-1.5 rounded-full bg-[var(--theme-accent)] animate-pulse" />
               WHO WE ARE
             </div>
-            <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-white leading-tight">
+            <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-[var(--theme-text-primary)] leading-tight">
               Technology With Purpose. <br />
-              <span className="font-serif italic font-normal text-[#C6F432] neon-text-glow">
+              <span className="font-serif italic font-normal text-[var(--theme-accent)] neon-text-glow">
                 Solutions With Impact.
               </span>
             </h2>
-            <p className="text-base sm:text-lg text-white/70 leading-relaxed">
+            <p className="text-base sm:text-lg text-[var(--theme-text-secondary)] leading-relaxed">
               MRM InfoTech is a technology company focused on building software
               products and delivering digital solutions for modern businesses and
               organizations. From our own industry-focused platforms to custom
@@ -771,7 +771,7 @@ export default async function HomePage() {
             </p>
             <div className="pt-2">
               <Link
-                className="inline-flex items-center gap-2 font-bold text-sm sm:text-base text-[#C6F432] hover:gap-3 transition-all"
+                className="inline-flex items-center gap-2 font-bold text-sm sm:text-base text-[var(--theme-accent)] hover:gap-3 transition-all"
                 href="/about"
               >
                 <span>Discover MRM InfoTech</span>
@@ -783,36 +783,45 @@ export default async function HomePage() {
           {/* 3 Clear Frosted Glass Pillars */}
           <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
             <ScrollReveal direction="up" delay={0.15}>
-              <div className="bg-gradient-to-b from-white/[0.08] to-white/[0.02] backdrop-blur-2xl border border-white/[0.1] border-t-2 border-t-lime-400/40 rounded-3xl p-6 space-y-3 h-full hover:border-lime-400/50 hover:shadow-[0_0_30px_rgba(198,244,50,0.15)] transition-all">
-                <span className="text-xs font-extrabold uppercase tracking-widest text-[#C6F432] font-mono">
+              <div className="bg-[var(--theme-bg-surface)]/75 backdrop-blur-2xl border border-[var(--theme-border-glass)] border-t-2 border-t-[var(--theme-accent)] rounded-3xl p-6 space-y-3 h-full hover:border-[var(--theme-accent)]/60 hover:shadow-[0_0_30px_var(--theme-accent-glow)] transition-all relative overflow-hidden group">
+                <span className="text-[52px] font-mono font-black text-[var(--theme-text-secondary)]/[0.07] absolute -bottom-2 -right-1 select-none pointer-events-none">
+                  01
+                </span>
+                <span className="text-xs font-extrabold uppercase tracking-widest text-[var(--theme-accent)] font-mono">
                   01 • IDEAS
                 </span>
-                <h3 className="font-black text-lg text-white">Problem-First Discovery</h3>
-                <p className="text-xs text-white/70 leading-relaxed">
+                <h3 className="font-black text-lg text-[var(--theme-text-primary)]">Problem-First Discovery</h3>
+                <p className="text-xs text-[var(--theme-text-secondary)] leading-relaxed">
                   Every product and client solution starts by understanding real operational needs.
                 </p>
               </div>
             </ScrollReveal>
 
             <ScrollReveal direction="up" delay={0.25}>
-              <div className="bg-gradient-to-b from-white/[0.08] to-white/[0.02] backdrop-blur-2xl border border-white/[0.1] border-t-2 border-t-lime-400/40 rounded-3xl p-6 space-y-3 h-full hover:border-lime-400/50 hover:shadow-[0_0_30px_rgba(198,244,50,0.15)] transition-all">
-                <span className="text-xs font-extrabold uppercase tracking-widest text-[#C6F432] font-mono">
+              <div className="bg-[var(--theme-bg-surface)]/75 backdrop-blur-2xl border border-[var(--theme-border-glass)] border-t-2 border-t-[var(--theme-accent)] rounded-3xl p-6 space-y-3 h-full hover:border-[var(--theme-accent)]/60 hover:shadow-[0_0_30px_var(--theme-accent-glow)] transition-all relative overflow-hidden group">
+                <span className="text-[52px] font-mono font-black text-[var(--theme-text-secondary)]/[0.07] absolute -bottom-2 -right-1 select-none pointer-events-none">
+                  02
+                </span>
+                <span className="text-xs font-extrabold uppercase tracking-widest text-[var(--theme-accent)] font-mono">
                   02 • PRODUCTS
                 </span>
-                <h3 className="font-black text-lg text-white">Thoughtful Engineering</h3>
-                <p className="text-xs text-white/70 leading-relaxed">
+                <h3 className="font-black text-lg text-[var(--theme-text-primary)]">Thoughtful Engineering</h3>
+                <p className="text-xs text-[var(--theme-text-secondary)] leading-relaxed">
                   Clean architecture, scalable databases, and intuitive interfaces built to last.
                 </p>
               </div>
             </ScrollReveal>
 
             <ScrollReveal direction="up" delay={0.35}>
-              <div className="bg-gradient-to-b from-white/[0.08] to-white/[0.02] backdrop-blur-2xl border border-white/[0.1] border-t-2 border-t-lime-400/40 rounded-3xl p-6 space-y-3 h-full hover:border-lime-400/50 hover:shadow-[0_0_30px_rgba(198,244,50,0.15)] transition-all">
-                <span className="text-xs font-extrabold uppercase tracking-widest text-[#C6F432] font-mono">
+              <div className="bg-[var(--theme-bg-surface)]/75 backdrop-blur-2xl border border-[var(--theme-border-glass)] border-t-2 border-t-[var(--theme-accent)] rounded-3xl p-6 space-y-3 h-full hover:border-[var(--theme-accent)]/60 hover:shadow-[0_0_30px_var(--theme-accent-glow)] transition-all relative overflow-hidden group">
+                <span className="text-[52px] font-mono font-black text-[var(--theme-text-secondary)]/[0.07] absolute -bottom-2 -right-1 select-none pointer-events-none">
+                  03
+                </span>
+                <span className="text-xs font-extrabold uppercase tracking-widest text-[var(--theme-accent)] font-mono">
                   03 • IMPACT
                 </span>
-                <h3 className="font-black text-lg text-white">Measurable Value</h3>
-                <p className="text-xs text-white/70 leading-relaxed">
+                <h3 className="font-black text-lg text-[var(--theme-text-primary)]">Measurable Value</h3>
+                <p className="text-xs text-[var(--theme-text-secondary)] leading-relaxed">
                   Digital systems that simplify daily workflows and support long-term growth.
                 </p>
               </div>
@@ -828,24 +837,24 @@ export default async function HomePage() {
         <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
             <div className="max-w-2xl space-y-3">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full clear-glass-pill text-xs font-bold text-white tracking-widest uppercase">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#C6F432]" />
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full clear-glass-pill text-xs font-bold text-[var(--theme-text-primary)] tracking-widest uppercase border border-[var(--theme-border-glass)] bg-[var(--theme-bg-surface)]/60">
+                <span className="w-1.5 h-1.5 rounded-full bg-[var(--theme-accent)] animate-pulse" />
                 PROPRIETARY SAAS ECOSYSTEM
               </div>
-              <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
+              <h2 className="text-3xl sm:text-5xl font-black text-[var(--theme-text-primary)] tracking-tight">
                 Our Flagship{' '}
-                <span className="font-serif italic font-normal text-[#C6F432] neon-text-glow">
+                <span className="font-serif italic font-normal text-[var(--theme-accent)] neon-text-glow">
                   Software Products
                 </span>
               </h2>
-              <p className="text-base text-white/70">
+              <p className="text-base text-[var(--theme-text-secondary)]">
                 Purpose-built digital platforms solving real-world challenges in education, healthcare, and multi-institutional governance.
               </p>
             </div>
 
             <Link
               href="/products"
-              className="inline-flex items-center gap-2 text-sm font-bold text-white/80 hover:text-[#C6F432] hover:gap-3 transition-all"
+              className="inline-flex items-center gap-2 text-sm font-bold text-[var(--theme-text-secondary)] hover:text-[var(--theme-accent)] hover:gap-3 transition-all"
             >
               <span>Explore All Products</span>
               <ArrowRight className="w-4 h-4" />
@@ -875,17 +884,17 @@ export default async function HomePage() {
                           href={product.liveUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1 text-[11px] font-semibold text-white/80 hover:text-white"
+                          className="inline-flex items-center gap-1 text-[11px] font-semibold text-[var(--theme-accent)] hover:underline"
                         >
                           <ExternalLink className="w-3 h-3" /> Live Demo
                         </a>
                       )}
                       {product.isSourcePrivate ? (
-                        <span className="inline-flex items-center gap-1 text-[11px] text-white/40">
+                        <span className="inline-flex items-center gap-1 text-[11px] text-[var(--theme-text-secondary)]/50">
                           <Lock className="w-3 h-3" /> Private IP
                         </span>
                       ) : (
-                        <span className="inline-flex items-center gap-1 text-[11px] text-white/40">
+                        <span className="inline-flex items-center gap-1 text-[11px] text-[var(--theme-text-secondary)]/50">
                           <Code2 className="w-3 h-3" /> Open Core
                         </span>
                       )}
@@ -907,18 +916,18 @@ export default async function HomePage() {
         <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
             <div className="max-w-2xl space-y-3">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full clear-glass-pill text-xs font-bold text-white tracking-widest uppercase">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#C6F432]" />
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full clear-glass-pill text-xs font-bold text-[var(--theme-text-primary)] tracking-widest uppercase border border-[var(--theme-border-glass)] bg-[var(--theme-bg-surface)]/60">
+                <span className="w-1.5 h-1.5 rounded-full bg-[var(--theme-accent)] animate-pulse" />
                 OUR SERVICES
               </div>
-              <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight">
+              <h2 className="text-3xl sm:text-5xl font-black text-[var(--theme-text-primary)] tracking-tight leading-tight">
                 From Digital Ideas to{' '}
-                <span className="font-serif italic font-normal text-[#C6F432] neon-text-glow">
+                <span className="font-serif italic font-normal text-[var(--theme-accent)] neon-text-glow">
                   Fully Built
                 </span>{' '}
                 Solutions.
               </h2>
-              <p className="text-base text-white/70">
+              <p className="text-base text-[var(--theme-text-secondary)]">
                 Whether you need a modern website, custom software, a scalable web application, or support for your digital growth, we turn your requirements into practical solutions.
               </p>
             </div>
@@ -944,34 +953,34 @@ export default async function HomePage() {
                 <Link
                   key={service.slug}
                   href={`/services/${service.slug}`}
-                  className="bg-gradient-to-b from-white/[0.08] to-white/[0.02] backdrop-blur-2xl border border-white/[0.1] border-t-2 border-t-lime-400/40 rounded-3xl p-7 flex flex-col justify-between group hover:border-lime-400/50 hover:shadow-[0_0_35px_rgba(198,244,50,0.18)] transition-all duration-300 relative overflow-hidden"
+                  className="bg-[var(--theme-bg-surface)]/75 backdrop-blur-2xl border border-[var(--theme-border-glass)] border-t-2 border-t-[var(--theme-accent)] rounded-3xl p-7 flex flex-col justify-between group hover:border-[var(--theme-accent)]/60 hover:shadow-[0_0_35px_var(--theme-accent-glow)] transition-all duration-300 relative overflow-hidden"
                 >
                   <div>
                     <div className="flex items-center justify-between mb-5">
-                      <span className="font-mono text-2xl font-black text-white/30 group-hover:text-[#C6F432] transition-colors">
+                      <span className="font-mono text-2xl font-black text-[var(--theme-text-secondary)]/30 group-hover:text-[var(--theme-accent)] transition-colors">
                         {formattedSerial}
                       </span>
-                      <div className="w-11 h-11 rounded-2xl bg-white/[0.06] border border-white/10 flex items-center justify-center text-[#C6F432] shadow-sm group-hover:scale-110 transition-transform">
+                      <div className="w-11 h-11 rounded-2xl bg-[var(--theme-accent)]/10 border border-[var(--theme-accent)]/20 flex items-center justify-center text-[var(--theme-accent)] shadow-sm group-hover:scale-110 transition-transform">
                         {getServiceIcon(service.slug)}
                       </div>
-                      <ArrowUpRight className="w-5 h-5 text-white/40 group-hover:text-white transition-colors" />
+                      <ArrowUpRight className="w-5 h-5 text-[var(--theme-text-secondary)]/40 group-hover:text-[var(--theme-accent)] transition-colors" />
                     </div>
 
-                    <h3 className="text-xl font-black text-white tracking-tight group-hover:text-[#C6F432] transition-colors">
+                    <h3 className="text-xl font-black text-[var(--theme-text-primary)] tracking-tight group-hover:text-[var(--theme-accent)] transition-colors">
                       {formatServiceTitle(service.title, service.slug)}
                     </h3>
 
-                    <p className="mt-2.5 text-sm text-white/70 line-clamp-3 leading-relaxed">
+                    <p className="mt-2.5 text-sm text-[var(--theme-text-secondary)] line-clamp-3 leading-relaxed">
                       {service.summary}
                     </p>
                   </div>
 
-                  <div className="mt-6 pt-5 border-t border-white/10 flex items-center justify-between">
-                    <span className="text-xs font-bold text-[#C6F432] tracking-wider uppercase inline-flex items-center gap-1.5 group-hover:gap-2.5 transition-all">
+                  <div className="mt-6 pt-5 border-t border-[var(--theme-border)]/40 flex items-center justify-between">
+                    <span className="text-xs font-bold text-[var(--theme-accent)] tracking-wider uppercase inline-flex items-center gap-1.5 group-hover:gap-2.5 transition-all">
                       <span>Learn More</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </span>
-                    <span className="text-[10px] font-mono font-bold text-white/40 uppercase">
+                    <span className="text-[10px] font-mono font-bold text-[var(--theme-text-secondary)]/50 uppercase">
                       #{formattedSerial} PRIORITY
                     </span>
                   </div>

@@ -9,8 +9,9 @@
  */
 
 export type ThemeId =
-  | 'midnight-lime'
   | 'classic-navy-coral'
+  | 'mrm-brand-cyan'
+  | 'midnight-lime'
   | 'forest-purple'
   | 'it-blue';
 
@@ -265,12 +266,66 @@ export const THEME_TEMPLATES: Record<ThemeId, ThemeDefinition> = Object.freeze({
       '--theme-aurora-glow': 'rgba(0, 210, 255, 0.22)',
     },
   }),
+
+  /**
+   * Theme 5: MRM Brand Identity (Official Logo-based Electric Cyan & Royal Blue)
+   * 60% Cosmic Navy (#030914 / #07152B), 30% Pure White & Slate (#FFFFFF / #94B5D6), 10% Electric Neon Cyan (#00E5FF)
+   */
+  'mrm-brand-cyan': Object.freeze({
+    id: 'mrm-brand-cyan',
+    name: 'MRM Brand Identity',
+    tagline: 'Official MRM InfoTech logo signature: deep cosmic navy canvas, pure white typography, and electric neon cyan with orbital celestial blue.',
+    distribution: {
+      dominant60: {
+        name: 'Cosmic Royal Navy',
+        canvasHex: '#030914',
+        surfaceHex: '#07152B',
+        cardHex: '#0C203E',
+        glassBg: 'rgba(12, 32, 62, 0.75)',
+      },
+      structural30: {
+        name: 'Pure White & Cyber Slate',
+        textPrimaryHex: '#FFFFFF',
+        textSecondaryHex: '#94B5D6',
+        borderHex: '#153359',
+        borderGlass: 'rgba(21, 51, 89, 0.70)',
+      },
+      accent10: {
+        name: 'Electric Neon Cyan',
+        hex: '#00E5FF',
+        hoverHex: '#33ECFF',
+        activeHex: '#00B8D4',
+        contrastTextHex: '#030914',
+        glowRgba: 'rgba(0, 229, 255, 0.38)',
+        subtleRgba: 'rgba(0, 229, 255, 0.15)',
+      },
+    },
+    cssVars: {
+      '--theme-bg-canvas': '#030914',
+      '--theme-bg-surface': '#07152B',
+      '--theme-bg-card': '#0C203E',
+      '--theme-bg-glass': 'rgba(12, 32, 62, 0.75)',
+      '--theme-text-primary': '#FFFFFF',
+      '--theme-text-secondary': '#94B5D6',
+      '--theme-text-muted': 'rgba(148, 181, 214, 0.65)',
+      '--theme-border': '#153359',
+      '--theme-border-glass': 'rgba(21, 51, 89, 0.70)',
+      '--theme-accent': '#00E5FF',
+      '--theme-accent-hover': '#33ECFF',
+      '--theme-accent-active': '#00B8D4',
+      '--theme-accent-text': '#030914',
+      '--theme-accent-glow': 'rgba(0, 229, 255, 0.38)',
+      '--theme-accent-subtle': 'rgba(0, 229, 255, 0.15)',
+      '--theme-aurora-glow': 'rgba(0, 229, 255, 0.25)',
+    },
+  }),
 });
 
 export const DEFAULT_THEME_ID: ThemeId = 'classic-navy-coral';
 
 export const THEME_LIST: ThemeDefinition[] = [
   THEME_TEMPLATES['classic-navy-coral'],
+  THEME_TEMPLATES['mrm-brand-cyan'],
   THEME_TEMPLATES['midnight-lime'],
   THEME_TEMPLATES['forest-purple'],
   THEME_TEMPLATES['it-blue'],

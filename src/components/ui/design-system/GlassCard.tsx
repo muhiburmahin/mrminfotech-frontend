@@ -79,13 +79,18 @@ export function GlassCard({
   };
 
   const cardStyle: React.CSSProperties = {
-    backgroundColor: DESIGN_TOKENS.dominant60.glassSurface, // #0B0B0C at 40%
-    borderColor: DESIGN_TOKENS.structural30.glassBorder,   // #FFFFFF at 20%
+    backgroundColor: 'var(--theme-bg-glass, rgba(15, 34, 61, 0.75))',
+    borderColor: isHovered
+      ? 'var(--theme-accent, #00E5FF)'
+      : 'var(--theme-border-glass, rgba(30, 58, 95, 0.70))',
     backdropFilter: `blur(${DESIGN_TOKENS.glassmorphism.backdropBlur})`,
     WebkitBackdropFilter: `blur(${DESIGN_TOKENS.glassmorphism.backdropBlur})`,
     transform: isHovered
       ? `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(${DESIGN_TOKENS.motion.cardHoverScale})`
       : 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)',
+    boxShadow: isHovered
+      ? '0 30px 60px rgba(0,0,0,0.85), 0 0 30px var(--theme-accent-subtle, rgba(0, 229, 255, 0.15))'
+      : '0 20px 40px rgba(0,0,0,0.5)',
     transition: `transform ${DESIGN_TOKENS.motion.durationSlow} ${DESIGN_TOKENS.motion.easing}, 
                  border-color ${DESIGN_TOKENS.motion.durationNormal} ${DESIGN_TOKENS.motion.easing}, 
                  box-shadow ${DESIGN_TOKENS.motion.durationNormal} ${DESIGN_TOKENS.motion.easing}`,
@@ -101,9 +106,8 @@ export function GlassCard({
       style={cardStyle}
       className={`
         relative flex flex-col justify-between overflow-hidden rounded-3xl p-7
-        border border-white/20 text-white shadow-2xl
+        border text-[var(--theme-text-primary)]
         transition-all will-change-transform
-        ${isHovered ? 'shadow-[0_30px_60px_rgba(0,0,0,0.85),0_0_30px_rgba(198,244,50,0.08)] border-white/30' : ''}
         ${className}
       `.replace(/\s+/g, ' ').trim()}
     >
@@ -111,20 +115,21 @@ export function GlassCard({
       <div className="space-y-4">
         <div className="flex items-center justify-between gap-3">
           {tag && (
-            <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-extrabold uppercase tracking-widest text-[#FFFFFF] bg-white/10 border border-white/15">
+            <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-extrabold uppercase tracking-widest text-[var(--theme-accent)] bg-[var(--theme-accent)]/10 border border-[var(--theme-accent)]/30">
+              <span className="w-1.5 h-1.5 rounded-full bg-[var(--theme-accent)] animate-pulse" />
               {tag}
             </span>
           )}
 
           {icon && (
-            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-white/10 border border-white/15 text-white">
+            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-white/10 border border-white/15 text-[var(--theme-accent)]">
               {icon}
             </div>
           )}
         </div>
 
         {imageUrl && (
-          <div className="relative aspect-video w-full overflow-hidden rounded-2xl border border-white/15 bg-[#0B0B0C]">
+          <div className="relative aspect-video w-full overflow-hidden rounded-2xl border border-[var(--theme-border-glass)] bg-[var(--theme-bg-canvas)]">
             <img
               src={imageUrl}
               alt={title}
@@ -135,15 +140,15 @@ export function GlassCard({
 
         <div>
           {subtitle && (
-            <p className="text-xs font-bold uppercase tracking-wider text-white/70 mb-1">
+            <p className="text-xs font-bold uppercase tracking-wider text-[var(--theme-accent)] mb-1">
               {subtitle}
             </p>
           )}
-          <h3 className="text-xl sm:text-2xl font-black tracking-tight text-[#FFFFFF]">
+          <h3 className="text-xl sm:text-2xl font-black tracking-tight text-[var(--theme-text-primary)]">
             {title}
           </h3>
           {description && (
-            <p className="mt-2.5 text-xs sm:text-sm leading-relaxed text-white/70 line-clamp-3">
+            <p className="mt-2.5 text-xs sm:text-sm leading-relaxed text-[var(--theme-text-secondary)] line-clamp-3">
               {description}
             </p>
           )}
@@ -153,11 +158,11 @@ export function GlassCard({
       </div>
 
       {/* Card Footer: Meta Info & Conversion CTA */}
-      <div className="mt-6 pt-5 border-t border-white/10 flex items-center justify-between gap-4">
+      <div className="mt-6 pt-5 border-t border-[var(--theme-border)]/40 flex items-center justify-between gap-4">
         {metaInfo ? (
-          <div className="text-xs text-white/60 font-medium">{metaInfo}</div>
+          <div className="text-xs text-[var(--theme-text-secondary)] font-medium">{metaInfo}</div>
         ) : (
-          <div className="text-[11px] font-bold text-white/40 tracking-wider uppercase">
+          <div className="text-[11px] font-bold text-[var(--theme-text-secondary)]/50 tracking-wider uppercase">
             60 • 30 • 10 SYSTEM
           </div>
         )}
