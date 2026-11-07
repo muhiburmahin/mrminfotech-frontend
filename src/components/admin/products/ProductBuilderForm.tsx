@@ -232,56 +232,143 @@ export function ProductBuilderForm({
     noIndex,
   });
 
-  // Clean sub-items of database timestamps and auto-assigned foreign keys before sending to API
-  const sanitizeSubList = (list?: any[]) => {
-    if (!Array.isArray(list)) return undefined;
-    return list.map((item) => {
-      const { productId: _p, createdAt: _c, updatedAt: _u, product: _prod, ...clean } = item;
-      if (clean.id && (typeof clean.id !== 'string' || clean.id.startsWith('temp-') || clean.id.length < 32)) {
-        delete clean.id;
-      }
-      if (clean.description && !clean.shortDescription) {
-        clean.shortDescription = clean.description;
-      }
-      return clean;
-    });
+  // Strict sub-item sanitizers ensuring zero unwhitelisted properties reach NestJS API
+  const sanitizeMedia = (items?: ProductMediaItem[]) => {
+    if (!Array.isArray(items)) return [];
+    return items.map((m, idx) => ({
+      ...(m.id && typeof m.id === 'string' && m.id.length >= 32 ? { id: m.id } : {}),
+      url: m.url,
+      mediaType: m.mediaType || 'SCREENSHOT',
+      title: m.title || `Screenshot ${idx + 1}`,
+      caption: m.caption || '',
+      altText: m.altText || '',
+      isPrimary: Boolean(m.isPrimary),
+      displayOrder: m.displayOrder ?? idx + 1,
+    }));
+  };
+
+  const sanitizeFeatures = (items?: ProductFeatureItem[]) => {
+    if (!Array.isArray(items)) return [];
+    return items.map((f, idx) => ({
+      ...(f.id && typeof f.id === 'string' && f.id.length >= 32 ? { id: f.id } : {}),
+      title: f.title,
+      shortDescription: f.shortDescription || (f as any).description || '',
+      detailedDescription: f.detailedDescription || '',
+      icon: f.icon || '',
+      categoryName: f.categoryName || 'Core Features',
+      isFeatured: Boolean(f.isFeatured),
+      displayOrder: f.displayOrder ?? idx + 1,
+    }));
+  };
+
+  const sanitizeBenefits = (items?: ProductBenefitItem[]) => {
+    if (!Array.isArray(items)) return [];
+    return items.map((b, idx) => ({
+      ...(b.id && typeof b.id === 'string' && b.id.length >= 32 ? { id: b.id } : {}),
+      title: b.title,
+      description: b.description || (b as any).shortDescription || '',
+      icon: b.icon || '',
+      displayOrder: b.displayOrder ?? idx + 1,
+    }));
+  };
+
+  const sanitizeLinks = (items?: ProductLinkItem[]) => {
+    if (!Array.isArray(items)) return [];
+    return items.map((l, idx) => ({
+      ...(l.id && typeof l.id === 'string' && l.id.length >= 32 ? { id: l.id } : {}),
+      title: l.title,
+      url: l.url,
+      linkType: l.linkType || 'OFFICIAL_WEBSITE',
+      icon: l.icon || '',
+      openInNewTab: l.openInNewTab ?? true,
+      isVisible: l.isVisible ?? true,
+      displayOrder: l.displayOrder ?? idx + 1,
+    }));
+  };
+
+  const sanitizeDemos = (items?: ProductDemoItem[]) => {
+    if (!Array.isArray(items)) return [];
+    return items.map((d, idx) => ({
+      ...(d.id && typeof d.id === 'string' && d.id.length >= 32 ? { id: d.id } : {}),
+      title: d.title,
+      description: d.description || '',
+      demoType: d.demoType || 'DASHBOARD',
+      mediaUrl: d.mediaUrl || '',
+      caption: d.caption || '',
+      displayOrder: d.displayOrder ?? idx + 1,
+    }));
+  };
+
+  const sanitizeFaqs = (items?: ProductFaqItem[]) => {
+    if (!Array.isArray(items)) return [];
+    return items.map((fq, idx) => ({
+      ...(fq.id && typeof fq.id === 'string' && fq.id.length >= 32 ? { id: fq.id } : {}),
+      question: fq.question,
+      answer: fq.answer,
+      displayOrder: fq.displayOrder ?? idx + 1,
+    }));
   };
 
   const sanitizeForApi = (snapshot: ProductRecord) => {
-    const {
-      id: _id,
-      categoryName: _catName,
-      category: _cat,
-      features: _feats,
-      faqs: _faqs,
-      createdAt: _ca,
-      updatedAt: _ua,
-      caseStudies: _cs,
-      ...rest
-    } = snapshot as any;
-
     const cleanSlug = (snapshot.slug || slug || '')
       .toLowerCase()
       .trim()
-      .replace(/\s+/g, '-')
-      .replace(/[^a-z0-9-]/g, '')
-      .replace(/-+/g, '-');
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
 
     return {
-      ...rest,
+      title: snapshot.title,
       slug: cleanSlug,
-      mediaItems: sanitizeSubList(snapshot.mediaItems),
-      richFeatures: sanitizeSubList(snapshot.richFeatures),
-      benefits: sanitizeSubList(snapshot.benefits),
-      links: sanitizeSubList(snapshot.links),
-      demonstrations: sanitizeSubList(snapshot.demonstrations),
-      productFaqs: sanitizeSubList(snapshot.productFaqs),
+      tagline: snapshot.tagline || '',
+      shortDescription: snapshot.shortDescription || '',
+      description: snapshot.description || '',
+      targetAudience: snapshot.targetAudience || '',
+      problemsAddressed: snapshot.problemsAddressed || '',
+      mainPurpose: snapshot.mainPurpose || '',
+      productType: snapshot.productType || 'SaaS',
+      stage: snapshot.stage || 'LIVE',
+      status: snapshot.status || 'PUBLISHED',
+      version: snapshot.version || '1.0.0',
+      categoryId: snapshot.categoryId || undefined,
+      brandColor: snapshot.brandColor || '#2563EB',
+      isFeatured: Boolean(snapshot.isFeatured),
+      showOnHomepage: snapshot.showOnHomepage ?? true,
+      showOnProductsPage: snapshot.showOnProductsPage ?? true,
+      showInNavDropdown: snapshot.showInNavDropdown ?? true,
+      allowPublicDetail: snapshot.allowPublicDetail ?? true,
+      enableGallery: snapshot.enableGallery ?? true,
+      enableCaseStudies: snapshot.enableCaseStudies ?? true,
+      enableDemos: snapshot.enableDemos ?? true,
+      enableFaq: snapshot.enableFaq ?? true,
+      displayOrder: Number(snapshot.displayOrder ?? 1),
+      homepageOrder: Number(snapshot.homepageOrder ?? 1),
+      navOrder: Number(snapshot.navOrder ?? 1),
+      featuredOrder: Number(snapshot.featuredOrder ?? 1),
+      seoTitle: snapshot.seoTitle || undefined,
+      seoDescription: snapshot.seoDescription || undefined,
+      seoKeywords: snapshot.seoKeywords || undefined,
+      canonicalUrl: snapshot.canonicalUrl || undefined,
+      ogTitle: snapshot.ogTitle || undefined,
+      ogDescription: snapshot.ogDescription || undefined,
+      noIndex: Boolean(snapshot.noIndex),
+      mediaItems: sanitizeMedia(snapshot.mediaItems),
+      richFeatures: sanitizeFeatures(snapshot.richFeatures),
+      benefits: sanitizeBenefits(snapshot.benefits),
+      links: sanitizeLinks(snapshot.links),
+      demonstrations: sanitizeDemos(snapshot.demonstrations),
+      productFaqs: sanitizeFaqs(snapshot.productFaqs),
     };
   };
 
   // Architectural Adjustment 2: Independent Section / Tab Save
   const handleSaveSection = async (section: ProductSection) => {
-    if (!title.trim() || !slug.trim()) {
+    const cleanSlug = slug
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+
+    if (!title.trim() || !cleanSlug) {
       setErrorMsg('Product Title and Slug are required before saving any section.');
       return;
     }
@@ -295,7 +382,7 @@ export function ProductBuilderForm({
       if (!currentId) {
         const created = await createAdminProduct({
           title,
-          slug,
+          slug: cleanSlug,
           tagline,
           shortDescription,
           description,
@@ -313,7 +400,7 @@ export function ProductBuilderForm({
       if (section === 'basic') {
         sectionPayload = {
           title,
-          slug,
+          slug: cleanSlug,
           tagline,
           shortDescription,
           description,
@@ -327,17 +414,17 @@ export function ProductBuilderForm({
           categoryId: categoryId || undefined,
         };
       } else if (section === 'media') {
-        sectionPayload = { mediaItems: sanitizeSubList(mediaItems) };
+        sectionPayload = { mediaItems: sanitizeMedia(mediaItems) };
       } else if (section === 'features') {
-        sectionPayload = { richFeatures: sanitizeSubList(richFeatures) };
+        sectionPayload = { richFeatures: sanitizeFeatures(richFeatures) };
       } else if (section === 'benefits') {
-        sectionPayload = { benefits: sanitizeSubList(benefits) };
+        sectionPayload = { benefits: sanitizeBenefits(benefits) };
       } else if (section === 'links') {
-        sectionPayload = { links: sanitizeSubList(links) };
+        sectionPayload = { links: sanitizeLinks(links) };
       } else if (section === 'demonstrations') {
-        sectionPayload = { demonstrations: sanitizeSubList(demonstrations) };
+        sectionPayload = { demonstrations: sanitizeDemos(demonstrations) };
       } else if (section === 'faqs') {
-        sectionPayload = { productFaqs: sanitizeSubList(productFaqs) };
+        sectionPayload = { productFaqs: sanitizeFaqs(productFaqs) };
       } else if (section === 'visibility') {
         sectionPayload = {
           status,
@@ -542,9 +629,14 @@ export function ProductBuilderForm({
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-300 mb-1.5">
-                  URL Slug * (auto-generated)
-                </label>
+                <div className="flex items-center justify-between mb-1.5">
+                  <label className="text-xs font-bold text-slate-300">
+                    URL Slug * (auto-generated)
+                  </label>
+                  <span className="text-[11px] text-blue-400 font-mono">
+                    /products/{slug.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'product-slug'}
+                  </span>
+                </div>
                 <input
                   type="text"
                   value={slug}
@@ -555,6 +647,15 @@ export function ProductBuilderForm({
                         .replace(/\s+/g, '-')
                         .replace(/[^a-z0-9-]/g, '')
                         .replace(/-+/g, '-')
+                    )
+                  }
+                  onBlur={() =>
+                    setSlug(
+                      slug
+                        .toLowerCase()
+                        .trim()
+                        .replace(/[^a-z0-9]+/g, '-')
+                        .replace(/^-+|-+$/g, '')
                     )
                   }
                   placeholder="e.g. edumanage-bd"

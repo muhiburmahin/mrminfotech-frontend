@@ -252,6 +252,7 @@ export default function AdminProductsPage() {
       <div ref={builderRef}>
         {isBuilderOpen && (
           <ProductBuilderForm
+            key={editingProduct?.id || 'new'}
             initialData={editingProduct}
             categories={categories}
             onSaved={() => {
