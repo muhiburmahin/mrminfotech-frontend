@@ -415,8 +415,69 @@ export async function deleteAdminTeamMember(id: string) {
   return res.data;
 }
 
+// ──────────────────────── Blog Admin ────────────────────────
+export interface AdminBlogTranslationPayload {
+  locale: string;
+  slug: string;
+  title: string;
+  excerpt?: string;
+  body: string;
+  status?: 'DRAFT' | 'PUBLISHED' | 'IN_REVIEW' | 'ARCHIVED';
+  seoTitle?: string;
+  seoDescription?: string;
+}
+
+export interface AdminBlogPostPayload {
+  translations: AdminBlogTranslationPayload[];
+  categoryId?: string | null;
+  coverId?: string | null;
+  readingMinutes?: number;
+  isFeatured?: boolean;
+  tagIds?: string[];
+}
+
 export async function getAdminBlogPosts() {
-  return fetchApi('/admin/blog');
+  const res = await authRequest<{ data: Array<Record<string, unknown>> }>(
+    '/admin/blog?limit=50&sortBy=createdAt&order=desc'
+  );
+  return res.data;
+}
+
+export async function getAdminBlogCategories() {
+  const res = await authRequest<Array<{ id: string; slug: string; i18n?: Record<string, { name: string }> }>>(
+    '/admin/blog/categories'
+  );
+  return res.data;
+}
+
+export async function getAdminBlogTags() {
+  const res = await authRequest<Array<{ id: string; slug: string; i18n?: Record<string, { name: string }> }>>(
+    '/admin/blog/tags'
+  );
+  return res.data;
+}
+
+export async function createAdminBlogPost(payload: AdminBlogPostPayload) {
+  const res = await authRequest('/admin/blog', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  return res.data;
+}
+
+export async function updateAdminBlogPost(id: string, payload: Partial<AdminBlogPostPayload>) {
+  const res = await authRequest('/admin/blog/' + encodeURIComponent(id), {
+    method: 'PATCH',
+    body: JSON.stringify(payload),
+  });
+  return res.data;
+}
+
+export async function deleteAdminBlogPost(id: string) {
+  const res = await authRequest('/admin/blog/' + encodeURIComponent(id), {
+    method: 'DELETE',
+  });
+  return res.data;
 }
 
 export async function getAdminInquiries() {

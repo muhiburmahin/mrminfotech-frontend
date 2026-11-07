@@ -1,36 +1,31 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import { PublicApiService } from '@/services/public-api.service';
-import { FeaturedProjects } from '@/components/home/FeaturedProjects';
+import ProjectsShowcaseClient, { ProjectItem } from '@/components/public/projects/ProjectsShowcaseClient';
 
 export const metadata: Metadata = {
   title: 'Client Deployments & Projects | MRM InfoTech Ltd.',
   description:
-    'Explore verified enterprise systems and software applications designed and deployed by MRM InfoTech Ltd.',
+    'Explore verified enterprise systems, cloud platforms, and institutional software applications architected and deployed by MRM InfoTech.',
+  alternates: {
+    canonical: '/projects',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
+export const revalidate = 60;
+
 export default async function ProjectsPage() {
-  const projects = await PublicApiService.getProjects('en');
+  const rawProjects = await PublicApiService.getProjects<any>('en');
 
-  return (
-    <div className="w-full flex flex-col bg-white dark:bg-[#07162C] transition-colors duration-150">
-      <section className="bg-slate-50 dark:bg-[#07162C] text-slate-900 dark:text-white pt-20 pb-16 border-b border-slate-200 dark:border-[#1E3557] transition-colors duration-150">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl space-y-4">
-            <span className="text-xs font-bold text-[#087FC4] dark:text-[#20B8D5] uppercase tracking-wider">
-              Proven Delivery
-            </span>
-            <h1 className="text-4xl sm:text-5xl font-black tracking-tight text-slate-900 dark:text-white">
-              Enterprise Projects & System Implementations
-            </h1>
-            <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300">
-              Review our live systems in logistics, telemedicine, microfinance, and enterprise resource planning. Connected directly to the live CMS.
-            </p>
-          </div>
-        </div>
-      </section>
+  const projects: ProjectItem[] = Array.isArray(rawProjects)
+    ? rawProjects
+    : Array.isArray(rawProjects?.data)
+    ? rawProjects.data
+    : [];
 
-      <FeaturedProjects projects={projects} />
-    </div>
-  );
+  return <ProjectsShowcaseClient initialProjects={projects} />;
 }
