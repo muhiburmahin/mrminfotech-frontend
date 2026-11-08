@@ -59,6 +59,15 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
+        source: '/(favicon.ico|favicon-32x32.png|logo.png|logo-icon.png|logo.svg)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=86400, stale-while-revalidate=604800',
+          },
+        ],
+      },
+      {
         source: '/((?!api|_next/static|_next/image|favicon.ico).*)',
         headers: [
           {

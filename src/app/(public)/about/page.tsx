@@ -21,9 +21,12 @@ import OurVision from '@/components/public/about/OurVision';
 import CoreValues from '@/components/public/about/CoreValues';
 
 export const metadata: Metadata = {
-  title: 'About Us | MRM InfoTech — IDEAS • PRODUCTS • IMPACT',
+  title: 'About Us | Custom Software Engineering Team',
   description:
-    'Learn about MRM InfoTech: our story, dual-engine technology vision, mission, long-term vision, core values, proprietary SaaS platforms, and dedicated software engineering team.',
+    'Discover MRM InfoTech: our story, dual-engine software vision, senior engineering culture, and commitment to building resilient enterprise cloud platforms.',
+  alternates: {
+    canonical: 'https://mrminfotech.com/about',
+  },
 };
 
 export default async function AboutPage() {

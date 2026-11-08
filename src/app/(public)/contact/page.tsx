@@ -5,9 +5,12 @@ import { PublicApiService } from '@/services/public-api.service';
 import { ContactInquiryForm } from '@/components/public/contact/ContactInquiryForm';
 
 export const metadata: Metadata = {
-  title: 'Contact Us | MRM InfoTech',
+  title: 'Contact Software Development Team',
   description:
-    'Contact MRM InfoTech in Dhaka, Bangladesh for software engineering inquiries, SaaS licensing, and technical advisory.',
+    'Contact MRM InfoTech for custom software development consultations, web application inquiries, and cloud SaaS partnerships.',
+  alternates: {
+    canonical: 'https://mrminfotech.com/contact',
+  },
 };
 
 export default async function ContactPage() {

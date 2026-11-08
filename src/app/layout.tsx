@@ -134,6 +134,10 @@ export default async function RootLayout({
     >
       <head>
         <link rel="publisher" href="https://mrminfotech.com" />
+        <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+        <link rel="preconnect" href="https://mrm-backend.vercel.app" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://mrm-backend.vercel.app" />
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
       <body

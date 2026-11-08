@@ -30,9 +30,9 @@ import type { ServiceRecord, ServiceCategory } from '@/types/service.types';
 import { ServicesShowcaseClient } from '@/components/public/services/ServicesShowcaseClient';
 
 export const metadata: Metadata = {
-  title: 'Digital Services & Software Engineering Solutions',
+  title: 'Custom Software & Web Development Services',
   description:
-    'Full-cycle web development, custom software engineering, mobile apps, UI/UX design, and SEO solutions engineered for modern enterprises in Bangladesh.',
+    'Explore MRM InfoTech custom software and web development services: scalable SaaS platform engineering, enterprise web applications, and technical SEO architecture.',
   alternates: {
     canonical: 'https://mrminfotech.com/services',
   },

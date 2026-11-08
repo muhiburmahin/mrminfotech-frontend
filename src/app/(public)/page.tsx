@@ -61,11 +61,25 @@ import {
 import { LinkedinIcon, GithubIcon } from '@/components/public/shared/SocialIcons';
 
 export const metadata: Metadata = {
-  title: 'Software Products & Enterprise Digital Solutions',
+  title: 'Custom Software & Web Development Company',
   description:
-    'We turn ideas into technology that moves businesses forward with scalable cloud SaaS products, EduManage BD, MediSheba BD, and enterprise engineering.',
+    'MRM InfoTech is a global custom software and web development company. We engineer high-performance cloud SaaS platforms, web applications, and enterprise digital solutions.',
   alternates: {
     canonical: 'https://mrminfotech.com',
+  },
+  openGraph: {
+    title: 'MRM InfoTech | Custom Software & Web Development Company',
+    description:
+      'Global custom software and web development company engineering scalable SaaS products, web applications, and enterprise digital solutions.',
+    url: 'https://mrminfotech.com',
+    siteName: 'MRM InfoTech',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'MRM InfoTech | Custom Software & Web Development Company',
+    description:
+      'Global custom software and web development company engineering scalable SaaS products and enterprise solutions.',
   },
   robots: {
     index: true,
@@ -530,32 +544,50 @@ export default async function HomePage() {
 
   return (
     <div className="min-h-screen bg-[var(--theme-bg-canvas)] text-[var(--theme-text-primary)] overflow-x-clip selection:bg-[var(--theme-accent)] selection:text-[var(--theme-accent-text)]">
-      {/* Schema.org Organization Structured Data */}
+      {/* Schema.org Organization, WebSite & ProfessionalService Structured Data */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             '@context': 'https://schema.org',
-            '@type': 'Organization',
-            name: 'MRM InfoTech',
-            url: 'https://mrminfotech.com',
-            logo: 'https://mrminfotech.com/logo.png',
-            description:
-              'Enterprise cloud SaaS platforms, institutional ERP solutions, and sovereign software development in Bangladesh.',
-            address: {
-              '@type': 'PostalAddress',
-              addressLocality: 'Dhaka',
-              addressCountry: 'BD',
-            },
-            contactPoint: {
-              '@type': 'ContactPoint',
-              contactType: 'sales',
-              email: 'info@mrminfotech.com',
-            },
-            sameAs: [
-              'https://facebook.com/mrminfotech',
-              'https://linkedin.com/company/mrminfotech',
-              'https://github.com/mrminfotech',
+            '@graph': [
+              {
+                '@type': 'Organization',
+                '@id': 'https://mrminfotech.com/#organization',
+                name: 'MRM InfoTech',
+                url: 'https://mrminfotech.com',
+                logo: 'https://mrminfotech.com/logo.png',
+                description:
+                  'Global custom software and web development company engineering scalable cloud SaaS platforms, web applications, and enterprise digital solutions.',
+                email: 'contact.mrminfotech@gmail.com',
+                sameAs: [
+                  'https://linkedin.com/company/mrminfotech',
+                  'https://github.com/mrminfotech',
+                  'https://facebook.com/mrminfotech',
+                ],
+              },
+              {
+                '@type': 'WebSite',
+                '@id': 'https://mrminfotech.com/#website',
+                url: 'https://mrminfotech.com',
+                name: 'MRM InfoTech',
+                publisher: { '@id': 'https://mrminfotech.com/#organization' },
+                inLanguage: 'en-US',
+              },
+              {
+                '@type': 'ProfessionalService',
+                '@id': 'https://mrminfotech.com/#service',
+                name: 'MRM InfoTech Software & Web Development',
+                url: 'https://mrminfotech.com/services',
+                parentOrganization: { '@id': 'https://mrminfotech.com/#organization' },
+                serviceType: [
+                  'Custom Software Development',
+                  'Web Development',
+                  'SaaS Development',
+                  'Full Stack Engineering',
+                ],
+                areaServed: ['United States', 'United Kingdom', 'Australia', 'Bangladesh'],
+              },
             ],
           }),
         }}
