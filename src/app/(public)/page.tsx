@@ -473,6 +473,28 @@ function buildOrderedHeroTicker(
   return items;
 }
 
+interface EnterpriseMarqueeItem {
+  label: string;
+  isBrand?: boolean;
+}
+
+const ENTERPRISE_MARQUEE_ITEMS: EnterpriseMarqueeItem[] = [
+  { label: '✦ MRM INFOTECH', isBrand: true },
+  { label: 'Next.js 16 Enterprise', isBrand: false },
+  { label: '✦ IDEAS • PRODUCTS • IMPACT', isBrand: true },
+  { label: 'NestJS Modular Architecture', isBrand: false },
+  { label: '✦ MRM INFOTECH CLOUD', isBrand: true },
+  { label: 'PostgreSQL ACID Compliant', isBrand: false },
+  { label: '✦ SOVEREIGN CLOUD & SAAS', isBrand: true },
+  { label: 'Cloudflare Edge Acceleration', isBrand: false },
+  { label: '✦ EDUMANAGE BD & MEDISHEBA BD', isBrand: true },
+  { label: 'Docker & Containerized Pods', isBrand: false },
+  { label: '✦ ENTERPRISE SYSTEMS', isBrand: true },
+  { label: 'TypeScript Strict Protocol', isBrand: false },
+  { label: 'Redis Ultra-Fast Cache', isBrand: false },
+  { label: 'OWASP Top 10 Hardened Security', isBrand: false },
+];
+
 export default async function HomePage() {
   const [
     apiProducts,
@@ -805,6 +827,56 @@ export default async function HomePage() {
             </div>
           </div>
 
+          {/* Hero Section Live Ecosystem Marquee: Company -> Product -> Service 1 -> Service 2 (Flows Right to Left) */}
+          <div className="w-full pt-1 pb-1">
+            <InfiniteMarquee speed={38} direction="left" pauseOnHover={true}>
+              {heroTickerItems.map((item) => {
+                if (item.type === 'company') {
+                  return (
+                    <Link
+                      key={item.id}
+                      href={item.href}
+                      className="group inline-flex items-center gap-2 px-4 py-2 rounded-full shrink-0 transition-all duration-200 bg-gradient-to-r from-blue-700 via-indigo-600 to-cyan-600 text-white font-black text-xs shadow-[0_0_18px_rgba(37,99,235,0.45)] border border-blue-400/50 hover:scale-105 hover:shadow-[0_0_24px_rgba(34,211,238,0.6)] cursor-pointer"
+                      title="MRM InfoTech — Dual-Engine Technology Company"
+                    >
+                      <span className="w-1.5 h-1.5 rounded-full bg-cyan-300 animate-pulse" />
+                      <span className="text-cyan-200 text-xs drop-shadow-[0_0_6px_rgba(34,211,238,0.8)]">✦</span>
+                      <span className="tracking-wider uppercase font-black">{item.label}</span>
+                    </Link>
+                  );
+                }
+
+                if (item.type === 'product') {
+                  return (
+                    <Link
+                      key={item.id}
+                      href={item.href}
+                      className="group inline-flex items-center gap-2 px-4 py-2 rounded-full shrink-0 transition-all duration-200 bg-[#1d4ed8] hover:bg-[#2563eb] text-white font-extrabold text-xs shadow-[0_0_16px_rgba(29,78,216,0.35)] border border-blue-400/60 hover:scale-105 hover:shadow-[0_0_22px_rgba(59,130,246,0.55)] cursor-pointer"
+                      title={`Explore Product: ${item.label}`}
+                    >
+                      <span className="w-1.5 h-1.5 rounded-full bg-amber-300 animate-pulse" />
+                      <span className="text-amber-300 text-xs drop-shadow-[0_0_6px_rgba(252,211,77,0.7)]">★</span>
+                      <span className="tracking-wide font-bold uppercase">{item.label}</span>
+                    </Link>
+                  );
+                }
+
+                return (
+                  <Link
+                    key={item.id}
+                    href={item.href}
+                    className="group inline-flex items-center gap-2 px-4 py-2 rounded-full shrink-0 transition-all duration-200 clear-glass-pill bg-[var(--theme-bg-surface)] text-[var(--theme-text-primary)] hover:text-[var(--theme-accent)] font-semibold text-xs border border-[var(--theme-border-glass)] hover:border-[var(--theme-accent)] shadow-xs hover:scale-105 hover:shadow-[0_0_16px_var(--theme-accent-subtle)] cursor-pointer"
+                    title={`Explore Service: ${item.label}`}
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full bg-[var(--theme-accent)]" />
+                    <span className="text-[var(--theme-accent)] text-xs">✦</span>
+                    <span className="tracking-normal font-semibold">{item.label}</span>
+                  </Link>
+                );
+              })}
+            </InfiniteMarquee>
+          </div>
+
           {/* Lower Hero: The 3 Radiant Showcase Glass Cards (Sitting inside the glowing light beam) */}
           <MrmHeroShowcaseTriad />
         </div>
@@ -861,51 +933,24 @@ export default async function HomePage() {
             <div className="text-[11px] font-extrabold uppercase tracking-widest text-[var(--theme-text-secondary)]/60 mb-5 text-center">
               ENGINEERED WITH MODERN ENTERPRISE TECH STACKS &amp; STANDARDS
             </div>
-            <InfiniteMarquee speed={38} direction="right" pauseOnHover={true}>
-              {heroTickerItems.map((item) => {
-                if (item.type === 'company') {
-                  return (
-                    <Link
-                      key={item.id}
-                      href={item.href}
-                      className="group inline-flex items-center gap-2 px-4 py-2 rounded-full shrink-0 transition-all duration-200 bg-gradient-to-r from-blue-700 via-indigo-600 to-cyan-600 text-white font-black text-xs shadow-[0_0_18px_rgba(37,99,235,0.45)] border border-blue-400/50 hover:scale-105 hover:shadow-[0_0_24px_rgba(34,211,238,0.6)] cursor-pointer"
-                      title="MRM InfoTech — Dual-Engine Technology Company"
-                    >
-                      <span className="w-1.5 h-1.5 rounded-full bg-cyan-300 animate-pulse" />
-                      <span className="text-cyan-200 text-xs drop-shadow-[0_0_6px_rgba(34,211,238,0.8)]">✦</span>
-                      <span className="tracking-wider uppercase font-black">{item.label}</span>
-                    </Link>
-                  );
-                }
-
-                if (item.type === 'product') {
-                  return (
-                    <Link
-                      key={item.id}
-                      href={item.href}
-                      className="group inline-flex items-center gap-2 px-4 py-2 rounded-full shrink-0 transition-all duration-200 bg-[#1d4ed8] hover:bg-[#2563eb] text-white font-extrabold text-xs shadow-[0_0_16px_rgba(29,78,216,0.35)] border border-blue-400/60 hover:scale-105 hover:shadow-[0_0_22px_rgba(59,130,246,0.55)] cursor-pointer"
-                      title={`Explore Product: ${item.label}`}
-                    >
-                      <span className="w-1.5 h-1.5 rounded-full bg-amber-300 animate-pulse" />
-                      <span className="text-amber-300 text-xs drop-shadow-[0_0_6px_rgba(252,211,77,0.7)]">★</span>
-                      <span className="tracking-wide font-bold uppercase">{item.label}</span>
-                    </Link>
-                  );
-                }
-
-                return (
-                  <Link
-                    key={item.id}
-                    href={item.href}
-                    className="group inline-flex items-center gap-2 px-4 py-2 rounded-full shrink-0 transition-all duration-200 clear-glass-pill bg-[var(--theme-bg-surface)] text-[var(--theme-text-primary)] hover:text-[var(--theme-accent)] font-semibold text-xs border border-[var(--theme-border-glass)] hover:border-[var(--theme-accent)] shadow-xs hover:scale-105 hover:shadow-[0_0_16px_var(--theme-accent-subtle)] cursor-pointer"
-                    title={`Explore Service: ${item.label}`}
-                  >
-                    <span className="w-1.5 h-1.5 rounded-full bg-[var(--theme-accent)]" />
-                    <span className="text-[var(--theme-accent)] text-xs">✦</span>
-                    <span className="tracking-normal font-semibold">{item.label}</span>
-                  </Link>
-                );
-              })}
+            <InfiniteMarquee speed={32} direction="left" pauseOnHover={true}>
+              {ENTERPRISE_MARQUEE_ITEMS.map((item, idx) => (
+                <div
+                  key={`${item.label}-${idx}`}
+                  className={`flex items-center gap-2 text-xs font-bold px-4 py-2 rounded-full shrink-0 transition-all ${
+                    item.isBrand
+                      ? 'bg-[var(--theme-accent)] text-[var(--theme-accent-text)] font-black shadow-[0_0_16px_var(--theme-accent-glow)] border border-[var(--theme-accent)]'
+                      : 'clear-glass-pill text-[var(--theme-text-primary)]/90 border border-[var(--theme-border-glass)] hover:border-[var(--theme-accent)] hover:shadow-[0_0_14px_var(--theme-accent-subtle)]'
+                  }`}
+                >
+                  <span
+                    className={`w-1.5 h-1.5 rounded-full ${
+                      item.isBrand ? 'bg-white animate-pulse' : 'bg-[var(--theme-accent)]'
+                    }`}
+                  />
+                  <span>{item.label}</span>
+                </div>
+              ))}
             </InfiniteMarquee>
           </div>
         </div>
