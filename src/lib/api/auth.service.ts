@@ -24,9 +24,12 @@ export class ApiClientError extends Error {
 }
 
 const getApiBaseUrl = (): string => {
+  if (typeof window !== 'undefined') {
+    return '/api/v1';
+  }
   return (
-    process.env.NEXT_PUBLIC_API_URL ||
     process.env.INTERNAL_API_URL ||
+    process.env.NEXT_PUBLIC_API_URL ||
     'http://localhost:5000/api/v1'
   ).replace(/\/$/, '');
 };
@@ -55,15 +58,19 @@ export async function authRequest<T>(
 ): Promise<ApiResponse<T>> {
   const { cookieHeader, timeoutMs = 8000, ...customConfig } = options;
   const baseUrl = getApiBaseUrl();
-  const url = `${baseUrl}${endpoint.startsWith('/') ? endpoint : `/${endpoint}`}`;
+  const cleanEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+  const url = cleanEndpoint.startsWith('/api/v1')
+    ? (typeof window !== 'undefined' ? cleanEndpoint : `${baseUrl.replace(/\/api\/v1\/?$/, '')}${cleanEndpoint}`)
+    : `${baseUrl}${cleanEndpoint}`;
 
   const headers = new Headers(customConfig.headers || {});
   if (!headers.has('Content-Type') && !(customConfig.body instanceof FormData)) {
     headers.set('Content-Type', 'application/json');
   }
 
-  // Always send Origin to pass NestJS OriginGuard CSRF defense
-  if (!headers.has('Origin')) {
+  // Always send Origin in server-side contexts to pass NestJS OriginGuard CSRF defense.
+  // In the browser, the browser sets Origin automatically.
+  if (typeof window === 'undefined' && !headers.has('Origin')) {
     headers.set('Origin', getOrigin());
   }
 

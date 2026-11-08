@@ -1,5 +1,13 @@
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/v1';
+const getApiBaseUrl = (): string => {
+  if (typeof window !== 'undefined') {
+    return '/api/v1';
+  }
+  return (
+    process.env.INTERNAL_API_URL ||
+    process.env.NEXT_PUBLIC_API_URL ||
+    'http://localhost:5000/api/v1'
+  ).replace(/\/$/, '');
+};
 
 export class ApiError extends Error {
   constructor(
@@ -20,8 +28,11 @@ export async function fetchApi<T>(
   endpoint: string,
   options: FetchOptions = {}
 ): Promise<T> {
-  const normalizedEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
-  const url = `${API_BASE_URL}${normalizedEndpoint}`;
+  const baseUrl = getApiBaseUrl();
+  const cleanEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+  const url = cleanEndpoint.startsWith('/api/v1')
+    ? (typeof window !== 'undefined' ? cleanEndpoint : `${baseUrl.replace(/\/api\/v1\/?$/, '')}${cleanEndpoint}`)
+    : `${baseUrl}${cleanEndpoint}`;
   const { timeoutMs = 6000, ...customConfig } = options;
 
   const controller = new AbortController();
@@ -35,6 +46,7 @@ export async function fetchApi<T>(
   const config: RequestInit = {
     ...customConfig,
     headers,
+    credentials: 'include',
     signal: controller.signal,
     // By default, revalidate every 60s for Next.js ISR unless explicitly overridden
     next: customConfig.next ?? { revalidate: 60 },
