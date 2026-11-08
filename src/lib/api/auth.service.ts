@@ -269,3 +269,5 @@ export const AuthApiService = {
   },
 };
 
+export const authService = AuthApiService;
+

@@ -8,3 +8,4 @@ export async function proxy(request: NextRequest) {
 export const config = baseConfig;
 
 export default proxy;
+

@@ -1,11 +1,13 @@
-import { authService } from './api/auth.service';
+import { AuthApiService, authService } from './api/auth.service';
 
 export const authClient = {
   baseURL: typeof window !== 'undefined' ? window.location.origin : '',
   fetchOptions: {
     credentials: 'include' as RequestCredentials,
   },
-  ...authService,
+  ...AuthApiService,
 };
 
+export { AuthApiService, authService };
 export default authClient;
+
