@@ -36,7 +36,7 @@ const nextConfig: NextConfig = {
     ];
   },
   async rewrites() {
-    const backend = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/v1').replace(/\/api\/v1\/?$/, '');
+    const backend = (process.env.NEXT_PUBLIC_API_URL || process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000/api/v1').replace(/\/api\/v1\/?$/, '');
     return [
       {
         source: '/uploads/:path*',
@@ -45,6 +45,14 @@ const nextConfig: NextConfig = {
       {
         source: '/api/v1/:path*',
         destination: `${backend}/api/v1/:path*`,
+      },
+      {
+        source: '/api/auth/:path*',
+        destination: `${backend}/api/v1/auth/:path*`,
+      },
+      {
+        source: '/api/:path*',
+        destination: `${backend}/api/:path*`,
       },
     ];
   },
