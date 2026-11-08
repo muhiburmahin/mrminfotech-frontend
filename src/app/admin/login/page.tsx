@@ -86,6 +86,14 @@ function AdminLoginForm() {
 
       if (res.success && res.data) {
         setSuccessMsg("Authentication successful. Redirecting...");
+        if (typeof window !== "undefined") {
+          const token = (res.data as unknown as { accessToken?: string; token?: string })?.accessToken ||
+                        (res.data as unknown as { accessToken?: string; token?: string })?.token;
+          if (token) {
+            localStorage.setItem("mrm_access_token", token);
+            sessionStorage.setItem("mrm_access_token", token);
+          }
+        }
         if (res.mustChangePassword) {
           router.push("/admin/dashboard/security?forceChange=1");
         } else {
@@ -163,6 +171,14 @@ function AdminLoginForm() {
 
       if (res.success && res.data) {
         setSuccessMsg("2FA verified. Redirecting...");
+        if (typeof window !== "undefined") {
+          const token = (res.data as unknown as { accessToken?: string; token?: string })?.accessToken ||
+                        (res.data as unknown as { accessToken?: string; token?: string })?.token;
+          if (token) {
+            localStorage.setItem("mrm_access_token", token);
+            sessionStorage.setItem("mrm_access_token", token);
+          }
+        }
         if (res.mustChangePassword) {
           router.push("/admin/dashboard/security?forceChange=1");
         } else {

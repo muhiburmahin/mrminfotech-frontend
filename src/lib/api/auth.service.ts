@@ -56,7 +56,7 @@ export async function authRequest<T>(
   endpoint: string,
   options: RequestOptions = {}
 ): Promise<ApiResponse<T>> {
-  const { cookieHeader, timeoutMs = 8000, ...customConfig } = options;
+  const { cookieHeader, timeoutMs = 30000, ...customConfig } = options;
   const baseUrl = getApiBaseUrl();
   const cleanEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
   const url = cleanEndpoint.startsWith('/api/v1')
@@ -66,6 +66,16 @@ export async function authRequest<T>(
   const headers = new Headers(customConfig.headers || {});
   if (!headers.has('Content-Type') && !(customConfig.body instanceof FormData)) {
     headers.set('Content-Type', 'application/json');
+  }
+
+  // Dual-layer Auth: In browser, attach Bearer token from storage if present
+  if (typeof window !== 'undefined' && !headers.has('Authorization')) {
+    const storedToken =
+      window.localStorage.getItem('mrm_access_token') ||
+      window.sessionStorage.getItem('mrm_access_token');
+    if (storedToken) {
+      headers.set('Authorization', `Bearer ${storedToken}`);
+    }
   }
 
   // Always send Origin in server-side contexts to pass NestJS OriginGuard CSRF defense.
@@ -134,7 +144,7 @@ export async function authRequest<T>(
     }
     const err = error as Error;
     if (err.name === 'AbortError') {
-      throw new ApiClientError(408, 'Authentication request timed out. Please try again.');
+      throw new ApiClientError(408, 'The request timed out. Please check your connection and try again.');
     }
     throw new ApiClientError(500, err.message || 'Unable to connect to authentication server');
   }

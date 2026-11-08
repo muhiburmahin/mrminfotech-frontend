@@ -604,6 +604,7 @@ export async function uploadHeroMedia(file: File): Promise<{ url: string; id?: s
     {
       method: 'POST',
       body: formData,
+      timeoutMs: 120000,
     }
   );
   const data = res.data;
@@ -626,6 +627,7 @@ export async function uploadMediaFiles(files: File[]): Promise<string[]> {
       {
         method: 'POST',
         body: formData,
+        timeoutMs: 180000,
       }
     );
     if (res.data?.urls && Array.isArray(res.data.urls)) {
@@ -646,6 +648,7 @@ export async function uploadMediaFiles(files: File[]): Promise<string[]> {
         {
           method: 'POST',
           body: singleFormData,
+          timeoutMs: 120000,
         }
       );
       const uploadedUrl = singleRes.data?.url || (singleRes.data as unknown as { url?: string })?.url;

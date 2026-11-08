@@ -16,6 +16,9 @@ export interface AdminUser {
   isActive?: boolean;
   twoFactorEnabled?: boolean;
   mustChangePassword?: boolean;
+  accessToken?: string;
+  token?: string;
+  expiresAt?: string;
   lastLoginAt?: string | null;
   createdAt?: string;
 }

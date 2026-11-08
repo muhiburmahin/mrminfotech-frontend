@@ -208,7 +208,15 @@ export function TeamForm({ initialData, onSaved, onCancel }: TeamFormProps) {
       }, 700);
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : 'Failed to save changes';
-      setError(msg);
+      if (
+        msg.includes('401') ||
+        msg.toLowerCase().includes('unauthorized') ||
+        msg.toLowerCase().includes('authentication required')
+      ) {
+        setError('AUTH_EXPIRED: Authentication required or session expired. Please log in again.');
+      } else {
+        setError(msg);
+      }
     } finally {
       setIsSubmitting(false);
     }

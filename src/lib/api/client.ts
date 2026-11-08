@@ -33,7 +33,7 @@ export async function fetchApi<T>(
   const url = cleanEndpoint.startsWith('/api/v1')
     ? (typeof window !== 'undefined' ? cleanEndpoint : `${baseUrl.replace(/\/api\/v1\/?$/, '')}${cleanEndpoint}`)
     : `${baseUrl}${cleanEndpoint}`;
-  const { timeoutMs = 6000, ...customConfig } = options;
+  const { timeoutMs = 25000, ...customConfig } = options;
 
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
@@ -41,6 +41,16 @@ export async function fetchApi<T>(
   const headers = new Headers(customConfig.headers || {});
   if (!headers.has('Content-Type') && !(customConfig.body instanceof FormData)) {
     headers.set('Content-Type', 'application/json');
+  }
+
+  // Dual-layer Auth: In browser, attach Bearer token from storage if present
+  if (typeof window !== 'undefined' && !headers.has('Authorization')) {
+    const storedToken =
+      window.localStorage.getItem('mrm_access_token') ||
+      window.sessionStorage.getItem('mrm_access_token');
+    if (storedToken) {
+      headers.set('Authorization', `Bearer ${storedToken}`);
+    }
   }
 
   const config: RequestInit = {

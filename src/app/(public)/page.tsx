@@ -80,6 +80,8 @@ export const metadata: Metadata = {
   },
 };
 
+export const revalidate = 60;
+
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, '') ||
   'http://localhost:5000/api/v1';
@@ -233,7 +235,8 @@ async function fetchBackendList<T = unknown>(endpoint: string): Promise<T[]> {
   try {
     const res = await fetch(`${API_BASE_URL}${endpoint}`, {
       headers: { Accept: 'application/json' },
-      cache: 'no-store',
+      next: { revalidate: 60, tags: ['homepage', endpoint.split('?')[0].replace('/', '')] },
+      signal: AbortSignal.timeout(6000),
     });
     if (!res.ok) return [];
     const json = await res.json();

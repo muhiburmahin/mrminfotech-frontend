@@ -60,12 +60,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setUser(normalized);
         if (typeof window !== 'undefined') {
           localStorage.setItem('mrm_admin_user', JSON.stringify(normalized));
+          const token = res.data.accessToken || res.data.token;
+          if (token) {
+            localStorage.setItem('mrm_access_token', token);
+            sessionStorage.setItem('mrm_access_token', token);
+          }
         }
         return normalized;
       } else {
         setUser(null);
         if (typeof window !== 'undefined') {
           localStorage.removeItem('mrm_admin_user');
+          localStorage.removeItem('mrm_access_token');
+          sessionStorage.removeItem('mrm_access_token');
         }
         return null;
       }
@@ -91,11 +98,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           setUser(normalized);
           if (typeof window !== 'undefined') {
             localStorage.setItem('mrm_admin_user', JSON.stringify(normalized));
+            const token = res.data.accessToken || res.data.token;
+            if (token) {
+              localStorage.setItem('mrm_access_token', token);
+              sessionStorage.setItem('mrm_access_token', token);
+            }
           }
         } else {
           setUser(null);
           if (typeof window !== 'undefined') {
             localStorage.removeItem('mrm_admin_user');
+            localStorage.removeItem('mrm_access_token');
+            sessionStorage.removeItem('mrm_access_token');
           }
         }
       })
@@ -136,6 +150,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           setUser(normalized);
           if (typeof window !== 'undefined') {
             localStorage.setItem('mrm_admin_user', JSON.stringify(normalized));
+            const token = res.data.accessToken || res.data.token;
+            if (token) {
+              localStorage.setItem('mrm_access_token', token);
+              sessionStorage.setItem('mrm_access_token', token);
+            }
           }
         }
         return res;
@@ -159,6 +178,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           setUser(normalized);
           if (typeof window !== 'undefined') {
             localStorage.setItem('mrm_admin_user', JSON.stringify(normalized));
+            const token = res.data.accessToken || res.data.token;
+            if (token) {
+              localStorage.setItem('mrm_access_token', token);
+              sessionStorage.setItem('mrm_access_token', token);
+            }
           }
         }
         return res;
@@ -177,6 +201,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setUser(null);
       if (typeof window !== 'undefined') {
         localStorage.removeItem('mrm_admin_user');
+        localStorage.removeItem('mrm_access_token');
+        sessionStorage.removeItem('mrm_access_token');
       }
       setIsLoading(false);
       router.push('/admin/login');
