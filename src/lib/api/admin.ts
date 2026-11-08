@@ -170,6 +170,19 @@ export async function getAdminProductCategories(): Promise<ProductCategory[]> {
 
 // ──────────────────────── Projects (Case Studies) Admin ────────────────────────
 
+export interface ProjectScreenshotItem {
+  id?: string;
+  url: string;
+  title?: string;
+  subtitle?: string;
+  caption?: string;
+  alt?: string;
+  device?: string;
+  deviceType?: string;
+  isFeatured?: boolean;
+  order?: number;
+}
+
 export interface AdminProjectPayload {
   title: string;
   slug: string;
@@ -178,6 +191,7 @@ export interface AdminProjectPayload {
   projectWorkStatus?: string;
   isFeatured?: boolean;
   liveUrl?: string;
+  demoVideoUrl?: string;
   frontendRepoUrl?: string;
   backendRepoUrl?: string;
   showFrontendRepo?: boolean;
@@ -185,10 +199,29 @@ export interface AdminProjectPayload {
   frontendTechSummary?: string[];
   backendTechSummary?: string[];
   dbToolsSummary?: string[];
+  metrics?: Array<{ label: string; value: string }>;
+  status?: string;
+  translations?: Array<{
+    locale: string;
+    title?: string;
+    summary?: string;
+    challenge?: string | null;
+    solution?: string | null;
+    result?: string | null;
+    body?: Record<string, unknown>;
+    status?: string;
+    seoTitle?: string | null;
+    seoDescription?: string | null;
+  }>;
 }
 
 export async function getAdminProjects() {
   const res = await authRequest<{ data: Array<Record<string, unknown>> }>('/admin/projects?limit=50&sort=sortOrder&order=asc');
+  return res.data;
+}
+
+export async function getAdminProjectById(id: string) {
+  const res = await authRequest<Record<string, unknown>>('/admin/projects/' + encodeURIComponent(id));
   return res.data;
 }
 
@@ -480,8 +513,8 @@ export async function deleteAdminBlogPost(id: string) {
   return res.data;
 }
 
-export async function getAdminInquiries() {
-  return fetchApi('/admin/inquiries');
+export async function getAdminInquiries(params?: Parameters<typeof getAdminLeads>[0]) {
+  return getAdminLeads(params);
 }
 
 export async function getAdminSettings() {
@@ -625,4 +658,85 @@ export async function uploadMediaFiles(files: File[]): Promise<string[]> {
   }
   return urls;
 }
+
+// ============================================================================
+// CLIENT INQUIRIES & LEADS API
+// ============================================================================
+
+export interface AdminLeadItem {
+  id: string;
+  ref: string;
+  type: string;
+  status: string;
+  name: string;
+  email?: string;
+  phone?: string;
+  company?: string;
+  country?: string;
+  preferredContact?: string;
+  message?: string;
+  payload?: Record<string, unknown>;
+  estimatedValue?: number;
+  currency?: string;
+  createdAt: string;
+  updatedAt: string;
+  notes?: Array<{ id: string; body?: string; note?: string; createdAt: string; author?: { id?: string; name?: string } }>;
+  changes?: Array<{ id: string; from?: string; to?: string; oldStatus?: string; newStatus?: string; createdAt: string }>;
+}
+
+export interface AdminLeadsResponse {
+  data: AdminLeadItem[];
+  meta: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+  };
+}
+
+export async function getAdminLeads(params?: {
+  status?: string;
+  type?: string;
+  search?: string;
+  page?: number;
+  limit?: number;
+}): Promise<AdminLeadsResponse> {
+  const query = new URLSearchParams();
+  if (params?.status && params.status !== 'ALL') query.set('status', params.status);
+  if (params?.type && params.type !== 'ALL') query.set('type', params.type);
+  if (params?.search && params.search.trim()) query.set('search', params.search.trim());
+  if (params?.page) query.set('page', String(params.page));
+  query.set('limit', String(params?.limit || 50));
+
+  const res = await authRequest<AdminLeadsResponse>(`/admin/leads?${query.toString()}`);
+  return (res.data as AdminLeadsResponse) || { data: [], meta: { page: 1, limit: 50, total: 0, totalPages: 0 } };
+}
+
+export async function getAdminLeadById(id: string): Promise<AdminLeadItem> {
+  const res = await authRequest<AdminLeadItem>(`/admin/leads/${encodeURIComponent(id)}`);
+  return res.data as AdminLeadItem;
+}
+
+export async function updateAdminLeadStatus(
+  id: string,
+  status: string,
+  note?: string
+): Promise<AdminLeadItem> {
+  const payload: Record<string, unknown> = { status };
+  if (note && note.trim()) {
+    payload.internalNote = note.trim();
+  }
+  const res = await authRequest<AdminLeadItem>(`/admin/leads/${encodeURIComponent(id)}`, {
+    method: 'PATCH',
+    body: JSON.stringify(payload),
+  });
+  return res.data as AdminLeadItem;
+}
+
+export async function deleteAdminLead(id: string): Promise<void> {
+  await authRequest(`/admin/leads/${encodeURIComponent(id)}`, {
+    method: 'DELETE',
+  });
+}
+
 

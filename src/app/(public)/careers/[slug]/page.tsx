@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
   return {
     title: `${job.title} | Careers at MRM InfoTech`,
-    description: `Join MRM InfoTech Ltd. as ${job.title}. Based in Dhaka, Bangladesh.`,
+    description: `Join MRM InfoTech as ${job.title}. Based in Dhaka, Bangladesh.`,
   };
 }
 

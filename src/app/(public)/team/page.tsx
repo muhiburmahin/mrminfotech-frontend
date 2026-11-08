@@ -2,12 +2,12 @@ import React from 'react';
 import type { Metadata } from 'next';
 import { PublicApiService } from '@/services/public-api.service';
 import { TeamGrid, PublicTeamMemberItem } from '@/components/public/team/TeamGrid';
-import { Users, Sparkles } from 'lucide-react';
+import { Users, ShieldCheck, Cpu, Code2, Sparkles, Terminal } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Our Team & Leadership',
   description:
-    'Meet the engineering leaders, systems architects, and product creators behind MRM InfoTech Ltd. in Dhaka, Bangladesh.',
+    'Meet the engineering leaders, systems architects, and product creators behind MRM InfoTech in Dhaka, Bangladesh.',
   alternates: {
     canonical: '/team',
   },
@@ -52,11 +52,54 @@ export default async function TeamPage() {
               robust databases, and mission-critical software solutions.
             </p>
           </div>
+
+          {/* Enterprise Engineering Trust Pills */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-10 pt-8 border-t border-[var(--theme-border-glass)]">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-xl bg-[var(--theme-accent)]/10 border border-[var(--theme-accent)]/20 flex items-center justify-center text-[var(--theme-accent)] shrink-0">
+                <Code2 className="w-4 h-4" />
+              </div>
+              <div>
+                <p className="text-xs font-bold text-[var(--theme-text-primary)]">100% In-House</p>
+                <p className="text-[11px] text-[var(--theme-text-muted)] font-mono">Zero Outsourcing</p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-xl bg-[var(--theme-accent)]/10 border border-[var(--theme-accent)]/20 flex items-center justify-center text-[var(--theme-accent)] shrink-0">
+                <Cpu className="w-4 h-4" />
+              </div>
+              <div>
+                <p className="text-xs font-bold text-[var(--theme-text-primary)]">Modern Tech Stack</p>
+                <p className="text-[11px] text-[var(--theme-text-muted)] font-mono">Next.js 16 &amp; NestJS</p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-xl bg-[var(--theme-accent)]/10 border border-[var(--theme-accent)]/20 flex items-center justify-center text-[var(--theme-accent)] shrink-0">
+                <ShieldCheck className="w-4 h-4" />
+              </div>
+              <div>
+                <p className="text-xs font-bold text-[var(--theme-text-primary)]">Enterprise Security</p>
+                <p className="text-[11px] text-[var(--theme-text-muted)] font-mono">OWASP &amp; ISO 27001</p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-xl bg-[var(--theme-accent)]/10 border border-[var(--theme-accent)]/20 flex items-center justify-center text-[var(--theme-accent)] shrink-0">
+                <Terminal className="w-4 h-4" />
+              </div>
+              <div>
+                <p className="text-xs font-bold text-[var(--theme-text-primary)]">Direct Architect Access</p>
+                <p className="text-[11px] text-[var(--theme-text-muted)] font-mono">24/7 SLA Backed</p>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* Team Roster Grid */}
-      <section className="py-20 lg:py-28 bg-[var(--theme-bg-surface)]/30 transition-colors duration-200 flex-1">
+      <section className="py-16 lg:py-24 bg-[var(--theme-bg-surface)]/30 transition-colors duration-200 flex-1">
         <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
           <TeamGrid members={teamMembers} />
         </div>

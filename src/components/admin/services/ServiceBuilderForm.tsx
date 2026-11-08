@@ -1482,7 +1482,7 @@ export function ServiceBuilderForm({
                   type="text"
                   value={seoTitle}
                   onChange={(e) => setSeoTitle(e.target.value)}
-                  placeholder="e.g. Web Development Services | MRM InfoTech Ltd."
+                  placeholder="e.g. Web Development Services | MRM InfoTech"
                   className="w-full px-3.5 py-2 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm focus:border-blue-500 focus:outline-hidden"
                 />
               </div>

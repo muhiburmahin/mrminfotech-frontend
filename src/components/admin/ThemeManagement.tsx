@@ -41,13 +41,13 @@ export function ThemeManagement() {
     if (success) {
       setNotification({
         type: 'success',
-        message: `"${themeName}" সফলভাবে পুরো ওয়েবসাইটে সক্রিয় এবং ডেটাবেজে সংরক্ষিত হয়েছে!`,
+        message: `"${themeName}" successfully applied across the website and saved to database!`,
       });
       setTimeout(() => setNotification(null), 4000);
     } else {
       setNotification({
         type: 'error',
-        message: `থিম সক্রিয় করতে সমস্যা হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।`,
+        message: `Failed to activate theme. Please try again.`,
       });
       setTimeout(() => setNotification(null), 5000);
     }
@@ -69,8 +69,8 @@ export function ThemeManagement() {
               Website Theme Templates
             </h1>
             <p className="text-sm text-slate-600 dark:text-[#D6CBB8] max-w-2xl leading-relaxed">
-              সরাসরি অ্যাডমিন প্যানেল থেকে ওয়েবসাইটের গ্লোবাল থিম পরিবর্তন করুন। নির্বাচিত থিমটি স্বয়ংক্রিয়ভাবে
-              ডেটাবেজে সংরক্ষিত হবে এবং সকল ভিজিটরের জন্য তাৎক্ষণিকভাবে দৃশ্যমান হবে (WCAG 4.5:1 কন্ট্রাস্ট ও 60-30-10 কালার ব্যালেন্স সহ)।
+              Change website global theme from the admin panel. The selected theme will automatically
+              be saved in database and applied immediately for all visitors with WCAG 4.5:1 contrast compliance.
             </p>
           </div>
 
@@ -105,7 +105,7 @@ export function ThemeManagement() {
             <div className="flex items-center gap-2.5">
               <Eye className="w-4 h-4 shrink-0 animate-bounce" />
               <span>
-                আপনি বর্তমানে <strong>{THEME_LIST.find((t) => t.id === previewThemeId)?.name}</strong> থিমের লাইভ প্রিভিউ দেখছেন। নিচে &quot;Apply Globally&quot; বাটনে ক্লিক করে ডেটাবেজে সংরক্ষণ করুন।
+                You are currently viewing a live preview of <strong>{THEME_LIST.find((t) => t.id === previewThemeId)?.name}</strong> theme. Click &quot;Apply Globally&quot; below to save to database.
               </span>
             </div>
             <button
@@ -113,7 +113,7 @@ export function ThemeManagement() {
               onClick={() => setPreviewThemeId(null)}
               className="text-xs underline hover:opacity-80"
             >
-              প্রিভিউ বন্ধ করুন
+              Close Preview
             </button>
           </div>
         )}

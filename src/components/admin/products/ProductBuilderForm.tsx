@@ -255,6 +255,7 @@ export function ProductBuilderForm({
       shortDescription: f.shortDescription || (f as any).description || '',
       detailedDescription: f.detailedDescription || '',
       icon: f.icon || '',
+      ...(f.imageUrl ? { imageUrl: f.imageUrl } : {}),
       categoryName: f.categoryName || 'Core Features',
       isFeatured: Boolean(f.isFeatured),
       displayOrder: f.displayOrder ?? idx + 1,

@@ -53,9 +53,6 @@ export function Navbar({ initialMenu }: NavbarProps) {
               <span className="text-2xl font-black tracking-tight text-white group-hover:text-cyan-400 transition-colors">
                 MRM <span className="text-[#00C2FF]">InfoTech</span>
               </span>
-              <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-[#00C2FF]/10 text-[#00C2FF] border border-[#00C2FF]/20">
-                LTD
-              </span>
             </div>
             <span className="text-[9px] font-medium tracking-widest uppercase text-slate-400 group-hover:text-slate-300 transition-colors mt-0.5">
               IDEAS <span className="text-[#00C2FF] font-bold">•</span> PRODUCTS{' '}

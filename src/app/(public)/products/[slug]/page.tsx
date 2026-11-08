@@ -127,6 +127,31 @@ export default async function ProductDetailPage({ params, searchParams }: PagePr
 
   return (
     <div className="w-full flex flex-col min-h-screen bg-[var(--theme-bg-canvas)] text-[var(--theme-text-primary)] transition-colors duration-150">
+      {/* Schema.org SoftwareApplication Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'SoftwareApplication',
+            name: product.title,
+            description: product.seoDescription || product.shortDescription || product.description,
+            applicationCategory: 'BusinessApplication',
+            operatingSystem: 'Cloud, Web Browser, Mobile',
+            url: `https://mrminfotech.com/products/${product.slug}`,
+            offers: {
+              '@type': 'Offer',
+              price: '0',
+              priceCurrency: 'BDT',
+            },
+            author: {
+              '@type': 'Organization',
+              name: 'MRM InfoTech',
+              url: 'https://mrminfotech.com',
+            },
+          }),
+        }}
+      />
       {/* Admin Preview Watermark Banner */}
       {isPreview && (
         <div className="bg-amber-500 text-black px-4 py-2 text-center text-xs font-bold tracking-wide sticky top-20 z-50 shadow-md">

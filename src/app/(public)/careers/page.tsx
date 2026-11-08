@@ -18,7 +18,7 @@ import GlassEmptyState from '@/components/ui/GlassEmptyState';
 export const metadata: Metadata = {
   title: 'Careers & Engineering Culture',
   description:
-    'Join MRM InfoTech Ltd. Build high-concurrency SaaS platforms, clean software architectures, and mission-critical digital systems in Bangladesh.',
+    'Join MRM InfoTech. Build high-concurrency SaaS platforms, clean software architectures, and mission-critical digital systems in Bangladesh.',
   alternates: {
     canonical: '/careers',
   },

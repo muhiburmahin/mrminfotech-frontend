@@ -16,6 +16,25 @@ const nextConfig: NextConfig = {
       },
     },
   },
+  async redirects() {
+    return [
+      {
+        source: '/privacy',
+        destination: '/privacy-policy',
+        permanent: true,
+      },
+      {
+        source: '/case-studies',
+        destination: '/projects',
+        permanent: true,
+      },
+      {
+        source: '/case-studies/:slug',
+        destination: '/projects/:slug',
+        permanent: true,
+      },
+    ];
+  },
   async rewrites() {
     const backend = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/v1').replace(/\/api\/v1\/?$/, '');
     return [

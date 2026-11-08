@@ -4,7 +4,7 @@ import { PublicApiService } from '@/services/public-api.service';
 import ProjectsShowcaseClient, { ProjectItem } from '@/components/public/projects/ProjectsShowcaseClient';
 
 export const metadata: Metadata = {
-  title: 'Client Deployments & Projects | MRM InfoTech Ltd.',
+  title: 'Client Deployments & Projects | MRM InfoTech',
   description:
     'Explore verified enterprise systems, cloud platforms, and institutional software applications architected and deployed by MRM InfoTech.',
   alternates: {

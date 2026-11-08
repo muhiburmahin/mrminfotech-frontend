@@ -241,21 +241,30 @@ export function Navbar() {
     <>
       {activeDropdown && (
         <div
-          className="fixed inset-0 top-16 sm:top-20 bg-black/40 backdrop-blur-xs z-[80] pointer-events-auto transition-opacity duration-200"
+          className={`fixed inset-0 bg-black/20 dark:bg-black/50 backdrop-blur-xs z-[80] pointer-events-auto transition-all duration-300 ${
+            isScrolled ? 'top-14 sm:top-16' : 'top-16 sm:top-20'
+          }`}
           onClick={closeAll}
         />
       )}
       <header
         ref={navRef}
-        className={`sticky top-0 z-[90] w-full transition-all duration-200 ${isScrolled
-            ? 'bg-[var(--theme-bg-surface)]/95 backdrop-blur-2xl border-b border-[var(--theme-border-glass)] shadow-2xl'
-            : 'bg-[var(--theme-bg-surface)]/85 backdrop-blur-xl border-b border-[var(--theme-border-glass)]/60'
-          }`}
+        className={`sticky top-0 z-[90] w-full transition-all duration-300 ease-in-out ${
+          isScrolled
+            ? 'bg-[var(--theme-bg-surface)]/95 backdrop-blur-2xl border-b border-[var(--theme-border-glass)] shadow-[0_10px_30px_-10px_rgba(0,0,0,0.08)] dark:shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)]'
+            : 'bg-[var(--theme-bg-surface)]/80 backdrop-blur-xl border-b border-[var(--theme-border-glass)]/60'
+        }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16 sm:h-20">
-            {/* Logo on Left */}
-            <Logo variant="dark" size="md" onClick={closeAll} />
+          <div
+            className={`flex items-center justify-between transition-all duration-300 ease-in-out ${
+              isScrolled ? 'h-14 sm:h-16' : 'h-16 sm:h-20'
+            }`}
+          >
+            {/* Logo on Left with smooth reactive scale */}
+            <div className={`transition-transform duration-300 origin-left ${isScrolled ? 'scale-95' : 'scale-100'}`}>
+              <Logo variant="dark" size="md" onClick={closeAll} />
+            </div>
 
             {/* Desktop Navigation Links */}
             <nav className="hidden lg:flex items-center space-x-1" aria-label="Main Navigation">
@@ -265,7 +274,7 @@ export function Navbar() {
                 onClick={closeAll}
                 className={`px-3.5 py-1.5 rounded-full text-[13px] font-semibold transition-all ${pathname === '/'
                     ? 'text-[var(--theme-accent)] bg-[var(--theme-accent)]/15 border border-[var(--theme-accent)]/30 shadow-xs'
-                    : 'text-[var(--theme-text-secondary)] hover:text-[var(--theme-text-primary)] hover:bg-white/[0.05]'
+                    : 'text-[var(--theme-text-secondary)] hover:text-[var(--theme-text-primary)] hover:bg-black/5 dark:hover:bg-white/5'
                   }`}
               >
                 Home
@@ -282,7 +291,7 @@ export function Navbar() {
                   onClick={() => toggleDropdown('about')}
                   className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[13px] font-semibold transition-all cursor-pointer ${activeDropdown === 'about' || isAboutActive
                       ? 'text-[var(--theme-accent)] bg-[var(--theme-accent)]/15 border border-[var(--theme-accent)]/30 shadow-xs'
-                      : 'text-[var(--theme-text-secondary)] hover:text-[var(--theme-text-primary)] hover:bg-white/[0.05]'
+                      : 'text-[var(--theme-text-secondary)] hover:text-[var(--theme-text-primary)] hover:bg-black/5 dark:hover:bg-white/5'
                     }`}
                   aria-expanded={activeDropdown === 'about'}
                   aria-haspopup="true"
@@ -377,7 +386,7 @@ export function Navbar() {
                   onClick={() => toggleDropdown('products')}
                   className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[13px] font-semibold transition-all cursor-pointer ${activeDropdown === 'products' || isProductsActive
                       ? 'text-[var(--theme-accent)] bg-[var(--theme-accent)]/15 border border-[var(--theme-accent)]/30 shadow-xs'
-                      : 'text-[var(--theme-text-secondary)] hover:text-[var(--theme-text-primary)] hover:bg-white/[0.05]'
+                      : 'text-[var(--theme-text-secondary)] hover:text-[var(--theme-text-primary)] hover:bg-black/5 dark:hover:bg-white/5'
                     }`}
                   aria-expanded={activeDropdown === 'products'}
                   aria-haspopup="true"
@@ -487,7 +496,7 @@ export function Navbar() {
                   onClick={() => toggleDropdown('services')}
                   className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[13px] font-semibold transition-all cursor-pointer ${activeDropdown === 'services' || isServicesActive
                       ? 'text-[var(--theme-accent)] bg-[var(--theme-accent)]/15 border border-[var(--theme-accent)]/30 shadow-xs'
-                      : 'text-[var(--theme-text-secondary)] hover:text-[var(--theme-text-primary)] hover:bg-white/[0.05]'
+                      : 'text-[var(--theme-text-secondary)] hover:text-[var(--theme-text-primary)] hover:bg-black/5 dark:hover:bg-white/5'
                     }`}
                   aria-expanded={activeDropdown === 'services'}
                   aria-haspopup="true"
@@ -562,7 +571,7 @@ export function Navbar() {
                   onClick={() => toggleDropdown('projects')}
                   className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[13px] font-semibold transition-all cursor-pointer ${activeDropdown === 'projects' || isProjectsActive
                       ? 'text-[var(--theme-accent)] bg-[var(--theme-accent)]/15 border border-[var(--theme-accent)]/30 shadow-xs'
-                      : 'text-[var(--theme-text-secondary)] hover:text-[var(--theme-text-primary)] hover:bg-white/[0.05]'
+                      : 'text-[var(--theme-text-secondary)] hover:text-[var(--theme-text-primary)] hover:bg-black/5 dark:hover:bg-white/5'
                     }`}
                   aria-expanded={activeDropdown === 'projects'}
                   aria-haspopup="true"
@@ -617,7 +626,7 @@ export function Navbar() {
                 onClick={closeAll}
                 className={`px-3.5 py-1.5 rounded-full text-[13px] font-semibold transition-all ${isInsightsActive
                     ? 'text-[var(--theme-accent)] bg-[var(--theme-accent)]/15 border border-[var(--theme-accent)]/30 shadow-xs'
-                    : 'text-[var(--theme-text-secondary)] hover:text-[var(--theme-text-primary)] hover:bg-white/[0.05]'
+                    : 'text-[var(--theme-text-secondary)] hover:text-[var(--theme-text-primary)] hover:bg-black/5 dark:hover:bg-white/5'
                   }`}
               >
                 Insights
@@ -629,7 +638,7 @@ export function Navbar() {
                 onClick={closeAll}
                 className={`px-3.5 py-1.5 rounded-full text-[13px] font-semibold transition-all ${isContactActive
                     ? 'text-[var(--theme-accent)] bg-[var(--theme-accent)]/15 border border-[var(--theme-accent)]/30 shadow-xs'
-                    : 'text-[var(--theme-text-secondary)] hover:text-[var(--theme-text-primary)] hover:bg-white/[0.05]'
+                    : 'text-[var(--theme-text-secondary)] hover:text-[var(--theme-text-primary)] hover:bg-black/5 dark:hover:bg-white/5'
                   }`}
               >
                 Contact

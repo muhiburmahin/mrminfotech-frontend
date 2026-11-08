@@ -4,7 +4,7 @@ import { PublicApiService } from '@/services/public-api.service';
 import { FeaturedCaseStudies } from '@/components/home/FeaturedCaseStudies';
 
 export const metadata: Metadata = {
-  title: 'Architectural Case Studies | MRM InfoTech Ltd.',
+  title: 'Architectural Case Studies | MRM InfoTech',
   description:
     'Deep-dive case studies examining bottlenecks, schema solutions, and measurable impact for enterprise clients.',
 };

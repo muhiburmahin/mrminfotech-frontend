@@ -90,7 +90,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       title,
       description: desc.slice(0, 160),
       url: canonical,
-      siteName: 'MRM InfoTech Ltd.',
+      siteName: 'MRM InfoTech',
       images: [{ url: ogImg, width: 1200, height: 630, alt: title }],
     },
     twitter: {

@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { PublicApiService } from '@/services/public-api.service';
 import GlassEmptyState from '@/components/ui/GlassEmptyState';
+import { ExecutiveTeamShowcase } from '@/components/public/team/ExecutiveTeamShowcase';
 import { LinkedinIcon, GithubIcon } from '@/components/public/shared/SocialIcons';
 
 // The 5 Brand-New Distinct Art-Directed Components
@@ -143,41 +144,71 @@ export default async function AboutPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="p-8 rounded-3xl bg-[var(--theme-bg-surface)] border border-[var(--theme-border-glass)] border-t-2 border-t-[var(--theme-accent)] shadow-xl hover:border-[var(--theme-accent)]/60 hover:shadow-[0_0_25px_var(--theme-accent-subtle)] transition-all">
-              <span className="text-xs font-mono font-bold text-[var(--theme-accent)] block mb-3">
-                01 • DISCOVERY
-              </span>
-              <h3 className="text-xl font-bold text-[var(--theme-text-primary)] mb-2">
-                Deep Operational Discovery
-              </h3>
-              <p className="text-sm text-[var(--theme-text-secondary)] leading-relaxed">
-                We spend time deeply understanding your real institutional bottlenecks before writing a single line of code.
-              </p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative">
+            <div className="group p-8 rounded-3xl bg-[var(--theme-bg-surface)] border border-[var(--theme-border-glass)] border-t-2 border-t-[var(--theme-accent)] shadow-xl hover:border-[var(--theme-accent)]/80 hover:shadow-[0_20px_45px_-12px_rgba(0,0,0,0.15),0_0_30px_var(--theme-accent-glow)] transition-all duration-300 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-xs font-mono font-bold text-[var(--theme-accent)] px-2.5 py-1 rounded-full bg-[var(--theme-accent)]/10 border border-[var(--theme-accent)]/20">
+                    STEP 01 • DISCOVERY
+                  </span>
+                  <span className="text-xs font-mono text-[var(--theme-text-muted)]">Phase I</span>
+                </div>
+                <h3 className="text-xl font-bold text-[var(--theme-text-primary)] group-hover:text-[var(--theme-accent)] transition-colors mb-2">
+                  Deep Operational Discovery
+                </h3>
+                <p className="text-sm text-[var(--theme-text-secondary)] leading-relaxed">
+                  We spend time deeply understanding your real institutional bottlenecks, data workflows, and compliance demands before writing a single line of code.
+                </p>
+              </div>
+
+              <div className="mt-6 pt-4 border-t border-[var(--theme-border-glass)] flex items-center gap-2 text-xs font-mono text-[var(--theme-text-muted)]">
+                <CheckCircle2 className="w-4 h-4 text-[var(--theme-accent)]" />
+                <span>Zero Architectural Assumptions</span>
+              </div>
             </div>
 
-            <div className="p-8 rounded-3xl bg-[var(--theme-bg-surface)] border border-[var(--theme-border-glass)] border-t-2 border-t-[var(--theme-accent)] shadow-xl hover:border-[var(--theme-accent)]/60 hover:shadow-[0_0_25px_var(--theme-accent-subtle)] transition-all">
-              <span className="text-xs font-mono font-bold text-[var(--theme-accent)] block mb-3">
-                02 • ARCHITECTURE
-              </span>
-              <h3 className="text-xl font-bold text-[var(--theme-text-primary)] mb-2">
-                Type-Safe Scalable Stacks
-              </h3>
-              <p className="text-sm text-[var(--theme-text-secondary)] leading-relaxed">
-                Strict TypeScript, documented API contracts, and automated tests ensure extreme stability under pressure.
-              </p>
+            <div className="group p-8 rounded-3xl bg-[var(--theme-bg-surface)] border border-[var(--theme-border-glass)] border-t-2 border-t-[var(--theme-accent)] shadow-xl hover:border-[var(--theme-accent)]/80 hover:shadow-[0_20px_45px_-12px_rgba(0,0,0,0.15),0_0_30px_var(--theme-accent-glow)] transition-all duration-300 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-xs font-mono font-bold text-[var(--theme-accent)] px-2.5 py-1 rounded-full bg-[var(--theme-accent)]/10 border border-[var(--theme-accent)]/20">
+                    STEP 02 • ARCHITECTURE
+                  </span>
+                  <span className="text-xs font-mono text-[var(--theme-text-muted)]">Phase II</span>
+                </div>
+                <h3 className="text-xl font-bold text-[var(--theme-text-primary)] group-hover:text-[var(--theme-accent)] transition-colors mb-2">
+                  Type-Safe Scalable Stacks
+                </h3>
+                <p className="text-sm text-[var(--theme-text-secondary)] leading-relaxed">
+                  Strict TypeScript, validated DTO boundaries, documented API contracts, and automated test suites ensure complete stability under real peak load.
+                </p>
+              </div>
+
+              <div className="mt-6 pt-4 border-t border-[var(--theme-border-glass)] flex items-center gap-2 text-xs font-mono text-[var(--theme-text-muted)]">
+                <CheckCircle2 className="w-4 h-4 text-[var(--theme-accent)]" />
+                <span>Deterministic Zero-Defect Code</span>
+              </div>
             </div>
 
-            <div className="p-8 rounded-3xl bg-[var(--theme-bg-surface)] border border-[var(--theme-border-glass)] border-t-2 border-t-[var(--theme-accent)] shadow-xl hover:border-[var(--theme-accent)]/60 hover:shadow-[0_0_25px_var(--theme-accent-subtle)] transition-all">
-              <span className="text-xs font-mono font-bold text-[var(--theme-accent)] block mb-3">
-                03 • PARTNERSHIP
-              </span>
-              <h3 className="text-xl font-bold text-[var(--theme-text-primary)] mb-2">
-                Durable Technical Ownership
-              </h3>
-              <p className="text-sm text-[var(--theme-text-secondary)] leading-relaxed">
-                We back our deliveries with active monitoring, responsive support, automated backups, and proactive roadmap evolution.
-              </p>
+            <div className="group p-8 rounded-3xl bg-[var(--theme-bg-surface)] border border-[var(--theme-border-glass)] border-t-2 border-t-[var(--theme-accent)] shadow-xl hover:border-[var(--theme-accent)]/80 hover:shadow-[0_20px_45px_-12px_rgba(0,0,0,0.15),0_0_30px_var(--theme-accent-glow)] transition-all duration-300 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-xs font-mono font-bold text-[var(--theme-accent)] px-2.5 py-1 rounded-full bg-[var(--theme-accent)]/10 border border-[var(--theme-accent)]/20">
+                    STEP 03 • PARTNERSHIP
+                  </span>
+                  <span className="text-xs font-mono text-[var(--theme-text-muted)]">Phase III</span>
+                </div>
+                <h3 className="text-xl font-bold text-[var(--theme-text-primary)] group-hover:text-[var(--theme-accent)] transition-colors mb-2">
+                  Durable Technical Ownership
+                </h3>
+                <p className="text-sm text-[var(--theme-text-secondary)] leading-relaxed">
+                  We back our deliveries with active uptime monitoring, automated disaster-recovery backups, and continuous roadmap upgrades.
+                </p>
+              </div>
+
+              <div className="mt-6 pt-4 border-t border-[var(--theme-border-glass)] flex items-center gap-2 text-xs font-mono text-[var(--theme-text-muted)]">
+                <CheckCircle2 className="w-4 h-4 text-[var(--theme-accent)]" />
+                <span>Continuous Cloud Lifecycle Support</span>
+              </div>
             </div>
           </div>
         </div>
@@ -188,99 +219,29 @@ export default async function AboutPage() {
           ===================================================================== */}
       <section id="team" className="py-20 lg:py-28 bg-[var(--theme-bg-surface)]/40 border-t border-[var(--theme-border-glass)] transition-colors duration-200">
         <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full clear-glass-pill text-xs font-bold text-[var(--theme-accent)] tracking-widest uppercase border border-[var(--theme-accent)]/30 bg-[var(--theme-accent)]/10">
-              <span>LEADERSHIP &amp; TALENT</span>
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+            <div className="max-w-2xl space-y-2">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full clear-glass-pill text-xs font-bold text-[var(--theme-accent)] tracking-widest uppercase border border-[var(--theme-accent)]/30 bg-[var(--theme-accent)]/10">
+                <span>LEADERSHIP &amp; TALENT</span>
+              </div>
+              <h2 className="text-3xl sm:text-5xl font-black text-[var(--theme-text-primary)] tracking-tight">
+                Meet Our Leadership &amp; Team
+              </h2>
+              <p className="text-base text-[var(--theme-text-secondary)]">
+                The engineers, architects, and product designers driving MRM InfoTech’s technology forward.
+              </p>
             </div>
-            <h2 className="text-3xl sm:text-5xl font-black text-[var(--theme-text-primary)] tracking-tight">
-              Meet Our Team
-            </h2>
-            <p className="text-base text-[var(--theme-text-secondary)]">
-              The engineers, architects, and product designers driving MRM InfoTech’s technology forward.
-            </p>
+
+            <Link
+              href="/team"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-[var(--theme-border-glass)] bg-[var(--theme-bg-surface)] text-xs font-bold text-[var(--theme-text-primary)] hover:border-[var(--theme-accent)]/50 hover:text-[var(--theme-accent)] transition-all shrink-0 group self-start md:self-auto"
+            >
+              <span>Full Team Roster</span>
+              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+            </Link>
           </div>
 
-          {hasTeam ? (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {team.map((member: { name: string; roleTitle?: string; designation?: string; department?: string; bio?: string; socialLinks?: { linkedin?: string; github?: string } }) => {
-                const initials = member.name
-                  .split(' ')
-                  .map((n) => n[0])
-                  .join('')
-                  .toUpperCase()
-                  .slice(0, 2);
-                const role = member.roleTitle || member.designation || 'Specialist';
-                const dept = member.department || 'Engineering';
-
-                return (
-                  <div
-                    key={member.name}
-                    className="p-7 rounded-3xl bg-[var(--theme-bg-surface)] border border-[var(--theme-border-glass)] hover:border-[var(--theme-accent)]/50 shadow-xl transition-all flex flex-col justify-between group"
-                  >
-                    <div>
-                      <div className="flex items-center gap-4 mb-5">
-                        <div className="w-14 h-14 rounded-2xl bg-[var(--theme-accent)] text-[var(--theme-accent-text)] flex items-center justify-center font-black text-lg shadow-md shadow-[var(--theme-accent-glow)] group-hover:scale-105 transition-transform">
-                          {initials}
-                        </div>
-                        <div>
-                          <h3 className="text-base font-bold text-[var(--theme-text-primary)]">
-                            {member.name}
-                          </h3>
-                          <p className="text-xs font-semibold text-[var(--theme-accent)]">
-                            {role}
-                          </p>
-                          <span className="text-[11px] text-[var(--theme-text-muted)] font-mono">
-                            {dept}
-                          </span>
-                        </div>
-                      </div>
-
-                      {member.bio && (
-                        <p className="text-xs text-[var(--theme-text-secondary)] leading-relaxed mb-6">
-                          {member.bio}
-                        </p>
-                      )}
-                    </div>
-
-                    <div className="pt-4 border-t border-[var(--theme-border-glass)] flex items-center gap-2.5">
-                      {member.socialLinks?.linkedin && (
-                        <a
-                          href={member.socialLinks.linkedin}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="w-8 h-8 rounded-xl bg-[var(--theme-bg-canvas)] hover:bg-[var(--theme-accent)] hover:text-[var(--theme-accent-text)] text-[var(--theme-text-secondary)] flex items-center justify-center transition-colors border border-[var(--theme-border-glass)]"
-                          aria-label={`${member.name} LinkedIn`}
-                        >
-                          <LinkedinIcon className="w-4 h-4" />
-                        </a>
-                      )}
-                      {member.socialLinks?.github && (
-                        <a
-                          href={member.socialLinks.github}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="w-8 h-8 rounded-xl bg-[var(--theme-bg-canvas)] hover:bg-[var(--theme-accent)] hover:text-[var(--theme-accent-text)] text-[var(--theme-text-secondary)] flex items-center justify-center transition-colors border border-[var(--theme-border-glass)]"
-                          aria-label={`${member.name} GitHub`}
-                        >
-                          <GithubIcon className="w-4 h-4" />
-                        </a>
-                      )}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          ) : (
-            <GlassEmptyState
-              badge="Leadership & Talent"
-              title="Team Profiles Coming Soon"
-              description="Our engineering leaders and platform architects are connected to the live database. Published member profiles will appear here."
-              adminHref="/admin/dashboard"
-              adminLabel="View Admin CMS"
-              publicHref="/careers"
-              publicLabel="Explore Open Careers"
-            />
-          )}
+          <ExecutiveTeamShowcase members={team} variant="home" />
         </div>
       </section>
 

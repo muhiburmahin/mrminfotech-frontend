@@ -116,7 +116,7 @@ function AdminLoginForm() {
         return;
       }
 
-      setErrorMsg(res.error || "ইমেইল অথবা পাসওয়ার্ড সঠিক নয়। আবার চেষ্টা করুন।");
+      setErrorMsg(res.error || "Invalid email or password. Please try again.");
     } catch {
       // Offline fallback
       const savedCustomPass =
@@ -139,7 +139,7 @@ function AdminLoginForm() {
         return;
       }
 
-      setErrorMsg("ইমেইল অথবা পাসওয়ার্ড সঠিক নয়।");
+      setErrorMsg("Invalid email or password.");
     } finally {
       setLoading(false);
     }
@@ -185,12 +185,12 @@ function AdminLoginForm() {
     setPassChangeSuccess(null);
 
     if (newPassword.length < 6) {
-      setPassChangeError("নতুন পাসওয়ার্ড অন্তত ৬ অক্ষরের হতে হবে।");
+      setPassChangeError("New password must be at least 6 characters long.");
       return;
     }
 
     if (newPassword !== confirmNewPassword) {
-      setPassChangeError("নতুন পাসওয়ার্ড এবং কনফার্ম পাসওয়ার্ড মিলছে না।");
+      setPassChangeError("New password and confirm password do not match.");
       return;
     }
 
@@ -206,7 +206,7 @@ function AdminLoginForm() {
         if (typeof window !== "undefined") {
           localStorage.setItem("mrm_override_admin_pass", newPassword);
         }
-        setPassChangeSuccess("পাসওয়ার্ড সফলভাবে পরিবর্তন হয়েছে! এখন নতুন পাসওয়ার্ড দিয়ে লগইন করুন।");
+        setPassChangeSuccess("Password changed successfully! Please log in with your new password.");
         setPassword(newPassword);
         setTimeout(() => setIsChangePassOpen(false), 1800);
         return;
@@ -222,13 +222,13 @@ function AdminLoginForm() {
         if (typeof window !== "undefined") {
           localStorage.setItem("mrm_override_admin_pass", newPassword);
         }
-        setPassChangeSuccess("পাসওয়ার্ড সফলভাবে আপডেট করা হয়েছে!");
+        setPassChangeSuccess("Password updated successfully!");
         setPassword(newPassword);
         setTimeout(() => setIsChangePassOpen(false), 1500);
         return;
       }
 
-      setPassChangeError(res.error || "বর্তমান পাসওয়ার্ডটি সঠিক নয়।");
+      setPassChangeError(res.error || "Current password is incorrect.");
     } catch {
       const activePass =
         typeof window !== "undefined"
@@ -239,11 +239,11 @@ function AdminLoginForm() {
         if (typeof window !== "undefined") {
           localStorage.setItem("mrm_override_admin_pass", newPassword);
         }
-        setPassChangeSuccess("পাসওয়ার্ড সফলভাবে আপডেট করা হয়েছে!");
+        setPassChangeSuccess("Password updated successfully!");
         setPassword(newPassword);
         setTimeout(() => setIsChangePassOpen(false), 1500);
       } else {
-        setPassChangeError("বর্তমান পাসওয়ার্ডটি সঠিক নয়।");
+        setPassChangeError("Current password is incorrect.");
       }
     } finally {
       setPassChangeLoading(false);
@@ -278,7 +278,7 @@ function AdminLoginForm() {
               Sign in to MRM InfoTech
             </h1>
             <p className="text-sm text-[#52657B] dark:text-slate-300">
-              আপনার অ্যাডমিন ইমেইল ও পাসওয়ার্ড দিয়ে ড্যাশবোর্ডে প্রবেশ করুন।
+              Sign in with your administrator credentials to access the console.
             </p>
           </div>
 
@@ -477,7 +477,7 @@ function AdminLoginForm() {
               <div className="flex items-center gap-2.5">
                 <KeyRound className="h-5 w-5 text-[#087FC4]" />
                 <h2 className="text-lg font-bold text-[#10243B] dark:text-white">
-                  পাসওয়ার্ড পরিবর্তন করুন
+                  Change Password
                 </h2>
               </div>
               <button
@@ -505,7 +505,7 @@ function AdminLoginForm() {
             <form onSubmit={handleChangePassword} className="space-y-4">
               <div>
                 <label className="block text-xs font-semibold mb-1 text-[#10243B] dark:text-slate-200">
-                  বর্তমান পাসওয়ার্ড (Current Password)
+                  Current Password
                 </label>
                 <input
                   type="password"
@@ -519,28 +519,28 @@ function AdminLoginForm() {
 
               <div>
                 <label className="block text-xs font-semibold mb-1 text-[#10243B] dark:text-slate-200">
-                  নতুন পাসওয়ার্ড (New Password)
+                  New Password
                 </label>
                 <input
                   type="password"
                   required
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
-                  placeholder="নতুন পাসওয়ার্ড দিন"
+                  placeholder="Enter new password"
                   className="w-full rounded-xl border border-[#E1EAF3] dark:border-white/15 bg-[#F7FAFE] dark:bg-[#0B1D31] px-3.5 py-2.5 text-sm text-[#10243B] dark:text-white"
                 />
               </div>
 
               <div>
                 <label className="block text-xs font-semibold mb-1 text-[#10243B] dark:text-slate-200">
-                  নতুন পাসওয়ার্ড নিশ্চিত করুন (Confirm Password)
+                  Confirm New Password
                 </label>
                 <input
                   type="password"
                   required
                   value={confirmNewPassword}
                   onChange={(e) => setConfirmNewPassword(e.target.value)}
-                  placeholder="পুনরায় নতুন পাসওয়ার্ড দিন"
+                  placeholder="Re-enter new password"
                   className="w-full rounded-xl border border-[#E1EAF3] dark:border-white/15 bg-[#F7FAFE] dark:bg-[#0B1D31] px-3.5 py-2.5 text-sm text-[#10243B] dark:text-white"
                 />
               </div>
@@ -551,14 +551,14 @@ function AdminLoginForm() {
                   onClick={() => setIsChangePassOpen(false)}
                   className="rounded-xl px-4 py-2.5 text-xs font-semibold text-slate-500 hover:bg-slate-100 dark:hover:bg-white/5 cursor-pointer"
                 >
-                  বাতিল
+                  Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={passChangeLoading}
                   className="rounded-xl bg-[#087FC4] px-5 py-2.5 text-xs font-bold text-white hover:bg-[#0769a3] disabled:opacity-60 cursor-pointer"
                 >
-                  {passChangeLoading ? "আপডেট হচ্ছে..." : "পাসওয়ার্ড সেভ করুন"}
+                  {passChangeLoading ? "Updating..." : "Save Password"}
                 </button>
               </div>
             </form>

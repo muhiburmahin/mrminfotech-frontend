@@ -300,7 +300,7 @@ export function Footer() {
 
         {/* Bottom Legal Bar */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-[var(--theme-text-secondary)]/70 gap-4">
-          <p>{company.copyrightText?.startsWith('©') ? company.copyrightText : `© ${currentYear} ${company.legalName || 'MRM InfoTech Ltd.'} All rights reserved.`}</p>
+          <p>{company.copyrightText?.startsWith('©') ? company.copyrightText : `© ${currentYear} ${company.legalName || 'MRM InfoTech'} All rights reserved.`}</p>
           <div className="flex items-center gap-6">
             <Link href="/privacy-policy" className="hover:text-[var(--theme-accent)] transition-colors">
               Privacy Policy

@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { ShieldCheck, Lock, Server, Key, Eye, FileCode2 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Enterprise Security Architecture | MRM InfoTech Ltd.',
+  title: 'Enterprise Security Architecture | MRM InfoTech',
   description:
     'Overview of MRM InfoTech’s security standards, OWASP compliance, and data sovereignty safeguards.',
 };
@@ -43,36 +43,36 @@ export default function SecurityPage() {
   ];
 
   return (
-    <div className="w-full flex flex-col bg-white dark:bg-[#07162C] transition-colors duration-150">
-      <section className="bg-slate-50 dark:bg-[#07162C] text-slate-900 dark:text-white pt-20 pb-16 border-b border-slate-200 dark:border-[#1E3557] transition-colors duration-150">
+    <div className="w-full flex flex-col bg-[var(--theme-bg-canvas)] text-[var(--theme-text-primary)] transition-colors duration-150">
+      <section className="bg-[var(--theme-bg-surface)] text-[var(--theme-text-primary)] pt-20 pb-16 border-b border-[var(--theme-border-glass)] transition-colors duration-150">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-200 dark:bg-[#0B1E3B] border border-emerald-500/30 text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--theme-accent)]/10 border border-[var(--theme-accent)]/30 text-xs font-bold text-[var(--theme-accent)] uppercase tracking-wider">
             <ShieldCheck className="w-4 h-4" />
             <span>Bank-Grade Security</span>
           </div>
-          <h1 className="text-4xl font-black tracking-tight text-slate-900 dark:text-white">
+          <h1 className="text-4xl font-black tracking-tight text-[var(--theme-text-primary)]">
             Security Architecture & Data Sovereignty
           </h1>
-          <p className="text-base text-slate-600 dark:text-slate-300">
-            How MRM InfoTech Ltd. guarantees data integrity, privacy, and system resilience for
+          <p className="text-base text-[var(--theme-text-secondary)]">
+            How MRM InfoTech guarantees data integrity, privacy, and system resilience for
             enterprises and public institutions.
           </p>
         </div>
       </section>
 
-      <section className="py-20 bg-white dark:bg-[#07162C] transition-colors duration-150">
+      <section className="py-20 bg-[var(--theme-bg-canvas)] transition-colors duration-150">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {securityPillars.map((p, idx) => (
               <div
                 key={idx}
-                className="p-8 rounded-2xl bg-slate-50 dark:bg-[#0B1E3B] border border-slate-200 dark:border-[#1E3557] hover:border-[#087FC4] dark:hover:border-[#00C2FF] transition-all shadow-sm"
+                className="p-8 rounded-2xl bg-[var(--theme-bg-surface)] border border-[var(--theme-border-glass)] hover:border-[var(--theme-accent)]/50 transition-all shadow-lg group"
               >
-                <div className="p-3 rounded-xl bg-white dark:bg-[#07162C] border border-slate-200 dark:border-[#1E3557] w-fit mb-5 shadow-sm">
+                <div className="p-3 rounded-xl bg-[var(--theme-bg-card)] border border-[var(--theme-border-glass)] w-fit mb-5 shadow-sm group-hover:scale-105 transition-transform">
                   {p.icon}
                 </div>
-                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">{p.title}</h3>
-                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">{p.desc}</p>
+                <h3 className="text-lg font-bold text-[var(--theme-text-primary)] mb-2 group-hover:text-[var(--theme-accent)] transition-colors">{p.title}</h3>
+                <p className="text-xs sm:text-sm text-[var(--theme-text-secondary)] leading-relaxed">{p.desc}</p>
               </div>
             ))}
           </div>

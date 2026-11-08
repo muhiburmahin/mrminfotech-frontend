@@ -33,8 +33,17 @@ import {
   TrendingUp,
 } from 'lucide-react';
 import HomeFaqAccordion from '@/components/public/home/HomeFaqAccordion';
-import ProblemsWeSolveSection from '@/components/public/home/ProblemsWeSolveSection';
+import StackedProductShowcase from '@/components/public/home/StackedProductShowcase';
+import { ModernServicesSection } from '@/components/public/home/ModernServicesSection';
 import { MrmHeroShowcaseTriad } from '@/components/public/home/MrmHeroShowcaseTriad';
+import { CompanyIntroductionSection } from '@/components/public/home/CompanyIntroductionSection';
+import { HorizontalWhatWeSolveSection } from '@/components/public/home/HorizontalWhatWeSolveSection';
+import { WhyChooseMrmSection } from '@/components/public/home/WhyChooseMrmSection';
+import { FeaturedProjectsPortfolioSection } from '@/components/public/home/FeaturedProjectsPortfolioSection';
+import { HorizontalWorkflowSection } from '@/components/public/home/HorizontalWorkflowSection';
+import { TechnologyLogoWallSection } from '@/components/public/home/TechnologyLogoWallSection';
+import { InsightsEditorialSection } from '@/components/public/home/InsightsEditorialSection';
+import { ExecutiveTeamShowcase } from '@/components/public/team/ExecutiveTeamShowcase';
 import { AmbientSection } from '@/components/ui/AmbientSection';
 import GlassEmptyState from '@/components/ui/GlassEmptyState';
 import { GlassCard } from '@/components/ui/design-system/GlassCard';
@@ -376,17 +385,26 @@ const APPROVED_TECHNOLOGIES = [
   { name: 'Cloudflare', role: 'Edge CDN & Security' },
 ];
 
-const ENTERPRISE_STACKS = [
-  'Next.js 16 Enterprise',
-  'NestJS Modular Architecture',
-  'PostgreSQL ACID Compliant',
-  'Cloudflare Edge Acceleration',
-  'Docker & Containerized Pods',
-  'TypeScript Strict Protocol',
-  'Redis Ultra-Fast Cache',
-  'Tailwind CSS 4 Design Tokens',
-  'GraphQL & RESTful Webhooks',
-  'OWASP Top 10 Hardened Security',
+interface EnterpriseMarqueeItem {
+  label: string;
+  isBrand?: boolean;
+}
+
+const ENTERPRISE_MARQUEE_ITEMS: EnterpriseMarqueeItem[] = [
+  { label: '✦ MRM INFOTECH', isBrand: true },
+  { label: 'Next.js 16 Enterprise', isBrand: false },
+  { label: '✦ IDEAS • PRODUCTS • IMPACT', isBrand: true },
+  { label: 'NestJS Modular Architecture', isBrand: false },
+  { label: '✦ MRM INFOTECH CLOUD', isBrand: true },
+  { label: 'PostgreSQL ACID Compliant', isBrand: false },
+  { label: '✦ SOVEREIGN CLOUD & SAAS', isBrand: true },
+  { label: 'Cloudflare Edge Acceleration', isBrand: false },
+  { label: '✦ EDUMANAGE BD & MEDISHEBA BD', isBrand: true },
+  { label: 'Docker & Containerized Pods', isBrand: false },
+  { label: '✦ ENTERPRISE SYSTEMS', isBrand: true },
+  { label: 'TypeScript Strict Protocol', isBrand: false },
+  { label: 'Redis Ultra-Fast Cache', isBrand: false },
+  { label: 'OWASP Top 10 Hardened Security', isBrand: false },
 ];
 
 export default async function HomePage() {
@@ -507,48 +525,38 @@ export default async function HomePage() {
     .slice(0, 8);
   const latestPosts: PublishedBlogPost[] = apiBlogPosts.slice(0, 3);
 
-  const getProductIcon = (slug: string) => {
-    if (slug.includes('edumanage') || slug.includes('school')) return <GraduationCap className="w-5 h-5 text-[var(--theme-accent)]" />;
-    if (slug.includes('medisheba') || slug.includes('health')) return <HeartPulse className="w-5 h-5 text-[var(--theme-accent)]" />;
-    return <Building2 className="w-5 h-5 text-[var(--theme-accent)]" />;
-  };
-
-  const getServiceIcon = (slug: string) => {
-    switch (slug) {
-      case 'custom-software-development':
-        return <Code2 className="w-5 h-5 text-[var(--theme-accent)]" />;
-      case 'web-application-development':
-        return <Globe className="w-5 h-5 text-[var(--theme-accent)]" />;
-      case 'mobile-app-development':
-        return <Smartphone className="w-5 h-5 text-[var(--theme-accent)]" />;
-      case 'enterprise-erp-solutions':
-        return <Layers className="w-5 h-5 text-[var(--theme-accent)]" />;
-      case 'cloud-devops-infrastructure':
-        return <Cloud className="w-5 h-5 text-[var(--theme-accent)]" />;
-      case 'ai-machine-learning-solutions':
-        return <Cpu className="w-5 h-5 text-[var(--theme-accent)]" />;
-      case 'ui-ux-design':
-        return <Palette className="w-5 h-5 text-[var(--theme-accent)]" />;
-      case 'cybersecurity-compliance':
-        return <ShieldCheck className="w-5 h-5 text-[var(--theme-accent)]" />;
-      case 'database-architecture-migration':
-        return <Database className="w-5 h-5 text-[var(--theme-accent)]" />;
-      default:
-        return <Zap className="w-5 h-5 text-[var(--theme-accent)]" />;
-    }
-  };
-
-  const formatServiceTitle = (title: string, slug?: string): string => {
-    if (title && !title.includes('-')) return title;
-    const raw = title || slug || '';
-    return raw
-      .split('-')
-      .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-      .join(' ');
-  };
-
   return (
-    <div className="min-h-screen bg-[var(--theme-bg-canvas)] text-[var(--theme-text-primary)] overflow-x-hidden selection:bg-[var(--theme-accent)] selection:text-[var(--theme-accent-text)]">
+    <div className="min-h-screen bg-[var(--theme-bg-canvas)] text-[var(--theme-text-primary)] overflow-x-clip selection:bg-[var(--theme-accent)] selection:text-[var(--theme-accent-text)]">
+      {/* Schema.org Organization Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'Organization',
+            name: 'MRM InfoTech',
+            url: 'https://mrminfotech.com',
+            logo: 'https://mrminfotech.com/logo.png',
+            description:
+              'Enterprise cloud SaaS platforms, institutional ERP solutions, and sovereign software development in Bangladesh.',
+            address: {
+              '@type': 'PostalAddress',
+              addressLocality: 'Dhaka',
+              addressCountry: 'BD',
+            },
+            contactPoint: {
+              '@type': 'ContactPoint',
+              contactType: 'sales',
+              email: 'info@mrminfotech.com',
+            },
+            sameAs: [
+              'https://facebook.com/mrminfotech',
+              'https://linkedin.com/company/mrminfotech',
+              'https://github.com/mrminfotech',
+            ],
+          }),
+        }}
+      />
       {/* =====================================================================
           SECTION 01 — HERO (ORIGINAL MRM CONTENT WITH LUMINOUS AURORA BEAM & TRIAD)
           - Original 2-column structure & data preserved with 100% precision
@@ -597,17 +605,17 @@ export default async function HomePage() {
               <div className="flex flex-wrap items-center gap-4 pt-2">
                 <CTAButton
                   size="lg"
-                  href="/services"
+                  href="/start-project"
                   className="shadow-[0_0_24px_var(--theme-accent-glow)]"
                 >
-                  Explore Our Services <ArrowRight className="w-4 h-4 ml-1 inline-block" />
+                  Start a Project <ArrowRight className="w-4 h-4 ml-1 inline-block" />
                 </CTAButton>
 
                 <Link
-                  href="/products"
+                  href="#products"
                   className="inline-flex items-center justify-center rounded-xl px-7 py-3.5 text-sm sm:text-base font-bold text-[var(--theme-text-primary)] border border-white/20 bg-white/[0.04] backdrop-blur-md hover:bg-white/10 hover:border-white/30 transition-all duration-200"
                 >
-                  Discover Our Products
+                  Explore Our Products
                 </Link>
               </div>
 
@@ -769,13 +777,21 @@ export default async function HomePage() {
               ENGINEERED WITH MODERN ENTERPRISE TECH STACKS &amp; STANDARDS
             </div>
             <InfiniteMarquee speed={32}>
-              {ENTERPRISE_STACKS.map((tech) => (
+              {ENTERPRISE_MARQUEE_ITEMS.map((item, idx) => (
                 <div
-                  key={tech}
-                  className="flex items-center gap-2 text-xs font-bold text-[var(--theme-text-primary)]/90 px-4 py-2 rounded-full clear-glass-pill shrink-0 border border-[var(--theme-border-glass)] hover:border-[var(--theme-accent)] hover:shadow-[0_0_14px_var(--theme-accent-subtle)] transition-all"
+                  key={`${item.label}-${idx}`}
+                  className={`flex items-center gap-2 text-xs font-bold px-4 py-2 rounded-full shrink-0 transition-all ${
+                    item.isBrand
+                      ? 'bg-[var(--theme-accent)] text-[var(--theme-accent-text)] font-black shadow-[0_0_16px_var(--theme-accent-glow)] border border-[var(--theme-accent)]'
+                      : 'clear-glass-pill text-[var(--theme-text-primary)]/90 border border-[var(--theme-border-glass)] hover:border-[var(--theme-accent)] hover:shadow-[0_0_14px_var(--theme-accent-subtle)]'
+                  }`}
                 >
-                  <span className="w-1.5 h-1.5 rounded-full bg-[var(--theme-accent)]" />
-                  <span>{tech}</span>
+                  <span
+                    className={`w-1.5 h-1.5 rounded-full ${
+                      item.isBrand ? 'bg-white animate-pulse' : 'bg-[var(--theme-accent)]'
+                    }`}
+                  />
+                  <span>{item.label}</span>
                 </div>
               ))}
             </InfiniteMarquee>
@@ -784,119 +800,20 @@ export default async function HomePage() {
       </AmbientSection>
 
       {/* =====================================================================
-          SECTION 03 — WHO WE ARE & 3 CLEAR GLASS PILLARS
+          SECTION 02 — COMPANY INTRODUCTION (EDITORIAL / ASYMMETRIC LAYOUT)
           ===================================================================== */}
-      <AmbientSection variant="center-orb" className="py-20 lg:py-28">
-        <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          <ScrollReveal direction="left" delay={0.1} className="lg:col-span-6 space-y-5">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full clear-glass-pill text-xs font-bold text-[var(--theme-accent)] tracking-widest uppercase border border-[var(--theme-accent)]/30 bg-[var(--theme-accent)]/10">
-              <span className="w-1.5 h-1.5 rounded-full bg-[var(--theme-accent)] animate-pulse" />
-              WHO WE ARE
-            </div>
-            <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-[var(--theme-text-primary)] leading-tight">
-              Technology With Purpose. <br />
-              <span className="font-serif italic font-normal text-[var(--theme-accent)] neon-text-glow">
-                Solutions With Impact.
-              </span>
-            </h2>
-            <p className="text-base sm:text-lg text-[var(--theme-text-secondary)] leading-relaxed">
-              MRM InfoTech is a technology company focused on building software
-              products and delivering digital solutions for modern businesses and
-              organizations. From our own industry-focused platforms to custom
-              digital experiences, we bring ideas to life through thoughtful
-              design, practical technology, and a commitment to meaningful
-              results.
-            </p>
-            <div className="pt-2">
-              <Link
-                className="inline-flex items-center gap-2 font-bold text-sm sm:text-base text-[var(--theme-accent)] hover:gap-3 transition-all"
-                href="/about"
-              >
-                <span>Discover MRM InfoTech</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
-          </ScrollReveal>
-
-          {/* 3 Clear Frosted Glass Pillars */}
-          <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <ScrollReveal direction="up" delay={0.15}>
-              <div className="bg-[var(--theme-bg-surface)]/75 backdrop-blur-2xl border border-[var(--theme-border-glass)] border-t-2 border-t-[var(--theme-accent)] rounded-3xl p-6 space-y-4 h-full hover:border-[var(--theme-accent)]/60 hover:shadow-[0_0_30px_var(--theme-accent-glow)] transition-all relative overflow-hidden group">
-                <div className="flex items-center justify-between">
-                  <div className="w-10 h-10 rounded-xl bg-[var(--theme-accent)]/15 text-[var(--theme-accent)] flex items-center justify-center border border-[var(--theme-accent)]/30 group-hover:scale-110 transition-transform">
-                    <Lightbulb className="w-5 h-5" />
-                  </div>
-                  <span className="text-xs font-mono font-black text-[var(--theme-accent)]">01</span>
-                </div>
-                <span className="text-[52px] font-mono font-black text-[var(--theme-text-secondary)]/[0.07] absolute -bottom-2 -right-1 select-none pointer-events-none">
-                  01
-                </span>
-                <div>
-                  <span className="text-xs font-extrabold uppercase tracking-widest text-[var(--theme-accent)] font-mono">
-                    IDEAS
-                  </span>
-                  <h3 className="font-black text-lg text-[var(--theme-text-primary)] mt-0.5">Problem-First Discovery</h3>
-                  <p className="text-xs text-[var(--theme-text-secondary)] leading-relaxed mt-2">
-                    Every product and client solution starts by understanding real operational needs.
-                  </p>
-                </div>
-              </div>
-            </ScrollReveal>
-
-            <ScrollReveal direction="up" delay={0.25}>
-              <div className="bg-[var(--theme-bg-surface)]/75 backdrop-blur-2xl border border-[var(--theme-border-glass)] border-t-2 border-t-[var(--theme-accent)] rounded-3xl p-6 space-y-4 h-full hover:border-[var(--theme-accent)]/60 hover:shadow-[0_0_30px_var(--theme-accent-glow)] transition-all relative overflow-hidden group">
-                <div className="flex items-center justify-between">
-                  <div className="w-10 h-10 rounded-xl bg-[var(--theme-accent)]/15 text-[var(--theme-accent)] flex items-center justify-center border border-[var(--theme-accent)]/30 group-hover:scale-110 transition-transform">
-                    <Cpu className="w-5 h-5" />
-                  </div>
-                  <span className="text-xs font-mono font-black text-[var(--theme-accent)]">02</span>
-                </div>
-                <span className="text-[52px] font-mono font-black text-[var(--theme-text-secondary)]/[0.07] absolute -bottom-2 -right-1 select-none pointer-events-none">
-                  02
-                </span>
-                <div>
-                  <span className="text-xs font-extrabold uppercase tracking-widest text-[var(--theme-accent)] font-mono">
-                    PRODUCTS
-                  </span>
-                  <h3 className="font-black text-lg text-[var(--theme-text-primary)] mt-0.5">Thoughtful Engineering</h3>
-                  <p className="text-xs text-[var(--theme-text-secondary)] leading-relaxed mt-2">
-                    Clean architecture, scalable databases, and intuitive interfaces built to last.
-                  </p>
-                </div>
-              </div>
-            </ScrollReveal>
-
-            <ScrollReveal direction="up" delay={0.35}>
-              <div className="bg-[var(--theme-bg-surface)]/75 backdrop-blur-2xl border border-[var(--theme-border-glass)] border-t-2 border-t-[var(--theme-accent)] rounded-3xl p-6 space-y-4 h-full hover:border-[var(--theme-accent)]/60 hover:shadow-[0_0_30px_var(--theme-accent-glow)] transition-all relative overflow-hidden group">
-                <div className="flex items-center justify-between">
-                  <div className="w-10 h-10 rounded-xl bg-[var(--theme-accent)]/15 text-[var(--theme-accent)] flex items-center justify-center border border-[var(--theme-accent)]/30 group-hover:scale-110 transition-transform">
-                    <TrendingUp className="w-5 h-5" />
-                  </div>
-                  <span className="text-xs font-mono font-black text-[var(--theme-accent)]">03</span>
-                </div>
-                <span className="text-[52px] font-mono font-black text-[var(--theme-text-secondary)]/[0.07] absolute -bottom-2 -right-1 select-none pointer-events-none">
-                  03
-                </span>
-                <div>
-                  <span className="text-xs font-extrabold uppercase tracking-widest text-[var(--theme-accent)] font-mono">
-                    IMPACT
-                  </span>
-                  <h3 className="font-black text-lg text-[var(--theme-text-primary)] mt-0.5">Measurable Value</h3>
-                  <p className="text-xs text-[var(--theme-text-secondary)] leading-relaxed mt-2">
-                    Digital systems that simplify daily workflows and support long-term growth.
-                  </p>
-                </div>
-              </div>
-            </ScrollReveal>
-          </div>
-        </div>
-      </AmbientSection>
+      <CompanyIntroductionSection />
 
       {/* =====================================================================
-          SECTION 04 — FLAGSHIP SOFTWARE PRODUCTS (#products)
+          SECTION 03 — WHAT WE SOLVE (HORIZONTAL FEATURE BLOCKS)
+          ===================================================================== */}
+      <HorizontalWhatWeSolveSection />
+
+      {/* =====================================================================
+          SECTION 04 — OUR PRODUCTS (PRESERVED: STICKY STACKING PLATE CARDS)
           Sticky Overlapping / Stacking Plate Cards System
           ===================================================================== */}
-      <AmbientSection id="products" variant="dual-side" className="py-24">
+      <AmbientSection id="products" variant="dual-side" overflow="visible" className="py-24">
         <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
             <div className="max-w-2xl space-y-3">
@@ -924,236 +841,8 @@ export default async function HomePage() {
             </Link>
           </div>
 
-          {/* Sticky Stacking Plate Cards Container */}
-          <div className="relative space-y-10 sm:space-y-14 pb-12">
-            {products.map((product, index) => {
-              const icon = getProductIcon(product.slug);
-              const serial = String(index + 1).padStart(2, '0');
-
-              // Product specific metadata for rich telemetry & dashboard preview
-              const isEduManage = product.slug.includes('edumanage') || product.slug.includes('school');
-              const isMediSheba = product.slug.includes('medisheba') || product.slug.includes('health');
-
-              const features =
-                product.features && product.features.length > 0
-                  ? product.features.slice(0, 4)
-                  : isEduManage
-                  ? [
-                      'Biometric RFID attendance sync with instant guardian SMS alerts',
-                      'Automated grading engine & marksheet print for BD Board standards',
-                      'Digital fee collection via bKash, Nagad & automatic reconciliation',
-                      'Role-based dashboards for Principal, Teachers, Accounts & Guardians',
-                    ]
-                  : isMediSheba
-                  ? [
-                      'Barcode test tube tracking ensuring zero specimen cross-contamination',
-                      'Automated pathology reporting with normal range reference validation',
-                      'Encrypted doctor digital signatures & watermarked PDF verification',
-                      'Online patient report portal with instant SMS link & OTP access',
-                    ]
-                  : [
-                      'Multi-tenant database isolation & custom domain routing with auto-SSL',
-                      'Unified control cockpit deploying institutional sites in 1-click',
-                      'Centralized notice engine broadcasting circulars across 50+ websites',
-                      'Granular RBAC security compliance and zero-trust administrative logs',
-                    ];
-
-              const techTags =
-                product.integrations && product.integrations.length > 0
-                  ? product.integrations.slice(0, 5)
-                  : isEduManage
-                  ? ['Next.js 14', 'NestJS', 'PostgreSQL', 'Tailwind CSS', 'Redis Queue']
-                  : isMediSheba
-                  ? ['React', 'Node.js', 'PostgreSQL', 'Thermal Printer API', 'SMS Gateway']
-                  : ['Next.js', 'TypeScript', 'Prisma', 'PostgreSQL', 'Docker Swarm', 'Cloudflare CDN'];
-
-              return (
-                <div
-                  key={product.slug}
-                  className="sticky rounded-3xl p-7 sm:p-10 lg:p-12 border border-[var(--theme-border-glass)] bg-[var(--theme-bg-surface)]/95 backdrop-blur-3xl shadow-[0_30px_70px_-15px_rgba(0,0,0,0.85)] transition-all duration-300"
-                  style={{
-                    top: `calc(100px + ${index * 28}px)`,
-                    zIndex: 10 + index,
-                  }}
-                >
-                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-                    {/* Left Column: Product Information, Highlights, Stack & Actions */}
-                    <div className="lg:col-span-7 space-y-6">
-                      <div className="flex items-center gap-3 flex-wrap">
-                        <span className="text-xs font-mono font-black text-[var(--theme-accent)] px-3 py-1 rounded-full bg-[var(--theme-accent)]/15 border border-[var(--theme-accent)]/30">
-                          PLATE {serial} • {product.category || 'ENTERPRISE SAAS'}
-                        </span>
-                        <span className="inline-flex items-center gap-1.5 text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                          {product.stage || 'LIVE IN PRODUCTION'}
-                        </span>
-                        {product.isFeatured && (
-                          <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-[var(--theme-accent)] text-[var(--theme-accent-text)]">
-                            ★ FEATURED
-                          </span>
-                        )}
-                      </div>
-
-                      <div className="space-y-2">
-                        <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-xl bg-[var(--theme-accent)]/15 text-[var(--theme-accent)] flex items-center justify-center shrink-0 border border-[var(--theme-accent)]/30">
-                            {icon}
-                          </div>
-                          <h3 className="text-2xl sm:text-4xl font-black text-[var(--theme-text-primary)] tracking-tight">
-                            {product.title}
-                          </h3>
-                        </div>
-                        <p className="text-sm sm:text-base text-[var(--theme-text-secondary)] leading-relaxed pt-1">
-                          {product.description}
-                        </p>
-                      </div>
-
-                      {/* Key Capabilities Checklist */}
-                      <div className="space-y-2.5 pt-1">
-                        <p className="text-xs font-extrabold uppercase tracking-wider text-[var(--theme-text-muted)]">
-                          Core Enterprise Capabilities
-                        </p>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                          {features.map((feat) => (
-                            <div key={feat} className="flex items-start gap-2 text-xs text-[var(--theme-text-secondary)]">
-                              <CheckCircle2 className="w-4 h-4 text-[var(--theme-accent)] shrink-0 mt-0.5" />
-                              <span>{feat}</span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-
-                      {/* Tech Stack Tags */}
-                      <div className="flex items-center gap-2 flex-wrap pt-2">
-                        {techTags.map((tech) => (
-                          <span
-                            key={tech}
-                            className="text-[11px] font-mono font-semibold px-2.5 py-1 rounded-lg bg-[var(--theme-bg-canvas)] text-[var(--theme-text-secondary)] border border-[var(--theme-border-glass)]"
-                          >
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
-
-                      {/* Action CTA Buttons */}
-                      <div className="flex flex-wrap items-center gap-4 pt-3">
-                        <CTAButton
-                          href={`/products/${product.slug}`}
-                          size="md"
-                          className="shadow-[0_0_20px_var(--theme-accent-glow)]"
-                        >
-                          {product.ctaLabel || 'Explore Product'} <ArrowRight className="w-4 h-4 ml-1 inline-block" />
-                        </CTAButton>
-
-                        {product.liveUrl && (
-                          <a
-                            href={product.liveUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1.5 text-xs font-bold text-[var(--theme-text-primary)] px-4 py-2.5 rounded-xl border border-[var(--theme-border-glass)] bg-[var(--theme-bg-canvas)]/60 hover:border-[var(--theme-accent)]/50 hover:text-[var(--theme-accent)] transition-all"
-                          >
-                            <ExternalLink className="w-3.5 h-3.5" /> Live Demo
-                          </a>
-                        )}
-
-                        <Link
-                          href="/start-project"
-                          className="text-xs font-bold text-[var(--theme-text-secondary)] hover:text-[var(--theme-accent)] transition-colors inline-flex items-center gap-1"
-                        >
-                          Request Custom Demo →
-                        </Link>
-                      </div>
-                    </div>
-
-                    {/* Right Column: Visual Telemetry / High-Craft Dashboard Preview Mockup */}
-                    <div className="lg:col-span-5">
-                      <div className="rounded-2xl p-5 border border-[var(--theme-border-glass)] bg-[var(--theme-bg-canvas)]/90 shadow-2xl relative overflow-hidden group">
-                        {/* Mockup Header */}
-                        <div className="flex items-center justify-between pb-3 mb-4 border-b border-[var(--theme-border-glass)]">
-                          <div className="flex items-center gap-2">
-                            <span className="w-2.5 h-2.5 rounded-full bg-rose-500/80" />
-                            <span className="w-2.5 h-2.5 rounded-full bg-amber-500/80" />
-                            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" />
-                            <span className="text-[11px] font-mono text-[var(--theme-text-muted)] ml-2">
-                              {product.slug}.mrminfotech.com
-                            </span>
-                          </div>
-                          <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-md bg-[var(--theme-accent)]/15 text-[var(--theme-accent)] border border-[var(--theme-accent)]/20">
-                            HTTPS • 256-BIT
-                          </span>
-                        </div>
-
-                        {/* Telemetry KPIs */}
-                        <div className="grid grid-cols-3 gap-2.5 mb-4">
-                          <div className="p-2.5 rounded-xl bg-[var(--theme-bg-surface)] border border-[var(--theme-border-glass)]">
-                            <span className="text-[10px] font-mono text-[var(--theme-text-muted)] block">
-                              {isEduManage ? 'STUDENTS' : isMediSheba ? 'PATIENTS' : 'TENANTS'}
-                            </span>
-                            <span className="text-base font-black text-[var(--theme-text-primary)] font-mono">
-                              {isEduManage ? '4,820+' : isMediSheba ? '1,420+' : '28 Sites'}
-                            </span>
-                          </div>
-                          <div className="p-2.5 rounded-xl bg-[var(--theme-bg-surface)] border border-[var(--theme-border-glass)]">
-                            <span className="text-[10px] font-mono text-[var(--theme-text-muted)] block">
-                              {isEduManage ? 'ATTENDANCE' : isMediSheba ? 'ACCURACY' : 'UPTIME'}
-                            </span>
-                            <span className="text-base font-black text-[var(--theme-accent)] font-mono">
-                              {isEduManage ? '98.4%' : isMediSheba ? '99.9%' : '99.98%'}
-                            </span>
-                          </div>
-                          <div className="p-2.5 rounded-xl bg-[var(--theme-bg-surface)] border border-[var(--theme-border-glass)]">
-                            <span className="text-[10px] font-mono text-[var(--theme-text-muted)] block">
-                              SPEED
-                            </span>
-                            <span className="text-base font-black text-emerald-400 font-mono">
-                              42ms
-                            </span>
-                          </div>
-                        </div>
-
-                        {/* Visual Mockup Graph / Activity Log */}
-                        <div className="p-3.5 rounded-xl bg-[var(--theme-bg-surface)]/80 border border-[var(--theme-border-glass)] space-y-2.5">
-                          <div className="flex items-center justify-between text-[11px] font-mono text-[var(--theme-text-secondary)]">
-                            <span>REAL-TIME PIPELINE ACTIVITY</span>
-                            <span className="text-[var(--theme-accent)]">LIVE SYNC</span>
-                          </div>
-                          <div className="h-20 w-full flex items-end gap-1.5 pt-2">
-                            {[40, 65, 52, 80, 60, 92, 75, 88, 95, 78, 85, 100].map((val, i) => (
-                              <div
-                                key={i}
-                                className="flex-1 bg-[var(--theme-accent)]/20 rounded-t-md hover:bg-[var(--theme-accent)] transition-colors relative group/bar"
-                                style={{ height: `${val}%` }}
-                              >
-                                <span className="absolute -top-6 left-1/2 -translate-x-1/2 opacity-0 group-hover/bar:opacity-100 text-[9px] font-mono font-bold bg-black text-white px-1 rounded pointer-events-none transition-opacity">
-                                  {val}%
-                                </span>
-                              </div>
-                            ))}
-                          </div>
-                          <div className="flex items-center justify-between text-[10px] font-mono text-[var(--theme-text-muted)] pt-1 border-t border-[var(--theme-border-glass)]">
-                            <span>00:00 UTC</span>
-                            <span>ACTIVE CLUSTER: SGP-01</span>
-                            <span>NOW</span>
-                          </div>
-                        </div>
-
-                        {/* Bottom Status Ribbon */}
-                        <div className="mt-3.5 pt-2.5 border-t border-[var(--theme-border-glass)] flex items-center justify-between text-xs">
-                          <span className="text-[11px] text-[var(--theme-text-secondary)] flex items-center gap-1.5">
-                            <ShieldCheck className="w-3.5 h-3.5 text-[var(--theme-accent)]" />
-                            ISO 27001 Security Validated
-                          </span>
-                          <span className="font-mono text-[11px] font-bold text-[var(--theme-accent)]">
-                            ENTERPRISE READY
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+          {/* Sticky Stacking Plate Cards Container with Live Screenshot Carousel */}
+          <StackedProductShowcase products={products} />
         </div>
       </AmbientSection>
 
@@ -1189,356 +878,43 @@ export default async function HomePage() {
             </CTAButton>
           </div>
 
-          {/* Strictly First 6 Services in 3x2 Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {services.slice(0, 6).map((service, index) => {
-              const displayOrder = typeof service.order === 'number'
-                ? service.order
-                : typeof service.sortOrder === 'number'
-                ? service.sortOrder
-                : index + 1;
-              const formattedSerial = String(displayOrder).padStart(2, '0');
-
-              return (
-                <Link
-                  key={service.slug}
-                  href={`/services/${service.slug}`}
-                  className="bg-[var(--theme-bg-surface)]/75 backdrop-blur-2xl border border-[var(--theme-border-glass)] border-t-2 border-t-[var(--theme-accent)] rounded-3xl p-7 flex flex-col justify-between group hover:border-[var(--theme-accent)]/60 hover:shadow-[0_0_35px_var(--theme-accent-glow)] transition-all duration-300 relative overflow-hidden"
-                >
-                  <div>
-                    <div className="flex items-center justify-between mb-5">
-                      <span className="font-mono text-2xl font-black text-[var(--theme-text-secondary)]/30 group-hover:text-[var(--theme-accent)] transition-colors">
-                        {formattedSerial}
-                      </span>
-                      <div className="w-11 h-11 rounded-2xl bg-[var(--theme-accent)]/10 border border-[var(--theme-accent)]/20 flex items-center justify-center text-[var(--theme-accent)] shadow-sm group-hover:scale-110 transition-transform">
-                        {getServiceIcon(service.slug)}
-                      </div>
-                      <ArrowUpRight className="w-5 h-5 text-[var(--theme-text-secondary)]/40 group-hover:text-[var(--theme-accent)] transition-colors" />
-                    </div>
-
-                    <h3 className="text-xl font-black text-[var(--theme-text-primary)] tracking-tight group-hover:text-[var(--theme-accent)] transition-colors">
-                      {formatServiceTitle(service.title, service.slug)}
-                    </h3>
-
-                    <p className="mt-2.5 text-sm text-[var(--theme-text-secondary)] line-clamp-3 leading-relaxed">
-                      {service.summary}
-                    </p>
-                  </div>
-
-                  <div className="mt-6 pt-5 border-t border-[var(--theme-border)]/40 flex items-center justify-between">
-                    <span className="text-xs font-bold text-[var(--theme-accent)] tracking-wider uppercase inline-flex items-center gap-1.5 group-hover:gap-2.5 transition-all">
-                      <span>Learn More</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </span>
-                    <span className="text-[10px] font-mono font-bold text-[var(--theme-text-secondary)]/50 uppercase">
-                      #{formattedSerial} PRIORITY
-                    </span>
-                  </div>
-                </Link>
-              );
-            })}
-          </div>
-
-          {/* Prominent High-Visibility Services CTA Banner */}
-          <div className="mt-12 p-8 sm:p-10 rounded-3xl bg-[var(--theme-bg-surface)]/85 backdrop-blur-2xl border border-[var(--theme-border-glass)] flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl">
-            <div className="space-y-1 text-center md:text-left">
-              <span className="text-xs font-extrabold uppercase tracking-widest text-[var(--theme-accent)]">
-                LOOKING FOR CUSTOM ENGINEERING?
-              </span>
-              <h3 className="text-xl sm:text-2xl font-black text-[var(--theme-text-primary)]">
-                Explore Our Complete Engineering &amp; Software Catalog
-              </h3>
-              <p className="text-sm text-[var(--theme-text-secondary)] max-w-2xl">
-                From microservices and mobile applications to enterprise ERPs and AI workflows, discover how MRM InfoTech turns your vision into reality.
-              </p>
-            </div>
-            <div className="shrink-0">
-              <CTAButton href="/services" size="lg" className="shadow-[0_0_24px_var(--theme-accent-glow)]">
-                View All Services (৬+ বিস্তারিত দেখুন) <ArrowRight className="w-4 h-4 ml-1 inline-block" />
-              </CTAButton>
-            </div>
-          </div>
+          {/* Modern Interactive Services Bento Grid with Bespoke Micro-Graphics */}
+          <ModernServicesSection services={services} />
         </div>
       </AmbientSection>
 
       {/* =====================================================================
-          SECTION 06 — PROBLEMS WE SOLVE
+          SECTION 06 — WHY CHOOSE MRM INFOTECH (SPLIT LAYOUT WITH FEATURE LIST)
           ===================================================================== */}
-      <ProblemsWeSolveSection />
+      <WhyChooseMrmSection />
 
       {/* =====================================================================
-          SECTION 07 — CLIENT WORK / PROJECTS
+          SECTION 07 — FEATURED PROJECTS / EDITORIAL PORTFOLIO GRID
           ===================================================================== */}
-      {featuredProjects.length > 0 && (
-        <AmbientSection id="projects" variant="horizon" className="py-24 sm:py-32">
-          <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
-              <div className="max-w-2xl space-y-3">
-                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[var(--theme-accent)]/10 border border-[var(--theme-accent)]/20 text-xs font-bold text-[var(--theme-accent)] tracking-widest uppercase">
-                  <Briefcase className="w-3.5 h-3.5" />
-                  <span>CLIENT WORK & TAILORED ENGINEERING</span>
-                </div>
-                <h2 className="text-3xl sm:text-5xl font-black text-[var(--theme-text-primary)] tracking-tight">
-                  Tailored Software for{' '}
-                  <span className="font-serif italic font-normal text-[var(--theme-accent)] neon-text-glow">
-                    Real Business Needs.
-                  </span>
-                </h2>
-                <p className="text-base sm:text-lg text-[var(--theme-text-secondary)]">
-                  A curated selection of custom systems, portals, and digital products engineered for our enterprise partners.
-                </p>
-              </div>
-
-              <Link
-                href="/projects"
-                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl border border-[var(--theme-border-glass)] bg-[var(--theme-bg-surface)] text-sm font-bold text-[var(--theme-text-primary)] hover:border-[var(--theme-accent)]/50 hover:text-[var(--theme-accent)] transition-all shrink-0 self-start md:self-auto group"
-              >
-                <span>View All Projects</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </Link>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-              {featuredProjects.map((project, pIdx) => {
-                const title =
-                  project.title || project.translations?.[0]?.title || project.slug;
-                const summary =
-                  project.summary || project.translations?.[0]?.summary || '';
-                const frontendTech = project.frontendTechSummary || [];
-                const backendTech = project.backendTechSummary || [];
-                const techList = [...frontendTech, ...backendTech].slice(0, 3);
-
-                return (
-                  <div
-                    key={project.id || project.slug || pIdx}
-                    className="rounded-3xl border border-[var(--theme-border-glass)] bg-[var(--theme-bg-surface)]/90 backdrop-blur-2xl p-7 sm:p-8 flex flex-col justify-between shadow-lg hover:shadow-2xl hover:border-[var(--theme-accent)]/60 hover:shadow-[0_20px_45px_-15px_rgba(0,0,0,0.8),0_0_25px_var(--theme-accent-glow)] hover:-translate-y-1.5 transition-all duration-300 group"
-                  >
-                    <div className="space-y-4">
-                      {/* Status Tag & External Live Link */}
-                      <div className="flex items-center justify-between gap-2">
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-mono font-bold uppercase bg-[var(--theme-accent)]/15 text-[var(--theme-accent)] border border-[var(--theme-accent)]/30">
-                          <span className="w-1.5 h-1.5 rounded-full bg-[var(--theme-accent)] animate-pulse" />
-                          {project.projectWorkStatus || 'COMPLETED'}
-                        </span>
-
-                        {project.liveUrl && (
-                          <a
-                            href={project.liveUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-lg bg-[var(--theme-bg-canvas)] text-[var(--theme-text-secondary)] border border-[var(--theme-border-glass)] hover:text-[var(--theme-accent)] hover:border-[var(--theme-accent)]/40 transition-all"
-                          >
-                            <ExternalLink className="w-3 h-3 text-[var(--theme-accent)]" />
-                            <span>Live</span>
-                          </a>
-                        )}
-                      </div>
-
-                      {/* Project Title */}
-                      <h3 className="text-xl sm:text-2xl font-bold text-[var(--theme-text-primary)] group-hover:text-[var(--theme-accent)] transition-colors line-clamp-1">
-                        {title}
-                      </h3>
-
-                      {/* Summary */}
-                      <p className="text-sm text-[var(--theme-text-secondary)] leading-relaxed line-clamp-3">
-                        {summary}
-                      </p>
-
-                      {/* Tech Stack Pills */}
-                      {techList.length > 0 && (
-                        <div className="flex flex-wrap items-center gap-2 pt-2">
-                          {techList.map((tech) => (
-                            <span
-                              key={tech}
-                              className="px-2.5 py-1 rounded-lg bg-[var(--theme-bg-canvas)] border border-[var(--theme-border-glass)] text-[11px] font-mono text-[var(--theme-text-muted)]"
-                            >
-                              {tech}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Card Footer: Explore Project Link */}
-                    <div className="pt-6 mt-6 border-t border-[var(--theme-border-glass)] flex items-center justify-between">
-                      <Link
-                        href={`/projects/${project.slug}`}
-                        className="inline-flex items-center gap-1.5 text-xs font-bold text-[var(--theme-accent)] hover:opacity-80 transition-opacity"
-                      >
-                        <span>Project Details</span>
-                        <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                      </Link>
-
-                      <span className="text-[10px] font-mono text-[var(--theme-text-muted)]">
-                        #{String(pIdx + 1).padStart(2, '0')}
-                      </span>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </AmbientSection>
-      )}
+      <FeaturedProjectsPortfolioSection projects={featuredProjects} />
 
       {/* =====================================================================
-          SECTION 08 — HOW WE WORK (5-Step Sequential Timeline)
+          SECTION 08 — HOW WE WORK (6-STEP SEQUENTIAL TIMELINE)
           ===================================================================== */}
-      <AmbientSection variant="bento-grid" className="py-24 sm:py-32 relative">
-        <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl mb-16 space-y-3">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[var(--theme-accent)]/10 border border-[var(--theme-accent)]/20 text-xs font-bold text-[var(--theme-accent)] tracking-widest uppercase">
-              <Workflow className="w-3.5 h-3.5" />
-              <span>OUR 5-STEP ENGINEERING PROCESS</span>
-            </div>
-            <h2 className="text-3xl sm:text-5xl font-black text-[var(--theme-text-primary)] tracking-tight">
-              A Thoughtful Process.{' '}
-              <span className="font-serif italic font-normal text-[var(--theme-accent)] neon-text-glow">
-                From Conversation to Delivery.
-              </span>
-            </h2>
-            <p className="text-base sm:text-lg text-[var(--theme-text-secondary)] leading-relaxed">
-              Every successful digital solution begins with a clear understanding of the goal. Our process turns requirements into carefully engineered, tested, and usable systems.
-            </p>
-          </div>
-
-          <div className="relative">
-            {/* Desktop Horizontal Glowing Timeline Connector */}
-            <div className="hidden lg:block absolute top-12 left-10 right-10 h-0.5 bg-gradient-to-r from-[var(--theme-accent)]/20 via-[var(--theme-accent)]/70 to-[var(--theme-accent)]/20 pointer-events-none z-0" />
-
-            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 relative z-10">
-              {WORK_PROCESS_STEPS.map((step, index) => (
-                <ScrollReveal key={step.number} direction="up" delay={index * 0.08} className="h-full">
-                  <TiltCard maxTilt={4} className="h-full">
-                    <div className="bg-[var(--theme-bg-surface)]/90 backdrop-blur-2xl border border-[var(--theme-border-glass)] border-t-2 border-t-[var(--theme-accent)]/70 hover:border-[var(--theme-accent)] hover:shadow-[0_20px_45px_-12px_rgba(0,0,0,0.85),0_0_30px_var(--theme-accent-glow)] rounded-3xl p-6 sm:p-7 flex flex-col justify-between h-full group hover:-translate-y-2 transition-all duration-300">
-                      <div>
-                        {/* Step Number with Glow Indicator */}
-                        <div className="flex items-center justify-between mb-4">
-                          <span className="text-3xl font-black text-[var(--theme-accent)] font-mono drop-shadow-[0_0_12px_var(--theme-accent-glow)]">
-                            {step.number}
-                          </span>
-                          <span className="w-2.5 h-2.5 rounded-full bg-[var(--theme-accent)]/30 group-hover:bg-[var(--theme-accent)] group-hover:scale-125 transition-all shadow-[0_0_8px_var(--theme-accent-glow)]" />
-                        </div>
-
-                        <h3 className="text-xl font-bold text-[var(--theme-text-primary)] group-hover:text-[var(--theme-accent)] transition-colors mb-2.5">
-                          {step.title}
-                        </h3>
-
-                        <p className="text-xs sm:text-sm text-[var(--theme-text-secondary)] leading-relaxed">
-                          {step.description}
-                        </p>
-                      </div>
-
-                      {/* Dynamic Expanding Progress Accent Line */}
-                      <div className="mt-6 h-1 w-12 rounded-full bg-[var(--theme-accent)]/50 group-hover:w-full group-hover:bg-[var(--theme-accent)] transition-all duration-500 shadow-[0_0_10px_var(--theme-accent-glow)]" />
-                    </div>
-                  </TiltCard>
-                </ScrollReveal>
-              ))}
-            </div>
-          </div>
-        </div>
-      </AmbientSection>
+      <HorizontalWorkflowSection />
 
       {/* =====================================================================
-          SECTION 09 — TECHNOLOGY EXPERTISE (Clear Glass Pills)
+          SECTION 09 — TECHNOLOGY & EXPERTISE (MINIMAL TECHNOLOGY LOGO WALL)
           ===================================================================== */}
-      <AmbientSection variant="center-orb" className="py-24 sm:py-32 text-center">
-        <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-2xl mx-auto mb-14 space-y-3">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[var(--theme-accent)]/10 border border-[var(--theme-accent)]/20 text-xs font-bold text-[var(--theme-accent)] tracking-widest uppercase">
-              <Cpu className="w-3.5 h-3.5" />
-              <span>PRODUCTION-READY TECH STACK</span>
-            </div>
-            <h2 className="text-3xl sm:text-5xl font-black text-[var(--theme-text-primary)] tracking-tight">
-              The Right Tools.{' '}
-              <span className="font-serif italic font-normal text-[var(--theme-accent)] neon-text-glow">
-                Thoughtfully Applied.
-              </span>
-            </h2>
-            <p className="text-base sm:text-lg text-[var(--theme-text-secondary)] leading-relaxed">
-              We engineer with modern development technologies and battle-tested tools, selecting the right combination for each project&apos;s performance, concurrency, and sovereign data security.
-            </p>
-          </div>
-
-          <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-5 max-w-5xl mx-auto">
-            {APPROVED_TECHNOLOGIES.map((tech) => (
-              <div
-                key={tech.name}
-                className="bg-[var(--theme-bg-surface)]/90 backdrop-blur-xl border border-[var(--theme-border-glass)] hover:border-[var(--theme-accent)]/60 hover:shadow-[0_12px_30px_-8px_rgba(0,0,0,0.8),0_0_20px_var(--theme-accent-glow)] px-5 sm:px-6 py-4 rounded-2xl flex items-center gap-4 hover:scale-105 transition-all duration-300 shadow-md group cursor-default"
-              >
-                <div className="w-2.5 h-2.5 rounded-full bg-[var(--theme-accent)] group-hover:scale-125 shadow-[0_0_10px_var(--theme-accent-glow)] transition-all shrink-0" />
-                <div className="text-left">
-                  <p className="font-bold text-sm sm:text-base text-[var(--theme-text-primary)] group-hover:text-[var(--theme-accent)] transition-colors leading-none">
-                    {tech.name}
-                  </p>
-                  <p className="text-[11px] font-mono text-[var(--theme-text-muted)] mt-1">
-                    {tech.role}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </AmbientSection>
+      <TechnologyLogoWallSection />
 
       {/* =====================================================================
-          SECTION 10 — CASE STUDIES & TEAM ROSTER
+          SECTION 10 — OUR TEAM & LEADERSHIP
+          First 4 real team members, rank-ordered, with link to full roster
           ===================================================================== */}
-      {featuredCaseStudies.length > 0 && (
-        <AmbientSection variant="dual-side" className="py-24">
-          <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
-              <div className="max-w-2xl space-y-3">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full clear-glass-pill text-xs font-bold text-[var(--theme-text-primary)] tracking-widest uppercase">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[var(--theme-accent)]" />
-                  BEHIND THE SOLUTIONS
-                </div>
-                <h2 className="text-3xl sm:text-5xl font-black text-[var(--theme-text-primary)] tracking-tight">
-                  Understanding Challenges.{' '}
-                  <span className="font-serif italic font-normal text-[var(--theme-accent)] neon-text-glow">
-                    Creating Meaningful Solutions.
-                  </span>
-                </h2>
-                <p className="text-base text-[var(--theme-text-secondary)]">
-                  Case studies showcasing deep technical problem-solving and architectural execution.
-                </p>
-              </div>
-
-              <Link
-                href="/case-studies"
-                className="inline-flex items-center gap-2 text-sm font-bold text-[var(--theme-text-primary)]/80 hover:text-[var(--theme-accent)] hover:gap-3 transition-all"
-              >
-                <span>All Case Studies</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {featuredCaseStudies.map((study) => (
-                <GlassCard
-                  key={study.id || study.slug}
-                  title={study.title || study.translations?.[0]?.title || study.slug}
-                  tag="CASE STUDY"
-                  description={study.summary || study.translations?.[0]?.summary || ''}
-                  ctaText="Read Case Study"
-                  ctaHref={`/case-studies/${study.slug}`}
-                />
-              ))}
-            </div>
-          </div>
-        </AmbientSection>
-      )}
-
-      {/* Team Roster with Circular Photo Avatars */}
-      {activeTeam.length > 0 && (
+      {activeTeam && activeTeam.length > 0 && (
         <AmbientSection id="team" variant="dual-side" className="py-24">
           <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+            <div className="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-6">
               <div className="max-w-2xl space-y-3">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full clear-glass-pill text-xs font-bold text-[var(--theme-text-primary)] tracking-widest uppercase">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[var(--theme-accent)]" />
-                  THE PEOPLE BEHIND THE WORK
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full clear-glass-pill text-xs font-bold text-[var(--theme-text-primary)] tracking-widest uppercase border border-[var(--theme-border-glass)] bg-[var(--theme-bg-surface)]/60">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[var(--theme-accent)] animate-pulse" />
+                  THE MINDS BEHIND THE CODE
                 </div>
                 <h2 className="text-3xl sm:text-5xl font-black text-[var(--theme-text-primary)] tracking-tight">
                   Driven by Ideas.{' '}
@@ -1553,120 +929,52 @@ export default async function HomePage() {
 
               <Link
                 href="/team"
-                className="inline-flex items-center gap-2 text-sm font-bold text-[var(--theme-text-primary)]/80 hover:text-[var(--theme-accent)] hover:gap-3 transition-all"
+                className="inline-flex items-center gap-2 text-sm font-bold text-[var(--theme-accent)] hover:underline shrink-0"
               >
-                <span>Full Team Roster</span>
-                <ArrowRight className="w-4 h-4" />
+                <span>View Full Team Roster</span>
+                <ArrowRight className="w-4 h-4 ml-1 inline-block" />
               </Link>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {activeTeam.map((member) => {
-                const name =
-                  member.name || member.translations?.[0]?.name || member.slug || 'Team Member';
-                const role =
-                  member.role || member.translations?.[0]?.role || 'Specialist';
-                const photo = member.photo || member.photoUrl || null;
-
-                return (
-                  <div
-                    key={member.id || member.slug}
-                    className="bg-gradient-to-b from-white/[0.08] to-white/[0.02] backdrop-blur-2xl border border-[var(--theme-border-glass)] border-t-2 border-t-[var(--theme-accent)]/50 rounded-3xl p-7 text-center transition-all duration-300 hover:scale-[1.03] hover:border-[var(--theme-accent)]/60 hover:shadow-[0_0_35px_var(--theme-accent-glow)] flex flex-col items-center justify-between group"
-                  >
-                    <div className="w-full flex flex-col items-center">
-                      {/* Circular Photo Avatar with Glowing Halo Ring */}
-                      <div className="relative w-24 h-24 rounded-full ring-2 ring-[var(--theme-accent)] shadow-[0_0_24px_var(--theme-accent-glow)] p-1 mb-4">
-                        <div className="w-full h-full rounded-full overflow-hidden bg-white/10 flex items-center justify-center">
-                          {photo ? (
-                            <img
-                              src={photo}
-                              alt={name}
-                              className="w-full h-full object-cover rounded-full"
-                              loading="lazy"
-                            />
-                          ) : (
-                            <div className="w-full h-full rounded-full bg-white/15 text-[var(--theme-text-primary)] font-black text-xl flex items-center justify-center">
-                              {String(name).charAt(0).toUpperCase()}
-                            </div>
-                          )}
-                        </div>
-                      </div>
-
-                      <h3 className="font-black text-lg text-[var(--theme-text-primary)] tracking-tight group-hover:text-[var(--theme-accent)] transition-colors">
-                        {name}
-                      </h3>
-                      <p className="text-xs font-bold text-[var(--theme-accent)] mt-1 uppercase tracking-wider">
-                        {role}
-                      </p>
-
-                      {member.bio && (
-                        <p className="text-xs text-[var(--theme-text-secondary)] mt-3 line-clamp-2 leading-relaxed">
-                          {member.bio}
-                        </p>
-                      )}
-                    </div>
-
-                    {/* Social Handles */}
-                    <div className="mt-5 pt-4 border-t border-[var(--theme-border)]/40 w-full flex items-center justify-center gap-3">
-                      {member.linkedinUrl && (
-                        <a
-                          href={member.linkedinUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="p-1.5 rounded-full text-[var(--theme-text-muted)] hover:text-[var(--theme-accent)] hover:bg-white/10 transition-colors"
-                          aria-label="LinkedIn"
-                        >
-                          <LinkedinIcon className="w-4 h-4" />
-                        </a>
-                      )}
-                      {member.githubUrl && (
-                        <a
-                          href={member.githubUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="p-1.5 rounded-full text-[var(--theme-text-muted)] hover:text-[var(--theme-accent)] hover:bg-white/10 transition-colors"
-                          aria-label="GitHub"
-                        >
-                          <GithubIcon className="w-4 h-4" />
-                        </a>
-                      )}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+            <ExecutiveTeamShowcase members={activeTeam.slice(0, 4)} variant="home" />
           </div>
         </AmbientSection>
       )}
 
       {/* =====================================================================
-          SECTION 11 — FAQ ACCORDION
+          SECTION 11 — INSIGHTS & UPDATES (EDITORIAL BLOG LAYOUT)
           ===================================================================== */}
-      <AmbientSection variant="center-orb" className="py-24">
-        <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-16 space-y-3">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full clear-glass-pill text-xs font-bold text-[var(--theme-text-primary)] tracking-widest uppercase">
-              <span className="w-1.5 h-1.5 rounded-full bg-[var(--theme-accent)]" />
-              COMMON QUESTIONS
-            </div>
-            <h2 className="text-3xl sm:text-5xl font-black text-[var(--theme-text-primary)] tracking-tight">
-              Questions Before We{' '}
-              <span className="font-serif italic font-normal text-[var(--theme-accent)] neon-text-glow">
-                Get Started?
-              </span>
-            </h2>
-            <p className="text-base text-[var(--theme-text-secondary)]">
-              Find answers to common questions about our products, services, development approach, and working with MRM InfoTech.
-            </p>
-          </div>
-
-          <HomeFaqAccordion items={apiFaqs} />
-        </div>
-      </AmbientSection>
+      <InsightsEditorialSection posts={latestPosts} />
 
       {/* =====================================================================
-          SECTION 12 — FINAL HIGH-CONVERSION CTA BANNER
-          10% Interactive Accent Conversion Button
+          COMMON QUESTIONS ACCORDION
+          ===================================================================== */}
+      {apiFaqs && apiFaqs.length > 0 && (
+        <AmbientSection variant="center-orb" className="py-24">
+          <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center max-w-2xl mx-auto mb-16 space-y-3">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full clear-glass-pill text-xs font-bold text-[var(--theme-text-primary)] tracking-widest uppercase">
+                <span className="w-1.5 h-1.5 rounded-full bg-[var(--theme-accent)]" />
+                COMMON QUESTIONS
+              </div>
+              <h2 className="text-3xl sm:text-5xl font-black text-[var(--theme-text-primary)] tracking-tight">
+                Questions Before We{' '}
+                <span className="font-serif italic font-normal text-[var(--theme-accent)] neon-text-glow">
+                  Get Started?
+                </span>
+              </h2>
+              <p className="text-base text-[var(--theme-text-secondary)]">
+                Find answers to common questions about our products, services, development approach, and working with MRM InfoTech.
+              </p>
+            </div>
+
+            <HomeFaqAccordion items={apiFaqs} />
+          </div>
+        </AmbientSection>
+      )}
+
+      {/* =====================================================================
+          SECTION 11 — FINAL CALL TO ACTION (FULL-WIDTH PREMIUM CTA)
           ===================================================================== */}
       <AmbientSection variant="dual-side" className="py-24 sm:py-32">
         <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -1676,14 +984,14 @@ export default async function HomePage() {
             </span>
 
             <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black text-[var(--theme-text-primary)] tracking-tight leading-tight">
-              Have an Idea? Let&apos;s Turn It <br className="hidden sm:inline" />
+              Have a Project in Mind? <br className="hidden sm:inline" />
               <span className="font-serif italic font-normal text-[var(--theme-accent)] neon-text-glow">
-                Into Something Real.
+                Let&apos;s Build It Together.
               </span>
             </h2>
 
             <p className="text-[var(--theme-text-secondary)] text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
-              Whether you&apos;re planning a new digital product, need a custom software solution, or want to strengthen your online presence, we&apos;d love to hear what you&apos;re working on.
+              Let&apos;s build something meaningful together. Turn your ideas into powerful digital solutions with MRM InfoTech.
             </p>
 
             <div className="pt-4 flex flex-wrap items-center justify-center gap-4">
@@ -1699,8 +1007,21 @@ export default async function HomePage() {
                 href="/contact"
                 className="inline-flex items-center justify-center rounded-xl px-8 py-3.5 text-sm font-bold text-[var(--theme-text-primary)] border border-white/20 bg-white/[0.04] backdrop-blur-md hover:bg-white/10 hover:border-white/30 transition-all duration-200"
               >
-                Talk to Our Team
+                Contact Us
               </Link>
+            </div>
+
+            {/* Enterprise Trust Badges */}
+            <div className="pt-6 flex flex-wrap items-center justify-center gap-3 text-xs font-mono text-[var(--theme-text-secondary)] border-t border-[var(--theme-border-glass)]">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--theme-bg-surface)] border border-[var(--theme-border-glass)]">
+                <Zap className="w-3.5 h-3.5 text-[var(--theme-accent)]" /> 24hr Direct Architect Response
+              </span>
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--theme-bg-surface)] border border-[var(--theme-border-glass)]">
+                <Lock className="w-3.5 h-3.5 text-emerald-400" /> Strict Enterprise NDA &amp; IP Protection
+              </span>
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--theme-bg-surface)] border border-[var(--theme-border-glass)]">
+                <ShieldCheck className="w-3.5 h-3.5 text-[var(--theme-accent)]" /> Sovereign BD Infrastructure
+              </span>
             </div>
           </div>
         </div>

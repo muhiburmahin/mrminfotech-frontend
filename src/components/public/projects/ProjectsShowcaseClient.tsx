@@ -15,6 +15,7 @@ import {
   Database,
   Globe,
   SlidersHorizontal,
+  Monitor,
 } from 'lucide-react';
 import { GithubIcon } from '@/components/public/shared/SocialIcons';
 import GlassEmptyState from '@/components/ui/GlassEmptyState';
@@ -24,6 +25,7 @@ export interface ProjectItem {
   title: string;
   summary: string;
   cover?: string | null;
+  liveUrl?: string | null;
   publishedAt?: string | Date;
   sortOrder?: number;
   projectWorkStatus?: string;
@@ -43,6 +45,17 @@ export interface ProjectItem {
 interface ProjectsShowcaseClientProps {
   initialProjects: ProjectItem[];
 }
+
+const PROJECT_COVER_MAP: Record<string, string> = {
+  'edumanage-bd-campus-cloud':
+    'https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=1200&auto=format&fit=crop',
+  'medisheba-bd-clinical-diagnostics':
+    'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=1200&auto=format&fit=crop',
+  'multi-institution-platform-governance':
+    'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200&auto=format&fit=crop',
+  'apex-fleet-logistics-engine':
+    'https://images.unsplash.com/photo-1519003722824-194d4455a60c?q=80&w=1200&auto=format&fit=crop',
+};
 
 export default function ProjectsShowcaseClient({ initialProjects }: ProjectsShowcaseClientProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
@@ -116,7 +129,8 @@ export default function ProjectsShowcaseClient({ initialProjects }: ProjectsShow
 
             <p className="text-base sm:text-lg text-[var(--theme-text-secondary)] leading-relaxed">
               Explore verified enterprise software deployments, high-concurrency cloud platforms, and institutional
-              operating systems built by MRM InfoTech. Every case study is verified with measurable business outcomes.
+              operating systems built by MRM InfoTech. Every case study includes full screenshot galleries, technology
+              breakdowns, and verified business outcomes.
             </p>
           </div>
 
@@ -240,9 +254,21 @@ export default function ProjectsShowcaseClient({ initialProjects }: ProjectsShow
                           href={`/projects/${spotlightProject.slug}`}
                           className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-xs bg-[var(--theme-accent)] text-[var(--theme-accent-text)] hover:shadow-lg hover:shadow-[var(--theme-accent-glow)] transition-all cursor-pointer"
                         >
-                          <span>Explore Architecture &amp; Case Study</span>
+                          <span>Explore Architecture &amp; Gallery</span>
                           <ArrowRight className="w-4 h-4" />
                         </Link>
+
+                        {spotlightProject.liveUrl && (
+                          <a
+                            href={spotlightProject.liveUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 px-5 py-3 rounded-xl font-semibold text-xs bg-[var(--theme-bg-canvas)] text-[var(--theme-text-secondary)] hover:text-[var(--theme-text-primary)] border border-[var(--theme-border-glass)] transition-colors"
+                          >
+                            <ExternalLink className="w-3.5 h-3.5 text-[var(--theme-accent)]" />
+                            <span>Live System</span>
+                          </a>
+                        )}
 
                         {spotlightProject.frontendRepoUrl && (
                           <a
@@ -258,42 +284,67 @@ export default function ProjectsShowcaseClient({ initialProjects }: ProjectsShow
                       </div>
                     </div>
 
-                    {/* Spotlight Metrics Grid */}
-                    <div className="lg:col-span-5 bg-[var(--theme-bg-canvas)]/60 rounded-2xl p-6 sm:p-8 border border-[var(--theme-border-glass)] space-y-4">
-                      <div className="flex items-center gap-2 text-xs font-bold text-[var(--theme-accent)] tracking-wider uppercase">
-                        <Sparkles className="w-3.5 h-3.5" />
-                        <span>VERIFIED IMPACT METRICS</span>
+                    {/* Spotlight Visual Mockup & Metrics */}
+                    <div className="lg:col-span-5 space-y-4">
+                      {/* Screenshot Mockup */}
+                      <div className="rounded-2xl overflow-hidden border border-[var(--theme-border-glass)] bg-black/60 shadow-xl group-hover:border-[var(--theme-accent)]/40 transition-all">
+                        <div className="px-3.5 py-2 bg-black/80 border-b border-white/10 flex items-center justify-between text-[11px] font-mono text-white/50">
+                          <div className="flex items-center gap-1.5">
+                            <span className="w-2.5 h-2.5 rounded-full bg-rose-500/80" />
+                            <span className="w-2.5 h-2.5 rounded-full bg-amber-500/80" />
+                            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" />
+                            <span className="ml-2 truncate max-w-[150px]">{spotlightProject.slug}</span>
+                          </div>
+                          <span className="text-[10px] font-mono uppercase text-emerald-400">VERIFIED</span>
+                        </div>
+                        <div className="relative aspect-[16/10] w-full overflow-hidden">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={
+                              spotlightProject.cover ||
+                              PROJECT_COVER_MAP[spotlightProject.slug] ||
+                              'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200&auto=format&fit=crop'
+                            }
+                            alt={spotlightProject.title}
+                            className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                          />
+                        </div>
                       </div>
 
-                      <div className="grid grid-cols-2 gap-4">
-                        {(spotlightProject.metrics && spotlightProject.metrics.length > 0
-                          ? spotlightProject.metrics
-                          : [
-                              { label: 'Uptime SLA', value: '99.95%' },
-                              { label: 'Verification', value: 'Verified' },
-                              { label: 'Cloud Architecture', value: 'Microservices' },
-                              { label: 'Turnaround Speed', value: '< 100ms' },
-                            ]
-                        ).map((metric, idx) => (
-                          <div
-                            key={idx}
-                            className="p-4 rounded-xl bg-[var(--theme-bg-surface)] border border-[var(--theme-border-glass)]"
-                          >
-                            <div className="text-xl sm:text-2xl font-black text-[var(--theme-accent)] font-mono">
-                              {metric.value}
-                            </div>
-                            <div className="text-[11px] font-medium text-[var(--theme-text-muted)] mt-1">
-                              {metric.label}
-                            </div>
-                          </div>
-                        ))}
+                      {/* Metrics 2-Grid */}
+                      <div className="bg-[var(--theme-bg-canvas)]/60 rounded-2xl p-4 sm:p-5 border border-[var(--theme-border-glass)]">
+                        <div className="grid grid-cols-2 gap-3">
+                          {(spotlightProject.metrics && spotlightProject.metrics.length > 0
+                            ? spotlightProject.metrics
+                            : [
+                                { label: 'Uptime SLA', value: '99.95%' },
+                                { label: 'Verification', value: 'Verified' },
+                                { label: 'Cloud Architecture', value: 'Microservices' },
+                                { label: 'Turnaround Speed', value: '< 100ms' },
+                              ]
+                          )
+                            .slice(0, 4)
+                            .map((metric, idx) => (
+                              <div
+                                key={idx}
+                                className="p-3 rounded-xl bg-[var(--theme-bg-surface)] border border-[var(--theme-border-glass)]"
+                              >
+                                <div className="text-lg sm:text-xl font-black text-[var(--theme-accent)] font-mono">
+                                  {metric.value}
+                                </div>
+                                <div className="text-[10px] font-medium text-[var(--theme-text-muted)] mt-0.5 truncate">
+                                  {metric.label}
+                                </div>
+                              </div>
+                            ))}
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               )}
 
-              {/* ──────────────── Asymmetric Projects Grid ──────────────── */}
+              {/* ──────────────── Projects Cards Grid ──────────────── */}
               {gridProjects.length > 0 && (
                 <div className="space-y-6">
                   <div className="flex items-center justify-between">
@@ -308,90 +359,132 @@ export default function ProjectsShowcaseClient({ initialProjects }: ProjectsShow
                         ...(project.frontendTechSummary || []),
                         ...(project.backendTechSummary || []),
                       ];
+                      const coverImg =
+                        project.cover ||
+                        PROJECT_COVER_MAP[project.slug] ||
+                        'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200&auto=format&fit=crop';
 
                       return (
                         <div
                           key={project.slug}
-                          className="p-7 rounded-3xl bg-[var(--theme-bg-surface)] border border-[var(--theme-border-glass)] hover:border-[var(--theme-accent)]/50 shadow-xl transition-all duration-200 flex flex-col justify-between group"
+                          className="rounded-3xl bg-[var(--theme-bg-surface)] border border-[var(--theme-border-glass)] hover:border-[var(--theme-accent)]/50 shadow-xl overflow-hidden transition-all duration-300 flex flex-col justify-between group"
                         >
-                          <div className="space-y-4">
-                            {/* Badges */}
-                            <div className="flex items-center justify-between gap-2">
-                              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[var(--theme-accent)]/15 text-[var(--theme-accent)] border border-[var(--theme-accent)]/30">
-                                {project.service?.name || project.product?.name || 'Custom Solution'}
-                              </span>
-
-                              <span className="text-[10px] font-semibold text-emerald-400 flex items-center gap-1 font-mono">
-                                <CheckCircle2 className="w-3 h-3 text-emerald-400" />
-                                <span>{project.projectWorkStatus || 'COMPLETED'}</span>
+                          {/* Visual Screenshot Preview */}
+                          <div className="relative aspect-[16/10] w-full overflow-hidden bg-black/60 border-b border-[var(--theme-border-glass)]">
+                            <div className="px-3.5 py-1.5 bg-black/80 backdrop-blur-md border-b border-white/10 flex items-center justify-between text-[10px] font-mono text-white/50 z-10 relative">
+                              <div className="flex items-center gap-1.5">
+                                <span className="w-2 h-2 rounded-full bg-rose-500/80" />
+                                <span className="w-2 h-2 rounded-full bg-amber-500/80" />
+                                <span className="w-2 h-2 rounded-full bg-emerald-500/80" />
+                                <span className="ml-2 truncate max-w-[140px]">{project.slug}</span>
+                              </div>
+                              <span className="text-[10px] font-mono text-emerald-400">
+                                {project.projectWorkStatus || 'COMPLETED'}
                               </span>
                             </div>
-
-                            {/* Title & Summary */}
-                            <div>
-                              <h4 className="text-lg font-black text-[var(--theme-text-primary)] group-hover:text-[var(--theme-accent)] transition-colors leading-snug">
-                                <Link href={`/projects/${project.slug}`}>
-                                  {project.title}
-                                </Link>
-                              </h4>
-                              <p className="text-xs text-[var(--theme-text-secondary)] mt-2 leading-relaxed line-clamp-3">
-                                {project.summary}
-                              </p>
-                            </div>
-
-                            {/* Tech Stack Chips */}
-                            {allTech.length > 0 && (
-                              <div className="flex flex-wrap items-center gap-1.5 pt-2">
-                                {allTech.slice(0, 4).map((tech) => (
-                                  <span
-                                    key={tech}
-                                    className="px-2 py-0.5 rounded text-[10px] font-mono font-medium bg-[var(--theme-bg-canvas)] text-[var(--theme-text-muted)] border border-[var(--theme-border-glass)]"
-                                  >
-                                    {tech}
-                                  </span>
-                                ))}
-                                {allTech.length > 4 && (
-                                  <span className="text-[10px] text-[var(--theme-text-muted)] font-mono">
-                                    +{allTech.length - 4} more
-                                  </span>
-                                )}
-                              </div>
-                            )}
-
-                            {/* Primary Metric Pill */}
-                            {project.metrics && project.metrics[0] && (
-                              <div className="px-3 py-2 rounded-xl bg-[var(--theme-bg-canvas)] border border-[var(--theme-border-glass)] flex items-center justify-between">
-                                <span className="text-[11px] text-[var(--theme-text-muted)] font-medium">
-                                  {project.metrics[0].label}
-                                </span>
-                                <span className="text-xs font-bold text-[var(--theme-accent)] font-mono">
-                                  {project.metrics[0].value}
-                                </span>
-                              </div>
-                            )}
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                              src={coverImg}
+                              alt={project.title}
+                              className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                              loading="lazy"
+                            />
                           </div>
 
-                          {/* Footer Actions */}
-                          <div className="pt-5 mt-6 border-t border-[var(--theme-border-glass)] flex items-center justify-between">
-                            <Link
-                              href={`/projects/${project.slug}`}
-                              className="text-xs font-bold text-[var(--theme-accent)] inline-flex items-center gap-1.5 hover:gap-2.5 transition-all cursor-pointer"
-                            >
-                              <span>Read Case Study</span>
-                              <ArrowRight className="w-3.5 h-3.5" />
-                            </Link>
+                          <div className="p-6 space-y-4 flex-1 flex flex-col justify-between">
+                            <div className="space-y-3">
+                              {/* Badges */}
+                              <div className="flex items-center justify-between gap-2">
+                                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[var(--theme-accent)]/15 text-[var(--theme-accent)] border border-[var(--theme-accent)]/30">
+                                  {project.service?.name || project.product?.name || 'Custom Solution'}
+                                </span>
 
-                            {project.frontendRepoUrl && (
-                              <a
-                                href={project.frontendRepoUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="p-1.5 rounded-lg text-[var(--theme-text-muted)] hover:text-[var(--theme-text-primary)] hover:bg-[var(--theme-bg-canvas)] transition-colors"
-                                title="View Public Repository"
+                                <span className="text-[10px] font-semibold text-emerald-400 flex items-center gap-1 font-mono">
+                                  <CheckCircle2 className="w-3 h-3 text-emerald-400" />
+                                  <span>Verified</span>
+                                </span>
+                              </div>
+
+                              {/* Title & Summary */}
+                              <div>
+                                <h4 className="text-base sm:text-lg font-black text-[var(--theme-text-primary)] group-hover:text-[var(--theme-accent)] transition-colors leading-snug">
+                                  <Link href={`/projects/${project.slug}`}>
+                                    {project.title}
+                                  </Link>
+                                </h4>
+                                <p className="text-xs text-[var(--theme-text-secondary)] mt-2 leading-relaxed line-clamp-3">
+                                  {project.summary}
+                                </p>
+                              </div>
+
+                              {/* Tech Stack Chips */}
+                              {allTech.length > 0 && (
+                                <div className="flex flex-wrap items-center gap-1.5 pt-1">
+                                  {allTech.slice(0, 3).map((tech) => (
+                                    <span
+                                      key={tech}
+                                      className="px-2 py-0.5 rounded text-[10px] font-mono font-medium bg-[var(--theme-bg-canvas)] text-[var(--theme-text-muted)] border border-[var(--theme-border-glass)]"
+                                    >
+                                      {tech}
+                                    </span>
+                                  ))}
+                                  {allTech.length > 3 && (
+                                    <span className="text-[10px] text-[var(--theme-text-muted)] font-mono">
+                                      +{allTech.length - 3} more
+                                    </span>
+                                  )}
+                                </div>
+                              )}
+
+                              {/* Primary Metric Pill */}
+                              {project.metrics && project.metrics[0] && (
+                                <div className="px-3 py-2 rounded-xl bg-[var(--theme-bg-canvas)] border border-[var(--theme-border-glass)] flex items-center justify-between">
+                                  <span className="text-[10px] text-[var(--theme-text-muted)] font-medium truncate max-w-[150px]">
+                                    {project.metrics[0].label}
+                                  </span>
+                                  <span className="text-xs font-bold text-[var(--theme-accent)] font-mono">
+                                    {project.metrics[0].value}
+                                  </span>
+                                </div>
+                              )}
+                            </div>
+
+                            {/* Footer Actions */}
+                            <div className="pt-4 border-t border-[var(--theme-border-glass)] flex items-center justify-between">
+                              <Link
+                                href={`/projects/${project.slug}`}
+                                className="text-xs font-bold text-[var(--theme-accent)] inline-flex items-center gap-1.5 hover:gap-2.5 transition-all cursor-pointer"
                               >
-                                <GithubIcon className="w-4 h-4" />
-                              </a>
-                            )}
+                                <span>View Case Study &amp; Gallery</span>
+                                <ArrowRight className="w-3.5 h-3.5" />
+                              </Link>
+
+                              <div className="flex items-center gap-2">
+                                {project.liveUrl && (
+                                  <a
+                                    href={project.liveUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="p-1.5 rounded-lg text-[var(--theme-text-muted)] hover:text-[var(--theme-accent)] hover:bg-[var(--theme-bg-canvas)] transition-colors"
+                                    title="Launch Live System"
+                                  >
+                                    <ExternalLink className="w-4 h-4" />
+                                  </a>
+                                )}
+
+                                {project.frontendRepoUrl && (
+                                  <a
+                                    href={project.frontendRepoUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="p-1.5 rounded-lg text-[var(--theme-text-muted)] hover:text-[var(--theme-text-primary)] hover:bg-[var(--theme-bg-canvas)] transition-colors"
+                                    title="View Public Repository"
+                                  >
+                                    <GithubIcon className="w-4 h-4" />
+                                  </a>
+                                )}
+                              </div>
+                            </div>
                           </div>
                         </div>
                       );

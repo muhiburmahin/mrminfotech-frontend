@@ -80,7 +80,7 @@ export function ServiceForm({ initialData, onSuccess }: ServiceFormProps) {
         router.push('/admin/dashboard/services');
       }
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'সার্ভিস সেভ করতে ব্যর্থ হয়েছে');
+      setError(err instanceof Error ? err.message : 'Failed to save service');
     } finally {
       setIsSubmitting(false);
     }
@@ -92,7 +92,7 @@ export function ServiceForm({ initialData, onSuccess }: ServiceFormProps) {
       className="space-y-6 bg-white dark:bg-[#0F2442] p-8 rounded-2xl border border-slate-200 dark:border-[#1E3557] shadow-xl"
     >
       <h2 className="text-xl font-extrabold text-slate-900 dark:text-white">
-        {initialData ? 'সার্ভিস এডিট করুন' : 'নতুন সার্ভিস যুক্ত করুন'}
+        {initialData ? 'Edit Service' : 'Add New Service'}
       </h2>
 
       {error && (
@@ -104,27 +104,27 @@ export function ServiceForm({ initialData, onSuccess }: ServiceFormProps) {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1">
-            সার্ভিসের নাম
+            Service Name
           </label>
           <input
             type="text"
             required
             value={title}
             onChange={(e) => handleTitleChange(e.target.value)}
-            placeholder="যেমন: Custom Software Development"
+            placeholder="e.g. Custom Software Development"
             className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-[#07162C] border border-slate-200 dark:border-[#1E3557] text-slate-900 dark:text-white text-sm focus:outline-none focus:border-[#087FC4]"
           />
         </div>
         <div>
           <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1">
-            স্লাগ (Slug)
+            Slug
           </label>
           <input
             type="text"
             required
             value={slug}
             onChange={(e) => setSlug(e.target.value)}
-            placeholder="যেমন: custom-software-development"
+            placeholder="e.g. custom-software-development"
             className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-[#07162C] border border-slate-200 dark:border-[#1E3557] text-slate-900 dark:text-white font-mono text-sm focus:outline-none focus:border-[#087FC4]"
           />
         </div>
@@ -133,18 +133,18 @@ export function ServiceForm({ initialData, onSuccess }: ServiceFormProps) {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1 flex items-center gap-1.5">
-            <ListOrdered className="w-4 h-4 text-[#087FC4]" /> ডিসপ্লে সিরিয়াল / অর্ডার নম্বর
+            <ListOrdered className="w-4 h-4 text-[#087FC4]" /> Display Serial / Order Number
           </label>
           <input
             type="number"
             min={1}
             value={order}
             onChange={(e) => setOrder(Number(e.target.value))}
-            placeholder="যেমন: 1, 2, 3..."
+            placeholder="e.g. 1, 2, 3..."
             className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-[#07162C] border border-slate-200 dark:border-[#1E3557] text-slate-900 dark:text-white text-sm font-bold focus:outline-none focus:border-[#087FC4]"
           />
           <span className="text-[11px] text-slate-500 dark:text-slate-400 mt-1 block">
-            ছোট নম্বরগুলো সবার আগে (উপরে) প্রদর্শিত হবে।
+            Lower numbers display first (at the top).
           </span>
         </div>
         <div className="flex items-center gap-3 pt-6">
@@ -156,33 +156,33 @@ export function ServiceForm({ initialData, onSuccess }: ServiceFormProps) {
             className="w-4 h-4 rounded text-[#087FC4] focus:ring-[#087FC4] accent-[#087FC4]"
           />
           <label htmlFor="isPublished" className="text-xs font-bold text-slate-800 dark:text-slate-200 cursor-pointer">
-            পাবলিক সাইটে দৃশ্যমান রাখুন (Published)
+            Show on public site (Published)
           </label>
         </div>
       </div>
 
       <div>
         <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1">
-          সংক্ষিপ্ত সারসংক্ষেপ (Summary)
+          Summary (Short Description)
         </label>
         <input
           type="text"
           value={summary}
           onChange={(e) => setSummary(e.target.value)}
-          placeholder="কার্ডে দেখানোর জন্য এক লাইনের সংক্ষিপ্ত বিবরণ..."
+          placeholder="One-line summary for cards..."
           className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-[#07162C] border border-slate-200 dark:border-[#1E3557] text-slate-900 dark:text-white text-sm focus:outline-none focus:border-[#087FC4]"
         />
       </div>
 
       <div>
         <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1">
-          বিস্তারিত বর্ণনা (Description)
+          Full Description
         </label>
         <textarea
           rows={5}
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          placeholder="সার্ভিস পেজের জন্য বিস্তারিত বর্ণনা লিখুন..."
+          placeholder="Enter comprehensive service details..."
           className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-[#07162C] border border-slate-200 dark:border-[#1E3557] text-slate-900 dark:text-white text-sm focus:outline-none focus:border-[#087FC4]"
         />
       </div>
@@ -193,7 +193,7 @@ export function ServiceForm({ initialData, onSuccess }: ServiceFormProps) {
         className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#087FC4] to-[#20B8D5] text-white font-bold text-sm shadow-lg hover:opacity-95 flex items-center gap-2 cursor-pointer transition-all disabled:opacity-50"
       >
         {isSubmitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-        সার্ভিস সেভ করুন
+        Save Service
       </button>
     </form>
   );

@@ -4,7 +4,7 @@ import { PublicApiService } from '@/services/public-api.service';
 import BlogShowcaseClient, { BlogPostItem } from '@/components/public/blog/BlogShowcaseClient';
 
 export const metadata: Metadata = {
-  title: 'Engineering Blog & Insights | MRM InfoTech Ltd.',
+  title: 'Engineering Blog & Insights | MRM InfoTech',
   description:
     'Technical articles, software architecture insights, and system design benchmarks published by MRM InfoTech.',
   alternates: {

@@ -79,7 +79,7 @@ export function JobApplicationForm({ jobSlug, jobTitle }: { jobSlug: string; job
     <form onSubmit={handleSubmit} className="liquid-glass rounded-2xl p-7 sm:p-8 space-y-5">
       <div>
         <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
-          <FileText className="w-5 h-5 text-[#087FC4]" />
+          <FileText className="w-5 h-5 text-[var(--theme-accent)]" />
           <span>Apply for this Role</span>
         </h3>
         <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
@@ -109,7 +109,7 @@ export function JobApplicationForm({ jobSlug, jobTitle }: { jobSlug: string; job
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Your full name"
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-50 dark:bg-[#07162C] border border-slate-300 dark:border-[#1E3557] text-xs text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-[#087FC4]"
+              className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-50 dark:bg-[var(--theme-bg-surface)] border border-slate-300 dark:border-[var(--theme-border-glass)] text-xs text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-[var(--theme-accent)]"
             />
           </div>
         </div>
@@ -126,7 +126,7 @@ export function JobApplicationForm({ jobSlug, jobTitle }: { jobSlug: string; job
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@domain.com"
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-50 dark:bg-[#07162C] border border-slate-300 dark:border-[#1E3557] text-xs text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-[#087FC4]"
+              className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-50 dark:bg-[var(--theme-bg-surface)] border border-slate-300 dark:border-[var(--theme-border-glass)] text-xs text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-[var(--theme-accent)]"
             />
           </div>
         </div>
@@ -144,7 +144,7 @@ export function JobApplicationForm({ jobSlug, jobTitle }: { jobSlug: string; job
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               placeholder="+8801700000000"
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-50 dark:bg-[#07162C] border border-slate-300 dark:border-[#1E3557] text-xs text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-[#087FC4]"
+              className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-50 dark:bg-[var(--theme-bg-surface)] border border-slate-300 dark:border-[var(--theme-border-glass)] text-xs text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-[var(--theme-accent)]"
             />
           </div>
         </div>
@@ -160,7 +160,7 @@ export function JobApplicationForm({ jobSlug, jobTitle }: { jobSlug: string; job
               value={resumeUrl}
               onChange={(e) => setResumeUrl(e.target.value)}
               placeholder="https://drive.google.com/..."
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-50 dark:bg-[#07162C] border border-slate-300 dark:border-[#1E3557] text-xs text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-[#087FC4]"
+              className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-50 dark:bg-[var(--theme-bg-surface)] border border-slate-300 dark:border-[var(--theme-border-glass)] text-xs text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-[var(--theme-accent)]"
             />
           </div>
         </div>
@@ -175,7 +175,7 @@ export function JobApplicationForm({ jobSlug, jobTitle }: { jobSlug: string; job
           value={coverLetter}
           onChange={(e) => setCoverLetter(e.target.value)}
           placeholder="Briefly tell us about your technical background and why you want to join MRM InfoTech..."
-          className="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-[#07162C] border border-slate-300 dark:border-[#1E3557] text-xs text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-[#087FC4]"
+          className="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-[var(--theme-bg-surface)] border border-slate-300 dark:border-[var(--theme-border-glass)] text-xs text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-[var(--theme-accent)]"
         />
       </div>
 
@@ -186,17 +186,17 @@ export function JobApplicationForm({ jobSlug, jobTitle }: { jobSlug: string; job
           required
           checked={consentGiven}
           onChange={(e) => setConsentGiven(e.target.checked)}
-          className="mt-0.5 rounded text-[#0052CC] focus:ring-0"
+          className="mt-0.5 rounded text-[var(--theme-accent)] focus:ring-0"
         />
         <label htmlFor="consent" className="text-[11px] text-slate-600 dark:text-slate-400 leading-snug">
-          I consent to MRM InfoTech Ltd. reviewing and storing my application credentials for recruitment purposes.
+          I consent to MRM InfoTech reviewing and storing my application credentials for recruitment purposes.
         </label>
       </div>
 
       <button
         type="submit"
         disabled={loading}
-        className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-xs font-bold text-white bg-[#0052CC] hover:bg-[#0040A8] transition-colors shadow-md shadow-[#0052CC]/25 disabled:opacity-50 cursor-pointer"
+        className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-xs font-bold text-[var(--theme-accent-text)] bg-[var(--theme-accent)] hover:opacity-90 transition-all shadow-md shadow-[var(--theme-accent)]/20 disabled:opacity-50 cursor-pointer"
       >
         {loading ? (
           <>

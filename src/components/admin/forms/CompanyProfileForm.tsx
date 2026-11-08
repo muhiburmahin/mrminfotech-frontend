@@ -154,7 +154,7 @@ export function CompanyProfileForm() {
                 type="text"
                 value={formData.legalName || ''}
                 onChange={(e) => handleChange('legalName', e.target.value)}
-                placeholder="MRM InfoTech Ltd."
+                placeholder="MRM InfoTech"
                 className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-[#07162C] border border-slate-200 dark:border-[#1E3557] text-slate-900 dark:text-white font-medium focus:outline-none focus:border-[#087FC4] dark:focus:border-[#20B8D5]"
               />
             </div>
@@ -457,11 +457,11 @@ export function CompanyProfileForm() {
             type="text"
             value={formData.copyrightText || ''}
             onChange={(e) => handleChange('copyrightText', e.target.value)}
-            placeholder="MRM InfoTech Ltd. All rights reserved."
+            placeholder="MRM InfoTech. All rights reserved."
             className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-[#07162C] border border-slate-200 dark:border-[#1E3557] text-slate-900 dark:text-white font-medium focus:outline-none focus:border-[#087FC4] dark:focus:border-[#20B8D5]"
           />
           <p className="text-[11px] text-slate-500 dark:text-slate-400">
-            Rendered automatically as &quot;© {new Date().getFullYear()} {formData.copyrightText || formData.legalName || 'MRM InfoTech Ltd. All rights reserved.'}&quot;
+            Rendered automatically as &quot;© {new Date().getFullYear()} {formData.copyrightText || formData.legalName || 'MRM InfoTech. All rights reserved.'}&quot;
           </p>
         </div>
 

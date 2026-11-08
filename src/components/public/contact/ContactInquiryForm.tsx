@@ -86,22 +86,22 @@ export function ContactInquiryForm() {
           </p>
         </div>
 
-        <div className="p-4 rounded-xl bg-slate-50 dark:bg-[#07162C] border border-slate-200 dark:border-[#1E3557] inline-flex items-center gap-3">
+        <div className="p-4 rounded-xl bg-[var(--theme-bg-surface)] border border-[var(--theme-border-glass)] inline-flex items-center gap-3 shadow-md">
           <div className="text-left">
-            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
+            <span className="text-[10px] font-bold text-[var(--theme-text-muted)] uppercase tracking-wider block">
               Reference Tracking ID
             </span>
-            <code className="text-sm font-mono font-bold text-[#0052CC] dark:text-[#20B8D5]">
+            <code className="text-sm font-mono font-bold text-[var(--theme-accent)]">
               {refNum}
             </code>
           </div>
           <button
             type="button"
             onClick={() => copyReference(refNum)}
-            className="p-2 rounded-lg text-slate-500 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-[#0B1E3B] transition-colors"
+            className="p-2 rounded-lg text-[var(--theme-text-muted)] hover:text-[var(--theme-text-primary)] hover:bg-[var(--theme-bg-card)] transition-colors"
             title="Copy Reference Number"
           >
-            {copiedRef ? <Check className="w-4 h-4 text-emerald-500" /> : <Copy className="w-4 h-4" />}
+            {copiedRef ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
           </button>
         </div>
 
@@ -117,7 +117,7 @@ export function ContactInquiryForm() {
               setMessage('');
               setConsentGiven(false);
             }}
-            className="px-5 py-2.5 rounded-xl text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-[#07162C] transition-colors cursor-pointer"
+            className="px-5 py-2.5 rounded-xl text-xs font-semibold text-[var(--theme-text-secondary)] hover:text-[var(--theme-text-primary)] hover:bg-[var(--theme-bg-surface)] transition-colors cursor-pointer border border-[var(--theme-border-glass)]"
           >
             Send Another Message
           </button>
@@ -127,19 +127,19 @@ export function ContactInquiryForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="liquid-glass rounded-2xl p-7 sm:p-8 space-y-4">
+    <form onSubmit={handleSubmit} className="rounded-2xl p-7 sm:p-8 space-y-4 bg-[var(--theme-bg-surface)] border border-[var(--theme-border-glass)] shadow-xl">
       <div>
-        <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
-          <MessageSquare className="w-5 h-5 text-[#087FC4]" />
+        <h2 className="text-xl font-bold text-[var(--theme-text-primary)] flex items-center gap-2">
+          <MessageSquare className="w-5 h-5 text-[var(--theme-accent)]" />
           <span>Send Us a Direct Message</span>
         </h2>
-        <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+        <p className="text-xs text-[var(--theme-text-secondary)] mt-1">
           Connected to our live leads management API. We respond within 24 business hours.
         </p>
       </div>
 
       {error && (
-        <div className="p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-600 dark:text-rose-400 text-xs flex items-start gap-2.5">
+        <div className="p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs flex items-start gap-2.5">
           <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
           <span className="leading-relaxed font-medium">{error}</span>
         </div>
@@ -147,7 +147,7 @@ export function ContactInquiryForm() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
+          <label className="block text-xs font-bold text-[var(--theme-text-primary)] mb-1">
             Your Name *
           </label>
           <input
@@ -158,11 +158,11 @@ export function ContactInquiryForm() {
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="e.g. Md. Tanvir Ahmed"
-            className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-[#1E3557] bg-white dark:bg-[#07162C] text-slate-900 dark:text-white placeholder:text-slate-400 text-xs focus:outline-none focus:border-[#087FC4]"
+            className="w-full px-3.5 py-2.5 rounded-xl border border-[var(--theme-border-glass)] bg-[var(--theme-bg-card)] text-[var(--theme-text-primary)] placeholder:text-[var(--theme-text-muted)] text-xs focus:outline-none focus:border-[var(--theme-accent)] transition-colors"
           />
         </div>
         <div>
-          <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
+          <label className="block text-xs font-bold text-[var(--theme-text-primary)] mb-1">
             Corporate Email *
           </label>
           <input
@@ -172,14 +172,14 @@ export function ContactInquiryForm() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="tanvir@company.com"
-            className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-[#1E3557] bg-white dark:bg-[#07162C] text-slate-900 dark:text-white placeholder:text-slate-400 text-xs focus:outline-none focus:border-[#087FC4]"
+            className="w-full px-3.5 py-2.5 rounded-xl border border-[var(--theme-border-glass)] bg-[var(--theme-bg-card)] text-[var(--theme-text-primary)] placeholder:text-[var(--theme-text-muted)] text-xs focus:outline-none focus:border-[var(--theme-accent)] transition-colors"
           />
         </div>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
+          <label className="block text-xs font-bold text-[var(--theme-text-primary)] mb-1">
             Phone Number
           </label>
           <input
@@ -187,11 +187,11 @@ export function ContactInquiryForm() {
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
             placeholder="+8801700000000"
-            className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-[#1E3557] bg-white dark:bg-[#07162C] text-slate-900 dark:text-white placeholder:text-slate-400 text-xs focus:outline-none focus:border-[#087FC4]"
+            className="w-full px-3.5 py-2.5 rounded-xl border border-[var(--theme-border-glass)] bg-[var(--theme-bg-card)] text-[var(--theme-text-primary)] placeholder:text-[var(--theme-text-muted)] text-xs focus:outline-none focus:border-[var(--theme-accent)] transition-colors"
           />
         </div>
         <div>
-          <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
+          <label className="block text-xs font-bold text-[var(--theme-text-primary)] mb-1">
             Subject
           </label>
           <input
@@ -200,13 +200,13 @@ export function ContactInquiryForm() {
             value={subject}
             onChange={(e) => setSubject(e.target.value)}
             placeholder="e.g. Enterprise ERP inquiry"
-            className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-[#1E3557] bg-white dark:bg-[#07162C] text-slate-900 dark:text-white placeholder:text-slate-400 text-xs focus:outline-none focus:border-[#087FC4]"
+            className="w-full px-3.5 py-2.5 rounded-xl border border-[var(--theme-border-glass)] bg-[var(--theme-bg-card)] text-[var(--theme-text-primary)] placeholder:text-[var(--theme-text-muted)] text-xs focus:outline-none focus:border-[var(--theme-accent)] transition-colors"
           />
         </div>
       </div>
 
       <div>
-        <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
+        <label className="block text-xs font-bold text-[var(--theme-text-primary)] mb-1">
           Project Details or Message * (minimum 10 characters)
         </label>
         <textarea
@@ -217,7 +217,7 @@ export function ContactInquiryForm() {
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           placeholder="Briefly describe your requirements, current tech stack, or questions..."
-          className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-[#1E3557] bg-white dark:bg-[#07162C] text-slate-900 dark:text-white placeholder:text-slate-400 text-xs focus:outline-none focus:border-[#087FC4]"
+          className="w-full px-3.5 py-2.5 rounded-xl border border-[var(--theme-border-glass)] bg-[var(--theme-bg-card)] text-[var(--theme-text-primary)] placeholder:text-[var(--theme-text-muted)] text-xs focus:outline-none focus:border-[var(--theme-accent)] transition-colors"
         />
       </div>
 
@@ -228,17 +228,17 @@ export function ContactInquiryForm() {
           required
           checked={consentGiven}
           onChange={(e) => setConsentGiven(e.target.checked)}
-          className="mt-0.5 rounded text-[#0052CC] focus:ring-0 cursor-pointer"
+          className="mt-0.5 rounded text-[var(--theme-accent)] focus:ring-0 cursor-pointer accent-[var(--theme-accent)]"
         />
-        <label htmlFor="contact-consent" className="text-[11px] text-slate-600 dark:text-slate-400 leading-snug cursor-pointer">
-          I consent to MRM InfoTech Ltd. contacting me regarding this inquiry.
+        <label htmlFor="contact-consent" className="text-[11px] text-[var(--theme-text-secondary)] leading-snug cursor-pointer">
+          I consent to MRM InfoTech contacting me regarding this inquiry.
         </label>
       </div>
 
       <button
         type="submit"
         disabled={loading}
-        className="inline-flex items-center justify-center gap-2 px-7 py-3 rounded-xl font-bold text-white bg-[#0052CC] hover:bg-[#0040A8] transition-colors shadow-md shadow-[#0052CC]/25 text-xs disabled:opacity-50 cursor-pointer w-full sm:w-auto"
+        className="inline-flex items-center justify-center gap-2 px-7 py-3 rounded-xl font-bold text-[var(--theme-accent-text)] bg-[var(--theme-accent)] hover:brightness-110 transition-all shadow-md shadow-[var(--theme-accent-glow)] text-xs disabled:opacity-50 cursor-pointer w-full sm:w-auto"
       >
         {loading ? (
           <>

@@ -99,19 +99,19 @@ export function TeamForm({ initialData, onSaved, onCancel }: TeamFormProps) {
     }
   };
 
-  // ডেস্কটপ থেকে টিম মেম্বারের ছবি আপলোড হ্যান্ডলার
+  // Desktop team photo upload handler
   const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // ফাইলের আকার ও টাইপ ভ্যালিডেশন
+    // File size and type validation
     if (!file.type.startsWith('image/')) {
-      setError('অনুগ্রহ করে একটি ছবি ফাইল (JPG, PNG, WebP) নির্বাচন করুন।');
+      setError('Please select an image file (JPG, PNG, WebP).');
       return;
     }
 
     if (file.size > 5 * 1024 * 1024) {
-      setError('ছবির সাইজ সর্বোচ্চ 5MB হতে পারে।');
+      setError('Image size must be under 5MB.');
       return;
     }
 
@@ -123,15 +123,15 @@ export function TeamForm({ initialData, onSaved, onCancel }: TeamFormProps) {
       const url = res.url || (res as unknown as { data?: { url?: string } })?.data?.url;
       if (url) {
         setPhoto(url);
-        setSuccessMsg('ছবি সফলভাবে আপলোড হয়েছে!');
+        setSuccessMsg('Image uploaded successfully!');
         setTimeout(() => setSuccessMsg(null), 3500);
       } else {
-        setError('ছবি আপলোড সম্পন্ন হয়নি। আবার চেষ্টা করুন।');
+        setError('Image upload failed. Please try again.');
       }
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'ছবি আপলোড করতে ব্যর্থ হয়েছে';
+      const msg = err instanceof Error ? err.message : 'Failed to upload image';
       if (msg.includes('401') || msg.toLowerCase().includes('unauthorized')) {
-        setError('AUTH_EXPIRED: আপনার অ্যাডমিন সেশনের মেয়াদ শেষ হয়ে গেছে (401)। অনুগ্রহ করে পুনরায় লগইন করে চেষ্টা করুন।');
+        setError('AUTH_EXPIRED: Session expired. Please log in again.');
       } else {
         setError(msg);
       }
@@ -157,21 +157,21 @@ export function TeamForm({ initialData, onSaved, onCancel }: TeamFormProps) {
     setError(null);
     setSuccessMsg(null);
 
-    // বাধ্যতামূলক ফিল্ড ভ্যালিডেশন
+    // Required field validation
     if (!photo.trim()) {
-      setError('টিম মেম্বারের ছবি (Photo) বাধ্যতামূলক। অনুগ্রহ করে একটি ছবি আপলোড করুন।');
+      setError('Team member photo is required.');
       setIsSubmitting(false);
       return;
     }
 
     if (!name.trim()) {
-      setError('টিম মেম্বারের নাম (Name) বাধ্যতামূলক।');
+      setError('Full name is required.');
       setIsSubmitting(false);
       return;
     }
 
     if (!role.trim()) {
-      setError('টিম মেম্বারের ভূমিকা / পদবি (Role) বাধ্যতামূলক।');
+      setError('Role / Designation is required.');
       setIsSubmitting(false);
       return;
     }
@@ -197,17 +197,17 @@ export function TeamForm({ initialData, onSaved, onCancel }: TeamFormProps) {
     try {
       if (initialData?.id) {
         await updateAdminTeamMember(initialData.id, payload);
-        setSuccessMsg(`টিম মেম্বার "${name}" সফলভাবে আপডেট করা হয়েছে!`);
+        setSuccessMsg(`Team member "${name}" updated successfully!`);
       } else {
         await createAdminTeamMember(payload);
-        setSuccessMsg(`নতুন টিম মেম্বার "${name}" সফলভাবে যুক্ত করা হয়েছে!`);
+        setSuccessMsg(`New team member "${name}" added successfully!`);
       }
 
       setTimeout(() => {
         onSaved?.();
       }, 700);
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'সংরক্ষণ করতে ব্যর্থ হয়েছে';
+      const msg = err instanceof Error ? err.message : 'Failed to save changes';
       setError(msg);
     } finally {
       setIsSubmitting(false);
@@ -227,7 +227,7 @@ export function TeamForm({ initialData, onSaved, onCancel }: TeamFormProps) {
             {initialData?.id ? `Edit Member: ${initialData.name || 'Team Member'}` : 'Add New Team Member'}
           </h2>
           <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-            টিম মেম্বারের ছবি, নাম ও পদবি বাধ্যতামূলক। মেম্বারদের ছবি নিখুঁত সার্কেল (Circular) স্টাইলে প্রদর্শিত হবে।
+            Member photo, name and designation are required. Photo displays in circular frame.
           </p>
         </div>
 
@@ -256,7 +256,7 @@ export function TeamForm({ initialData, onSaved, onCancel }: TeamFormProps) {
               rel="noopener noreferrer"
               className="px-3 py-1 rounded-lg bg-rose-500 text-white font-bold text-xs hover:bg-rose-600 transition-colors shrink-0"
             >
-              পুনরায় লগইন করুন ↗
+              Log in again ↗
             </a>
           )}
         </div>
@@ -275,10 +275,10 @@ export function TeamForm({ initialData, onSaved, onCancel }: TeamFormProps) {
           <div>
             <label className="text-xs font-extrabold text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
               <Camera className="w-4 h-4 text-[#087FC4] dark:text-[#20B8D5]" />
-              টিম মেম্বারের ছবি (Member Photo) <span className="text-rose-500">*</span>
+              Team Member Photo <span className="text-rose-500">*</span>
             </label>
             <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
-              ডেস্কটপ থেকে সরাসরি পাসপোর্ট সাইজ বা পোর্ট্রেট ছবি আপলোড করুন। ওয়েবসাইট ও হোমপেজে সার্কুলার বর্ডারে শো করবে।
+              Upload portrait or square photo. Displays with circular border on public website.
             </p>
           </div>
 
@@ -371,13 +371,13 @@ export function TeamForm({ initialData, onSaved, onCancel }: TeamFormProps) {
               ) : (
                 <>
                   <Upload className="w-4 h-4" />
-                  <span>ডেস্কটপ থেকে ছবি আপলোড করুন</span>
+                  <span>Upload Image from Computer</span>
                 </>
               )}
             </button>
 
             <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
-              সুপারিশ: ১:১ স্কয়ার রেশিও (যেমন: 600x600px বা 800x800px)। ব্যাকগ্রাউন্ড ক্লিন পোর্ট্রেট ছবি সবচেয়ে প্রিমিয়াম লুক দেয়।
+              Recommended: 1:1 square ratio (e.g. 600x600px or 800x800px) with clean background.
             </p>
           </div>
         </div>
@@ -388,7 +388,7 @@ export function TeamForm({ initialData, onSaved, onCancel }: TeamFormProps) {
         {/* Name (Mandatory) */}
         <div>
           <label className="block text-xs font-extrabold text-slate-800 dark:text-slate-200 mb-1.5">
-            পূর্ণ নাম (Full Name) <span className="text-rose-500">*</span>
+            Full Name <span className="text-rose-500">*</span>
           </label>
           <input
             type="text"
@@ -403,7 +403,7 @@ export function TeamForm({ initialData, onSaved, onCancel }: TeamFormProps) {
         {/* Role / Designation (Mandatory) */}
         <div>
           <label className="block text-xs font-extrabold text-slate-800 dark:text-slate-200 mb-1.5">
-            ভূমিকা / পদবি (Role / Designation) <span className="text-rose-500">*</span>
+            Role / Designation <span className="text-rose-500">*</span>
           </label>
           <input
             type="text"
@@ -418,7 +418,7 @@ export function TeamForm({ initialData, onSaved, onCancel }: TeamFormProps) {
         {/* Display Serial / Priority Order Number */}
         <div>
           <label className="block text-xs font-extrabold text-slate-800 dark:text-slate-200 mb-1.5">
-            সিরিয়াল / রেংক নম্বর (Display Order Rank)
+            Display Order Rank
           </label>
           <input
             type="number"
@@ -428,14 +428,14 @@ export function TeamForm({ initialData, onSaved, onCancel }: TeamFormProps) {
             className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-[#1E3557] bg-white dark:bg-[#07162C] text-xs font-medium text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-hidden focus:ring-1 focus:ring-[#087FC4]"
           />
           <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1">
-            ১ নম্বর সিরিয়াল দিলে মেম্বার সবার উপরে/প্রথমে প্রদর্শিত হবে (১, ২, ৩... সাজানো)।
+            Rank 1 displays at the top (1, 2, 3... order).
           </p>
         </div>
 
         {/* Department / Division */}
         <div>
           <label className="block text-xs font-extrabold text-slate-800 dark:text-slate-200 mb-1.5">
-            বিভাগ (Department)
+            Department
           </label>
           <select
             value={department}
@@ -446,9 +446,23 @@ export function TeamForm({ initialData, onSaved, onCancel }: TeamFormProps) {
             <option value="Engineering">Software Engineering</option>
             <option value="Architecture">Systems &amp; Cloud Architecture</option>
             <option value="Product">Product Strategy &amp; Design</option>
+            <option value="Sales & Marketing">Sales &amp; Marketing</option>
             <option value="AI / ML">AI &amp; Machine Learning</option>
             <option value="Quality Assurance">Quality Assurance &amp; Security</option>
             <option value="Operations">Operations &amp; Client Success</option>
+            {department &&
+              ![
+                'Executive',
+                'Engineering',
+                'Architecture',
+                'Product',
+                'Sales & Marketing',
+                'AI / ML',
+                'Quality Assurance',
+                'Operations',
+              ].includes(department) && (
+                <option value={department}>{department}</option>
+              )}
           </select>
         </div>
       </div>
@@ -456,7 +470,7 @@ export function TeamForm({ initialData, onSaved, onCancel }: TeamFormProps) {
       {/* Section 3: Bio / Short Profile Description (Optional) */}
       <div>
         <label className="block text-xs font-extrabold text-slate-800 dark:text-slate-200 mb-1.5">
-          সংক্ষিপ্ত পরিচিতি (Bio / Summary) <span className="text-slate-400 font-normal">(Optional)</span>
+          Bio / Summary <span className="text-slate-400 font-normal">(Optional)</span>
         </label>
         <textarea
           rows={3}
@@ -471,7 +485,7 @@ export function TeamForm({ initialData, onSaved, onCancel }: TeamFormProps) {
       <div className="p-5 rounded-2xl bg-slate-50/70 dark:bg-[#07162C]/70 border border-slate-200/80 dark:border-[#1E3557] space-y-4">
         <h3 className="text-xs font-extrabold text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
           <Briefcase className="w-4 h-4 text-[#087FC4] dark:text-[#20B8D5]" />
-          কানেকশন ও সোশ্যাল প্রোফাইল (Social Profiles &amp; Contact)
+          Social Profiles & Contact
         </h3>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -509,7 +523,7 @@ export function TeamForm({ initialData, onSaved, onCancel }: TeamFormProps) {
           <div>
             <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1 flex items-center gap-1.5">
               <Mail className="w-3.5 h-3.5 text-amber-500" />
-              অফিশিয়াল ইমেইল (Email)
+              Official Email
             </label>
             <input
               type="email"
@@ -530,7 +544,7 @@ export function TeamForm({ initialData, onSaved, onCancel }: TeamFormProps) {
               className="w-4 h-4 rounded text-[#087FC4] border-slate-300 focus:ring-[#087FC4]"
             />
             <label htmlFor="showEmail" className="text-xs font-medium text-slate-700 dark:text-slate-300 cursor-pointer">
-              পাবলিক ওয়েবসাইটে ইমেইল প্রদর্শন করুন (Show email publicly)
+              Show email publicly on website
             </label>
           </div>
         </div>
@@ -547,7 +561,7 @@ export function TeamForm({ initialData, onSaved, onCancel }: TeamFormProps) {
             className="w-4 h-4 rounded text-[#087FC4] border-slate-300 focus:ring-[#087FC4]"
           />
           <label htmlFor="isActive" className="text-xs font-bold text-slate-800 dark:text-slate-200 cursor-pointer">
-            অ্যাক্টিভ প্রোফাইল (Active / Published on Public Site)
+            Active / Published on Public Site
           </label>
         </div>
 
@@ -559,12 +573,12 @@ export function TeamForm({ initialData, onSaved, onCancel }: TeamFormProps) {
           {isSubmitting ? (
             <>
               <Loader2 className="w-4 h-4 animate-spin" />
-              <span>সংরক্ষণ করা হচ্ছে...</span>
+              <span>Saving changes...</span>
             </>
           ) : (
             <>
               <Save className="w-4 h-4" />
-              <span>{initialData?.id ? 'আপডেট সংরক্ষণ করুন' : 'টিম মেম্বার সংরক্ষণ করুন'}</span>
+              <span>{initialData?.id ? 'Update Profile' : 'Add Team Member'}</span>
             </>
           )}
         </button>

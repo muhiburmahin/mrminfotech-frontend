@@ -168,19 +168,19 @@ export function StartProjectForm({ services = [] }: StartProjectFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="liquid-glass rounded-2xl p-7 sm:p-10 space-y-6">
+    <form onSubmit={handleSubmit} className="rounded-3xl border border-[var(--theme-border-glass)] bg-[var(--theme-bg-surface)] p-7 sm:p-10 space-y-6 shadow-2xl">
       <div>
-        <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white flex items-center gap-2.5">
-          <Rocket className="w-6 h-6 text-[#087FC4]" />
+        <h2 className="text-xl sm:text-2xl font-black text-[var(--theme-text-primary)] flex items-center gap-2.5">
+          <Rocket className="w-6 h-6 text-[var(--theme-accent)]" />
           <span>Project Specifications & Scope</span>
         </h2>
-        <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+        <p className="text-xs text-[var(--theme-text-secondary)] mt-1">
           Provide your specifications to receive an architectural estimate and implementation roadmap.
         </p>
       </div>
 
       {error && (
-        <div className="p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-600 dark:text-rose-400 text-xs flex items-start gap-2.5">
+        <div className="p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs flex items-start gap-2.5">
           <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
           <span className="leading-relaxed font-medium">{error}</span>
         </div>
@@ -189,11 +189,11 @@ export function StartProjectForm({ services = [] }: StartProjectFormProps) {
       {/* Contact Information */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
+          <label className="block text-xs font-bold text-[var(--theme-text-secondary)] mb-1.5">
             Your Full Name *
           </label>
           <div className="relative">
-            <User className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+            <User className="w-4 h-4 text-[var(--theme-text-muted)] absolute left-3.5 top-3" />
             <input
               type="text"
               required
@@ -202,17 +202,17 @@ export function StartProjectForm({ services = [] }: StartProjectFormProps) {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="e.g. Md. Tariqul Islam"
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 dark:border-[#1E3557] bg-white dark:bg-[#07162C] text-xs text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-[#087FC4]"
+              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-[var(--theme-border-glass)] bg-[var(--theme-bg-canvas)] text-xs text-[var(--theme-text-primary)] placeholder:text-[var(--theme-text-muted)] focus:outline-none focus:border-[var(--theme-accent)] transition-colors"
             />
           </div>
         </div>
 
         <div>
-          <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
+          <label className="block text-xs font-bold text-[var(--theme-text-secondary)] mb-1.5">
             Corporate Email Address *
           </label>
           <div className="relative">
-            <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+            <Mail className="w-4 h-4 text-[var(--theme-text-muted)] absolute left-3.5 top-3" />
             <input
               type="email"
               required
@@ -220,7 +220,7 @@ export function StartProjectForm({ services = [] }: StartProjectFormProps) {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="tariqul@enterprise.com"
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 dark:border-[#1E3557] bg-white dark:bg-[#07162C] text-xs text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-[#087FC4]"
+              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-[var(--theme-border-glass)] bg-[var(--theme-bg-canvas)] text-xs text-[var(--theme-text-primary)] placeholder:text-[var(--theme-text-muted)] focus:outline-none focus:border-[var(--theme-accent)] transition-colors"
             />
           </div>
         </div>
@@ -228,34 +228,34 @@ export function StartProjectForm({ services = [] }: StartProjectFormProps) {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
+          <label className="block text-xs font-bold text-[var(--theme-text-secondary)] mb-1.5">
             Phone / WhatsApp Number
           </label>
           <div className="relative">
-            <Phone className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+            <Phone className="w-4 h-4 text-[var(--theme-text-muted)] absolute left-3.5 top-3" />
             <input
               type="tel"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               placeholder="+8801700000000"
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 dark:border-[#1E3557] bg-white dark:bg-[#07162C] text-xs text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-[#087FC4]"
+              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-[var(--theme-border-glass)] bg-[var(--theme-bg-canvas)] text-xs text-[var(--theme-text-primary)] placeholder:text-[var(--theme-text-muted)] focus:outline-none focus:border-[var(--theme-accent)] transition-colors"
             />
           </div>
         </div>
 
         <div>
-          <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
+          <label className="block text-xs font-bold text-[var(--theme-text-secondary)] mb-1.5">
             Organization or Company
           </label>
           <div className="relative">
-            <Building className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+            <Building className="w-4 h-4 text-[var(--theme-text-muted)] absolute left-3.5 top-3" />
             <input
               type="text"
               maxLength={150}
               value={company}
               onChange={(e) => setCompany(e.target.value)}
               placeholder="e.g. Apex Health Systems"
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 dark:border-[#1E3557] bg-white dark:bg-[#07162C] text-xs text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-[#087FC4]"
+              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-[var(--theme-border-glass)] bg-[var(--theme-bg-canvas)] text-xs text-[var(--theme-text-primary)] placeholder:text-[var(--theme-text-muted)] focus:outline-none focus:border-[var(--theme-accent)] transition-colors"
             />
           </div>
         </div>
@@ -263,13 +263,13 @@ export function StartProjectForm({ services = [] }: StartProjectFormProps) {
 
       {/* Primary Service Selection */}
       <div>
-        <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
+        <label className="block text-xs font-bold text-[var(--theme-text-secondary)] mb-1.5">
           Service or Platform of Interest
         </label>
         <select
           value={serviceInterested}
           onChange={(e) => setServiceInterested(e.target.value)}
-          className="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-[#1E3557] bg-white dark:bg-[#07162C] text-xs text-slate-900 dark:text-white focus:outline-none focus:border-[#087FC4]"
+          className="w-full px-4 py-2.5 rounded-xl border border-[var(--theme-border-glass)] bg-[var(--theme-bg-canvas)] text-xs text-[var(--theme-text-primary)] focus:outline-none focus:border-[var(--theme-accent)] transition-colors"
         >
           <option value="">Select a discipline or platform (optional)</option>
           <option value="edumanage-bd">EduManage BD (School / University ERP)</option>
@@ -287,13 +287,13 @@ export function StartProjectForm({ services = [] }: StartProjectFormProps) {
       {/* Budget & Timeline */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
+          <label className="block text-xs font-bold text-[var(--theme-text-secondary)] mb-1.5">
             Estimated Budget Range
           </label>
           <select
             value={budgetRange}
             onChange={(e) => setBudgetRange(e.target.value)}
-            className="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-[#1E3557] bg-white dark:bg-[#07162C] text-xs text-slate-900 dark:text-white focus:outline-none focus:border-[#087FC4]"
+            className="w-full px-4 py-2.5 rounded-xl border border-[var(--theme-border-glass)] bg-[var(--theme-bg-canvas)] text-xs text-[var(--theme-text-primary)] focus:outline-none focus:border-[var(--theme-accent)] transition-colors"
           >
             {budgetOptions.map((opt) => (
               <option key={opt} value={opt}>
@@ -304,13 +304,13 @@ export function StartProjectForm({ services = [] }: StartProjectFormProps) {
         </div>
 
         <div>
-          <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
+          <label className="block text-xs font-bold text-[var(--theme-text-secondary)] mb-1.5">
             Target Delivery Timeline
           </label>
           <select
             value={timeline}
             onChange={(e) => setTimeline(e.target.value)}
-            className="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-[#1E3557] bg-white dark:bg-[#07162C] text-xs text-slate-900 dark:text-white focus:outline-none focus:border-[#087FC4]"
+            className="w-full px-4 py-2.5 rounded-xl border border-[var(--theme-border-glass)] bg-[var(--theme-bg-canvas)] text-xs text-[var(--theme-text-primary)] focus:outline-none focus:border-[var(--theme-accent)] transition-colors"
           >
             {timelineOptions.map((opt) => (
               <option key={opt} value={opt}>
@@ -323,7 +323,7 @@ export function StartProjectForm({ services = [] }: StartProjectFormProps) {
 
       {/* Project Vision & Requirements */}
       <div>
-        <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
+        <label className="block text-xs font-bold text-[var(--theme-text-secondary)] mb-1.5">
           Project Vision & Requirements * (minimum 10 characters)
         </label>
         <textarea
@@ -334,7 +334,7 @@ export function StartProjectForm({ services = [] }: StartProjectFormProps) {
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           placeholder="Describe the problem, target audience, core features, or current technology stack..."
-          className="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-[#1E3557] bg-white dark:bg-[#07162C] text-xs text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-[#087FC4]"
+          className="w-full px-4 py-2.5 rounded-xl border border-[var(--theme-border-glass)] bg-[var(--theme-bg-canvas)] text-xs text-[var(--theme-text-primary)] placeholder:text-[var(--theme-text-muted)] focus:outline-none focus:border-[var(--theme-accent)] transition-colors"
         />
       </div>
 
@@ -345,17 +345,17 @@ export function StartProjectForm({ services = [] }: StartProjectFormProps) {
           required
           checked={consentGiven}
           onChange={(e) => setConsentGiven(e.target.checked)}
-          className="mt-0.5 rounded text-[#0052CC] focus:ring-0 cursor-pointer"
+          className="mt-0.5 rounded text-[var(--theme-accent)] focus:ring-0 cursor-pointer"
         />
-        <label htmlFor="project-consent" className="text-[11px] text-slate-600 dark:text-slate-400 leading-snug cursor-pointer">
-          I consent to MRM InfoTech Ltd. reviewing these requirements and contacting me regarding this project proposal.
+        <label htmlFor="project-consent" className="text-[11px] text-[var(--theme-text-muted)] leading-snug cursor-pointer">
+          I consent to MRM InfoTech reviewing these requirements and contacting me regarding this project proposal.
         </label>
       </div>
 
       <button
         type="submit"
         disabled={loading}
-        className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl font-bold text-white bg-[#0052CC] hover:bg-[#0040A8] transition-colors shadow-lg shadow-[#0052CC]/25 text-xs sm:text-sm disabled:opacity-50 cursor-pointer"
+        className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl font-bold text-[var(--theme-accent-text)] bg-[var(--theme-accent)] hover:opacity-90 transition-all shadow-lg shadow-[var(--theme-accent-glow)] text-xs sm:text-sm disabled:opacity-50 cursor-pointer"
       >
         {loading ? (
           <>
@@ -370,8 +370,8 @@ export function StartProjectForm({ services = [] }: StartProjectFormProps) {
         )}
       </button>
 
-      <div className="pt-2 text-center text-[11px] text-slate-400 flex items-center justify-center gap-1.5">
-        <ShieldCheck className="w-4 h-4 text-emerald-500" />
+      <div className="pt-2 text-center text-[11px] text-[var(--theme-text-muted)] flex items-center justify-center gap-1.5">
+        <ShieldCheck className="w-4 h-4 text-emerald-400" />
         <span>Confidential & NDAs Honored Prior to Deep Discovery</span>
       </div>
     </form>

@@ -34,9 +34,9 @@ export const metadata: Metadata = {
     'SaaS Architecture',
     'ERP Systems Dhaka',
   ],
-  authors: [{ name: 'MRM InfoTech Ltd.', url: 'https://mrminfotech.com' }],
-  creator: 'MRM InfoTech Ltd.',
-  publisher: 'MRM InfoTech Ltd.',
+  authors: [{ name: 'MRM InfoTech', url: 'https://mrminfotech.com' }],
+  creator: 'MRM InfoTech',
+  publisher: 'MRM InfoTech',
   alternates: {
     canonical: 'https://mrminfotech.com',
   },

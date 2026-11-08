@@ -101,14 +101,14 @@ export function ProductForm({ initialData, onSaved, onCancel }: ProductFormProps
     }
   };
 
-  // ডেস্কটপ থেকে ফাইল আপলোড হ্যান্ডলার (সর্বোচ্চ ১০টি ছবি)
+  // Desktop file upload handler (max 10 images)
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files || files.length === 0) return;
 
     const availableSlots = 10 - images.length;
     if (availableSlots <= 0) {
-      setError('সর্বোচ্চ ১০টি ছবি আপলোড করা যাবে। অতিরিক্ত ছবি যোগ করতে পূর্বের ছবি মুছুন।');
+      setError('Maximum 10 images allowed. Please delete existing images to upload more.');
       return;
     }
 
@@ -120,13 +120,13 @@ export function ProductForm({ initialData, onSaved, onCancel }: ProductFormProps
       const uploadedUrls = await uploadMediaFiles(filesToUpload);
       if (uploadedUrls.length > 0) {
         setImages((prev) => [...prev, ...uploadedUrls].slice(0, 10));
-        setSuccessMsg(`${uploadedUrls.length} টি ছবি সফলভাবে আপলোড হয়েছে!`);
+        setSuccessMsg(`${uploadedUrls.length} image(s) uploaded successfully!`);
         setTimeout(() => setSuccessMsg(null), 4000);
       } else {
-        setError('কোনো ছবি আপলোড হয়নি। অনুগ্রহ করে আবার চেষ্টা করুন।');
+        setError('No images uploaded. Please try again.');
       }
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'ছবি আপলোড করতে ব্যর্থ হয়েছে';
+      const msg = err instanceof Error ? err.message : 'Failed to upload image';
       setError(msg);
     } finally {
       setIsUploading(false);
@@ -140,7 +140,7 @@ export function ProductForm({ initialData, onSaved, onCancel }: ProductFormProps
     const trimmed = manualUrlInput.trim();
     if (!trimmed) return;
     if (images.length >= 10) {
-      setError('সর্বোচ্চ ১০টি ছবি রাখা সম্ভব।');
+      setError('Maximum 10 images permitted.');
       return;
     }
     setImages((prev) => [...prev, trimmed].slice(0, 10));
@@ -309,8 +309,8 @@ export function ProductForm({ initialData, onSaved, onCancel }: ProductFormProps
 
         <div>
           <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5 flex items-center justify-between">
-            <span>Display Serial (ক্রম)</span>
-            <span className="text-[10px] text-[#087FC4] dark:text-[#20B8D5] font-bold">(১ = সবার উপরে)</span>
+            <span>Display Serial (Rank)</span>
+            <span className="text-[10px] text-[#087FC4] dark:text-[#20B8D5] font-bold">(1 = Top priority)</span>
           </label>
           <div className="relative">
             <input

@@ -65,9 +65,9 @@ export default function AdminTeamPage() {
 
       setTeamMembers(sorted as AdminTeamRecord[]);
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'টিম মেম্বারদের তালিকা লোড করতে ব্যর্থ হয়েছে';
+      const msg = err instanceof Error ? err.message : 'Failed to load team members list';
       if (msg.includes('401') || msg.toLowerCase().includes('unauthorized')) {
-        setError('AUTH_EXPIRED: আপনার অ্যাডমিন সেশনের মেয়াদ শেষ হয়ে গেছে। অনুগ্রহ করে পুনরায় লগইন করুন।');
+        setError('AUTH_EXPIRED: Admin session expired. Please log in again.');
       } else {
         setError(msg);
       }
@@ -97,18 +97,18 @@ export default function AdminTeamPage() {
   const handleDelete = async (member: AdminTeamRecord) => {
     if (!member.id) return;
     const confirmName = member.name || 'this member';
-    if (!window.confirm(`আপনি কি নিশ্চিতভাবে "${confirmName}" প্রোফাইলটি মুছে ফেলতে চান?`)) {
+    if (!window.confirm(`Are you sure you want to delete profile "${confirmName}"?`)) {
       return;
     }
 
     setIsDeleting(member.id);
     try {
       await deleteAdminTeamMember(member.id);
-      setSuccessMsg(`"${confirmName}" সফলভাবে ডিলিট করা হয়েছে!`);
+      setSuccessMsg(`"${confirmName}" deleted successfully!`);
       setTimeout(() => setSuccessMsg(null), 3500);
       await fetchMembers();
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'ডিলিট করতে ব্যর্থ হয়েছে';
+      const msg = err instanceof Error ? err.message : 'Failed to delete';
       setError(msg);
     } finally {
       setIsDeleting(null);
@@ -132,11 +132,11 @@ export default function AdminTeamPage() {
         sortOrder: newRank,
       });
 
-      setSuccessMsg(`"${member.name}" এর ক্রম #${newRank} এ এগিয়ে নেওয়া হয়েছে!`);
+      setSuccessMsg(`"${member.name}" promoted to rank #${newRank}!`);
       setTimeout(() => setSuccessMsg(null), 3000);
       await fetchMembers();
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'ক্রম আপডেট করতে ব্যর্থ হয়েছে';
+      const msg = err instanceof Error ? err.message : 'Failed to update rank';
       setError(msg);
     } finally {
       setIsUpdatingRank(null);
@@ -160,11 +160,11 @@ export default function AdminTeamPage() {
         sortOrder: newRank,
       });
 
-      setSuccessMsg(`"${member.name}" এর ক্রম #${newRank} এ নামানো হয়েছে!`);
+      setSuccessMsg(`"${member.name}" moved down to rank #${newRank}!`);
       setTimeout(() => setSuccessMsg(null), 3000);
       await fetchMembers();
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'ক্রম আপডেট করতে ব্যর্থ হয়েছে';
+      const msg = err instanceof Error ? err.message : 'Failed to update rank';
       setError(msg);
     } finally {
       setIsUpdatingRank(null);
@@ -181,11 +181,11 @@ export default function AdminTeamPage() {
         prev.map((m) => (m.id === member.id ? { ...m, isActive: newStatus } : m))
       );
       setSuccessMsg(
-        `"${member.name}" এখন ${newStatus ? 'পাবলিক ওয়েবসাইটে দৃশ্যমান' : 'লুকানো (Hidden)'}!`
+        `"${member.name}" is now ${newStatus ? "Visible on public website" : "Hidden"}!`
       );
       setTimeout(() => setSuccessMsg(null), 3000);
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'স্ট্যাটাস আপডেট করতে ব্যর্থ হয়েছে';
+      const msg = err instanceof Error ? err.message : 'Failed to update status';
       setError(msg);
     }
   };
@@ -205,7 +205,7 @@ export default function AdminTeamPage() {
             Team Members Management
           </h1>
           <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-            টিম মেম্বারদের সিরিয়াল বা রেংক (#1, #2...), ছবি আপলোড, পদবি ও সোশ্যাল প্রোফাইল ম্যানেজ করুন।
+            Manage team members rank (#1, #2...), photo uploads, designations and social profiles.
           </p>
         </div>
 
@@ -215,7 +215,7 @@ export default function AdminTeamPage() {
             onClick={fetchMembers}
             disabled={loading}
             className="p-2.5 rounded-xl border border-slate-200 dark:border-[#1E3557] hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition-colors disabled:opacity-50"
-            title="তালিকা রিফ্রেশ করুন"
+            title="Refresh List"
           >
             <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-[#087FC4]' : ''}`} />
           </button>
@@ -226,7 +226,7 @@ export default function AdminTeamPage() {
             className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#087FC4] to-[#20B8D5] text-white text-xs font-bold shadow-md shadow-[#087FC4]/20 hover:opacity-95 transition-all cursor-pointer"
           >
             <Plus className="w-4 h-4" />
-            <span>নতুন মেম্বার যুক্ত করুন</span>
+            <span>Add New Member</span>
           </button>
         </div>
       </div>
@@ -267,7 +267,7 @@ export default function AdminTeamPage() {
               href="/admin/login"
               className="px-3.5 py-1.5 rounded-lg bg-rose-500 text-white font-bold text-xs hover:bg-rose-600 transition-colors shrink-0"
             >
-              পুনরায় লগইন করুন (Go to Login)
+              Return to Login
             </Link>
           )}
         </div>
@@ -326,7 +326,7 @@ export default function AdminTeamPage() {
                         disabled={idx === 0 || isUpdatingRank === member.id}
                         onClick={() => handleMoveUp(member, idx)}
                         className="p-1 rounded hover:bg-slate-200 dark:hover:bg-slate-800 disabled:opacity-30 text-slate-600 dark:text-slate-300 transition-colors cursor-pointer"
-                        title="Move Up (১ নম্বরের দিকে নিন)"
+                        title="Move Up (Promote Rank)"
                       >
                         <ArrowUp className="w-3.5 h-3.5" />
                       </button>
@@ -343,7 +343,7 @@ export default function AdminTeamPage() {
                         disabled={idx === teamMembers.length - 1 || isUpdatingRank === member.id}
                         onClick={() => handleMoveDown(member, idx)}
                         className="p-1 rounded hover:bg-slate-200 dark:hover:bg-slate-800 disabled:opacity-30 text-slate-600 dark:text-slate-300 transition-colors cursor-pointer"
-                        title="Move Down (নিচে নামান)"
+                        title="Move Down (Move down)"
                       >
                         <ArrowDown className="w-3.5 h-3.5" />
                       </button>

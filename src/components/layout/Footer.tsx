@@ -186,7 +186,7 @@ export function Footer({
         {/* Bottom Legal & Copyright Bar */}
         <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
           <div className="flex items-center gap-2">
-            <span>© {currentYear} MRM InfoTech Ltd. All rights reserved.</span>
+            <span>© {currentYear} MRM InfoTech. All rights reserved.</span>
             <span className="hidden sm:inline">•</span>
             <span className="hidden sm:inline">Dhaka, Bangladesh</span>
           </div>

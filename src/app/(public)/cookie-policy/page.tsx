@@ -2,39 +2,39 @@ import React from 'react';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Cookie Policy | MRM InfoTech Ltd.',
-  description: 'Information regarding cookie usage on MRM InfoTech Ltd. websites.',
+  title: 'Cookie Policy | MRM InfoTech',
+  description: 'Information regarding cookie usage on MRM InfoTech websites.',
 };
 
 export default function CookiePolicyPage() {
   return (
-    <div className="w-full flex flex-col bg-white dark:bg-[#07162C] transition-colors duration-150">
-      <section className="bg-slate-50 dark:bg-[#07162C] text-slate-900 dark:text-white pt-20 pb-16 border-b border-slate-200 dark:border-[#1E3557] transition-colors duration-150">
+    <div className="w-full flex flex-col bg-[var(--theme-bg-canvas)] text-[var(--theme-text-primary)] transition-colors duration-150">
+      <section className="bg-[var(--theme-bg-surface)] text-[var(--theme-text-primary)] pt-20 pb-16 border-b border-[var(--theme-border-glass)] transition-colors duration-150">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-3">
-          <span className="text-xs font-bold text-[#087FC4] dark:text-[#00C2FF] uppercase tracking-wider">
+          <span className="text-xs font-bold text-[var(--theme-accent)] uppercase tracking-wider">
             Browser Storage & Privacy
           </span>
-          <h1 className="text-4xl font-black tracking-tight text-slate-900 dark:text-white">Cookie Policy</h1>
-          <p className="text-sm text-slate-500 dark:text-slate-400">Last updated: January 2026</p>
+          <h1 className="text-4xl font-black tracking-tight text-[var(--theme-text-primary)]">Cookie Policy</h1>
+          <p className="text-sm text-[var(--theme-text-muted)]">Last updated: January 2026</p>
         </div>
       </section>
 
-      <section className="py-16 bg-white dark:bg-[#07162C] transition-colors duration-150">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 prose prose-slate dark:prose-invert max-w-none space-y-6 text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+      <section className="py-16 bg-[var(--theme-bg-canvas)] transition-colors duration-150">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 text-sm text-[var(--theme-text-secondary)] leading-relaxed">
           <p>
-            <strong>MRM InfoTech Ltd.</strong> uses minimal, essential cookies and local browser
+            <strong className="text-[var(--theme-text-primary)]">MRM InfoTech</strong> uses minimal, essential cookies and local browser
             storage strictly necessary for system authentication, CSRF security, and user session
             continuity.
           </p>
 
-          <h2 className="text-xl font-bold text-slate-900 dark:text-white pt-4">1. Essential Security Cookies</h2>
+          <h2 className="text-xl font-bold text-[var(--theme-text-primary)] pt-4">1. Essential Security Cookies</h2>
           <p>
-            Our backend utilizes secure, encrypted <code>HttpOnly</code>, <code>SameSite=Lax</code>{' '}
-            session cookies (such as <code>mrm_session</code>) to safeguard administrative logins
+            Our backend utilizes secure, encrypted <code className="px-1.5 py-0.5 rounded bg-[var(--theme-bg-surface)] border border-[var(--theme-border-glass)] text-[var(--theme-accent)]">HttpOnly</code>, <code className="px-1.5 py-0.5 rounded bg-[var(--theme-bg-surface)] border border-[var(--theme-border-glass)] text-[var(--theme-accent)]">SameSite=Lax</code>{' '}
+            session cookies (such as <code className="px-1.5 py-0.5 rounded bg-[var(--theme-bg-surface)] border border-[var(--theme-border-glass)] text-[var(--theme-accent)]">mrm_session</code>) to safeguard administrative logins
             and prevent cross-site request forgery attacks.
           </p>
 
-          <h2 className="text-xl font-bold text-slate-900 dark:text-white pt-4">2. No Third-Party Tracking</h2>
+          <h2 className="text-xl font-bold text-[var(--theme-text-primary)] pt-4">2. No Third-Party Tracking</h2>
           <p>
             We do not sell advertising tracking cookies or deploy intrusive cross-site behavior
             monitors. Our priority is operational speed and sovereign data privacy.
