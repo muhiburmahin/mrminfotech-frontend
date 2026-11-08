@@ -402,27 +402,76 @@ const APPROVED_TECHNOLOGIES = [
   { name: 'Cloudflare', role: 'Edge CDN & Security' },
 ];
 
-interface EnterpriseMarqueeItem {
+interface HeroTickerItem {
+  id: string;
+  type: 'company' | 'product' | 'service';
   label: string;
-  isBrand?: boolean;
+  href: string;
 }
 
-const ENTERPRISE_MARQUEE_ITEMS: EnterpriseMarqueeItem[] = [
-  { label: '✦ MRM INFOTECH', isBrand: true },
-  { label: 'Next.js 16 Enterprise', isBrand: false },
-  { label: '✦ IDEAS • PRODUCTS • IMPACT', isBrand: true },
-  { label: 'NestJS Modular Architecture', isBrand: false },
-  { label: '✦ MRM INFOTECH CLOUD', isBrand: true },
-  { label: 'PostgreSQL ACID Compliant', isBrand: false },
-  { label: '✦ SOVEREIGN CLOUD & SAAS', isBrand: true },
-  { label: 'Cloudflare Edge Acceleration', isBrand: false },
-  { label: '✦ EDUMANAGE BD & MEDISHEBA BD', isBrand: true },
-  { label: 'Docker & Containerized Pods', isBrand: false },
-  { label: '✦ ENTERPRISE SYSTEMS', isBrand: true },
-  { label: 'TypeScript Strict Protocol', isBrand: false },
-  { label: 'Redis Ultra-Fast Cache', isBrand: false },
-  { label: 'OWASP Top 10 Hardened Security', isBrand: false },
-];
+function buildOrderedHeroTicker(
+  products: ProductItem[],
+  services: ServiceItem[]
+): HeroTickerItem[] {
+  const prodList = products.length > 0 ? products : FALLBACK_PRODUCTS;
+  const servList = services.length > 0 ? services : FALLBACK_SERVICES;
+
+  const items: HeroTickerItem[] = [];
+
+  // Strictly enforced sequence requested:
+  // 1. Company Name -> 2. Product -> 3. Service A -> 4. Service B
+  // Repeats until all products and all services are covered.
+  const targetCycles = Math.max(
+    Math.ceil(servList.length / 2),
+    prodList.length,
+    4
+  );
+
+  let pIdx = 0;
+  let sIdx = 0;
+
+  for (let c = 0; c < targetCycles; c++) {
+    // 1. Company Name
+    items.push({
+      id: `company-${c}`,
+      type: 'company',
+      label: 'MRM InfoTech',
+      href: '/#hero',
+    });
+
+    // 2. Product
+    const currentProd = prodList[pIdx % prodList.length];
+    items.push({
+      id: `prod-${c}-${currentProd.slug}`,
+      type: 'product',
+      label: currentProd.title,
+      href: `/products/${currentProd.slug}`,
+    });
+    pIdx++;
+
+    // 3. Service 1 of this cycle
+    const currentServA = servList[sIdx % servList.length];
+    items.push({
+      id: `serv-${c}-a-${currentServA.slug}`,
+      type: 'service',
+      label: currentServA.title,
+      href: `/services/${currentServA.slug}`,
+    });
+    sIdx++;
+
+    // 4. Service 2 of this cycle
+    const currentServB = servList[sIdx % servList.length];
+    items.push({
+      id: `serv-${c}-b-${currentServB.slug}`,
+      type: 'service',
+      label: currentServB.title,
+      href: `/services/${currentServB.slug}`,
+    });
+    sIdx++;
+  }
+
+  return items;
+}
 
 export default async function HomePage() {
   const [
@@ -541,6 +590,7 @@ export default async function HomePage() {
     .sort((a, b) => (a.order ?? a.sortOrder ?? 999) - (b.order ?? b.sortOrder ?? 999))
     .slice(0, 4);
   const latestPosts: PublishedBlogPost[] = apiBlogPosts.slice(0, 3);
+  const heroTickerItems = buildOrderedHeroTicker(products, services);
 
   return (
     <div className="min-h-screen bg-[var(--theme-bg-canvas)] text-[var(--theme-text-primary)] overflow-x-clip selection:bg-[var(--theme-accent)] selection:text-[var(--theme-accent-text)]">
@@ -811,24 +861,51 @@ export default async function HomePage() {
             <div className="text-[11px] font-extrabold uppercase tracking-widest text-[var(--theme-text-secondary)]/60 mb-5 text-center">
               ENGINEERED WITH MODERN ENTERPRISE TECH STACKS &amp; STANDARDS
             </div>
-            <InfiniteMarquee speed={32}>
-              {ENTERPRISE_MARQUEE_ITEMS.map((item, idx) => (
-                <div
-                  key={`${item.label}-${idx}`}
-                  className={`flex items-center gap-2 text-xs font-bold px-4 py-2 rounded-full shrink-0 transition-all ${
-                    item.isBrand
-                      ? 'bg-[var(--theme-accent)] text-[var(--theme-accent-text)] font-black shadow-[0_0_16px_var(--theme-accent-glow)] border border-[var(--theme-accent)]'
-                      : 'clear-glass-pill text-[var(--theme-text-primary)]/90 border border-[var(--theme-border-glass)] hover:border-[var(--theme-accent)] hover:shadow-[0_0_14px_var(--theme-accent-subtle)]'
-                  }`}
-                >
-                  <span
-                    className={`w-1.5 h-1.5 rounded-full ${
-                      item.isBrand ? 'bg-white animate-pulse' : 'bg-[var(--theme-accent)]'
-                    }`}
-                  />
-                  <span>{item.label}</span>
-                </div>
-              ))}
+            <InfiniteMarquee speed={38} direction="right" pauseOnHover={true}>
+              {heroTickerItems.map((item) => {
+                if (item.type === 'company') {
+                  return (
+                    <Link
+                      key={item.id}
+                      href={item.href}
+                      className="group inline-flex items-center gap-2 px-4 py-2 rounded-full shrink-0 transition-all duration-200 bg-gradient-to-r from-blue-700 via-indigo-600 to-cyan-600 text-white font-black text-xs shadow-[0_0_18px_rgba(37,99,235,0.45)] border border-blue-400/50 hover:scale-105 hover:shadow-[0_0_24px_rgba(34,211,238,0.6)] cursor-pointer"
+                      title="MRM InfoTech — Dual-Engine Technology Company"
+                    >
+                      <span className="w-1.5 h-1.5 rounded-full bg-cyan-300 animate-pulse" />
+                      <span className="text-cyan-200 text-xs drop-shadow-[0_0_6px_rgba(34,211,238,0.8)]">✦</span>
+                      <span className="tracking-wider uppercase font-black">{item.label}</span>
+                    </Link>
+                  );
+                }
+
+                if (item.type === 'product') {
+                  return (
+                    <Link
+                      key={item.id}
+                      href={item.href}
+                      className="group inline-flex items-center gap-2 px-4 py-2 rounded-full shrink-0 transition-all duration-200 bg-[#1d4ed8] hover:bg-[#2563eb] text-white font-extrabold text-xs shadow-[0_0_16px_rgba(29,78,216,0.35)] border border-blue-400/60 hover:scale-105 hover:shadow-[0_0_22px_rgba(59,130,246,0.55)] cursor-pointer"
+                      title={`Explore Product: ${item.label}`}
+                    >
+                      <span className="w-1.5 h-1.5 rounded-full bg-amber-300 animate-pulse" />
+                      <span className="text-amber-300 text-xs drop-shadow-[0_0_6px_rgba(252,211,77,0.7)]">★</span>
+                      <span className="tracking-wide font-bold uppercase">{item.label}</span>
+                    </Link>
+                  );
+                }
+
+                return (
+                  <Link
+                    key={item.id}
+                    href={item.href}
+                    className="group inline-flex items-center gap-2 px-4 py-2 rounded-full shrink-0 transition-all duration-200 clear-glass-pill bg-[var(--theme-bg-surface)] text-[var(--theme-text-primary)] hover:text-[var(--theme-accent)] font-semibold text-xs border border-[var(--theme-border-glass)] hover:border-[var(--theme-accent)] shadow-xs hover:scale-105 hover:shadow-[0_0_16px_var(--theme-accent-subtle)] cursor-pointer"
+                    title={`Explore Service: ${item.label}`}
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full bg-[var(--theme-accent)]" />
+                    <span className="text-[var(--theme-accent)] text-xs">✦</span>
+                    <span className="tracking-normal font-semibold">{item.label}</span>
+                  </Link>
+                );
+              })}
             </InfiniteMarquee>
           </div>
         </div>

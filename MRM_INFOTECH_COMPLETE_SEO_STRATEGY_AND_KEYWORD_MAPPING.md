@@ -241,3 +241,4 @@ The website outputs verified JSON-LD graphs across public pages:
 ---
 
 *Authored and Approved for Production Architecture — MRM InfoTech Engineering & SEO Operations.*
+

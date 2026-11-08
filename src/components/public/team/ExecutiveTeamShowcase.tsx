@@ -191,14 +191,14 @@ export function ExecutiveTeamShowcase({ members, variant = 'home' }: ExecutiveTe
                 className="group relative rounded-2xl border border-[var(--theme-border-glass)] border-t-2 border-t-[var(--theme-accent)]/80 bg-[var(--theme-bg-surface)] overflow-hidden shadow-md hover:border-[var(--theme-accent)] hover:shadow-xl hover:shadow-[0_15px_35px_-10px_rgba(0,0,0,0.12),0_0_25px_var(--theme-accent-glow)] transition-all duration-300 flex flex-col justify-between"
               >
                 <div className="pt-6 pb-4 px-5 flex flex-col items-center text-center">
-                  {/* Circular Avatar Frame with Radiant Ambient Glow */}
+                  {/* Circular Avatar Frame with Expanded Radiant Glow & Precision Border */}
                   <div className="relative group-hover:scale-105 transition-transform duration-300">
                     <div
                       aria-hidden="true"
-                      className="absolute -inset-1 rounded-full bg-gradient-to-tr from-[var(--theme-accent)] via-cyan-400 to-blue-500 opacity-40 blur-xs group-hover:opacity-90 group-hover:blur-sm transition-all duration-300"
+                      className="absolute -inset-1.5 rounded-full bg-gradient-to-tr from-[var(--theme-accent)] via-cyan-400 to-blue-500 opacity-40 blur-xs group-hover:opacity-90 group-hover:blur-sm transition-all duration-300"
                     />
 
-                    <div className="relative w-28 h-28 sm:w-32 sm:h-32 rounded-full overflow-hidden p-1 bg-[var(--theme-bg-canvas)] ring-2 ring-[var(--theme-accent)]/70 shadow-lg shadow-[var(--theme-accent-glow)]/15">
+                    <div className="relative w-32 h-32 sm:w-36 sm:h-36 rounded-full overflow-hidden p-1.5 bg-[var(--theme-bg-canvas)] ring-2 ring-[var(--theme-accent)]/80 shadow-lg shadow-[var(--theme-accent-glow)]/20">
                       {photo ? (
                         /* eslint-disable-next-line @next/next/no-img-element */
                         <img
@@ -216,7 +216,7 @@ export function ExecutiveTeamShowcase({ members, variant = 'home' }: ExecutiveTe
 
                     {/* Active Engineer Pulse Indicator */}
                     <div
-                      className="absolute bottom-1 right-2 w-4 h-4 rounded-full bg-emerald-500 border-2 border-[var(--theme-bg-surface)] shadow-xs"
+                      className="absolute bottom-1.5 right-2 w-4 h-4 rounded-full bg-emerald-500 border-2 border-[var(--theme-bg-surface)] shadow-xs"
                       title="Verified Engineer"
                     />
                   </div>
