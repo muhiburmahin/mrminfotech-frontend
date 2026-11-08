@@ -539,7 +539,7 @@ export default async function HomePage() {
   const activeTeam: PublishedTeamMember[] = [...apiTeam]
     .filter((m) => m.isActive !== false)
     .sort((a, b) => (a.order ?? a.sortOrder ?? 999) - (b.order ?? b.sortOrder ?? 999))
-    .slice(0, 8);
+    .slice(0, 4);
   const latestPosts: PublishedBlogPost[] = apiBlogPosts.slice(0, 3);
 
   return (
@@ -600,7 +600,7 @@ export default async function HomePage() {
           - 3 Luminous interactive showcase cards (MrmHeroShowcaseTriad)
           - Fully dynamic theme tokens: --theme-bg-canvas, --theme-accent, etc.
           ===================================================================== */}
-      <AmbientSection variant="hero-rays" className="pt-12 pb-20 lg:pt-16 lg:pb-28">
+      <AmbientSection id="hero" variant="hero-rays" className="pt-12 pb-20 lg:pt-16 lg:pb-28">
         {/* Volumetric Aurora Beam (Intense vertical glow from bottom up) */}
         <div
           aria-hidden="true"

@@ -160,17 +160,17 @@ export function ExecutiveTeamShowcase({ members, variant = 'home' }: ExecutiveTe
         </div>
       )}
 
-      {/* Grid of Balanced, Proportional Portrait Cards (Crisp, Natural & Sharp) */}
+      {/* Grid of Balanced, Circular Portrait Cards (4 Per Row on Desktop) */}
       <motion.div
         layout
         className={
           filteredMembers.length === 1
-            ? 'max-w-sm mx-auto'
+            ? 'max-w-xs mx-auto'
             : filteredMembers.length === 2
-            ? 'max-w-2xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-6'
+            ? 'max-w-xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-5'
             : filteredMembers.length === 3
-            ? 'max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'
-            : 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6'
+            ? 'max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5'
+            : 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5'
         }
       >
         <AnimatePresence>
@@ -188,77 +188,88 @@ export function ExecutiveTeamShowcase({ members, variant = 'home' }: ExecutiveTe
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.35, delay: idx * 0.05 }}
                 whileHover={{ y: -6, transition: { duration: 0.2 } }}
-                className="group relative rounded-2xl border border-[var(--theme-border-glass)] border-t-2 border-t-[var(--theme-accent)]/70 bg-[var(--theme-bg-surface)] overflow-hidden shadow-md hover:border-[var(--theme-accent)] hover:shadow-xl hover:shadow-[0_15px_35px_-10px_rgba(0,0,0,0.12),0_0_25px_var(--theme-accent-glow)] transition-all duration-300 flex flex-col justify-between"
+                className="group relative rounded-2xl border border-[var(--theme-border-glass)] border-t-2 border-t-[var(--theme-accent)]/80 bg-[var(--theme-bg-surface)] overflow-hidden shadow-md hover:border-[var(--theme-accent)] hover:shadow-xl hover:shadow-[0_15px_35px_-10px_rgba(0,0,0,0.12),0_0_25px_var(--theme-accent-glow)] transition-all duration-300 flex flex-col justify-between"
               >
-                <div>
-                  {/* PROPORTIONAL PORTRAIT FRAME (Crystal Clear & Crisp — No blurring overlay) */}
-                  <div className="relative w-full h-56 sm:h-64 overflow-hidden bg-[var(--theme-bg-canvas)]">
-                    {photo ? (
-                      /* eslint-disable-next-line @next/next/no-img-element */
-                      <img
-                        src={photo}
-                        alt={memberName}
-                        className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
-                        loading="lazy"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-[var(--theme-accent)]/15 via-[var(--theme-bg-surface)] to-[var(--theme-bg-canvas)] text-[var(--theme-accent)]">
-                        <span className="text-5xl font-black">{memberName.charAt(0).toUpperCase()}</span>
-                        <span className="text-[10px] font-mono font-bold mt-2 text-[var(--theme-text-muted)]">MRM INFOTECH</span>
-                      </div>
-                    )}
+                <div className="pt-6 pb-4 px-5 flex flex-col items-center text-center">
+                  {/* Circular Avatar Frame with Radiant Ambient Glow */}
+                  <div className="relative group-hover:scale-105 transition-transform duration-300">
+                    <div
+                      aria-hidden="true"
+                      className="absolute -inset-1 rounded-full bg-gradient-to-tr from-[var(--theme-accent)] via-cyan-400 to-blue-500 opacity-40 blur-xs group-hover:opacity-90 group-hover:blur-sm transition-all duration-300"
+                    />
 
-                    {/* Floating Department Badge */}
-                    <div className="absolute top-3 left-3 z-10">
-                      <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider bg-black/80 backdrop-blur-md text-white border border-white/20 shadow-md">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[var(--theme-accent)]" />
-                        {member.department || 'ENGINEERING'}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Member Details */}
-                  <div className="p-5 space-y-2 relative z-10">
-                    <div>
-                      <h3 className="text-lg font-black text-[var(--theme-text-primary)] tracking-tight group-hover:text-[var(--theme-accent)] transition-colors">
-                        {memberName}
-                      </h3>
-                      <p className="text-xs font-bold text-[var(--theme-accent)] uppercase tracking-wider mt-0.5">
-                        {memberRole}
-                      </p>
+                    <div className="relative w-28 h-28 sm:w-32 sm:h-32 rounded-full overflow-hidden p-1 bg-[var(--theme-bg-canvas)] ring-2 ring-[var(--theme-accent)]/70 shadow-lg shadow-[var(--theme-accent-glow)]/15">
+                      {photo ? (
+                        /* eslint-disable-next-line @next/next/no-img-element */
+                        <img
+                          src={photo}
+                          alt={memberName}
+                          className="w-full h-full object-cover object-center rounded-full"
+                          loading="lazy"
+                        />
+                      ) : (
+                        <div className="w-full h-full rounded-full flex flex-col items-center justify-center bg-gradient-to-br from-[var(--theme-accent)]/20 via-[var(--theme-bg-surface)] to-[var(--theme-bg-canvas)] text-[var(--theme-accent)] font-black text-3xl">
+                          {memberName.charAt(0).toUpperCase()}
+                        </div>
+                      )}
                     </div>
 
-                    {member.bio && (
-                      <p className="text-xs text-[var(--theme-text-secondary)] line-clamp-3 leading-relaxed">
-                        {member.bio}
-                      </p>
-                    )}
-
-                    {/* Domain & Skill Tags */}
-                    {member.tags && member.tags.length > 0 && (
-                      <div className="flex flex-wrap gap-1 pt-1">
-                        {member.tags.slice(0, 3).map((tag) => (
-                          <span
-                            key={tag}
-                            className="text-[10px] font-mono px-2 py-0.5 rounded bg-[var(--theme-bg-canvas)] border border-[var(--theme-border-glass)] text-[var(--theme-text-muted)]"
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    )}
+                    {/* Active Engineer Pulse Indicator */}
+                    <div
+                      className="absolute bottom-1 right-2 w-4 h-4 rounded-full bg-emerald-500 border-2 border-[var(--theme-bg-surface)] shadow-xs"
+                      title="Verified Engineer"
+                    />
                   </div>
+
+                  {/* Department Pill */}
+                  <div className="mt-4">
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider bg-[var(--theme-accent)]/15 text-[var(--theme-accent)] border border-[var(--theme-accent)]/30">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[var(--theme-accent)] animate-pulse" />
+                      {member.department || 'ENGINEERING'}
+                    </span>
+                  </div>
+
+                  {/* Member Name & Role */}
+                  <div className="mt-3 space-y-1">
+                    <h3 className="text-base sm:text-lg font-black text-[var(--theme-text-primary)] tracking-tight group-hover:text-[var(--theme-accent)] transition-colors">
+                      {memberName}
+                    </h3>
+                    <p className="text-xs font-bold text-[var(--theme-accent)] uppercase tracking-wider">
+                      {memberRole}
+                    </p>
+                  </div>
+
+                  {/* Bio */}
+                  {member.bio && (
+                    <p className="text-xs text-[var(--theme-text-secondary)] line-clamp-2 leading-relaxed mt-2.5 px-1">
+                      {member.bio}
+                    </p>
+                  )}
+
+                  {/* Skill Tags */}
+                  {member.tags && member.tags.length > 0 && (
+                    <div className="flex flex-wrap justify-center gap-1 pt-2">
+                      {member.tags.slice(0, 3).map((tag) => (
+                        <span
+                          key={tag}
+                          className="text-[10px] font-mono px-2 py-0.5 rounded bg-[var(--theme-bg-canvas)] border border-[var(--theme-border-glass)] text-[var(--theme-text-muted)]"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
-                {/* Bottom Card Footer */}
-                <div className="px-5 pb-4 pt-3 border-t border-[var(--theme-border-glass)] flex items-center justify-between relative z-10 mt-auto">
-                  <div className="flex items-center gap-2">
+                {/* Bottom Card Footer: Verified Badge & Social Links */}
+                <div className="px-5 py-3 border-t border-[var(--theme-border-glass)] bg-[var(--theme-bg-canvas)]/40 flex items-center justify-between mt-auto">
+                  <div className="flex items-center gap-1.5">
                     {member.linkedinUrl && (
                       <a
                         href={member.linkedinUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="w-7 h-7 rounded-lg bg-[var(--theme-bg-canvas)] hover:bg-[var(--theme-accent)] hover:text-[var(--theme-accent-text)] text-[var(--theme-text-secondary)] flex items-center justify-center transition-all border border-[var(--theme-border-glass)]"
+                        className="w-7 h-7 rounded-lg bg-[var(--theme-bg-surface)] hover:bg-[var(--theme-accent)] hover:text-[var(--theme-accent-text)] text-[var(--theme-text-secondary)] flex items-center justify-center transition-all border border-[var(--theme-border-glass)]"
                         aria-label={`${memberName} LinkedIn`}
                       >
                         <LinkedinIcon className="w-3.5 h-3.5" />
@@ -269,7 +280,7 @@ export function ExecutiveTeamShowcase({ members, variant = 'home' }: ExecutiveTe
                         href={member.githubUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="w-7 h-7 rounded-lg bg-[var(--theme-bg-canvas)] hover:bg-[var(--theme-accent)] hover:text-[var(--theme-accent-text)] text-[var(--theme-text-secondary)] flex items-center justify-center transition-all border border-[var(--theme-border-glass)]"
+                        className="w-7 h-7 rounded-lg bg-[var(--theme-bg-surface)] hover:bg-[var(--theme-accent)] hover:text-[var(--theme-accent-text)] text-[var(--theme-text-secondary)] flex items-center justify-center transition-all border border-[var(--theme-border-glass)]"
                         aria-label={`${memberName} GitHub`}
                       >
                         <GithubIcon className="w-3.5 h-3.5" />
@@ -278,7 +289,7 @@ export function ExecutiveTeamShowcase({ members, variant = 'home' }: ExecutiveTe
                     {member.email && (
                       <a
                         href={`mailto:${member.email}`}
-                        className="w-7 h-7 rounded-lg bg-[var(--theme-bg-canvas)] hover:bg-[var(--theme-accent)] hover:text-[var(--theme-accent-text)] text-[var(--theme-text-secondary)] flex items-center justify-center transition-all border border-[var(--theme-border-glass)]"
+                        className="w-7 h-7 rounded-lg bg-[var(--theme-bg-surface)] hover:bg-[var(--theme-accent)] hover:text-[var(--theme-accent-text)] text-[var(--theme-text-secondary)] flex items-center justify-center transition-all border border-[var(--theme-border-glass)]"
                         aria-label={`Email ${memberName}`}
                       >
                         <Mail className="w-3 h-3" />
@@ -286,8 +297,8 @@ export function ExecutiveTeamShowcase({ members, variant = 'home' }: ExecutiveTe
                     )}
                   </div>
 
-                  <div className="inline-flex items-center gap-1 text-[10px] font-mono text-[var(--theme-text-muted)]">
-                    <ShieldCheck className="w-3.5 h-3.5 text-[var(--theme-accent)]" />
+                  <div className="inline-flex items-center gap-1 text-[10px] font-mono font-medium text-emerald-400">
+                    <ShieldCheck className="w-3.5 h-3.5" />
                     <span>Verified</span>
                   </div>
                 </div>

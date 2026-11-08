@@ -42,10 +42,20 @@ export function Logo({
     lg: 'text-[9px] sm:text-[10px]',
   };
 
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    onClick?.();
+    if (typeof window !== 'undefined') {
+      if (window.location.pathname === '/' || window.location.pathname === '') {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+  };
+
   return (
     <Link
-      href="/"
-      onClick={onClick}
+      href="/#hero"
+      onClick={handleClick}
       className={`inline-flex items-center gap-2.5 group select-none ${className}`}
       aria-label="MRM InfoTech — IDEAS • PRODUCTS • IMPACT"
     >
