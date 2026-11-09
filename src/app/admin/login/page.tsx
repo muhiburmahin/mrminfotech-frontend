@@ -56,13 +56,9 @@ function AdminLoginForm() {
   const [passChangeError, setPassChangeError] = useState<string | null>(null);
   const [passChangeLoading, setPassChangeLoading] = useState(false);
 
-  // Normalize email so both "mrminfotechofficial@gmail" and "mrminfotechofficial@gmail.com" work seamlessly
+  // Normalize the typed email (trim + lowercase) before sending it to the API
   const normalizeAdminEmail = (raw: string) => {
-    const trimmed = raw.trim().toLowerCase();
-    if (trimmed === "mrminfotechofficial@gmail") {
-      return "mrminfotechofficial@gmail.com";
-    }
-    return trimmed;
+    return raw.trim().toLowerCase();
   };
 
   const handleCredentialsSubmit = async (e: React.FormEvent) => {
@@ -74,7 +70,7 @@ function AdminLoginForm() {
     const normalizedEmail = normalizeAdminEmail(emailInput);
 
     try {
-      // 1. Try real backend authentication
+      // 1. Backend authentication
       const res = await login({ email: normalizedEmail, password });
 
       if (res.requiresTwoFactor && res.twoFactorTicket) {
@@ -102,52 +98,9 @@ function AdminLoginForm() {
         return;
       }
 
-      // 2. Direct master fallback check if offline or local override
-      const savedCustomPass =
-        typeof window !== "undefined"
-          ? localStorage.getItem("mrm_override_admin_pass") || "mrm123mrm@"
-          : "mrm123mrm@";
-
-      if (
-        (normalizedEmail === "mrminfotechofficial@gmail.com" ||
-          emailInput.trim().toLowerCase() === "mrminfotechofficial@gmail") &&
-        password === savedCustomPass
-      ) {
-        if (typeof window !== "undefined") {
-          localStorage.setItem("mrm_admin_session", "authenticated");
-          localStorage.setItem("mrm_admin_email", "mrminfotechofficial@gmail.com");
-          document.cookie = `mrm_admin_session=authenticated; path=/; max-age=86400; SameSite=Lax`;
-        }
-        setSuccessMsg("Master Admin Authenticated. Redirecting...");
-        router.push(from);
-        router.refresh();
-        return;
-      }
-
       setErrorMsg(res.error || "Invalid email or password. Please try again.");
     } catch {
-      // Offline fallback
-      const savedCustomPass =
-        typeof window !== "undefined"
-          ? localStorage.getItem("mrm_override_admin_pass") || "mrm123mrm@"
-          : "mrm123mrm@";
-
-      if (
-        (normalizedEmail === "mrminfotechofficial@gmail.com" ||
-          emailInput.trim().toLowerCase() === "mrminfotechofficial@gmail") &&
-        password === savedCustomPass
-      ) {
-        if (typeof window !== "undefined") {
-          localStorage.setItem("mrm_admin_session", "authenticated");
-          document.cookie = `mrm_admin_session=authenticated; path=/; max-age=86400; SameSite=Lax`;
-        }
-        setSuccessMsg("Master Admin Authenticated. Redirecting...");
-        router.push(from);
-        router.refresh();
-        return;
-      }
-
-      setErrorMsg("Invalid email or password.");
+      setErrorMsg("Unable to connect to authentication service. Please check your connection.");
     } finally {
       setLoading(false);
     }
@@ -219,48 +172,15 @@ function AdminLoginForm() {
       });
 
       if (res.success) {
-        if (typeof window !== "undefined") {
-          localStorage.setItem("mrm_override_admin_pass", newPassword);
-        }
         setPassChangeSuccess("Password changed successfully! Please log in with your new password.");
-        setPassword(newPassword);
+        setPassword("");
         setTimeout(() => setIsChangePassOpen(false), 1800);
-        return;
-      }
-
-      // Check fallback active pass
-      const activePass =
-        typeof window !== "undefined"
-          ? localStorage.getItem("mrm_override_admin_pass") || "mrm123mrm@"
-          : "mrm123mrm@";
-
-      if (currentPassword === activePass) {
-        if (typeof window !== "undefined") {
-          localStorage.setItem("mrm_override_admin_pass", newPassword);
-        }
-        setPassChangeSuccess("Password updated successfully!");
-        setPassword(newPassword);
-        setTimeout(() => setIsChangePassOpen(false), 1500);
         return;
       }
 
       setPassChangeError(res.error || "Current password is incorrect.");
     } catch {
-      const activePass =
-        typeof window !== "undefined"
-          ? localStorage.getItem("mrm_override_admin_pass") || "mrm123mrm@"
-          : "mrm123mrm@";
-
-      if (currentPassword === activePass) {
-        if (typeof window !== "undefined") {
-          localStorage.setItem("mrm_override_admin_pass", newPassword);
-        }
-        setPassChangeSuccess("Password updated successfully!");
-        setPassword(newPassword);
-        setTimeout(() => setIsChangePassOpen(false), 1500);
-      } else {
-        setPassChangeError("Current password is incorrect.");
-      }
+      setPassChangeError("Failed to update password. Please check your connection.");
     } finally {
       setPassChangeLoading(false);
     }
@@ -327,13 +247,15 @@ function AdminLoginForm() {
                   <Mail className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
                   <input
                     id="admin-email"
-                    type="text"
+                    name="username"
+                    type="email"
+                    autoComplete="username"
                     required
                     value={emailInput}
                     onChange={(e) => setEmailInput(e.target.value)}
                     onFocus={() => setIsFocusedEmail(true)}
                     onBlur={() => setIsFocusedEmail(false)}
-                    placeholder="mrminfotechofficial@gmail.com"
+                    placeholder="Enter your email"
                     className="w-full rounded-xl border border-[#E1EAF3] dark:border-white/15 bg-[#F7FAFE] dark:bg-[#0B1D31] pl-10 pr-4 py-3.5 text-sm text-[#10243B] dark:text-white placeholder-slate-400 focus:border-[#087FC4] focus:outline-none focus:ring-2 focus:ring-[#087FC4]/20 transition-all"
                   />
                 </div>
@@ -361,13 +283,15 @@ function AdminLoginForm() {
                   <Lock className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
                   <input
                     id="admin-password"
+                    name="password"
                     type={showPassword ? "text" : "password"}
+                    autoComplete="current-password"
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     onFocus={() => setIsFocusedPassword(true)}
                     onBlur={() => setIsFocusedPassword(false)}
-                    placeholder="••••••••••"
+                    placeholder="Enter your password"
                     className="w-full rounded-xl border border-[#E1EAF3] dark:border-white/15 bg-[#F7FAFE] dark:bg-[#0B1D31] pl-10 pr-11 py-3.5 text-sm text-[#10243B] dark:text-white placeholder-slate-400 focus:border-[#087FC4] focus:outline-none focus:ring-2 focus:ring-[#087FC4]/20 transition-all"
                   />
                   <button
@@ -525,10 +449,11 @@ function AdminLoginForm() {
                 </label>
                 <input
                   type="password"
+                  autoComplete="current-password"
                   required
                   value={currentPassword}
                   onChange={(e) => setCurrentPassword(e.target.value)}
-                  placeholder="mrm123mrm@"
+                  placeholder="Enter current password"
                   className="w-full rounded-xl border border-[#E1EAF3] dark:border-white/15 bg-[#F7FAFE] dark:bg-[#0B1D31] px-3.5 py-2.5 text-sm text-[#10243B] dark:text-white"
                 />
               </div>
@@ -539,6 +464,7 @@ function AdminLoginForm() {
                 </label>
                 <input
                   type="password"
+                  autoComplete="new-password"
                   required
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
@@ -553,6 +479,7 @@ function AdminLoginForm() {
                 </label>
                 <input
                   type="password"
+                  autoComplete="new-password"
                   required
                   value={confirmNewPassword}
                   onChange={(e) => setConfirmNewPassword(e.target.value)}

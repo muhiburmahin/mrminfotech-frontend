@@ -44,6 +44,9 @@ import { HorizontalWorkflowSection } from '@/components/public/home/HorizontalWo
 import { TechnologyLogoWallSection } from '@/components/public/home/TechnologyLogoWallSection';
 import { InsightsEditorialSection } from '@/components/public/home/InsightsEditorialSection';
 import { ExecutiveTeamShowcase } from '@/components/public/team/ExecutiveTeamShowcase';
+import { ClientTestimonials } from '@/components/home/ClientTestimonials';
+import type { TestimonialItem } from '@/lib/api/types';
+import { getHomepageConfig } from '@/lib/api/public';
 import { AmbientSection } from '@/components/ui/AmbientSection';
 import GlassEmptyState from '@/components/ui/GlassEmptyState';
 import { GlassCard } from '@/components/ui/design-system/GlassCard';
@@ -504,6 +507,8 @@ export default async function HomePage() {
     apiTeam,
     apiBlogPosts,
     apiFaqs,
+    apiTestimonials,
+    homepageConfig,
   ] = await Promise.all([
     fetchBackendList<PublishedProductRaw>('/products?placement=homepage'),
     fetchBackendList<PublishedServiceRaw>('/services?placement=homepage'),
@@ -512,6 +517,8 @@ export default async function HomePage() {
     fetchBackendList<PublishedTeamMember>('/team?locale=en'),
     fetchBackendList<PublishedBlogPost>('/blog?locale=en'),
     fetchBackendList<PublishedFaq>('/faqs'),
+    fetchBackendList<TestimonialItem>('/testimonials?locale=en'),
+    getHomepageConfig(),
   ]);
 
   const sortedApiProducts = [...apiProducts].sort(
@@ -1041,14 +1048,29 @@ export default async function HomePage() {
       </AmbientSection>
 
       {/* =====================================================================
-          SECTION 06 — WHY CHOOSE MRM INFOTECH (SPLIT LAYOUT WITH FEATURE LIST)
-          ===================================================================== */}
-      <WhyChooseMrmSection />
-
-      {/* =====================================================================
-          SECTION 07 — FEATURED PROJECTS / EDITORIAL PORTFOLIO GRID
+          SECTION 06 — FEATURED PROJECTS / EDITORIAL PORTFOLIO GRID
           ===================================================================== */}
       <FeaturedProjectsPortfolioSection projects={featuredProjects} />
+
+      {/* =====================================================================
+          CLIENT TESTIMONIALS & VERIFIED ENDORSEMENTS
+          Positioned between Featured Projects / Case Studies and Why Choose MRM
+          ===================================================================== */}
+      {homepageConfig.testimonials.enabled && apiTestimonials && apiTestimonials.length > 0 && (
+        <ClientTestimonials
+          testimonials={[...apiTestimonials]
+            .sort((a, b) => Number(Boolean(b.isFeatured)) - Number(Boolean(a.isFeatured)))
+            .slice(0, Math.min(12, Math.max(1, homepageConfig.testimonials.maxItems || 6)))}
+          eyebrow={homepageConfig.testimonials.eyebrow}
+          heading={homepageConfig.testimonials.heading}
+          description={homepageConfig.testimonials.description}
+        />
+      )}
+
+      {/* =====================================================================
+          SECTION 07 — WHY CHOOSE MRM INFOTECH (SPLIT LAYOUT WITH FEATURE LIST)
+          ===================================================================== */}
+      <WhyChooseMrmSection />
 
       {/* =====================================================================
           SECTION 08 — HOW WE WORK (6-STEP SEQUENTIAL TIMELINE)

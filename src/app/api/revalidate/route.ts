@@ -15,12 +15,12 @@ export async function POST(req: NextRequest) {
     revalidatePath('/contact');
 
     // Purge specific data tags
-    revalidateTag('homepage');
-    revalidateTag('team');
-    revalidateTag('projects');
-    revalidateTag('services');
-    revalidateTag('products');
-    revalidateTag('blog');
+    revalidateTag('homepage', 'max');
+    revalidateTag('team', 'max');
+    revalidateTag('projects', 'max');
+    revalidateTag('services', 'max');
+    revalidateTag('products', 'max');
+    revalidateTag('blog', 'max');
 
     return NextResponse.json({
       success: true,

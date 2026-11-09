@@ -31,6 +31,8 @@ import {
 } from 'lucide-react';
 import { PublicApiService } from '@/services/public-api.service';
 import type { ServiceRecord } from '@/types/service.types';
+import { ClientTestimonials } from '@/components/home/ClientTestimonials';
+import type { TestimonialItem } from '@/lib/api/types';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -110,10 +112,13 @@ export default async function ServiceDetailPage({ params, searchParams }: PagePr
   const isPreview = preview === 'true';
   const cleanSlug = decodeURIComponent(slug).trim().replace(/\s+/g, '-').replace(/-+/g, '-');
 
-  const [service, allServices] = await Promise.all([
+  const [service, allServices, rawTestimonials] = await Promise.all([
     PublicApiService.getServiceBySlug<ServiceRecord>(cleanSlug, 'en', isPreview),
     PublicApiService.getServices<ServiceRecord[]>({ placement: 'catalog' }),
+    PublicApiService.getTestimonials<TestimonialItem[]>({ locale: 'en', serviceSlug: cleanSlug }),
   ]);
+
+  const serviceTestimonials = Array.isArray(rawTestimonials) ? rawTestimonials : [];
 
   if (!service || (service.allowPublicDetail === false && !isPreview)) {
     notFound();
@@ -574,6 +579,17 @@ export default async function ServiceDetailPage({ params, searchParams }: PagePr
             </div>
           </div>
         </section>
+      )}
+
+      {/* Testimonials related to this service */}
+      {serviceTestimonials && serviceTestimonials.length > 0 && (
+        <ClientTestimonials
+          variant="inline"
+          id="service-testimonials"
+          eyebrow="Client Feedback"
+          heading={`What clients say about our ${title}`}
+          testimonials={serviceTestimonials}
+        />
       )}
 
       {/* =====================================================================

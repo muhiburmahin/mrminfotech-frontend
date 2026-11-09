@@ -160,13 +160,17 @@ export interface PublicPhoto {
 export interface TestimonialItem {
   id: string;
   authorName: string;
-  authorRole: string;
-  companyName: string;
+  authorRole?: string | null;
+  companyName?: string | null;
   quote: string;
-  rating: number;
+  rating?: number;
   avatarUrl?: string | null;
-  isFeatured: boolean;
-  isVerified: boolean;
+  isFeatured?: boolean;
+  isVerified?: boolean;
+  serviceSlug?: string | null;
+  projectSlug?: string | null;
+  reviewDate?: string | null;
+  source?: string | null;
 }
 
 export interface BlogCategory {

@@ -25,6 +25,8 @@ import {
 } from 'lucide-react';
 import { GithubIcon } from '@/components/public/shared/SocialIcons';
 import { PublicApiService } from '@/services/public-api.service';
+import { ClientTestimonials } from '@/components/home/ClientTestimonials';
+import type { TestimonialItem } from '@/lib/api/types';
 import {
   ProjectLightboxGallery,
   ProjectScreenshot,
@@ -206,7 +208,11 @@ export default async function ProjectDetailPage({ params }: PageProps) {
     redirect(`/projects/${cleanSlug}`);
   }
 
-  const project: any = await PublicApiService.getProjectBySlug(cleanSlug, 'en');
+  const [project, rawTestimonials]: [any, unknown] = await Promise.all([
+    PublicApiService.getProjectBySlug(cleanSlug, 'en'),
+    PublicApiService.getTestimonials<TestimonialItem[]>({ locale: 'en', projectSlug: cleanSlug }),
+  ]);
+  const projectTestimonials = Array.isArray(rawTestimonials) ? (rawTestimonials as TestimonialItem[]) : [];
 
   if (!project) {
     notFound();
@@ -634,6 +640,16 @@ export default async function ProjectDetailPage({ params }: PageProps) {
           </div>
         </div>
       </section>
+
+      {/* Testimonials related to this project */}
+      {projectTestimonials.length > 0 && (
+        <ClientTestimonials
+          variant="inline"
+          id="project-testimonials"
+          heading="Client feedback on this project"
+          testimonials={projectTestimonials}
+        />
+      )}
     </div>
   );
 }

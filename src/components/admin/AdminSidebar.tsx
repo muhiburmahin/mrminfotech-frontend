@@ -16,6 +16,7 @@ import {
   LogOut,
   ShieldCheck,
   Users,
+  MessageSquareQuote,
   X,
   Sliders,
 } from 'lucide-react';
@@ -76,6 +77,12 @@ export function AdminSidebar({ onCloseMobile }: { onCloseMobile?: () => void }) 
           label: 'Team Members',
           href: '/admin/dashboard/team',
           icon: Users,
+          permission: 'content:read',
+        },
+        {
+          label: 'Testimonials',
+          href: '/admin/dashboard/testimonials',
+          icon: MessageSquareQuote,
           permission: 'content:read',
         },
       ],

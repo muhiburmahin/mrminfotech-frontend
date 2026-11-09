@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   Upload,
   Trash2,
@@ -53,6 +53,13 @@ interface TeamFormProps {
 }
 
 export function TeamForm({ initialData, onSaved, onCancel }: TeamFormProps) {
+  const getInitialBio = (data?: AdminTeamRecord | null): string => {
+    if (!data) return '';
+    if (data.bio !== undefined && data.bio !== null) return data.bio;
+    if (data.bio === null) return '';
+    return data.translations?.[0]?.bio ?? '';
+  };
+
   const [name, setName] = useState(
     initialData?.name || initialData?.translations?.[0]?.name || ''
   );
@@ -62,9 +69,7 @@ export function TeamForm({ initialData, onSaved, onCancel }: TeamFormProps) {
   const [photo, setPhoto] = useState<string>(
     initialData?.photo || initialData?.photoUrl || ''
   );
-  const [bio, setBio] = useState(
-    initialData?.bio || initialData?.translations?.[0]?.bio || ''
-  );
+  const [bio, setBio] = useState<string>(getInitialBio(initialData));
   const [email, setEmail] = useState(initialData?.email || '');
   const [showEmail, setShowEmail] = useState(Boolean(initialData?.showEmail));
   const [linkedinUrl, setLinkedinUrl] = useState(initialData?.linkedinUrl || '');
@@ -77,6 +82,25 @@ export function TeamForm({ initialData, onSaved, onCancel }: TeamFormProps) {
     initialData?.isActive !== undefined ? initialData.isActive : true
   );
   const [slug, setSlug] = useState(initialData?.slug || '');
+
+  // Keep form fields synced if initialData changes
+  useEffect(() => {
+    if (initialData) {
+      setName(initialData.name || initialData.translations?.[0]?.name || '');
+      setRole(initialData.role || initialData.translations?.[0]?.roleTitle || '');
+      setPhoto(initialData.photo || initialData.photoUrl || '');
+      setBio(getInitialBio(initialData));
+      setEmail(initialData.email || '');
+      setShowEmail(Boolean(initialData.showEmail));
+      setLinkedinUrl(initialData.linkedinUrl || '');
+      setGithubUrl(initialData.githubUrl || '');
+      setDepartment(initialData.department || 'Engineering');
+      setOrder(initialData.order ?? initialData.sortOrder ?? 1);
+      setIsActive(initialData.isActive !== undefined ? initialData.isActive : true);
+      setSlug(initialData.slug || '');
+      setError(null);
+    }
+  }, [initialData]);
 
   const [showManualUrl, setShowManualUrl] = useState(false);
   const [manualUrlInput, setManualUrlInput] = useState('');
@@ -176,16 +200,22 @@ export function TeamForm({ initialData, onSaved, onCancel }: TeamFormProps) {
       return;
     }
 
+    const trimmedBio = bio.trim();
+    const trimmedEmail = email.trim();
+    const trimmedLinkedin = linkedinUrl.trim();
+    const trimmedGithub = githubUrl.trim();
+    const trimmedDept = department.trim();
+
     const payload: AdminTeamPayload = {
       name: name.trim(),
       role: role.trim(),
       photo: photo.trim(),
-      bio: bio.trim() || undefined,
-      email: email.trim() || undefined,
-      showEmail,
-      linkedinUrl: linkedinUrl.trim() || undefined,
-      githubUrl: githubUrl.trim() || undefined,
-      department: department.trim() || undefined,
+      bio: trimmedBio ? trimmedBio : null,
+      email: trimmedEmail ? trimmedEmail : null,
+      showEmail: trimmedEmail ? showEmail : false,
+      linkedinUrl: trimmedLinkedin ? trimmedLinkedin : null,
+      githubUrl: trimmedGithub ? trimmedGithub : null,
+      department: trimmedDept ? trimmedDept : null,
       order: Number(order) || 1,
       sortOrder: Number(order) || 1,
       isActive,

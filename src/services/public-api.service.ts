@@ -151,8 +151,14 @@ export const PublicApiService = {
   getBlogCategories<T = any>(): Promise<T> {
     return fetchBackend<T>('/blog/categories', [] as unknown as T);
   },
-  getTestimonials<T = any>(): Promise<T> {
-    return fetchBackend<T>('/testimonials', [] as unknown as T);
+  getTestimonials<T = any>(params?: { locale?: string; serviceSlug?: string; projectSlug?: string; isFeatured?: boolean }): Promise<T> {
+    const qs = new URLSearchParams();
+    if (params?.locale) qs.set('locale', params.locale);
+    if (params?.serviceSlug) qs.set('serviceSlug', params.serviceSlug);
+    if (params?.projectSlug) qs.set('projectSlug', params.projectSlug);
+    if (params?.isFeatured !== undefined) qs.set('isFeatured', String(params.isFeatured));
+    const url = '/testimonials' + (qs.toString() ? '?' + qs.toString() : '');
+    return fetchBackend<T>(url, [] as unknown as T);
   },
   getFaqs<T = any>(): Promise<T> {
     return fetchBackend<T>('/faqs', [] as unknown as T);

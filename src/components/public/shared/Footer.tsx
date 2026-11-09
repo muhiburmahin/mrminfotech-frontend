@@ -26,10 +26,8 @@ export function Footer() {
       try {
         const data = await getCompanyProfile();
         if (isMounted && data && data.name) {
-          setCompany((prev) => ({
-            ...prev,
-            ...data,
-          }));
+          // Use the stored record as-is: cleared (null) fields must stay cleared, not fall back to demo text.
+          setCompany(data);
         }
       } catch (err) {
         console.error('Failed to fetch public company profile in Footer:', err);
@@ -50,7 +48,7 @@ export function Footer() {
           <div className="lg:col-span-2 space-y-5">
             <Logo variant="dark" size="lg" />
             <p className="text-sm text-[var(--theme-text-secondary)] leading-relaxed max-w-sm">
-              {company.description || FALLBACK_COMPANY_PROFILE.description}
+              {company.description}
             </p>
 
             <div className="space-y-2 text-xs text-[var(--theme-text-secondary)]">

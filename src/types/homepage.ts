@@ -116,6 +116,15 @@ export interface BlogSectionConfig {
   enabled: boolean;
 }
 
+export interface TestimonialsSectionConfig {
+  eyebrow: string;
+  heading: string;
+  description: string;
+  /** Maximum number of testimonials shown on the homepage (1-12). */
+  maxItems: number;
+  enabled: boolean;
+}
+
 export interface FinalCtaConfig {
   eyebrow: string;
   heading: string;
@@ -139,6 +148,7 @@ export interface HomepageConfig {
   caseStudies: CaseStudiesSectionConfig;
   team: TeamSectionConfig;
   blog: BlogSectionConfig;
+  testimonials: TestimonialsSectionConfig;
   finalCta: FinalCtaConfig;
 }
 
@@ -324,6 +334,14 @@ export const DEFAULT_HOMEPAGE_CONFIG: HomepageConfig = {
       'Explore our latest articles, perspectives, and updates on technology, software, and digital innovation.',
     ctaText: 'Explore All Articles',
     ctaUrl: '/blog',
+    enabled: true,
+  },
+  testimonials: {
+    eyebrow: 'CLIENT FEEDBACK',
+    heading: 'What Our Clients Say About Working With Us.',
+    description:
+      'Verified feedback from clients we have built software and digital solutions for.',
+    maxItems: 6,
     enabled: true,
   },
   finalCta: {

@@ -552,46 +552,17 @@ export async function getAdminCompanyProfile(): Promise<CompanyProfile | null> {
   }
 }
 
-export async function updateAdminCompanyProfile(profile: Partial<CompanyProfile>): Promise<unknown> {
-  const allowedKeys = [
-    'name',
-    'legalName',
-    'tagline',
-    'description',
-    'logoUrl',
-    'email',
-    'supportEmail',
-    'phone',
-    'whatsapp',
-    'address',
-    'headquarters',
-    'website',
-    'facebookUrl',
-    'linkedinUrl',
-    'twitterUrl',
-    'instagramUrl',
-    'githubUrl',
-    'youtubeUrl',
-    'copyrightText',
-    'foundedYear',
-    'isPublic',
-  ];
-
-  const payload: Record<string, unknown> = {
-    isPublic: true,
-    name: profile.name || 'MRM InfoTech',
-  };
-
-  for (const key of allowedKeys) {
-    if (key in profile) {
-      const val = (profile as Record<string, unknown>)[key];
-      payload[key] = val === '' ? null : val;
-    }
-  }
-
-  const res = await authRequest('/admin/company', {
+/**
+ * PATCHes the company profile. `payload` must come from buildCompanyPatch(): every key is explicit,
+ * empty values are `null` (clears the stored value) and omitted keys are retained by the server.
+ * Resolves with the persisted record as returned by the API (`{ value, ... }`).
+ */
+export async function updateAdminCompanyProfile(
+  payload: Record<string, unknown>,
+): Promise<{ value?: Record<string, unknown> } | undefined> {
+  const res = await authRequest<{ value?: Record<string, unknown> }>('/admin/company', {
     method: 'PATCH',
-    body: JSON.stringify(payload),
+    body: JSON.stringify({ isPublic: true, ...payload }),
   });
   return res.data;
 }
@@ -743,3 +714,103 @@ export async function deleteAdminLead(id: string): Promise<void> {
 }
 
 
+
+// ──────────────────────── Testimonials Admin ────────────────────────
+
+export interface AdminTestimonialPayload {
+  clientId?: string;
+  authorName: string;
+  authorRole?: string | null;
+  companyName?: string | null;
+  avatarUrl?: string | null;
+  rating?: number;
+  serviceSlug?: string | null;
+  projectSlug?: string | null;
+  reviewDate?: string | null;
+  source?: string | null;
+  isFeatured?: boolean;
+  quote: Record<string, string> | string;
+  evidenceNote?: string | null;
+  consentAt?: string | null;
+  isVerified?: boolean;
+  sortOrder?: number;
+  showOnSite?: boolean;
+}
+
+export interface AdminTestimonialItem {
+  id: string;
+  clientId?: string | null;
+  authorName: string;
+  authorRole?: string | null;
+  companyName?: string | null;
+  avatarUrl?: string | null;
+  rating?: number;
+  serviceSlug?: string | null;
+  projectSlug?: string | null;
+  reviewDate?: string | null;
+  source?: string | null;
+  isFeatured: boolean;
+  quote: Record<string, string> | string;
+  isVerified: boolean;
+  evidenceNote?: string | null;
+  consentAt?: string | null;
+  showOnSite: boolean;
+  sortOrder: number;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export async function getAdminTestimonials(params?: {
+  page?: number;
+  limit?: number;
+  showOnSite?: boolean;
+  isVerified?: boolean;
+  serviceSlug?: string;
+  projectSlug?: string;
+  isFeatured?: boolean;
+}): Promise<{ data: AdminTestimonialItem[]; meta: { page: number; limit: number; total: number; totalPages: number } }> {
+  const query = new URLSearchParams();
+  if (params?.page) query.set('page', String(params.page));
+  if (params?.limit) query.set('limit', String(params.limit));
+  if (params?.showOnSite !== undefined) query.set('showOnSite', String(params.showOnSite));
+  if (params?.isVerified !== undefined) query.set('isVerified', String(params.isVerified));
+  if (params?.serviceSlug) query.set('serviceSlug', params.serviceSlug);
+  if (params?.projectSlug) query.set('projectSlug', params.projectSlug);
+  if (params?.isFeatured !== undefined) query.set('isFeatured', String(params.isFeatured));
+
+  const qs = query.toString();
+  const url = '/admin/testimonials' + (qs ? '?' + qs : '');
+  const res = await authRequest<{ data: AdminTestimonialItem[]; meta: { page: number; limit: number; total: number; totalPages: number } }>(url);
+  return res.data;
+}
+
+export async function getAdminTestimonial(id: string): Promise<AdminTestimonialItem> {
+  const res = await authRequest<AdminTestimonialItem>('/admin/testimonials/' + encodeURIComponent(id));
+  return res.data;
+}
+
+export async function createAdminTestimonial(payload: AdminTestimonialPayload): Promise<AdminTestimonialItem> {
+  const res = await authRequest<AdminTestimonialItem>('/admin/testimonials', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  return res.data;
+}
+
+export async function updateAdminTestimonial(
+  id: string,
+  payload: Partial<AdminTestimonialPayload>
+): Promise<AdminTestimonialItem> {
+  const res = await authRequest<AdminTestimonialItem>('/admin/testimonials/' + encodeURIComponent(id), {
+    method: 'PATCH',
+    body: JSON.stringify(payload),
+  });
+  return res.data;
+}
+
+export async function deleteAdminTestimonial(id: string): Promise<{ message: string }> {
+  const res = await authRequest<{ message: string }>('/admin/testimonials/' + encodeURIComponent(id), {
+    method: 'DELETE',
+  });
+  return res.data;
+}

@@ -8,7 +8,8 @@
     "start": "next start",
     "typecheck": "node scripts/lint-design-tokens.mjs && tsc --noEmit",
     "lint:tokens": "node scripts/lint-design-tokens.mjs",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test": "node --test scripts/regression.test.mjs"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.3.1",

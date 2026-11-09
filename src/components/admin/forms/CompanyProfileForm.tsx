@@ -23,11 +23,16 @@ import {
   WhatsappIcon,
 } from '@/components/public/shared/SocialIcons';
 import { getAdminCompanyProfile, updateAdminCompanyProfile } from '@/lib/api/admin';
-import { FALLBACK_COMPANY_PROFILE } from '@/lib/api/public';
-import type { CompanyProfile } from '@/lib/api/types';
+import {
+  buildCompanyPatch,
+  emptyCompanyForm,
+  formFromServer,
+  type CompanyProfileFormState,
+} from '@/lib/company-profile';
 
 export function CompanyProfileForm() {
-  const [formData, setFormData] = useState<CompanyProfile>(FALLBACK_COMPANY_PROFILE);
+  const [formData, setFormData] = useState<CompanyProfileFormState>(emptyCompanyForm());
+  const [savedData, setSavedData] = useState<CompanyProfileFormState>(emptyCompanyForm());
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -38,12 +43,10 @@ export function CompanyProfileForm() {
       try {
         setIsLoading(true);
         const data = await getAdminCompanyProfile();
-        if (data && data.name) {
-          setFormData((prev) => ({
-            ...prev,
-            ...data,
-          }));
-        }
+        // Build from the stored record only: no demo/fallback text may leak into the editable form.
+        const loaded = formFromServer(data as unknown as Record<string, unknown> | null);
+        setFormData(loaded);
+        setSavedData(loaded);
       } catch (err: unknown) {
         console.error('Failed to load company profile from admin API:', err);
       } finally {
@@ -53,7 +56,7 @@ export function CompanyProfileForm() {
     loadProfile();
   }, []);
 
-  const handleChange = (field: keyof CompanyProfile, value: string | number) => {
+  const handleChange = (field: keyof CompanyProfileFormState, value: string) => {
     setFormData((prev) => ({
       ...prev,
       [field]: value,
@@ -69,7 +72,18 @@ export function CompanyProfileForm() {
     setErrorMessage(null);
 
     try {
-      await updateAdminCompanyProfile(formData);
+      const payload = buildCompanyPatch(formData);
+      const saved = await updateAdminCompanyProfile(payload);
+      // Sync the UI with what the server actually persisted.
+      const persisted = formFromServer(saved?.value ?? null);
+      setFormData(persisted);
+      setSavedData(persisted);
+      // Purge the public cache so the footer/contact page show the new values (best effort).
+      try {
+        await fetch('/api/revalidate', { method: 'POST' });
+      } catch {
+        /* non-fatal: public cache expires on its own within 60s */
+      }
       setSuccessMessage('Company profile and footer information successfully saved to live database!');
       setTimeout(() => setSuccessMessage(null), 5000);
     } catch (err: unknown) {
@@ -82,8 +96,8 @@ export function CompanyProfileForm() {
   };
 
   const handleResetToDefault = () => {
-    if (confirm('Reset form fields to default MRM InfoTech values?')) {
-      setFormData(FALLBACK_COMPANY_PROFILE);
+    if (confirm('Discard unsaved changes and restore the last saved values?')) {
+      setFormData(savedData);
       setSuccessMessage(null);
       setErrorMessage(null);
     }
@@ -180,8 +194,8 @@ export function CompanyProfileForm() {
               </label>
               <input
                 type="number"
-                value={formData.foundedYear || 2024}
-                onChange={(e) => handleChange('foundedYear', parseInt(e.target.value, 10) || 2024)}
+                value={formData.foundedYear}
+                onChange={(e) => handleChange('foundedYear', e.target.value)}
                 placeholder="2024"
                 className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-[#07162C] border border-slate-200 dark:border-[#1E3557] text-slate-900 dark:text-white font-medium focus:outline-none focus:border-[#087FC4] dark:focus:border-[#20B8D5]"
               />
@@ -472,7 +486,7 @@ export function CompanyProfileForm() {
             onClick={handleResetToDefault}
             className="px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-[#1E3557] transition-all flex items-center gap-1.5 cursor-pointer"
           >
-            <RotateCcw className="w-4 h-4" /> Reset Defaults
+            <RotateCcw className="w-4 h-4" /> Discard Changes
           </button>
 
           <button
@@ -515,7 +529,7 @@ export function CompanyProfileForm() {
               </p>
             </div>
             <span className="text-xs text-slate-500 font-mono">
-              Est. {formData.foundedYear || 2024}
+              {formData.foundedYear ? `Est. ${formData.foundedYear}` : ''}
             </span>
           </div>
 

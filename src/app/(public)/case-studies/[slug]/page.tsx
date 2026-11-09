@@ -4,6 +4,8 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowRight, FileText, TrendingUp } from 'lucide-react';
 import { PublicApiService } from '@/services/public-api.service';
+import { ClientTestimonials } from '@/components/home/ClientTestimonials';
+import type { TestimonialItem } from '@/lib/api/types';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -23,7 +25,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function CaseStudyDetailPage({ params }: PageProps) {
   const { slug } = await params;
-  const cs = await PublicApiService.getCaseStudyBySlug(slug, 'en');
+  const [cs, rawTestimonials] = await Promise.all([
+    PublicApiService.getCaseStudyBySlug(slug, 'en'),
+    PublicApiService.getTestimonials<TestimonialItem[]>({ locale: 'en', projectSlug: slug }),
+  ]);
+
+  const projectTestimonials = Array.isArray(rawTestimonials) ? rawTestimonials : [];
 
   if (!cs) {
     notFound();
@@ -93,6 +100,17 @@ export default async function CaseStudyDetailPage({ params }: PageProps) {
               <p className="text-sm leading-relaxed">
                 {results}
               </p>
+            </div>
+          )}
+
+          {projectTestimonials && projectTestimonials.length > 0 && (
+            <div className="pt-4">
+              <ClientTestimonials
+                variant="inline"
+                id="case-study-testimonials"
+                heading="Client feedback on this project"
+                testimonials={projectTestimonials}
+              />
             </div>
           )}
 

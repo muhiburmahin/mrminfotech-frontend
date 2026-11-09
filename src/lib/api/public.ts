@@ -504,42 +504,6 @@ export const FALLBACK_TEAM: TeamMember[] = [
   },
 ];
 
-export const FALLBACK_TESTIMONIALS: TestimonialItem[] = [
-  {
-    id: 'test-1',
-    authorName: 'Kazi Mahbubul Alam',
-    authorRole: 'Managing Director',
-    companyName: 'Apex Logistics Ltd.',
-    quote:
-      'MRM InfoTech transformed our entire logistical backend. The architecture handles peak sales days with zero hiccups, saving us hundreds of operational hours every month.',
-    rating: 5,
-    isFeatured: true,
-    isVerified: true,
-  },
-  {
-    id: 'test-2',
-    authorName: 'Dr. Rezwana Chowdhury',
-    authorRole: 'Chief Medical Officer',
-    companyName: 'CarePlus Health Network',
-    quote:
-      'The telemedicine platform developed by MRM InfoTech is lightning fast, reliable, and patient-friendly. Their engineering precision is exceptional.',
-    rating: 5,
-    isFeatured: true,
-    isVerified: true,
-  },
-  {
-    id: 'test-3',
-    authorName: 'Anisur Rahman FCA',
-    authorRole: 'Head of Operations',
-    companyName: 'Shomiti Financial Services',
-    quote:
-      'Security and compliance were our highest priorities for fintech micro-lending. MRM InfoTech delivered a bank-grade system that automated our loan workflows flawlessly.',
-    rating: 5,
-    isFeatured: true,
-    isVerified: true,
-  },
-];
-
 export const FALLBACK_BLOG_POSTS: BlogPost[] = [
   {
     slug: 'building-resilient-multi-tenant-saas-with-nestjs-and-postgresql',
@@ -751,10 +715,18 @@ export async function getTeam(locale = 'en'): Promise<TeamMember[]> {
   }
 }
 
-export async function getTestimonials(locale = 'en'): Promise<TestimonialItem[]> {
+export async function getTestimonials(
+  locale = 'en',
+  options?: { serviceSlug?: string; projectSlug?: string; isFeatured?: boolean }
+): Promise<TestimonialItem[]> {
   try {
+    const params = new URLSearchParams({ locale });
+    if (options?.serviceSlug) params.set('serviceSlug', options.serviceSlug);
+    if (options?.projectSlug) params.set('projectSlug', options.projectSlug);
+    if (options?.isFeatured !== undefined) params.set('isFeatured', String(options.isFeatured));
+
     const res = await fetchApi<{ data: TestimonialItem[]; meta: PageMeta }>(
-      `/testimonials?locale=${locale}`
+      `/testimonials?${params.toString()}`
     );
     if (res && Array.isArray(res.data)) {
       return res.data;
@@ -856,6 +828,7 @@ export async function getHomepageConfig(): Promise<HomepageConfig> {
           caseStudies: { ...DEFAULT_HOMEPAGE_CONFIG.caseStudies, ...(val.caseStudies || {}) },
           team: { ...DEFAULT_HOMEPAGE_CONFIG.team, ...(val.team || {}) },
           blog: { ...DEFAULT_HOMEPAGE_CONFIG.blog, ...(val.blog || {}) },
+          testimonials: { ...DEFAULT_HOMEPAGE_CONFIG.testimonials, ...(val.testimonials || {}) },
           finalCta: { ...DEFAULT_HOMEPAGE_CONFIG.finalCta, ...(val.finalCta || {}) },
         };
       }
