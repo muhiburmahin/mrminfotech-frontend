@@ -1,29 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
-import {
-  Save,
-  X,
-  Upload,
-  Plus,
-  Trash2,
-  Eye,
-  Star,
-  CheckCircle2,
-  AlertCircle,
-  HelpCircle,
-  ExternalLink,
-  Layers,
-  Sparkles,
-  ShieldCheck,
-  Zap,
-  Globe,
-  Smartphone,
-  ChevronDown,
-  ArrowUp,
-  ArrowDown,
-} from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { Save, Upload, Plus, Trash2, Eye, Star, CheckCircle2, AlertCircle } from 'lucide-react';
 import {
   createAdminProduct,
   updateAdminProduct,
@@ -37,6 +16,7 @@ import type {
   ProductFeatureItem,
   ProductBenefitItem,
   ProductLinkItem,
+  ProductLinkType,
   ProductDemoItem,
   ProductFaqItem,
   ProductStatus,
@@ -84,12 +64,12 @@ export function ProductBuilderForm({
   const [description, setDescription] = useState(initialData?.description || '');
   const [targetAudience, setTargetAudience] = useState(initialData?.targetAudience || '');
   const [problemsAddressed, setProblemsAddressed] = useState(initialData?.problemsAddressed || '');
-  const [mainPurpose, setMainPurpose] = useState(initialData?.mainPurpose || '');
+  const [mainPurpose] = useState(initialData?.mainPurpose || '');
   const [categoryId, setCategoryId] = useState(initialData?.categoryId || '');
   const [productType, setProductType] = useState(initialData?.productType || 'SaaS');
   const [stage, setStage] = useState<LaunchStage>((initialData?.stage as LaunchStage) || 'LIVE');
   const [brandColor, setBrandColor] = useState(initialData?.brandColor || '#2563EB');
-  const [version, setVersion] = useState(initialData?.version || '1.0.0');
+  const [version] = useState(initialData?.version || '1.0.0');
 
   // Tab 2: Media Items
   const [mediaItems, setMediaItems] = useState<ProductMediaItem[]>(
@@ -146,23 +126,23 @@ export function ProductBuilderForm({
   const [showOnHomepage, setShowOnHomepage] = useState<boolean>(initialData?.showOnHomepage ?? true);
   const [showOnProductsPage, setShowOnProductsPage] = useState<boolean>(initialData?.showOnProductsPage ?? true);
   const [showInNavDropdown, setShowInNavDropdown] = useState<boolean>(initialData?.showInNavDropdown ?? true);
-  const [allowPublicDetail, setAllowPublicDetail] = useState<boolean>(initialData?.allowPublicDetail ?? true);
+  const [allowPublicDetail] = useState<boolean>(initialData?.allowPublicDetail ?? true);
   const [enableGallery, setEnableGallery] = useState<boolean>(initialData?.enableGallery ?? true);
-  const [enableCaseStudies, setEnableCaseStudies] = useState<boolean>(initialData?.enableCaseStudies ?? true);
-  const [enableDemos, setEnableDemos] = useState<boolean>(initialData?.enableDemos ?? true);
+  const [enableCaseStudies] = useState<boolean>(initialData?.enableCaseStudies ?? true);
+  const [enableDemos] = useState<boolean>(initialData?.enableDemos ?? true);
   const [enableFaq, setEnableFaq] = useState<boolean>(initialData?.enableFaq ?? true);
 
   const [displayOrder, setDisplayOrder] = useState<number>(initialData?.displayOrder ?? 1);
   const [homepageOrder, setHomepageOrder] = useState<number>(initialData?.homepageOrder ?? 1);
   const [navOrder, setNavOrder] = useState<number>(initialData?.navOrder ?? 1);
-  const [featuredOrder, setFeaturedOrder] = useState<number>(initialData?.featuredOrder ?? 1);
+  const [featuredOrder] = useState<number>(initialData?.featuredOrder ?? 1);
 
   const [seoTitle, setSeoTitle] = useState(initialData?.seoTitle || initialData?.seo?.seoTitle || '');
   const [seoDescription, setSeoDescription] = useState(initialData?.seoDescription || initialData?.seo?.seoDescription || '');
-  const [seoKeywords, setSeoKeywords] = useState(initialData?.seoKeywords || initialData?.seo?.seoKeywords || '');
+  const [seoKeywords] = useState(initialData?.seoKeywords || initialData?.seo?.seoKeywords || '');
   const [canonicalUrl, setCanonicalUrl] = useState(initialData?.canonicalUrl || initialData?.seo?.canonicalUrl || '');
-  const [ogTitle, setOgTitle] = useState(initialData?.ogTitle || initialData?.seo?.ogTitle || '');
-  const [ogDescription, setOgDescription] = useState(initialData?.ogDescription || initialData?.seo?.ogDescription || '');
+  const [ogTitle] = useState(initialData?.ogTitle || initialData?.seo?.ogTitle || '');
+  const [ogDescription] = useState(initialData?.ogDescription || initialData?.seo?.ogDescription || '');
   const [noIndex, setNoIndex] = useState<boolean>(Boolean(initialData?.noIndex || initialData?.seo?.noIndex));
 
   // Auto-slug generator on title change for new records
@@ -252,7 +232,7 @@ export function ProductBuilderForm({
     return items.map((f, idx) => ({
       ...(f.id && typeof f.id === 'string' && f.id.length >= 32 ? { id: f.id } : {}),
       title: f.title,
-      shortDescription: f.shortDescription || (f as any).description || '',
+      shortDescription: f.shortDescription || (f as ProductFeatureItem & { description?: string }).description || '',
       detailedDescription: f.detailedDescription || '',
       icon: f.icon || '',
       ...(f.imageUrl ? { imageUrl: f.imageUrl } : {}),
@@ -267,7 +247,7 @@ export function ProductBuilderForm({
     return items.map((b, idx) => ({
       ...(b.id && typeof b.id === 'string' && b.id.length >= 32 ? { id: b.id } : {}),
       title: b.title,
-      description: b.description || (b as any).shortDescription || '',
+      description: b.description || (b as ProductBenefitItem & { shortDescription?: string }).shortDescription || '',
       icon: b.icon || '',
       displayOrder: b.displayOrder ?? idx + 1,
     }));
@@ -1208,7 +1188,7 @@ export function ProductBuilderForm({
                     value={link.linkType}
                     onChange={(e) => {
                       const copy = [...links];
-                      copy[idx].linkType = e.target.value as any;
+                      copy[idx].linkType = e.target.value as ProductLinkType;
                       setLinks(copy);
                     }}
                     className="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-white text-xs"

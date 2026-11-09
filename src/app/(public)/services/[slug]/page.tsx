@@ -3,32 +3,7 @@ import React from 'react';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import {
-  ArrowRight,
-  ExternalLink,
-  ChevronRight,
-  ShieldCheck,
-  CheckCircle2,
-  Users,
-  Target,
-  Compass,
-  FileText,
-  Layers,
-  GraduationCap,
-  HeartPulse,
-  Building2,
-  Lock,
-  Globe,
-  Sparkles,
-  HelpCircle,
-  ChevronDown,
-  Cpu,
-  Smartphone,
-  Palette,
-  Search,
-  Megaphone,
-  Code2,
-} from 'lucide-react';
+import { ArrowRight, ChevronRight, ShieldCheck, CheckCircle2, FileText, Layers, Globe, HelpCircle, ChevronDown, Cpu, Smartphone, Palette, Search, Megaphone, Code2 } from 'lucide-react';
 import { PublicApiService } from '@/services/public-api.service';
 import type { ServiceRecord } from '@/types/service.types';
 import { ClientTestimonials } from '@/components/home/ClientTestimonials';
@@ -132,8 +107,8 @@ export default async function ServiceDetailPage({ params, searchParams }: PagePr
   const benefits = service.benefits || [];
   const processSteps = service.processSteps || [];
   const technologies = service.technologies || [];
-  const mediaItems = service.mediaItems || [];
-  const faqs = service.faqs || [];
+  const mediaItems = service.mediaGallery ?? service.mediaItems ?? [];
+  const faqs = service.serviceFaqs ?? service.faqs ?? [];
 
   // Related services excluding current
   const relatedServices = (Array.isArray(allServices) ? allServices : [])
@@ -431,7 +406,7 @@ export default async function ServiceDetailPage({ params, searchParams }: PagePr
               TECHNOLOGIES &amp; FRAMEWORKS
             </h3>
             <div className="flex flex-wrap items-center justify-center gap-2.5">
-              {technologies.map((tech: any, idx: number) => {
+              {technologies.map((tech, idx: number) => {
                 const label = typeof tech === 'string' ? tech : tech?.name || tech?.slug || '';
                 return (
                   <span
@@ -463,7 +438,7 @@ export default async function ServiceDetailPage({ params, searchParams }: PagePr
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {mediaItems.map((item: any, idx: number) => (
+              {mediaItems.map((item, idx: number) => (
                 <div
                   key={item.id || idx}
                   className="rounded-3xl bg-[var(--theme-bg-surface)] border border-[var(--theme-border-glass)] overflow-hidden shadow-xl group"
@@ -512,7 +487,7 @@ export default async function ServiceDetailPage({ params, searchParams }: PagePr
             </div>
 
             <div className="space-y-4">
-              {faqs.map((faq: any, idx: number) => (
+              {faqs.map((faq, idx: number) => (
                 <details
                   key={faq.id || idx}
                   className="group p-6 rounded-2xl bg-[var(--theme-bg-surface)] border border-[var(--theme-border-glass)] open:border-[var(--theme-accent)]/50 transition-all shadow-md"

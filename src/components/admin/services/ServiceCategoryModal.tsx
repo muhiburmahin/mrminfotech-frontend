@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { X, Plus, Trash2, Tag, Save, AlertCircle, CheckCircle2 } from 'lucide-react';
 import {
   getAdminServiceCategories,
@@ -8,6 +8,7 @@ import {
   deleteAdminServiceCategory,
 } from '@/lib/api/admin';
 import type { ServiceCategory } from '@/types/service.types';
+import { useDeferredEffect } from '@/lib/hooks/useDeferredEffect';
 
 interface ServiceCategoryModalProps {
   isOpen: boolean;
@@ -42,7 +43,7 @@ export function ServiceCategoryModal({
     }
   };
 
-  useEffect(() => {
+  useDeferredEffect(() => {
     if (isOpen) {
       loadCategories();
       setError(null);

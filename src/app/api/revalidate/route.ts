@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { revalidatePath, revalidateTag } from 'next/cache';
 
-export async function POST(req: NextRequest) {
+export async function POST() {
   try {
     // Purge edge cache for all public routes
     revalidatePath('/', 'layout');
@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
   }
 }
 
-export async function GET(req: NextRequest) {
-  return POST(req);
+export async function GET() {
+  return POST();
 }
 

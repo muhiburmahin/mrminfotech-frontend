@@ -2,22 +2,7 @@
 
 import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
-import {
-  Code2,
-  Cpu,
-  Layers,
-  ArrowRight,
-  Globe,
-  Smartphone,
-  Palette,
-  Search,
-  Megaphone,
-  CheckCircle2,
-  Sparkles,
-  ExternalLink,
-  ChevronRight,
-  ShieldCheck,
-} from 'lucide-react';
+import { Code2, Cpu, ArrowRight, Globe, Smartphone, Palette, Search, Megaphone } from 'lucide-react';
 import type { ServiceRecord, ServiceCategory } from '@/types/service.types';
 
 interface ServicesShowcaseClientProps {

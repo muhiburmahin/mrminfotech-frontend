@@ -1,24 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import {
-  ArrowRight,
-  ExternalLink,
-  ChevronLeft,
-  ChevronRight,
-  GraduationCap,
-  HeartPulse,
-  Building2,
-  CheckCircle2,
-  ShieldCheck,
-  Layers,
-  Sparkles,
-  Maximize2,
-  Lock,
-} from 'lucide-react';
+import { ArrowRight, ExternalLink, ChevronLeft, ChevronRight, GraduationCap, HeartPulse, Building2, CheckCircle2, ShieldCheck, Maximize2, Lock } from 'lucide-react';
 import { CTAButton } from '@/components/ui/design-system/CTAButton';
 
 export interface ProductShowcaseItem {

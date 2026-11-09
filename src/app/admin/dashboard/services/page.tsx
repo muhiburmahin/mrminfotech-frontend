@@ -1,27 +1,7 @@
-/* eslint-disable @next/next/no-img-element */
 'use client';
 
-import React, { useState, useEffect, useCallback, useRef } from 'react';
-import {
-  Layers,
-  ExternalLink,
-  Edit,
-  Trash2,
-  Plus,
-  RefreshCw,
-  Copy,
-  Eye,
-  CheckCircle2,
-  Clock,
-  Archive,
-  Search,
-  Move,
-  Star,
-  FileEdit,
-  AlertCircle,
-  Tag,
-  Code2,
-} from 'lucide-react';
+import React, { useState, useCallback, useRef } from 'react';
+import { Layers, ExternalLink, Edit, Trash2, Plus, RefreshCw, Copy, Search, Move, Star, Tag, Code2 } from 'lucide-react';
 import {
   getAdminServices,
   getAdminServiceCategories,
@@ -38,6 +18,7 @@ import type {
 import { ServiceBuilderForm } from '@/components/admin/services/ServiceBuilderForm';
 import { ServiceReorderModal } from '@/components/admin/services/ServiceReorderModal';
 import { ServiceCategoryModal } from '@/components/admin/services/ServiceCategoryModal';
+import { useDeferredEffect } from '@/lib/hooks/useDeferredEffect';
 
 export default function AdminServicesPage() {
   const [services, setServices] = useState<ServiceRecord[]>([]);
@@ -100,9 +81,7 @@ export default function AdminServicesPage() {
     }
   }, []);
 
-  useEffect(() => {
-    fetchServicesAndCategories();
-  }, [fetchServicesAndCategories]);
+  useDeferredEffect(() => fetchServicesAndCategories(), [fetchServicesAndCategories]);
 
   const handleCreateNew = () => {
     setEditingService(null);
@@ -243,6 +222,12 @@ export default function AdminServicesPage() {
           </button>
         </div>
       </div>
+
+      {error && (
+        <div role="alert" className="rounded-xl border border-rose-500/30 bg-rose-500/10 px-4 py-3 text-xs font-medium text-rose-300">
+          {error}
+        </div>
+      )}
 
       {/* KPI Cards */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">

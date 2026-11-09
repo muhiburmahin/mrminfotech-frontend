@@ -21,6 +21,7 @@ import {
   Users,
   Workflow,
 } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import { Logo } from './Logo';
 import { ThemeToggle } from './ThemeToggle';
 import { PublicApiService } from '@/services/public-api.service';
@@ -61,7 +62,47 @@ const ABOUT_MENU_ITEMS = [
   },
 ];
 
-const PRODUCTS_DATA = [
+/** A product entry in the mega menu: either the built-in fallback or a CMS record. */
+interface NavProductItem {
+  slug?: string;
+  href?: string;
+  title?: string;
+  name?: string;
+  icon?: LucideIcon;
+  category?: string | { name?: string };
+  categoryName?: string;
+  shortDescription?: string;
+  tagline?: string;
+  desc?: string;
+  description?: string;
+  stage?: string;
+  badge?: string;
+}
+
+interface NavServiceItem {
+  name: string;
+  desc: string;
+  href: string;
+  icon: LucideIcon;
+}
+
+/** Service record as returned by the public API (only the fields the menu reads). */
+interface RawNavService {
+  slug: string;
+  title?: string;
+  name?: string;
+  tagline?: string;
+  shortDescription?: string;
+  icon?: string;
+}
+
+/** Category label for a menu product, whether the record carries an object, a string or a flat name. */
+const navProductCategory = (p: NavProductItem): string | undefined =>
+  (typeof p.category === 'object' ? p.category?.name : undefined) ||
+  p.categoryName ||
+  (typeof p.category === 'string' ? p.category : undefined);
+
+const PRODUCTS_DATA: NavProductItem[] = [
   {
     name: 'EduManage BD',
     category: 'Education ERP',
@@ -88,7 +129,7 @@ const PRODUCTS_DATA = [
   },
 ];
 
-const SERVICES_DATA = [
+const SERVICES_DATA: NavServiceItem[] = [
   { name: 'Web Application Development', desc: 'Modern, reactive web systems', href: '/services/web-development', icon: Code2 },
   { name: 'Custom Software Development', desc: 'Bespoke enterprise engineering', href: '/services/custom-software-development', icon: Cpu },
   { name: 'SaaS & Cloud Platforms', desc: 'Multi-tenant scalable architectures', href: '/services/saas-development', icon: Layers },
@@ -120,44 +161,6 @@ export function Navbar() {
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
   const [mobileProjectsOpen, setMobileProjectsOpen] = useState(false);
 
-  // Dynamic Navigation Products from CMS
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [dynamicProducts, setDynamicProducts] = useState<any[]>(PRODUCTS_DATA);
-
-  // Dynamic Navigation Services from CMS
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [dynamicServices, setDynamicServices] = useState<any[]>(SERVICES_DATA);
-
-  useEffect(() => {
-    let active = true;
-    PublicApiService.getProducts({ placement: 'nav' })
-      .then((items) => {
-        if (active && Array.isArray(items) && items.length > 0) {
-          setDynamicProducts(items);
-        }
-      })
-      .catch(() => { });
-
-    PublicApiService.getServices({ placement: 'nav' })
-      .then((items) => {
-        if (active && Array.isArray(items) && items.length > 0) {
-          setDynamicServices(
-            items.map((s: any) => ({
-              name: s.title || s.name,
-              desc: s.tagline || s.shortDescription || 'Enterprise digital engineering',
-              href: `/services/${s.slug}`,
-              icon: getServiceNavIcon(s.icon, s.slug),
-            }))
-          );
-        }
-      })
-      .catch(() => { });
-
-    return () => {
-      active = false;
-    };
-  }, []);
-
   const getServiceNavIcon = (iconName?: string, slug?: string) => {
     const s = (iconName || slug || '').toLowerCase();
     if (s.includes('web') || s.includes('globe')) return Code2;
@@ -174,6 +177,42 @@ export function Navbar() {
     if (slug?.includes('institution') || catName?.toLowerCase().includes('website')) return Building2;
     return Layers;
   };
+
+  // Dynamic Navigation Products from CMS
+  const [dynamicProducts, setDynamicProducts] = useState<NavProductItem[]>(PRODUCTS_DATA);
+
+  // Dynamic Navigation Services from CMS
+  const [dynamicServices, setDynamicServices] = useState<NavServiceItem[]>(SERVICES_DATA);
+
+  useEffect(() => {
+    let active = true;
+    PublicApiService.getProducts<NavProductItem[]>({ placement: 'nav' })
+      .then((items) => {
+        if (active && Array.isArray(items) && items.length > 0) {
+          setDynamicProducts(items);
+        }
+      })
+      .catch(() => { });
+
+    PublicApiService.getServices<RawNavService[]>({ placement: 'nav' })
+      .then((items) => {
+        if (active && Array.isArray(items) && items.length > 0) {
+          setDynamicServices(
+            items.map((s) => ({
+              name: s.title || s.name || s.slug,
+              desc: s.tagline || s.shortDescription || 'Enterprise digital engineering',
+              href: `/services/${s.slug}`,
+              icon: getServiceNavIcon(s.icon, s.slug),
+            }))
+          );
+        }
+      })
+      .catch(() => { });
+
+    return () => {
+      active = false;
+    };
+  }, []);
 
   // Scroll detection
   useEffect(() => {
@@ -427,11 +466,11 @@ export function Navbar() {
                       </div>
 
                       <div className="grid grid-cols-3 gap-3">
-                        {dynamicProducts.map((p: any) => {
-                          const IconComp = p.icon || getProductNavIcon(p.slug, p.categoryName || p.category);
+                        {dynamicProducts.map((p) => {
+                          const IconComp = p.icon || getProductNavIcon(p.slug, navProductCategory(p));
                           const href = p.href || `/products/${p.slug}`;
                           const title = p.title || p.name;
-                          const category = p.category?.name || p.categoryName || p.category || 'Software Product';
+                          const category = navProductCategory(p) || 'Software Product';
                           const desc = p.shortDescription || p.tagline || p.desc || p.description;
                           const badge = p.stage || p.badge || 'Live';
 
@@ -746,7 +785,7 @@ export function Navbar() {
               </button>
               {mobileProductsOpen && (
                 <div className="pl-4 pr-2 py-1 space-y-1 bg-[var(--theme-bg-canvas)]/80 border border-[var(--theme-border-glass)] rounded-xl my-1">
-                  {dynamicProducts.map((p: any) => {
+                  {dynamicProducts.map((p) => {
                     const title = p.title || p.name;
                     const href = p.href || `/products/${p.slug}`;
                     return (

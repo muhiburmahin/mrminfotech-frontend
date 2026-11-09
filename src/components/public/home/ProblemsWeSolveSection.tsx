@@ -3,17 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import {
-  ClipboardList,
-  Unplug,
-  Clock,
-  BarChart3,
-  Globe2,
-  ArrowRight,
-  AlertCircle,
-  CheckCircle2,
-  Sparkles,
-} from 'lucide-react';
+import { ClipboardList, Unplug, Clock, BarChart3, Globe2, ArrowRight, AlertCircle, CheckCircle2 } from 'lucide-react';
 
 interface ProblemItem {
   id: string;

@@ -3,16 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import {
-  Briefcase,
-  ArrowRight,
-  ExternalLink,
-  Code2,
-  Terminal,
-  Activity,
-  Layers,
-  Sparkles,
-} from 'lucide-react';
+import { Briefcase, ArrowRight, ExternalLink } from 'lucide-react';
 
 export interface PortfolioProjectItem {
   id?: string;

@@ -1,23 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
-import {
-  Users,
-  Plus,
-  RefreshCw,
-  ArrowUp,
-  ArrowDown,
-  Edit,
-  Trash2,
-  CheckCircle2,
-  Sparkles,
-  ExternalLink,
-  Mail,
-  ShieldCheck,
-  Eye,
-  EyeOff,
-} from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { Users, Plus, RefreshCw, ArrowUp, ArrowDown, Edit, Trash2, CheckCircle2, Sparkles, Mail, ShieldCheck, Eye, EyeOff } from 'lucide-react';
 import { LinkedinIcon, GithubIcon } from '@/components/public/shared/SocialIcons';
 import {
   getAdminTeamMembers,
@@ -26,6 +11,7 @@ import {
 } from '@/lib/api/admin';
 import Link from 'next/link';
 import { TeamForm, AdminTeamRecord } from '@/components/admin/forms/TeamForm';
+import { useDeferredEffect } from '@/lib/hooks/useDeferredEffect';
 
 export default function AdminTeamPage() {
   const [teamMembers, setTeamMembers] = useState<AdminTeamRecord[]>([]);
@@ -76,9 +62,7 @@ export default function AdminTeamPage() {
     }
   };
 
-  useEffect(() => {
-    fetchMembers();
-  }, []);
+  useDeferredEffect(() => fetchMembers(), []);
 
   const handleEdit = (member: AdminTeamRecord) => {
     setEditingMember(member);

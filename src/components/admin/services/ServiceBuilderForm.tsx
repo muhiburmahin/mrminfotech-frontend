@@ -1,25 +1,8 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
-import {
-  Save,
-  X,
-  Upload,
-  Plus,
-  Trash2,
-  MoveUp,
-  MoveDown,
-  Layers,
-  Code2,
-  CheckCircle2,
-  AlertCircle,
-  Eye,
-  Sparkles,
-  HelpCircle,
-  Sliders,
-  ExternalLink,
-  Search,
-} from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { Save, X, Upload, Plus, Trash2, CheckCircle2, AlertCircle, Eye } from 'lucide-react';
+import { omitKeys } from '@/lib/utils';
 import {
   createAdminService,
   updateAdminService,
@@ -35,6 +18,7 @@ import type {
   ServiceMediaItem,
   ServiceFaqItem,
   ServiceSection,
+  ServiceStatus,
 } from '@/types/service.types';
 
 interface ServiceBuilderFormProps {
@@ -72,7 +56,7 @@ export function ServiceBuilderForm({
   const [serviceType, setServiceType] = useState<string>(
     initialData?.serviceType || 'Web Development'
   );
-  const [status, setStatus] = useState<string>(initialData?.status || 'PUBLISHED');
+  const [status, setStatus] = useState<ServiceStatus>(initialData?.status || 'PUBLISHED');
   const [categoryId, setCategoryId] = useState<string>(initialData?.categoryId || '');
   const [icon, setIcon] = useState<string>(initialData?.icon || 'Code2');
   const [coverImage, setCoverImage] = useState<string>(
@@ -99,7 +83,7 @@ export function ServiceBuilderForm({
 
   // Tab 5: Tech Stack
   const [technologies, setTechnologies] = useState<string[]>(
-    (initialData?.technologies || []).map((t: any) =>
+    (initialData?.technologies || []).map((t) =>
       typeof t === 'string' ? t : t.name || t.slug || ''
     ).filter(Boolean)
   );
@@ -126,11 +110,11 @@ export function ServiceBuilderForm({
   const [showInNavbar, setShowInNavbar] = useState<boolean>(
     initialData?.showInNavbar ?? true
   );
-  const [allowPublicDetail, setAllowPublicDetail] = useState<boolean>(
+  const [allowPublicDetail] = useState<boolean>(
     initialData?.allowPublicDetail ?? true
   );
 
-  const [displayOrder, setDisplayOrder] = useState<number>(
+  const [displayOrder] = useState<number>(
     initialData?.displayOrder ?? 0
   );
   const [servicesPageOrder, setServicesPageOrder] = useState<number>(
@@ -159,13 +143,13 @@ export function ServiceBuilderForm({
   const [canonicalUrl, setCanonicalUrl] = useState<string>(
     initialData?.canonicalUrl || initialData?.seo?.canonicalUrl || ''
   );
-  const [ogTitle, setOgTitle] = useState<string>(
+  const [ogTitle] = useState<string>(
     initialData?.ogTitle || initialData?.seo?.ogTitle || ''
   );
-  const [ogDescription, setOgDescription] = useState<string>(
+  const [ogDescription] = useState<string>(
     initialData?.ogDescription || initialData?.seo?.ogDescription || ''
   );
-  const [noIndex, setNoIndex] = useState<boolean>(
+  const [noIndex] = useState<boolean>(
     initialData?.noIndex ?? initialData?.seo?.noIndex ?? false
   );
 
@@ -189,10 +173,13 @@ export function ServiceBuilderForm({
   };
 
   // Clean sub-items of foreign keys, timestamps, and invalid temp IDs before API dispatch
-  const sanitizeSubList = (list?: any[]) => {
+  const sanitizeSubList = <T extends object>(list?: T[]) => {
     if (!Array.isArray(list)) return undefined;
     return list.map((item) => {
-      const { serviceId: _s, createdAt: _c, updatedAt: _u, ...clean } = item;
+      const clean: Omit<T, 'serviceId' | 'createdAt' | 'updatedAt'> & { id?: unknown } = omitKeys(
+        item as T & { serviceId?: string; createdAt?: string; updatedAt?: string; id?: unknown },
+        ['serviceId', 'createdAt', 'updatedAt'],
+      );
       if (clean.id && (typeof clean.id !== 'string' || clean.id.startsWith('temp-') || clean.id.length < 32)) {
         delete clean.id;
       }
@@ -200,15 +187,8 @@ export function ServiceBuilderForm({
     });
   };
 
-  const sanitizeForApi = (snapshot: any) => {
-    const {
-      id: _id,
-      categoryName: _catName,
-      category: _cat,
-      createdAt: _ca,
-      updatedAt: _ua,
-      ...rest
-    } = snapshot;
+  const sanitizeForApi = (snapshot: Partial<ServiceRecord>) => {
+    const rest = omitKeys(snapshot, ['id', 'categoryName', 'category', 'createdAt', 'updatedAt']);
 
     return {
       ...rest,
@@ -229,12 +209,12 @@ export function ServiceBuilderForm({
     shortDescription,
     description,
     serviceType,
-    status: status as any,
+    status,
     categoryId: categoryId || undefined,
     icon,
     coverImage,
     primaryColor,
-    technologies: technologies as any,
+    technologies,
     offerings,
     benefits,
     processSteps,
@@ -607,7 +587,7 @@ export function ServiceBuilderForm({
                 </label>
                 <select
                   value={status}
-                  onChange={(e) => setStatus(e.target.value)}
+                  onChange={(e) => setStatus(e.target.value as ServiceStatus)}
                   className="w-full px-3.5 py-2 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm focus:border-blue-500 focus:outline-hidden"
                 >
                   <option value="PUBLISHED">PUBLISHED (Live)</option>

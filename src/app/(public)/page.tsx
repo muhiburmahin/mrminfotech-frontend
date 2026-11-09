@@ -1,37 +1,7 @@
-/* eslint-disable @next/next/no-img-element */
 import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import {
-  ArrowRight,
-  ArrowUpRight,
-  Layers,
-  Cpu,
-  Code2,
-  Sparkles,
-  ShieldCheck,
-  Compass,
-  Zap,
-  Users,
-  ExternalLink,
-  GraduationCap,
-  HeartPulse,
-  Building2,
-  CheckCircle2,
-  Lock,
-  Globe,
-  Terminal,
-  Activity,
-  Workflow,
-  BookOpen,
-  Cloud,
-  Database,
-  Smartphone,
-  Palette,
-  Briefcase,
-  Lightbulb,
-  TrendingUp,
-} from 'lucide-react';
+import { ArrowRight, Layers, Cpu, Code2, Sparkles, ShieldCheck, Zap, Lock } from 'lucide-react';
 import HomeFaqAccordion from '@/components/public/home/HomeFaqAccordion';
 import StackedProductShowcase from '@/components/public/home/StackedProductShowcase';
 import { ModernServicesSection } from '@/components/public/home/ModernServicesSection';
@@ -48,20 +18,8 @@ import { ClientTestimonials } from '@/components/home/ClientTestimonials';
 import type { TestimonialItem } from '@/lib/api/types';
 import { getHomepageConfig } from '@/lib/api/public';
 import { AmbientSection } from '@/components/ui/AmbientSection';
-import GlassEmptyState from '@/components/ui/GlassEmptyState';
-import { GlassCard } from '@/components/ui/design-system/GlassCard';
-import { MasonryGrid } from '@/components/ui/design-system/MasonryGrid';
 import { CTAButton } from '@/components/ui/design-system/CTAButton';
-import {
-  ScrollReveal,
-  CountUp,
-  TiltCard,
-  MagneticButton,
-  InfiniteMarquee,
-  TextReveal,
-  AnimatedBackground,
-} from '@/components/ui/animations';
-import { LinkedinIcon, GithubIcon } from '@/components/public/shared/SocialIcons';
+import { ScrollReveal, CountUp, TiltCard, InfiniteMarquee } from '@/components/ui/animations';
 
 export const metadata: Metadata = {
   title: 'Custom Software & Web Development Company',
@@ -192,19 +150,6 @@ interface PublishedProject {
   liveUrl?: string | null;
   translations?: Array<{
     title?: string;
-    summary?: string;
-  }>;
-}
-
-interface PublishedCaseStudy {
-  id?: string;
-  slug: string;
-  title?: string;
-  challenge?: string;
-  summary?: string;
-  translations?: Array<{
-    title?: string;
-    challenge?: string;
     summary?: string;
   }>;
 }
@@ -363,48 +308,6 @@ const FALLBACK_SERVICES: ServiceItem[] = [
   },
 ];
 
-const WORK_PROCESS_STEPS = [
-  {
-    number: '01',
-    title: 'Discover',
-    description: 'We understand your goals, operational challenges, and system requirements.',
-  },
-  {
-    number: '02',
-    title: 'Plan',
-    description: 'We define the project scope, technical architecture, and implementation roadmap.',
-  },
-  {
-    number: '03',
-    title: 'Design & Build',
-    description: 'We turn architectural designs into high-velocity, reliable software solutions.',
-  },
-  {
-    number: '04',
-    title: 'Test & Refine',
-    description: 'We rigorously audit functionality, security, concurrency, and usability before delivery.',
-  },
-  {
-    number: '05',
-    title: 'Launch & Support',
-    description: 'We deploy to resilient cloud infrastructure with active telemetry and ongoing SLA.',
-  },
-];
-
-const APPROVED_TECHNOLOGIES = [
-  { name: 'React', role: 'Frontend UI' },
-  { name: 'Next.js 16', role: 'Full-Stack Framework' },
-  { name: 'TypeScript', role: 'Strict Type Safety' },
-  { name: 'Node.js', role: 'Server Runtime' },
-  { name: 'NestJS', role: 'Modular Backend' },
-  { name: 'PostgreSQL', role: 'ACID Relational DB' },
-  { name: 'Prisma ORM', role: 'Type-Safe Data Layer' },
-  { name: 'Redis Cache', role: 'In-Memory Caching' },
-  { name: 'Tailwind CSS', role: 'Design Tokens' },
-  { name: 'Docker Swarm', role: 'Container Orchestration' },
-  { name: 'Cloudflare', role: 'Edge CDN & Security' },
-];
-
 interface HeroTickerItem {
   id: string;
   type: 'company' | 'product' | 'service';
@@ -503,7 +406,6 @@ export default async function HomePage() {
     apiProducts,
     apiServices,
     apiProjects,
-    apiCaseStudies,
     apiTeam,
     apiBlogPosts,
     apiFaqs,
@@ -513,7 +415,6 @@ export default async function HomePage() {
     fetchBackendList<PublishedProductRaw>('/products?placement=homepage'),
     fetchBackendList<PublishedServiceRaw>('/services?placement=homepage'),
     fetchBackendList<PublishedProject>('/projects?locale=en'),
-    fetchBackendList<PublishedCaseStudy>('/case-studies?locale=en'),
     fetchBackendList<PublishedTeamMember>('/team?locale=en'),
     fetchBackendList<PublishedBlogPost>('/blog?locale=en'),
     fetchBackendList<PublishedFaq>('/faqs'),
@@ -613,7 +514,6 @@ export default async function HomePage() {
       : FALLBACK_SERVICES;
 
   const featuredProjects: PublishedProject[] = apiProjects.slice(0, 6);
-  const featuredCaseStudies: PublishedCaseStudy[] = apiCaseStudies.slice(0, 3);
   const activeTeam: PublishedTeamMember[] = [...apiTeam]
     .filter((m) => m.isActive !== false)
     .sort((a, b) => (a.order ?? a.sortOrder ?? 999) - (b.order ?? b.sortOrder ?? 999))

@@ -2,18 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
-import {
-  Compass,
-  Target,
-  Sparkles,
-  ArrowRight,
-  ShieldCheck,
-  Layers,
-  Cpu,
-  Globe2,
-  CheckCircle2,
-} from 'lucide-react';
+import { Compass, Target, ArrowRight, ShieldCheck, Layers, Cpu } from 'lucide-react';
 
 export function CompanyIntroductionSection() {
   return (

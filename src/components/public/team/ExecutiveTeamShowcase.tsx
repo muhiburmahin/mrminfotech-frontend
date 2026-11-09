@@ -2,17 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import {
-  ShieldCheck,
-  Mail,
-  Users,
-  Code2,
-  Sparkles,
-  Layers,
-  CheckCircle2,
-  Cpu,
-  Globe2,
-} from 'lucide-react';
+import { ShieldCheck, Mail, Users } from 'lucide-react';
 import { LinkedinIcon, GithubIcon } from '@/components/public/shared/SocialIcons';
 
 export interface TeamMemberData {

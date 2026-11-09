@@ -2,31 +2,12 @@ import React from 'react';
 import type { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 import Link from 'next/link';
-import {
-  ExternalLink,
-  CheckCircle2,
-  ArrowLeft,
-  ArrowRight,
-  ShieldCheck,
-  Layers,
-  Cpu,
-  Database,
-  Sparkles,
-  Server,
-  Cloud,
-  FileCode,
-  Calendar,
-  Building2,
-  Monitor,
-  Smartphone,
-  Check,
-  Radio,
-  Lock,
-} from 'lucide-react';
+import { ExternalLink, CheckCircle2, ArrowLeft, ArrowRight, Layers, Cpu, Database, Sparkles, Server, Building2, Monitor } from 'lucide-react';
 import { GithubIcon } from '@/components/public/shared/SocialIcons';
 import { PublicApiService } from '@/services/public-api.service';
 import { ClientTestimonials } from '@/components/home/ClientTestimonials';
 import type { TestimonialItem } from '@/lib/api/types';
+import type { LegacyCaseStudy, PublicProjectDetail } from '@/types/public-content';
 import {
   ProjectLightboxGallery,
   ProjectScreenshot,
@@ -39,7 +20,7 @@ interface PageProps {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const cleanSlug = decodeURIComponent(slug).trim().replace(/\s+/g, '-').replace(/-+/g, '-');
-  const project: any = await PublicApiService.getProjectBySlug(cleanSlug, 'en');
+  const project = await PublicApiService.getProjectBySlug<PublicProjectDetail | null>(cleanSlug, 'en');
 
   if (!project) {
     return { title: 'Project Not Found | MRM InfoTech' };
@@ -85,8 +66,8 @@ export default async function ProjectDetailPage({ params }: PageProps) {
     redirect(`/projects/${cleanSlug}`);
   }
 
-  const [project, rawTestimonials]: [any, unknown] = await Promise.all([
-    PublicApiService.getProjectBySlug(cleanSlug, 'en'),
+  const [project, rawTestimonials] = await Promise.all([
+    PublicApiService.getProjectBySlug<PublicProjectDetail | null>(cleanSlug, 'en'),
     PublicApiService.getTestimonials<TestimonialItem[]>({ locale: 'en', projectSlug: cleanSlug }),
   ]);
   const projectTestimonials = Array.isArray(rawTestimonials) ? (rawTestimonials as TestimonialItem[]) : [];
@@ -97,7 +78,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
 
   const title = project.title || project.name || 'Enterprise Project';
   const summary = project.summary || project.challenge || '';
-  const caseStudy = project.caseStudy || project;
+  const caseStudy: LegacyCaseStudy = project.caseStudy ?? project;
 
   const clientName = project.clientName || caseStudy.clientName;
   const liveUrl = project.liveUrl || caseStudy.liveUrl;
@@ -128,17 +109,17 @@ export default async function ProjectDetailPage({ params }: PageProps) {
   // Resolve screenshot gallery from the CMS only (no stock imagery is ever substituted)
   let galleryScreenshots: ProjectScreenshot[] = [];
   if (Array.isArray(project.gallery) && project.gallery.length > 0) {
-    galleryScreenshots = project.gallery.map((g: any, idx: number) => ({
+    galleryScreenshots = project.gallery.map((g, idx: number) => ({
       id: g.id || `img-${idx}`,
-      url: g.url || g.media?.url,
-      title: g.title || g.caption?.title || `Screen ${idx + 1}`,
-      subtitle: g.caption?.description || g.caption || '',
-      caption: g.caption?.description || g.caption || '',
-      device: g.device || 'Desktop',
+      url: g.url || g.media?.url || '',
+      title: g.title || (typeof g.caption === 'object' ? g.caption?.title : undefined) || `Screen ${idx + 1}`,
+      subtitle: (typeof g.caption === 'object' ? g.caption?.description : g.caption) || '',
+      caption: (typeof g.caption === 'object' ? g.caption?.description : g.caption) || '',
+      device: (g.device as ProjectScreenshot['device']) || 'Desktop',
       isFeatured: g.isFeatured || idx === 0,
     }));
-  } else if (project.body && typeof project.body === 'object' && Array.isArray((project.body as any).gallery)) {
-    galleryScreenshots = (project.body as any).gallery;
+  } else if (project.body && typeof project.body === 'object' && Array.isArray(project.body.gallery)) {
+    galleryScreenshots = project.body.gallery as ProjectScreenshot[];
   } else if (project.cover?.url) {
     galleryScreenshots = [
       { url: project.cover.url, title: project.cover.alt || `${project.title} interface`, subtitle: '', device: 'Desktop', isFeatured: true },

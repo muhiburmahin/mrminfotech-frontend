@@ -3,16 +3,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import {
-  ArrowRight,
-  ExternalLink,
-  ChevronLeft,
-  ChevronRight,
-  GraduationCap,
-  HeartPulse,
-  Building2,
-  Layers,
-} from 'lucide-react';
+import { ArrowRight, ExternalLink, ChevronLeft, ChevronRight, GraduationCap, HeartPulse, Building2 } from 'lucide-react';
 
 export interface HomeProductItem {
   slug: string;

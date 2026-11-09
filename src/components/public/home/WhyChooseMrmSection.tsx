@@ -1,21 +1,8 @@
 'use client';
 
 import React from 'react';
-import Link from 'next/link';
 import { motion } from 'framer-motion';
-import {
-  ShieldCheck,
-  Zap,
-  Users,
-  Code2,
-  Cpu,
-  Layers,
-  ArrowRight,
-  CheckCircle2,
-  Activity,
-  Terminal,
-  Lock,
-} from 'lucide-react';
+import { ShieldCheck, Zap, ArrowRight, CheckCircle2, Terminal, Lock } from 'lucide-react';
 import { CTAButton } from '@/components/ui/design-system/CTAButton';
 
 const WHY_CHOOSE_FEATURES = [

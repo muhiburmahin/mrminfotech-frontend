@@ -1,23 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
-import {
-  Upload,
-  Save,
-  Loader2,
-  XCircle,
-  CheckCircle2,
-  User,
-  Star,
-  Quote,
-  Building,
-  Briefcase,
-  ShieldCheck,
-  Calendar,
-  Link as LinkIcon,
-  Sparkles,
-} from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { useDeferredEffect } from '@/lib/hooks/useDeferredEffect';
+import { Upload, Save, Loader2, XCircle, CheckCircle2, User, Star, Quote, Building, Briefcase, Link as LinkIcon } from 'lucide-react';
 import {
   createAdminTestimonial,
   updateAdminTestimonial,
@@ -83,7 +69,7 @@ export function TestimonialForm({ initialData, onSaved, onCancel }: TestimonialF
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
+  useDeferredEffect(() => {
     if (initialData) {
       setAuthorName(initialData.authorName || '');
       setAuthorRole(initialData.authorRole || '');

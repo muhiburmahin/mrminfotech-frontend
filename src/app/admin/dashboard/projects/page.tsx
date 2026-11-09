@@ -1,7 +1,10 @@
 'use client';
 
+/* eslint-disable @next/next/no-img-element -- admin previews render arbitrary editor-supplied image URLs */
+
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import Link from 'next/link';
+import type { PublicGalleryItem } from '@/types/public-content';
 import {
   getAdminProjects,
   getAdminProjectById,
@@ -13,40 +16,7 @@ import {
   AdminProjectPayload,
   ProjectScreenshotItem,
 } from '@/lib/api/admin';
-import {
-  FolderGit2,
-  ExternalLink,
-  Edit,
-  Trash2,
-  Plus,
-  RefreshCw,
-  Code2,
-  CheckCircle2,
-  Sparkles,
-  ArrowUp,
-  ArrowDown,
-  Save,
-  XCircle,
-  Loader2,
-  Upload,
-  Image as ImageIcon,
-  Monitor,
-  Smartphone,
-  Tablet,
-  Calendar,
-  Cpu,
-  Layers,
-  BarChart3,
-  Search,
-  Eye,
-  Star,
-  Check,
-  X,
-  FileText,
-  Globe,
-  Sliders,
-  Filter,
-} from 'lucide-react';
+import { FolderGit2, ExternalLink, Edit, Trash2, Plus, RefreshCw, Code2, CheckCircle2, Sparkles, ArrowUp, ArrowDown, Save, XCircle, Loader2, Upload, Image as ImageIcon, Calendar, Cpu, Search, Eye, Star, Check, X, FileText, Filter } from 'lucide-react';
 
 interface ProjectTranslationRecord {
   locale?: string;
@@ -59,6 +29,18 @@ interface ProjectTranslationRecord {
   status?: string;
   seoTitle?: string | null;
   seoDescription?: string | null;
+}
+
+/** Free-form editorial fields stored in the translation body JSON. */
+interface ProjectBody {
+  projectType?: string;
+  clientName?: string;
+  coverImageUrl?: string;
+  startDate?: string;
+  completionDate?: string;
+  gallery?: ProjectScreenshotItem[];
+  architecture?: string;
+  keyFeatures?: string[];
 }
 
 interface ProjectRecord {
@@ -80,6 +62,9 @@ interface ProjectRecord {
   dbToolsSummary?: string[] | null;
   metrics?: Array<{ label: string; value: string }> | null;
   translations?: ProjectTranslationRecord[];
+  clientName?: string | null;
+  cover?: { url?: string } | null;
+  gallery?: PublicGalleryItem[];
   createdAt?: string;
   updatedAt?: string;
 }
@@ -274,10 +259,10 @@ export default function AdminProjectsPage() {
 
     try {
       // Fetch full details including challenge, solution, result, body
-      let fullProj: any = proj;
+      let fullProj: ProjectRecord = proj;
       try {
         const fetched = await getAdminProjectById(proj.id);
-        if (fetched) fullProj = fetched;
+        if (fetched) fullProj = fetched as unknown as ProjectRecord;
       } catch {
         // fallback to list proj
       }
@@ -285,7 +270,7 @@ export default function AdminProjectsPage() {
       const activeTrans = fullProj.translations?.[0] || {};
       const projTitle = fullProj.title || activeTrans.title || fullProj.slug;
       const projSummary = fullProj.summary || activeTrans.summary || '';
-      const bodyData = (typeof activeTrans.body === 'object' && activeTrans.body !== null ? activeTrans.body : {}) as Record<string, any>;
+      const bodyData = (typeof activeTrans.body === 'object' && activeTrans.body !== null ? activeTrans.body : {}) as ProjectBody;
 
       setTitle(projTitle);
       setSlug(fullProj.slug || '');
@@ -313,16 +298,19 @@ export default function AdminProjectsPage() {
       if (Array.isArray(bodyData.gallery) && bodyData.gallery.length > 0) {
         galleryList = bodyData.gallery;
       } else if (Array.isArray(fullProj.gallery) && fullProj.gallery.length > 0) {
-        galleryList = fullProj.gallery.map((g: any, i: number) => ({
+        galleryList = fullProj.gallery.map((g, i: number) => {
+          const caption = typeof g.caption === 'object' ? g.caption?.description || '' : g.caption || '';
+          return {
           id: g.id || `img-${i}`,
-          url: g.url || g.media?.url,
+          url: g.url || g.media?.url || '',
           title: g.title || `Screen ${i + 1}`,
-          subtitle: g.caption || '',
-          caption: g.caption || '',
-          device: g.device || 'Desktop',
+          subtitle: caption,
+          caption,
+          device: (g.device as ProjectScreenshotItem['device']) || 'Desktop',
           isFeatured: g.isFeatured || i === 0,
           order: i + 1,
-        }));
+          };
+        });
       }
       setScreenshots(galleryList);
 

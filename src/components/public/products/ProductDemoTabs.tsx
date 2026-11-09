@@ -2,7 +2,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { PlayCircle, Monitor, Smartphone, Workflow, Layers, ArrowRight } from 'lucide-react';
+import { PlayCircle, Monitor, Smartphone, Workflow, Layers } from 'lucide-react';
 import type { ProductDemoItem } from '@/types/product.types';
 
 interface ProductDemoTabsProps {

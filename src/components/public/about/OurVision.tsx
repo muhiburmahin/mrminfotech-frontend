@@ -1,5 +1,5 @@
 import React from 'react';
-import { Compass, Sparkles, ShieldCheck, Globe2, Radio, Check } from 'lucide-react';
+import { Compass, Check } from 'lucide-react';
 import Link from 'next/link';
 
 export default function OurVision() {

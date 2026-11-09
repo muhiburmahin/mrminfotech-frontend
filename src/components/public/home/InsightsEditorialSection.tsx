@@ -3,13 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import {
-  BookOpen,
-  ArrowRight,
-  Clock,
-  Calendar,
-  Sparkles,
-} from 'lucide-react';
+import { BookOpen, ArrowRight, Clock, Calendar } from 'lucide-react';
 
 export interface EditorialBlogPostItem {
   id?: string;

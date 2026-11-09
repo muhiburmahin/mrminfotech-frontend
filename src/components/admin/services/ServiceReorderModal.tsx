@@ -1,9 +1,10 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { X, ArrowUp, ArrowDown, Save, Move, AlertCircle } from 'lucide-react';
 import { reorderAdminServices } from '@/lib/api/admin';
 import type { ServiceRecord, ReorderPlacement } from '@/types/service.types';
+import { useDeferredEffect } from '@/lib/hooks/useDeferredEffect';
 
 interface ServiceReorderModalProps {
   services: ServiceRecord[];
@@ -23,12 +24,14 @@ export function ServiceReorderModal({
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
+  useDeferredEffect(() => {
     if (!isOpen) return;
     const sorted = [...services].sort((a, b) => {
-      const valA = (a as any)[activeContext] ?? a.displayOrder ?? 999;
-      const valB = (b as any)[activeContext] ?? b.displayOrder ?? 999;
-      return valA - valB;
+      const rank = (item: typeof a): number => {
+        const value = (item as unknown as Record<string, unknown>)[activeContext];
+        return typeof value === "number" ? value : (item as { displayOrder?: number }).displayOrder ?? 999;
+      };
+      return rank(a) - rank(b);
     });
 
     setItems(

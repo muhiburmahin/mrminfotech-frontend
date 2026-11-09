@@ -1,30 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import {
-  Code2,
-  Cpu,
-  Layers,
-  Sparkles,
-  ArrowRight,
-  ShieldCheck,
-  CheckCircle2,
-  Users,
-  Compass,
-  Zap,
-  Globe,
-  Smartphone,
-  Palette,
-  Search,
-  Megaphone,
-  GraduationCap,
-  HeartPulse,
-  Building2,
-  Lock,
-  ChevronDown,
-  HelpCircle,
-  ExternalLink,
-} from 'lucide-react';
+import { Cpu, Layers, Sparkles, ArrowRight, ShieldCheck, Users, Zap, Globe, GraduationCap, HeartPulse, Building2, Lock, ChevronDown, HelpCircle } from 'lucide-react';
 import { PublicApiService } from '@/services/public-api.service';
 import type { ServiceRecord, ServiceCategory } from '@/types/service.types';
 import { ServicesShowcaseClient } from '@/components/public/services/ServicesShowcaseClient';

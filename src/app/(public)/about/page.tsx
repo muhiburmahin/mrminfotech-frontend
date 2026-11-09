@@ -1,17 +1,9 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import {
-  ArrowRight,
-  Calendar,
-  Layers,
-  Sparkles,
-  CheckCircle2,
-} from 'lucide-react';
+import { ArrowRight, Calendar, Sparkles, CheckCircle2 } from 'lucide-react';
 import { PublicApiService } from '@/services/public-api.service';
-import GlassEmptyState from '@/components/ui/GlassEmptyState';
 import { ExecutiveTeamShowcase } from '@/components/public/team/ExecutiveTeamShowcase';
-import { LinkedinIcon, GithubIcon } from '@/components/public/shared/SocialIcons';
 
 // The 5 Brand-New Distinct Art-Directed Components
 import WhoWeAre from '@/components/public/about/WhoWeAre';
@@ -60,7 +52,6 @@ export default async function AboutPage() {
     },
   ];
 
-  const hasTeam = Boolean(team && team.length > 0);
 
   return (
     <div className="w-full flex flex-col bg-[var(--theme-bg-canvas)] text-[var(--theme-text-primary)] transition-colors duration-200 overflow-x-hidden selection:bg-[var(--theme-accent)] selection:text-[var(--theme-accent-text)]">

@@ -1,3 +1,4 @@
+import type { PublicCaseStudy } from './public-content';
 export type ServiceStatus = 'DRAFT' | 'IN_REVIEW' | 'SCHEDULED' | 'PUBLISHED' | 'ARCHIVED';
 
 export type ServiceSection =
@@ -99,6 +100,36 @@ export interface ServiceTechnologyItem {
   category?: string | null;
 }
 
+/** SEO block returned with a service. */
+export interface ServiceSeo {
+  seoTitle?: string | null;
+  seoDescription?: string | null;
+  metaDescription?: string | null;
+  seoKeywords?: string | null;
+  keywords?: string[] | null;
+  canonicalUrl?: string | null;
+  ogTitle?: string | null;
+  ogDescription?: string | null;
+  ogImage?: string | null;
+  twitterImage?: string | null;
+  noIndex?: boolean | null;
+  includeInSitemap?: boolean | null;
+}
+
+/** Slim service card shown under "related services". */
+export interface RelatedServiceSummary {
+  id?: string;
+  slug: string;
+  title?: string | null;
+  name?: string | null;
+  tagline?: string | null;
+  shortDescription?: string | null;
+  icon?: string | null;
+  coverImage?: string | null;
+  coverImageUrl?: string | null;
+  category?: { id?: string; name?: string; slug?: string } | null;
+}
+
 export interface ServiceRecord {
   id: string;
   slug: string;
@@ -162,11 +193,11 @@ export interface ServiceRecord {
   serviceFaqs?: ServiceFaqItem[];
   faqs?: ServiceFaqItem[];
   technologies?: Array<string | ServiceTechnologyItem>;
-  caseStudies?: any[];
-  relatedServices?: any[];
+  caseStudies?: PublicCaseStudy[];
+  relatedServices?: RelatedServiceSummary[];
 
   // SEO
-  seo?: any;
+  seo?: ServiceSeo;
   seoTitle?: string | null;
   metaDescription?: string | null;
   seoDescription?: string | null;

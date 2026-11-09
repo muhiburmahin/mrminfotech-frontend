@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   Upload,
   Trash2,
@@ -16,6 +16,7 @@ import {
   Link as LinkIcon,
 } from 'lucide-react';
 import { LinkedinIcon, GithubIcon } from '@/components/public/shared/SocialIcons';
+import { useDeferredEffect } from '@/lib/hooks/useDeferredEffect';
 import {
   createAdminTeamMember,
   updateAdminTeamMember,
@@ -83,8 +84,17 @@ export function TeamForm({ initialData, onSaved, onCancel }: TeamFormProps) {
   );
   const [slug, setSlug] = useState(initialData?.slug || '');
 
+  const [showManualUrl, setShowManualUrl] = useState(false);
+  const [manualUrlInput, setManualUrlInput] = useState('');
+  const [isUploading, setIsUploading] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [successMsg, setSuccessMsg] = useState<string | null>(null);
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   // Keep form fields synced if initialData changes
-  useEffect(() => {
+  useDeferredEffect(() => {
     if (initialData) {
       setName(initialData.name || initialData.translations?.[0]?.name || '');
       setRole(initialData.role || initialData.translations?.[0]?.roleTitle || '');
@@ -101,15 +111,6 @@ export function TeamForm({ initialData, onSaved, onCancel }: TeamFormProps) {
       setError(null);
     }
   }, [initialData]);
-
-  const [showManualUrl, setShowManualUrl] = useState(false);
-  const [manualUrlInput, setManualUrlInput] = useState('');
-  const [isUploading, setIsUploading] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [successMsg, setSuccessMsg] = useState<string | null>(null);
-
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleNameChange = (val: string) => {
     setName(val);

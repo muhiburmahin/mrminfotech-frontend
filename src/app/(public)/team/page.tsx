@@ -2,7 +2,7 @@ import React from 'react';
 import type { Metadata } from 'next';
 import { PublicApiService } from '@/services/public-api.service';
 import { TeamGrid, PublicTeamMemberItem } from '@/components/public/team/TeamGrid';
-import { Users, ShieldCheck, Cpu, Code2, Sparkles, Terminal } from 'lucide-react';
+import { Users, ShieldCheck, Cpu, Code2, Terminal } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Our Team & Leadership',

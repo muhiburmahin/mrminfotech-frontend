@@ -2,14 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import {
-  Cpu,
-  Layers,
-  Database,
-  Cloud,
-  Terminal,
-  CheckCircle2,
-} from 'lucide-react';
+import { Cpu, Layers, Database, Cloud, Terminal } from 'lucide-react';
 
 interface TechCategory {
   name: string;

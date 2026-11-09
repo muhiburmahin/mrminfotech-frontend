@@ -28,10 +28,7 @@ export function CountUp({
   useEffect(() => {
     if (!isInView) return;
 
-    if (shouldReduceMotion) {
-      setValue(end);
-      return;
-    }
+    if (shouldReduceMotion) return;
 
     let startTime: number | null = null;
     let animationFrameId: number;
@@ -61,7 +58,9 @@ export function CountUp({
     return () => cancelAnimationFrame(animationFrameId);
   }, [isInView, end, duration, shouldReduceMotion]);
 
-  const formatted = decimals > 0 ? value.toFixed(decimals) : Math.round(value).toLocaleString();
+  // With reduced motion the final value is shown immediately (derived, no state update).
+  const shown = shouldReduceMotion ? end : value;
+  const formatted = decimals > 0 ? shown.toFixed(decimals) : Math.round(shown).toLocaleString();
 
   return (
     <span ref={ref} className={className}>

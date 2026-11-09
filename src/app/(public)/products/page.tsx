@@ -7,6 +7,7 @@ import FeaturedProductSpotlight from '@/components/public/products/FeaturedProdu
 import ProductsCatalogClient from '@/components/public/products/ProductsCatalogClient';
 import ProductsCaseStudiesSection from '@/components/public/products/ProductsCaseStudiesSection';
 import ProductsFinalCta from '@/components/public/products/ProductsFinalCta';
+import type { PublicCaseStudy } from '@/types/public-content';
 
 export const metadata: Metadata = {
   title: 'Cloud SaaS Products & Digital Platforms | MRM InfoTech',
@@ -29,12 +30,12 @@ export default async function ProductsPage() {
   const [rawProducts, rawCategories, rawCaseStudies] = await Promise.all([
     PublicApiService.getProducts<ProductRecord[]>({ placement: 'catalog' }),
     PublicApiService.getProductCategories<ProductCategory[]>(),
-    PublicApiService.getCaseStudies<any[]>('en'),
+    PublicApiService.getCaseStudies<PublicCaseStudy[]>('en'),
   ]);
 
   const products: ProductRecord[] = Array.isArray(rawProducts) ? rawProducts : [];
   const categories: ProductCategory[] = Array.isArray(rawCategories) ? rawCategories : [];
-  const caseStudies: any[] = Array.isArray(rawCaseStudies) ? rawCaseStudies : [];
+  const caseStudies: PublicCaseStudy[] = Array.isArray(rawCaseStudies) ? rawCaseStudies : [];
 
   // Pick highest-priority product marked as featured, or fallback to first
   const featuredProduct =

@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 import { middleware as baseMiddleware, config as baseConfig } from "./src/middleware";
 
 export async function proxy(request: NextRequest) {

@@ -130,9 +130,12 @@ export function GlassCard({
 
         {imageUrl && (
           <div className="relative aspect-video w-full overflow-hidden rounded-2xl border border-[var(--theme-border-glass)] bg-[var(--theme-bg-canvas)]">
+            {/* eslint-disable-next-line @next/next/no-img-element -- card images come from arbitrary CMS URLs */}
             <img
               src={imageUrl}
               alt={title}
+              loading="lazy"
+              decoding="async"
               className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
             />
           </div>

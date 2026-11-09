@@ -1,9 +1,10 @@
 'use client';
 
 import React, { useState } from 'react';
-import { X, ArrowUp, ArrowDown, Save, CheckCircle2, Move, AlertCircle } from 'lucide-react';
+import { X, ArrowUp, ArrowDown, Save, Move, AlertCircle } from 'lucide-react';
 import { reorderAdminProducts } from '@/lib/api/admin';
 import type { ProductRecord, ReorderContext } from '@/types/product.types';
+import { useDeferredEffect } from '@/lib/hooks/useDeferredEffect';
 
 interface ProductReorderModalProps {
   products: ProductRecord[];
@@ -24,7 +25,7 @@ export function ProductReorderModal({
   const [error, setError] = useState<string | null>(null);
 
   // Initialize order items when modal opens or context changes
-  React.useEffect(() => {
+  useDeferredEffect(() => {
     if (!isOpen) return;
     const sorted = [...products].sort((a, b) => {
       const valA = a[activeContext] ?? a.sortOrder ?? 0;

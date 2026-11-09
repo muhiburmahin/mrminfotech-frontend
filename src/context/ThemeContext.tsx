@@ -10,14 +10,7 @@ import React, {
 } from 'react';
 import type { BrandAppearanceConfig } from '@/types/homepage';
 import { DEFAULT_BRAND_APPEARANCE } from '@/types/homepage';
-import {
-  ThemeId,
-  ThemeDefinition,
-  THEME_TEMPLATES,
-  DEFAULT_THEME_ID,
-  getTheme,
-  isValidThemeId,
-} from '@/lib/theme/themes';
+import { ThemeId, ThemeDefinition, DEFAULT_THEME_ID, getTheme, isValidThemeId } from '@/lib/theme/themes';
 import { authRequest } from '@/lib/api/auth.service';
 
 export type Theme = 'light' | 'dark';

@@ -2,19 +2,7 @@
 
 import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
-import {
-  BookOpen,
-  Clock,
-  ArrowRight,
-  Search,
-  Sparkles,
-  Calendar,
-  Tag,
-  User,
-  SlidersHorizontal,
-  Mail,
-  CheckCircle2,
-} from 'lucide-react';
+import { BookOpen, Clock, ArrowRight, Search, Mail, CheckCircle2 } from 'lucide-react';
 import GlassEmptyState from '@/components/ui/GlassEmptyState';
 
 export interface BlogPostItem {

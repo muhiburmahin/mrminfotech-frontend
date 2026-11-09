@@ -1,9 +1,10 @@
 import React from 'react';
 import Link from 'next/link';
-import { ArrowRight, Trophy, TrendingUp, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, Trophy } from 'lucide-react';
+import type { PublicCaseStudy } from '@/types/public-content';
 
 interface ProductsCaseStudiesSectionProps {
-  caseStudies: any[];
+  caseStudies: PublicCaseStudy[];
 }
 
 export default function ProductsCaseStudiesSection({ caseStudies }: ProductsCaseStudiesSectionProps) {
@@ -53,7 +54,7 @@ export default function ProductsCaseStudiesSection({ caseStudies }: ProductsCase
 
                   <div>
                     <h3 className="text-lg font-bold text-[var(--theme-text-primary)] group-hover:text-[var(--theme-accent)] transition-colors line-clamp-2">
-                      {study.title}
+                      {study.title || 'Case Study'}
                     </h3>
                     {study.summary && (
                       <p className="text-xs text-[var(--theme-text-secondary)] mt-2 line-clamp-3 leading-relaxed">
@@ -65,7 +66,7 @@ export default function ProductsCaseStudiesSection({ caseStudies }: ProductsCase
                   {/* Verified Metrics Strip if Available */}
                   {Array.isArray(metrics) && metrics.length > 0 && (
                     <div className="pt-2 grid grid-cols-2 gap-2 border-t border-[var(--theme-border-glass)]">
-                      {metrics.slice(0, 2).map((m: any, mIdx: number) => (
+                      {metrics.slice(0, 2).map((m, mIdx: number) => (
                         <div key={mIdx} className="p-2 rounded-xl bg-[var(--theme-bg-canvas)]">
                           <span className="text-sm font-black text-[var(--theme-accent)] font-mono block">
                             {m.value || m.metric}

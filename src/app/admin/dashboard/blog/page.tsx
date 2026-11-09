@@ -1,34 +1,10 @@
 'use client';
 
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import React, { useState, useMemo, useRef } from 'react';
 import Link from 'next/link';
-import {
-  BookOpen,
-  Plus,
-  RefreshCw,
-  Search,
-  Edit,
-  Trash2,
-  CheckCircle2,
-  Eye,
-  Clock,
-  Sparkles,
-  Save,
-  X,
-  FileText,
-  Calendar,
-  Tag,
-  SlidersHorizontal,
-} from 'lucide-react';
-import {
-  getAdminBlogPosts,
-  getAdminBlogCategories,
-  getAdminBlogTags,
-  createAdminBlogPost,
-  updateAdminBlogPost,
-  deleteAdminBlogPost,
-  AdminBlogPostPayload,
-} from '@/lib/api/admin';
+import { useDeferredEffect } from '@/lib/hooks/useDeferredEffect';
+import { BookOpen, Plus, RefreshCw, Search, Edit, Trash2, CheckCircle2, Eye, Save, X } from 'lucide-react';
+import { getAdminBlogPosts, getAdminBlogCategories, createAdminBlogPost, updateAdminBlogPost, deleteAdminBlogPost, AdminBlogPostPayload } from '@/lib/api/admin';
 
 interface AdminPostRow {
   id: string;
@@ -105,7 +81,7 @@ export default function AdminBlogPage() {
 
       setPosts(rawPosts);
 
-      const parsedCats = (Array.isArray(catsRes) ? catsRes : []).map((c: any) => ({
+      const parsedCats = (Array.isArray(catsRes) ? catsRes : []).map((c) => ({
         id: c.id,
         slug: c.slug,
         name: c.i18n?.en?.name || c.slug,
@@ -118,9 +94,7 @@ export default function AdminBlogPage() {
     }
   };
 
-  useEffect(() => {
-    fetchBlogData();
-  }, []);
+  useDeferredEffect(() => fetchBlogData(), []);
 
   // KPI counts
   const kpis = useMemo(() => {

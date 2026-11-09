@@ -3,25 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import {
-  Code2,
-  Cpu,
-  Smartphone,
-  Layers,
-  Cloud,
-  Sparkles,
-  ArrowRight,
-  ArrowUpRight,
-  CheckCircle2,
-  Lock,
-  Zap,
-  Activity,
-  Terminal,
-  Server,
-  ShieldCheck,
-  Check,
-  Globe2,
-} from 'lucide-react';
+import { Cpu, Smartphone, Layers, Cloud, Sparkles, ArrowRight, ArrowUpRight, CheckCircle2, Lock, Zap, Activity, Terminal, ShieldCheck, Check, Globe2 } from 'lucide-react';
 import { CTAButton } from '@/components/ui/design-system/CTAButton';
 
 export interface HomeServiceCardItem {

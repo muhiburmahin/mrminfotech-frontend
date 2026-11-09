@@ -2,19 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import {
-  Clock,
-  ArrowLeft,
-  ArrowRight,
-  Share2,
-  Calendar,
-  Sparkles,
-  BookOpen,
-  User,
-  CheckCircle2,
-  Copy,
-  Check,
-} from 'lucide-react';
+import { Clock, ArrowLeft, ArrowRight, Calendar, Copy, Check } from 'lucide-react';
 import { LinkedinIcon, TwitterIcon } from '@/components/public/shared/SocialIcons';
 
 interface BlogPostReadingViewProps {

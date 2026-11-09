@@ -1,20 +1,9 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
-import Link from 'next/link';
-import {
-  Clock,
-  ArrowLeft,
-  ArrowRight,
-  Share2,
-  Calendar,
-  Sparkles,
-  BookOpen,
-  User,
-  CheckCircle2,
-} from 'lucide-react';
 import { PublicApiService } from '@/services/public-api.service';
 import BlogPostReadingView from '@/components/public/blog/BlogPostReadingView';
+import { unwrapList, type ListResponse, type PublicBlogPost } from '@/types/public-content';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -23,7 +12,7 @@ interface PageProps {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const cleanSlug = decodeURIComponent(slug).trim().replace(/\s+/g, '-').replace(/-+/g, '-');
-  const post: any = await PublicApiService.getBlogPostBySlug(cleanSlug, 'en');
+  const post = await PublicApiService.getBlogPostBySlug<PublicBlogPost | null>(cleanSlug, 'en');
 
   if (!post) {
     return { title: 'Post Not Found | MRM InfoTech' };
@@ -46,7 +35,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       title,
       description,
       type: 'article',
-      publishedTime: post.publishedAt,
+      publishedTime: post.publishedAt ? new Date(post.publishedAt).toISOString() : undefined,
     },
   };
 }
@@ -63,16 +52,16 @@ export default async function BlogPostDetailPage({ params }: PageProps) {
   }
 
   const [post, allPosts] = await Promise.all([
-    PublicApiService.getBlogPostBySlug<any>(cleanSlug, 'en'),
-    PublicApiService.getBlogPosts<any>('en'),
+    PublicApiService.getBlogPostBySlug<PublicBlogPost | null>(cleanSlug, 'en'),
+    PublicApiService.getBlogPosts<ListResponse<PublicBlogPost>>('en'),
   ]);
 
   if (!post) {
     notFound();
   }
 
-  const recentPosts = (Array.isArray(allPosts) ? allPosts : Array.isArray(allPosts?.data) ? allPosts.data : [])
-    .filter((p: any) => p.slug !== post.slug)
+  const recentPosts = unwrapList(allPosts)
+    .filter((p) => p.slug !== post.slug)
     .slice(0, 3);
 
   return <BlogPostReadingView post={post} recentPosts={recentPosts} />;

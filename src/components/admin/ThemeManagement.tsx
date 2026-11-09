@@ -1,26 +1,9 @@
 'use client';
 
 import React, { useState } from 'react';
-import {
-  Palette,
-  CheckCircle2,
-  Eye,
-  EyeOff,
-  Sparkles,
-  ShieldCheck,
-  ArrowRight,
-  RefreshCw,
-  Layers,
-  AlertCircle,
-} from 'lucide-react';
+import { Palette, CheckCircle2, Eye, EyeOff, Sparkles, ArrowRight, RefreshCw, AlertCircle } from 'lucide-react';
 import { useThemeContext } from '@/context/ThemeContext';
-import {
-  THEME_LIST,
-  ThemeId,
-  ThemeDefinition,
-  getContrastRatio,
-  DEFAULT_THEME_ID,
-} from '@/lib/theme/themes';
+import { THEME_LIST, ThemeId, getContrastRatio } from '@/lib/theme/themes';
 
 export function ThemeManagement() {
   const {

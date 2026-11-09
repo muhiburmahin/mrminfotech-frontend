@@ -3,17 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import {
-  FileText,
-  Clock,
-  Globe2,
-  Database,
-  TrendingUp,
-  ArrowRight,
-  CheckCircle2,
-  AlertCircle,
-  Sparkles,
-} from 'lucide-react';
+import { FileText, Clock, Globe2, Database, TrendingUp, ArrowRight, CheckCircle2, AlertCircle } from 'lucide-react';
 
 interface ProblemSolutionItem {
   id: string;

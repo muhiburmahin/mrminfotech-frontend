@@ -3,27 +3,7 @@ import React from 'react';
 import type { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 import Link from 'next/link';
-import {
-  ArrowRight,
-  ExternalLink,
-  ChevronRight,
-  ShieldCheck,
-  CheckCircle2,
-  Users,
-  Target,
-  Compass,
-  FileText,
-  Layers,
-  GraduationCap,
-  HeartPulse,
-  Building2,
-  Lock,
-  Download,
-  BookOpen,
-  Smartphone,
-  Globe,
-  Sparkles,
-} from 'lucide-react';
+import { ArrowRight, ExternalLink, ChevronRight, CheckCircle2, Users, Target, Compass, Layers, GraduationCap, HeartPulse, Building2, BookOpen, Smartphone, Globe, Sparkles } from 'lucide-react';
 import { PublicApiService } from '@/services/public-api.service';
 import type { ProductRecord } from '@/types/product.types';
 import ProductInteractiveGallery from '@/components/public/products/ProductInteractiveGallery';

@@ -2,19 +2,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import {
-  X,
-  Monitor,
-  Tablet,
-  Smartphone,
-  ExternalLink,
-  CheckCircle2,
-  Lock,
-  Layers,
-  ArrowRight,
-  ShieldCheck,
-  Zap,
-} from 'lucide-react';
+import { X, Monitor, Tablet, Smartphone, ExternalLink, CheckCircle2, ArrowRight } from 'lucide-react';
 import type { ProductRecord } from '@/types/product.types';
 
 interface ProductPreviewModalProps {

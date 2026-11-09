@@ -1,25 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 
-import React, { useState, useEffect, useCallback, useRef } from 'react';
-import {
-  Layers,
-  ExternalLink,
-  Edit,
-  Trash2,
-  Plus,
-  RefreshCw,
-  Copy,
-  Eye,
-  CheckCircle2,
-  Clock,
-  Archive,
-  Search,
-  Move,
-  Star,
-  FileEdit,
-  AlertCircle,
-} from 'lucide-react';
+import React, { useState, useCallback, useRef } from 'react';
+import { Layers, Edit, Trash2, Plus, RefreshCw, Copy, Eye, CheckCircle2, Search, Move, Star } from 'lucide-react';
 import {
   getAdminProducts,
   getAdminProductCategories,
@@ -38,6 +21,7 @@ import { ProductKpiCards } from '@/components/admin/products/ProductKpiCards';
 import { ProductReorderModal } from '@/components/admin/products/ProductReorderModal';
 import { ProductPreviewModal } from '@/components/admin/products/ProductPreviewModal';
 import { ProductBuilderForm } from '@/components/admin/products/ProductBuilderForm';
+import { useDeferredEffect } from '@/lib/hooks/useDeferredEffect';
 
 export default function AdminProductsPage() {
   const [products, setProducts] = useState<ProductRecord[]>([]);
@@ -96,9 +80,7 @@ export default function AdminProductsPage() {
     }
   }, []);
 
-  useEffect(() => {
-    fetchProductsAndCategories();
-  }, [fetchProductsAndCategories]);
+  useDeferredEffect(() => fetchProductsAndCategories(), [fetchProductsAndCategories]);
 
   // Open Form to Add New
   const handleAddNew = () => {
@@ -240,6 +222,12 @@ export default function AdminProductsPage() {
           </button>
         </div>
       </div>
+
+      {error && (
+        <div role="alert" className="rounded-xl border border-rose-500/30 bg-rose-500/10 px-4 py-3 text-xs font-medium text-rose-300">
+          {error}
+        </div>
+      )}
 
       {/* KPI Overview Strip */}
       <ProductKpiCards

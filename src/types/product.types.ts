@@ -1,3 +1,4 @@
+import type { PublicMetric } from './public-content';
 export type ProductStatus =
   | 'DRAFT'
   | 'IN_REVIEW'
@@ -185,8 +186,8 @@ export interface ProductRecord {
     slug: string;
     isFeatured?: boolean;
     projectWorkStatus?: string;
-    metrics?: any;
-    translations?: any[];
+    metrics?: PublicMetric[];
+    translations?: Array<Record<string, unknown>>;
   }>;
 
   // SEO

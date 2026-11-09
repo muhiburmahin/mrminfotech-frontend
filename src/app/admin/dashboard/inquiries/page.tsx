@@ -1,25 +1,8 @@
 'use client';
 
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import {
-  Inbox,
-  Search,
-  Download,
-  RefreshCw,
-  Mail,
-  Phone,
-  Building2,
-  Calendar,
-  CheckCircle2,
-  Clock,
-  AlertCircle,
-  ExternalLink,
-  ChevronDown,
-  Trash2,
-  MessageSquare,
-  Filter,
-  FileSpreadsheet,
-} from 'lucide-react';
+import React, { useState, useCallback, useMemo } from 'react';
+import { useDeferredEffect } from '@/lib/hooks/useDeferredEffect';
+import { Inbox, Search, RefreshCw, Mail, CheckCircle2, AlertCircle, Trash2, FileSpreadsheet } from 'lucide-react';
 import {
   getAdminLeads,
   getAdminLeadById,
@@ -68,9 +51,7 @@ export default function AdminInquiriesPage() {
     }
   }, [statusFilter, searchQuery]);
 
-  useEffect(() => {
-    fetchLeads();
-  }, [fetchLeads]);
+  useDeferredEffect(() => fetchLeads(), [fetchLeads]);
 
   const handleOpenDetail = async (lead: AdminLeadItem) => {
     setSelectedLead(lead);

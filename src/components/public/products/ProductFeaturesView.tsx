@@ -1,20 +1,7 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import {
-  CheckCircle2,
-  Sparkles,
-  Users,
-  Activity,
-  CreditCard,
-  Layers,
-  Shield,
-  Smartphone,
-  Globe,
-  Palette,
-  FileText,
-  Settings,
-} from 'lucide-react';
+import { Sparkles, Users, Activity, CreditCard, Layers, Shield, Smartphone, Globe, Palette, FileText, Settings } from 'lucide-react';
 import type { ProductFeatureItem } from '@/types/product.types';
 
 interface ProductFeaturesViewProps {

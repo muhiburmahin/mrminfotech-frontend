@@ -1,26 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
-import {
-  Quote,
-  Plus,
-  RefreshCw,
-  ArrowUp,
-  ArrowDown,
-  Edit,
-  Trash2,
-  CheckCircle2,
-  Sparkles,
-  ExternalLink,
-  ShieldCheck,
-  Eye,
-  EyeOff,
-  Star,
-  Building,
-  User,
-  Filter,
-} from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { Quote, Plus, RefreshCw, ArrowUp, ArrowDown, Edit, Trash2, CheckCircle2, Sparkles, ExternalLink, ShieldCheck, Eye, EyeOff, Star, Building } from 'lucide-react';
 import {
   getAdminTestimonials,
   updateAdminTestimonial,
@@ -30,6 +12,7 @@ import {
 import Link from 'next/link';
 import { TestimonialForm } from '@/components/admin/forms/TestimonialForm';
 import { TestimonialsSectionSettings } from '@/components/admin/forms/TestimonialsSectionSettings';
+import { useDeferredEffect } from '@/lib/hooks/useDeferredEffect';
 
 export default function AdminTestimonialsPage() {
   const [testimonials, setTestimonials] = useState<AdminTestimonialItem[]>([]);
@@ -72,9 +55,7 @@ export default function AdminTestimonialsPage() {
     }
   };
 
-  useEffect(() => {
-    fetchTestimonials();
-  }, []);
+  useDeferredEffect(() => fetchTestimonials(), []);
 
   const handleEdit = (item: AdminTestimonialItem) => {
     setEditingItem(item);
