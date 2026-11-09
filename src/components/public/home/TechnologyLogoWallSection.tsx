@@ -29,8 +29,7 @@ const TECH_CATEGORIES: TechCategory[] = [
       { name: 'NestJS 11', tag: 'Enterprise Framework' },
       { name: 'Node.js', tag: 'Async Runtime' },
       { name: 'REST & GraphQL', tag: 'Type-Safe APIs' },
-      { name: 'BullMQ', tag: 'Redis Job Queues' },
-      { name: 'JWT & 2FA TOTP', tag: 'Zero-Trust Auth' },
+      { name: 'JWT & 2FA TOTP', tag: 'Secure Authentication' },
     ],
   },
   {
@@ -39,7 +38,6 @@ const TECH_CATEGORIES: TechCategory[] = [
     stacks: [
       { name: 'PostgreSQL 16', tag: 'ACID Transactions' },
       { name: 'Neon Serverless', tag: 'Auto-Scaling DB' },
-      { name: 'Redis Cache', tag: 'Sub-Millisecond In-Memory' },
       { name: 'Prisma ORM', tag: 'Type-Safe Schemas' },
       { name: 'Cloudinary CDN', tag: 'Optimized Media' },
     ],

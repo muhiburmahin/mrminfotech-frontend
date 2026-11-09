@@ -156,7 +156,7 @@ export default async function AboutPage() {
 
               <div className="mt-6 pt-4 border-t border-[var(--theme-border-glass)] flex items-center gap-2 text-xs font-mono text-[var(--theme-text-muted)]">
                 <CheckCircle2 className="w-4 h-4 text-[var(--theme-accent)]" />
-                <span>Zero Architectural Assumptions</span>
+                <span>Requirements-First Architecture</span>
               </div>
             </div>
 
@@ -178,7 +178,7 @@ export default async function AboutPage() {
 
               <div className="mt-6 pt-4 border-t border-[var(--theme-border-glass)] flex items-center gap-2 text-xs font-mono text-[var(--theme-text-muted)]">
                 <CheckCircle2 className="w-4 h-4 text-[var(--theme-accent)]" />
-                <span>Deterministic Zero-Defect Code</span>
+                <span>Reviewed, Tested Code</span>
               </div>
             </div>
 

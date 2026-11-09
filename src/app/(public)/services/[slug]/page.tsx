@@ -192,7 +192,7 @@ export default async function ServiceDetailPage({ params, searchParams }: PagePr
                 <div className="space-y-2.5 pt-2 border-t border-[var(--theme-border-glass)] text-xs">
                   <div className="flex items-center justify-between">
                     <span className="text-[var(--theme-text-muted)]">Codebase Ownership:</span>
-                    <span className="font-bold text-[var(--theme-text-primary)]">100% Client Owned</span>
+                    <span className="font-bold text-[var(--theme-text-primary)]">Client-Owned Code</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-[var(--theme-text-muted)]">Sprint Velocity:</span>
@@ -200,11 +200,11 @@ export default async function ServiceDetailPage({ params, searchParams }: PagePr
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-[var(--theme-text-muted)]">Architecture Standard:</span>
-                    <span className="font-bold text-[var(--theme-text-primary)]">Zero Technical Debt</span>
+                    <span className="font-bold text-[var(--theme-text-primary)]">Peer-Reviewed Code</span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-[var(--theme-text-muted)]">SLA Telemetry:</span>
-                    <span className="font-bold text-[var(--theme-accent)]">99.98% Guaranteed</span>
+                    <span className="text-[var(--theme-text-muted)]">Support:</span>
+                    <span className="font-bold text-[var(--theme-accent)]">Maintenance plans available</span>
                   </div>
                 </div>
               </div>

@@ -43,7 +43,7 @@ export default function ProductsFinalCta() {
 
         <div className="pt-8 flex items-center justify-center gap-6 text-xs text-[var(--theme-text-muted)]">
           <span className="flex items-center gap-1.5">
-            <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" /> 100% Data Sovereignty
+            <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" /> Your Data, Your Ownership
           </span>
           <span className="w-1 h-1 rounded-full bg-[var(--theme-border-glass)]" />
           <span>Multi-Tenant Cloud</span>

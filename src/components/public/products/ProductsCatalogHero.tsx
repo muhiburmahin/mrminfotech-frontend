@@ -60,7 +60,7 @@ export default function ProductsCatalogHero({ totalProducts }: ProductsCatalogHe
 
           <div className="space-y-1">
             <span className="text-2xl sm:text-3xl font-black font-mono text-[var(--theme-accent)]">
-              100% Cloud
+              Cloud
             </span>
             <p className="text-xs text-[var(--theme-text-muted)] flex items-center gap-1.5">
               <Globe className="w-3.5 h-3.5 text-[var(--theme-accent)]" /> Multi-Tenant SaaS
@@ -78,10 +78,10 @@ export default function ProductsCatalogHero({ totalProducts }: ProductsCatalogHe
 
           <div className="space-y-1">
             <span className="text-2xl sm:text-3xl font-black font-mono text-[var(--theme-text-primary)]">
-              99.9%
+              Cloud
             </span>
             <p className="text-xs text-[var(--theme-text-muted)] flex items-center gap-1.5">
-              <Zap className="w-3.5 h-3.5 text-[var(--theme-accent)]" /> Production SLA Uptime
+              <Zap className="w-3.5 h-3.5 text-[var(--theme-accent)]" /> Managed cloud delivery
             </p>
           </div>
         </div>

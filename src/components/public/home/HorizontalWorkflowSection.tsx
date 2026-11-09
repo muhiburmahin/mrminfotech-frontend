@@ -59,7 +59,7 @@ const WORKFLOW_STEPS = [
     category: 'PHASE VI',
     icon: Rocket,
     description:
-      'Zero-downtime deployment, Cloudflare edge caching, 24/7 SLA telemetry, and automated disaster-recovery backup cron jobs.',
+      'Staged deployments, edge caching, production monitoring, and automated backup routines.',
   },
 ];
 

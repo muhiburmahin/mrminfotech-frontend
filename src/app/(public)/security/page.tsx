@@ -38,7 +38,7 @@ export default function SecurityPage() {
       icon: <Eye className="w-6 h-6 text-purple-500" />,
     },
     {
-      title: 'Zero Unsanitized Execution',
+      title: 'Strict Input Sanitisation',
       desc: 'Strict Zod / class-validator data transformation pipelines stripping unauthorized payload properties across all endpoints.',
       icon: <FileCode2 className="w-6 h-6 text-cyan-600" />,
     },

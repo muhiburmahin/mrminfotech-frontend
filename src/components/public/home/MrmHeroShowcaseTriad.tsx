@@ -52,7 +52,7 @@ const ECOSYSTEM_ITEMS: EcosystemItem[] = [
     id: 'eco-4',
     name: 'Client Custom Cloud',
     category: 'Bespoke Software & APIs',
-    badge: 'Active SLA',
+    badge: 'Active',
     badgeStyle: 'active',
     icon: <Code2 className="w-3.5 h-3.5 text-[var(--theme-text-secondary)]" />,
     href: '/services',
@@ -154,7 +154,7 @@ export function MrmHeroShowcaseTriad() {
                 <span className="text-4xl sm:text-5xl font-black text-[var(--theme-text-primary)] font-mono tracking-tight">
                   99.4
                 </span>
-                <span className="text-xs text-[var(--theme-text-secondary)]">/ 100 enterprise SLA</span>
+                <span className="text-xs text-[var(--theme-text-secondary)]">/ 100 sample health score</span>
               </div>
 
               <button
@@ -204,7 +204,7 @@ export function MrmHeroShowcaseTriad() {
 
           <div className="mt-4 pt-3 border-t border-[var(--theme-border)]/50 flex items-center justify-between text-[11px] text-[var(--theme-text-secondary)]">
             <span>Execution velocity</span>
-            <span className="text-[var(--theme-accent)] font-mono font-bold">+24.8% throughput</span>
+            <span className="text-[var(--theme-accent)] font-mono font-bold">Sample data</span>
           </div>
         </div>
 
@@ -277,7 +277,7 @@ export function MrmHeroShowcaseTriad() {
 
           <div className="mt-4 pt-3 border-t border-[var(--theme-border)]/50 flex items-center justify-between text-[11px] text-[var(--theme-text-secondary)]">
             <span>Deploy pipeline</span>
-            <span className="text-[var(--theme-accent)] font-semibold">Zero-downtime rolling</span>
+            <span className="text-[var(--theme-accent)] font-semibold">Rolling deploys</span>
           </div>
         </div>
       </div>

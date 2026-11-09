@@ -41,7 +41,7 @@ export default function WhoWeAre() {
             <div className="grid grid-cols-3 gap-4 pt-2 pb-2 border-y border-[var(--theme-border-glass)]">
               <div>
                 <span className="font-mono text-2xl sm:text-3xl font-black text-[var(--theme-text-primary)] block">
-                  100%
+                  Full
                 </span>
                 <span className="text-[11px] font-bold uppercase tracking-wider text-[var(--theme-accent)] block mt-0.5">
                   IP Ownership
@@ -52,13 +52,13 @@ export default function WhoWeAre() {
               </div>
               <div>
                 <span className="font-mono text-2xl sm:text-3xl font-black text-[var(--theme-text-primary)] block">
-                  99.98%
+                  CI/CD
                 </span>
                 <span className="text-[11px] font-bold uppercase tracking-wider text-[var(--theme-accent)] block mt-0.5">
-                  Uptime SLA
+                  Delivery Pipeline
                 </span>
                 <span className="text-[11px] text-[var(--theme-text-muted)] hidden sm:block">
-                  Automated telemetry
+                  Automated releases
                 </span>
               </div>
               <div>

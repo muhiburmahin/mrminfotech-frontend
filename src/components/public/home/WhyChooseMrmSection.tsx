@@ -31,8 +31,8 @@ const WHY_CHOOSE_FEATURES = [
     serial: '04',
     title: 'Rigorous Automated Quality Assurance',
     description:
-      'Our release pipeline executes comprehensive unit, integration, and end-to-end regression test suites with zero-defect gates before production release.',
-    tag: 'ZERO-DEFECT STANDARD',
+      'Our release pipeline executes comprehensive unit, integration, and end-to-end regression test suites with quality gates before every production release.',
+    tag: 'QUALITY STANDARD',
   },
   {
     serial: '05',
@@ -67,19 +67,19 @@ export function WhyChooseMrmSection() {
                 <div className="flex items-center gap-2">
                   <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
                   <span className="font-mono text-xs font-bold uppercase tracking-wider text-[var(--theme-text-primary)]">
-                    ENTERPRISE SLA VERIFIED
+                    DELIVERY STANDARDS
                   </span>
                 </div>
-                <span className="font-mono text-xs text-[var(--theme-accent)] font-bold">MRM-SLA</span>
+                <span className="font-mono text-xs text-[var(--theme-accent)] font-bold">MRM-QA</span>
               </div>
 
-              {/* SLA Metric Gauges */}
+              {/* Delivery practice cards */}
               <div className="grid grid-cols-2 gap-4">
                 <div className="p-4 rounded-2xl bg-[var(--theme-bg-canvas)] border border-[var(--theme-border-glass)] space-y-1">
-                  <span className="text-[10px] font-mono text-[var(--theme-text-muted)] uppercase">Uptime Commitment</span>
-                  <p className="text-2xl sm:text-3xl font-black font-mono text-[var(--theme-text-primary)]">99.9%</p>
+                  <span className="text-[10px] font-mono text-[var(--theme-text-muted)] uppercase">Delivery Pipeline</span>
+                  <p className="text-2xl sm:text-3xl font-black font-mono text-[var(--theme-text-primary)]">CI/CD</p>
                   <p className="text-[10px] text-emerald-400 font-bold flex items-center gap-1">
-                    <CheckCircle2 className="w-3 h-3" /> Zero Downtime
+                    <CheckCircle2 className="w-3 h-3" /> Automated Releases
                   </p>
                 </div>
 
@@ -107,7 +107,7 @@ export function WhyChooseMrmSection() {
                     <Terminal className="w-3.5 h-3.5 text-[var(--theme-accent)]" />
                     Strict TypeScript Typing
                   </span>
-                  <span className="text-[var(--theme-accent)] font-bold">100% COVERAGE</span>
+                  <span className="text-[var(--theme-accent)] font-bold">STRICT MODE</span>
                 </div>
 
                 <div className="flex items-center justify-between p-3 rounded-xl bg-[var(--theme-bg-canvas)] border border-[var(--theme-border-glass)] text-xs font-mono">

@@ -137,10 +137,7 @@ export default function AdminProjectsPage() {
   const [architecture, setArchitecture] = useState('');
   const [keyFeatures, setKeyFeatures] = useState<string[]>([]);
   const [newFeatureInput, setNewFeatureInput] = useState('');
-  const [metrics, setMetrics] = useState<Array<{ label: string; value: string }>>([
-    { label: 'Uptime SLA', value: '99.95%' },
-    { label: 'Architecture', value: 'Cloud-Native' },
-  ]);
+  const [metrics, setMetrics] = useState<Array<{ label: string; value: string }>>([]);
   const [newMetricLabel, setNewMetricLabel] = useState('');
   const [newMetricValue, setNewMetricValue] = useState('');
 
@@ -237,10 +234,7 @@ export default function AdminProjectsPage() {
     setResult('');
     setArchitecture('');
     setKeyFeatures([]);
-    setMetrics([
-      { label: 'Uptime SLA', value: '99.95%' },
-      { label: 'Architecture', value: 'Cloud-Native' },
-    ]);
+    setMetrics([]);
 
     setSeoTitle('');
     setSeoDescription('');
@@ -340,10 +334,7 @@ export default function AdminProjectsPage() {
       if (Array.isArray(fullProj.metrics) && fullProj.metrics.length > 0) {
         setMetrics(fullProj.metrics);
       } else {
-        setMetrics([
-          { label: 'Uptime SLA', value: '99.95%' },
-          { label: 'Architecture', value: 'Cloud-Native' },
-        ]);
+        setMetrics([]);
       }
 
       setSeoTitle(activeTrans.seoTitle || '');

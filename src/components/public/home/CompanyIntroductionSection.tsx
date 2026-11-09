@@ -118,10 +118,10 @@ export function CompanyIntroductionSection() {
                   </div>
                   <div>
                     <h5 className="text-xs font-bold text-[var(--theme-text-primary)]">
-                      100% In-House Engineering
+                      In-House Engineering
                     </h5>
                     <p className="text-[11px] text-[var(--theme-text-secondary)] mt-0.5 leading-relaxed">
-                      Every line of code is designed and reviewed in-house. Zero unvetted third-party outsourcing.
+                      Our software is designed and peer-reviewed by our own engineers.
                     </p>
                   </div>
                 </div>

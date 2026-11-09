@@ -34,12 +34,12 @@ export default async function ServicesPage() {
     },
     {
       title: 'Complete IP Ownership',
-      desc: '100% full source code, database migrations, CI/CD pipelines, and intellectual property handed over upon delivery.',
+      desc: 'Full source code, database migrations, CI/CD pipelines, and intellectual property handed over upon delivery.',
       icon: ShieldCheck,
     },
     {
       title: 'High Concurrency & SLA',
-      desc: 'Systems engineered for peak transactional throughput, Redis caching, and resilient 99.98% uptime benchmarks.',
+      desc: 'Systems engineered for peak transactional throughput, caching, and resilient infrastructure design.',
       icon: Zap,
     },
     {
@@ -54,7 +54,7 @@ export default async function ServicesPage() {
     },
     {
       title: 'Sovereign Long-Term Support',
-      desc: 'Post-launch SLA maintenance, security patch updates, and telemetry monitoring ensuring zero disruption.',
+      desc: 'Post-launch SLA maintenance, security patch updates, and telemetry monitoring to minimise disruption.',
       icon: Lock,
     },
   ];
@@ -118,7 +118,7 @@ export default async function ServicesPage() {
     {
       num: '05',
       title: 'Production Rollout',
-      desc: 'Zero-downtime deployment, database migrations, SSL hardening, and automated CI/CD setup.',
+      desc: 'Low-downtime deployment, database migrations, SSL hardening, and automated CI/CD setup.',
     },
     {
       num: '06',
@@ -135,7 +135,7 @@ export default async function ServicesPage() {
     },
     {
       q: 'Do you provide full source code and intellectual property ownership?',
-      a: 'Yes. 100% of the developed code, database schemas, migration scripts, and documentation belong exclusively to your organization upon project completion.',
+      a: 'Yes. All of the developed code, database schemas, migration scripts, and documentation belong exclusively to your organization upon project completion.',
     },
     {
       q: 'Can MRM modernize or integrate with our existing legacy systems?',
@@ -178,7 +178,7 @@ export default async function ServicesPage() {
 
           <p className="text-base sm:text-xl text-[var(--theme-text-secondary)] leading-relaxed max-w-3xl mx-auto mt-6">
             We deliver bespoke software architecture, reactive web applications, native mobile apps,
-            and data-backed digital marketing. Engineered with strict standards, zero technical debt,
+            and data-backed digital marketing. Engineered with strict standards, maintainable code,
             and measurable business impact.
           </p>
 
@@ -203,7 +203,7 @@ export default async function ServicesPage() {
           <div className="mt-14 pt-8 border-t border-[var(--theme-border-glass)] grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl mx-auto">
             <div>
               <span className="font-mono text-2xl sm:text-3xl font-black text-[var(--theme-text-primary)] block">
-                100%
+                Full
               </span>
               <span className="text-[11px] font-bold uppercase tracking-wider text-[var(--theme-accent)] block mt-0.5">
                 IP Ownership
@@ -211,26 +211,26 @@ export default async function ServicesPage() {
             </div>
             <div>
               <span className="font-mono text-2xl sm:text-3xl font-black text-[var(--theme-text-primary)] block">
-                99.98%
+                CI/CD
               </span>
               <span className="text-[11px] font-bold uppercase tracking-wider text-[var(--theme-accent)] block mt-0.5">
-                Uptime SLA
+                Automated Delivery
               </span>
             </div>
             <div>
               <span className="font-mono text-2xl sm:text-3xl font-black text-[var(--theme-text-primary)] block">
-                Zero
+                Peer
               </span>
               <span className="text-[11px] font-bold uppercase tracking-wider text-[var(--theme-accent)] block mt-0.5">
-                Technical Debt
+                Reviewed Code
               </span>
             </div>
             <div>
               <span className="font-mono text-2xl sm:text-3xl font-black text-[var(--theme-text-primary)] block">
-                24/7
+                Support
               </span>
               <span className="text-[11px] font-bold uppercase tracking-wider text-[var(--theme-accent)] block mt-0.5">
-                Telemetry SLA
+                Maintenance Plans
               </span>
             </div>
           </div>

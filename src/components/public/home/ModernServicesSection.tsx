@@ -32,7 +32,7 @@ export function ModernServicesSection({ services }: ModernServicesSectionProps) 
           category: 'CLOUD & WEB PLATFORMS',
           accentColor: '#3B82F6',
           icon: Globe2,
-          metric: '⚡ 99.8% Lighthouse Performance Score',
+          metric: '⚡ Performance-focused builds',
           highlights: [
             'Next.js 16 & React 19 server-side rendering',
             'Fluid responsiveness across all device viewports',
@@ -74,10 +74,10 @@ export function ModernServicesSection({ services }: ModernServicesSectionProps) 
           metric: '⚡ High-Concurrency REST & gRPC Engine',
           highlights: [
             'Bespoke domain logic tailored to business flows',
-            'Zero-trust role-based authorization (RBAC)',
+            'Role-based authorization (RBAC)',
             'PostgreSQL pooled transaction isolation',
           ],
-          pills: ['NestJS', 'PostgreSQL', 'Docker', 'Redis Queue'],
+          pills: ['NestJS', 'PostgreSQL', 'Docker', 'Job Queues'],
           renderGraphic: () => (
             <div className="rounded-xl border border-[var(--theme-border-glass)] bg-[var(--theme-bg-canvas)]/80 p-3.5 space-y-2 font-mono text-xs">
               <div className="flex items-center justify-between pb-1.5 border-b border-[var(--theme-border-glass)] text-[10px] text-[var(--theme-text-muted)]">
@@ -154,7 +154,7 @@ export function ModernServicesSection({ services }: ModernServicesSectionProps) 
             <div className="rounded-xl border border-[var(--theme-border-glass)] bg-[var(--theme-bg-canvas)]/80 p-3.5 space-y-2 font-mono text-xs">
               <div className="flex items-center justify-between pb-1.5 border-b border-[var(--theme-border-glass)] text-[10px] text-[var(--theme-text-muted)]">
                 <span>Enterprise Ledger</span>
-                <span className="text-emerald-400 font-bold">100% Balanced</span>
+                <span className="text-emerald-400 font-bold">Balanced</span>
               </div>
               <div className="grid grid-cols-2 gap-2 text-[10px]">
                 <div className="p-1.5 rounded bg-[var(--theme-bg-surface)] border border-[var(--theme-border-glass)]">
@@ -176,9 +176,9 @@ export function ModernServicesSection({ services }: ModernServicesSectionProps) 
           category: 'DEVOPS & CLOUD INFRASTRUCTURE',
           accentColor: '#06B6D4',
           icon: Cloud,
-          metric: '⚡ 99.99% Guaranteed Cloud SLA',
+          metric: '⚡ Reliable cloud delivery',
           highlights: [
-            'Automated zero-downtime CI/CD deployment pipelines',
+            'Automated CI/CD deployment pipelines',
             'Containerized Docker & Kubernetes clustering',
             'Automated daily off-site backups & disaster recovery',
           ],
@@ -198,7 +198,7 @@ export function ModernServicesSection({ services }: ModernServicesSectionProps) 
               </div>
               <div className="text-[10px] text-emerald-400 pt-1 flex items-center gap-1.5">
                 <ShieldCheck className="w-3 h-3" />
-                <span>Zero Downtime Deployment Verified</span>
+                <span>Automated Deployment Pipeline</span>
               </div>
             </div>
           ),
@@ -215,7 +215,7 @@ export function ModernServicesSection({ services }: ModernServicesSectionProps) 
           highlights: [
             'Domain-specific RAG architectures on sovereign data',
             'Automated data extraction & document processing',
-            'Strict enterprise privacy & zero data retention',
+            'Strict enterprise privacy practices',
           ],
           pills: ['LLM Pipelines', 'RAG Engine', 'Vector DB', 'Automation'],
           renderGraphic: () => (

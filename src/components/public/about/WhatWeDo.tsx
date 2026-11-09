@@ -218,7 +218,7 @@ export default function WhatWeDo() {
               <div className="p-3.5 rounded-2xl bg-[var(--theme-bg-canvas)] border border-[var(--theme-border-glass)] flex items-center gap-3">
                 <CheckCircle2 className="w-5 h-5 text-[var(--theme-accent)] shrink-0" />
                 <p className="text-xs text-[var(--theme-text-secondary)] font-medium">
-                  Backed by automated CI/CD pipelines, ISO-grade security, and strict SLA uptime guarantees.
+                  Backed by automated CI/CD pipelines, secure engineering practices, and clearly agreed service levels.
                 </p>
               </div>
             </div>

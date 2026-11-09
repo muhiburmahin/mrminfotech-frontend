@@ -55,8 +55,8 @@ export default async function TeamPage() {
                 <Code2 className="w-4 h-4" />
               </div>
               <div>
-                <p className="text-xs font-bold text-[var(--theme-text-primary)]">100% In-House</p>
-                <p className="text-[11px] text-[var(--theme-text-muted)] font-mono">Zero Outsourcing</p>
+                <p className="text-xs font-bold text-[var(--theme-text-primary)]">In-House Team</p>
+                <p className="text-[11px] text-[var(--theme-text-muted)] font-mono">Built by our own engineers</p>
               </div>
             </div>
 
@@ -76,7 +76,7 @@ export default async function TeamPage() {
               </div>
               <div>
                 <p className="text-xs font-bold text-[var(--theme-text-primary)]">Enterprise Security</p>
-                <p className="text-[11px] text-[var(--theme-text-muted)] font-mono">OWASP &amp; ISO 27001</p>
+                <p className="text-[11px] text-[var(--theme-text-muted)] font-mono">OWASP-aligned practices</p>
               </div>
             </div>
 
@@ -86,7 +86,7 @@ export default async function TeamPage() {
               </div>
               <div>
                 <p className="text-xs font-bold text-[var(--theme-text-primary)]">Direct Architect Access</p>
-                <p className="text-[11px] text-[var(--theme-text-muted)] font-mono">24/7 SLA Backed</p>
+                <p className="text-[11px] text-[var(--theme-text-muted)] font-mono">Support plans available</p>
               </div>
             </div>
           </div>

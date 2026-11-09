@@ -35,7 +35,7 @@ export default async function CareersPage() {
     },
     {
       title: 'Competitive Compensation',
-      desc: 'Market-leading salaries, performance bonuses, and transparent annual merit review cycles.',
+      desc: 'Competitive compensation, performance bonuses, and transparent annual review cycles.',
       icon: TrendingUp,
     },
     {
@@ -77,14 +77,14 @@ export default async function CareersPage() {
             </h1>
 
             <p className="text-base sm:text-lg text-[var(--theme-text-secondary)] leading-relaxed">
-              We are assembling world-class software engineers, product designers, and systems architects
+              We are assembling talented software engineers, product designers, and systems architects
               who value engineering craftsmanship, clean architecture, and meaningful impact over shortcuts.
             </p>
 
             <div className="pt-2 flex flex-wrap items-center gap-6 text-xs font-mono text-[var(--theme-text-muted)]">
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-[var(--theme-accent)]" />
-                <span>Zero Technical Debt</span>
+                <span>Clean, Maintainable Code</span>
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-[var(--theme-accent)]" />

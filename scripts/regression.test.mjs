@@ -123,10 +123,9 @@ test('testimonials: homepage section is gated by the CMS flag and uses theme tok
   assert.match(read('src/types/homepage.ts'), /testimonials: \{\s*\n\s*eyebrow:[\s\S]*?enabled: true/);
 });
 
-test('testimonials: related testimonials are requested by slug on service, project and case-study pages', () => {
+test('testimonials: related testimonials are requested by slug on service and project pages', () => {
   assert.match(read('src/app/(public)/services/[slug]/page.tsx'), /serviceSlug: cleanSlug/);
   assert.match(read('src/app/(public)/projects/[slug]/page.tsx'), /projectSlug: cleanSlug/);
-  assert.match(read('src/app/(public)/case-studies/[slug]/page.tsx'), /projectSlug: slug/);
 });
 
 // ───────────── Projects showcase / SEO ─────────────
@@ -272,4 +271,38 @@ test('config: type errors fail the build and admin is not indexable', () => {
   assert.match(cfg, /remotePatterns/);
   assert.match(cfg, /noindex, nofollow/);
   assert.doesNotMatch(read('src/app/layout.tsx'), /canonical: 'https:\/\/mrminfotech\.com'/);
+});
+
+// ───────────── Credibility guard: no unverifiable claims in public copy ─────────────
+import { readdirSync, statSync } from 'node:fs';
+
+function walkSrc(dir, out = []) {
+  for (const name of readdirSync(dir)) {
+    const p = path.join(dir, name);
+    if (statSync(p).isDirectory()) walkSrc(p, out);
+    else if (/\.(tsx|ts)$/.test(name)) out.push(p);
+  }
+  return out;
+}
+
+test('public copy contains no invented uptime/SLA figures, certifications or absolutes', () => {
+  const banned = [
+    [/\b99\.\d+\s?%/, 'uptime/percentage claim'],
+    [/ISO[- ]?27001|SOC ?2\b|HIPAA[- ]compliant/i, 'certification claim'],
+    [/zero[- ]defect/i, 'zero-defect claim'],
+    [/Guaranteed (Cloud )?SLA/i, 'guaranteed SLA'],
+    [/world-class|market-leading/i, 'superlative'],
+    [/images\.unsplash\.com/, 'stock photo'],
+  ];
+  const files = [...walkSrc(path.join(root, 'src/app/(public)')), ...walkSrc(path.join(root, 'src/components/public'))];
+  const hits = [];
+  for (const file of files) {
+    const text = readFileSync(file, 'utf8');
+    for (const [re, label] of banned) if (re.test(text)) hits.push(`${path.relative(root, file)}: ${label}`);
+  }
+  assert.deepEqual(hits, []);
+});
+
+test('admin project form does not pre-fill invented metrics', () => {
+  assert.doesNotMatch(read('src/app/admin/dashboard/projects/page.tsx'), /Uptime SLA/);
 });

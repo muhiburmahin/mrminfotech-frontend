@@ -30,97 +30,18 @@ interface StackedProductShowcaseProps {
   products: ProductShowcaseItem[];
 }
 
-// Curated high-fidelity UI screenshots for each flagship product
-const PRODUCT_SCREENSHOTS: Record<
-  string,
-  Array<{ url: string; title: string; subtitle: string }>
-> = {
-  'edumanage-bd': [
-    {
-      url: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=1200&auto=format&fit=crop',
-      title: 'ERP Dashboard Cockpit',
-      subtitle: 'Real-time attendance & live school statistics',
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1200&auto=format&fit=crop',
-      title: 'Digital Gradebook & Results',
-      subtitle: 'Automated GPA calculation & marksheet generator',
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=1200&auto=format&fit=crop',
-      title: 'Digital Fee Collection',
-      subtitle: 'Instant bKash, Nagad & card auto-reconciliation',
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1577896851231-70ef18881754?q=80&w=1200&auto=format&fit=crop',
-      title: 'Guardian Mobile Portal',
-      subtitle: 'Live SMS alerts & attendance tracking on phone',
-    },
-  ],
-  'medisheba-bd': [
-    {
-      url: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=1200&auto=format&fit=crop',
-      title: 'Diagnostic Lab Management',
-      subtitle: 'Integrated pathology & clinical test workflows',
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=1200&auto=format&fit=crop',
-      title: 'Barcode Specimen Tracking',
-      subtitle: 'Zero sample mix-up with automated thermal printing',
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?q=80&w=1200&auto=format&fit=crop',
-      title: 'Digital Doctor Prescription',
-      subtitle: 'Watermarked PDF reports & encrypted doctor signatures',
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1505751172876-fa1923c5c528?q=80&w=1200&auto=format&fit=crop',
-      title: 'Patient SMS Report Portal',
-      subtitle: 'Online patient reports accessed via secure SMS link',
-    },
-  ],
-  'multi-institution-platform': [
-    {
-      url: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200&auto=format&fit=crop',
-      title: 'Multi-Tenant Governance',
-      subtitle: 'Centralized control across 50+ institutional portals',
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200&auto=format&fit=crop',
-      title: '1-Click Portal Deployer',
-      subtitle: 'Automated SSL, DNS routing & custom domain binding',
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1200&auto=format&fit=crop',
-      title: 'Notice Broadcast Engine',
-      subtitle: 'Single broadcast updates circulars on all network sites',
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1200&auto=format&fit=crop',
-      title: 'Cloud Infrastructure Telemetry',
-      subtitle: '99.98% high availability with zero-trust RBAC auditing',
-    },
-  ],
-};
-
 function ProductCardImageCarousel({
-  slug,
   title,
   backendImages,
 }: {
-  slug: string;
   title: string;
   backendImages?: string[];
 }) {
-  const curated = PRODUCT_SCREENSHOTS[slug] || PRODUCT_SCREENSHOTS['edumanage-bd'];
-  const allImages =
-    backendImages && backendImages.length > 0
-      ? backendImages.map((url, i) => ({
-          url,
-          title: `${title} - Screenshot ${i + 1}`,
-          subtitle: 'Live verified production screen',
-        }))
-      : curated;
+  const allImages = (backendImages ?? []).map((url, i) => ({
+    url,
+    title: `${title} - Screenshot ${i + 1}`,
+    subtitle: 'Product screenshot',
+  }));
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
@@ -149,6 +70,20 @@ function ProductCardImageCarousel({
     setCurrentIndex((prev) => (prev - 1 + allImages.length) % allImages.length);
   };
 
+  if (allImages.length === 0) {
+    return (
+      <div
+        role="img"
+        aria-label={`${title} screenshots are being prepared`}
+        className="flex aspect-[16/10] w-full items-center justify-center rounded-2xl border border-[var(--theme-border-glass)] bg-gradient-to-br from-[var(--theme-accent)]/15 to-transparent"
+      >
+        <span className="px-6 text-center text-xs font-bold uppercase tracking-widest text-[var(--theme-text-muted)]">
+          {title}
+        </span>
+      </div>
+    );
+  }
+
   return (
     <>
       <div
@@ -164,7 +99,7 @@ function ProductCardImageCarousel({
             <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" />
             <div className="flex items-center gap-1.5 ml-2 px-2.5 py-0.5 rounded-md bg-[var(--theme-bg-canvas)] border border-[var(--theme-border-glass)] text-[10px] font-mono text-[var(--theme-text-muted)]">
               <Lock className="w-2.5 h-2.5 text-emerald-400" />
-              <span>{slug}.mrminfotech.com</span>
+              <span>{title}</span>
             </div>
           </div>
 
@@ -264,7 +199,7 @@ function ProductCardImageCarousel({
           <div className="flex items-center gap-2 text-[10px] font-mono text-[var(--theme-text-secondary)]">
             <span className="flex items-center gap-1">
               <ShieldCheck className="w-3 h-3 text-[var(--theme-accent)]" />
-              ISO 27001 Security
+              Secure by Design
             </span>
             <span>•</span>
             <span className="text-[var(--theme-accent)] font-bold">2.8s Auto</span>
@@ -338,7 +273,7 @@ export default function StackedProductShowcase({ products }: StackedProductShowc
               ]
             : isMediSheba
             ? [
-                'Barcode test tube tracking ensuring zero specimen cross-contamination',
+                'Barcode test tube tracking that reduces specimen mix-ups',
                 'Automated pathology reporting with normal range reference validation',
                 'Encrypted doctor digital signatures & watermarked PDF verification',
                 'Online patient report portal with instant SMS link & OTP access',
@@ -347,7 +282,7 @@ export default function StackedProductShowcase({ products }: StackedProductShowc
                 'Multi-tenant database isolation & custom domain routing with auto-SSL',
                 'Unified control cockpit deploying institutional sites in 1-click',
                 'Centralized notice engine broadcasting circulars across 50+ websites',
-                'Granular RBAC security compliance and zero-trust administrative logs',
+                'Granular RBAC permissions and administrative audit logs',
               ];
 
           const features =
@@ -356,7 +291,7 @@ export default function StackedProductShowcase({ products }: StackedProductShowc
               : defaultFeatures;
 
           const defaultTech = isEduManage
-            ? ['Next.js 14', 'NestJS', 'PostgreSQL', 'Tailwind CSS', 'Redis Queue']
+            ? ['Next.js', 'NestJS', 'PostgreSQL', 'Tailwind CSS', 'Docker']
             : isMediSheba
             ? ['React', 'Node.js', 'PostgreSQL', 'Thermal Printer API', 'SMS Gateway']
             : ['Next.js', 'TypeScript', 'Prisma', 'PostgreSQL', 'Cloudflare CDN'];
@@ -473,7 +408,6 @@ export default function StackedProductShowcase({ products }: StackedProductShowc
                 {/* Right Column: Live Auto-Rotating Product Screenshot Carousel */}
                 <div className="lg:col-span-5">
                   <ProductCardImageCarousel
-                    slug={product.slug}
                     title={product.title}
                     backendImages={product.images}
                   />

@@ -363,19 +363,17 @@ interface EnterpriseMarqueeItem {
 
 const ENTERPRISE_MARQUEE_ITEMS: EnterpriseMarqueeItem[] = [
   { label: '✦ MRM INFOTECH', isBrand: true },
-  { label: 'Next.js 16 Enterprise', isBrand: false },
+  { label: 'Next.js', isBrand: false },
+  { label: 'NestJS', isBrand: false },
   { label: '✦ IDEAS • PRODUCTS • IMPACT', isBrand: true },
-  { label: 'NestJS Modular Architecture', isBrand: false },
-  { label: '✦ MRM INFOTECH CLOUD', isBrand: true },
-  { label: 'PostgreSQL ACID Compliant', isBrand: false },
-  { label: '✦ SOVEREIGN CLOUD & SAAS', isBrand: true },
-  { label: 'Cloudflare Edge Acceleration', isBrand: false },
+  { label: 'PostgreSQL', isBrand: false },
+  { label: 'Prisma ORM', isBrand: false },
+  { label: '✦ CLOUD & SAAS PLATFORMS', isBrand: true },
+  { label: 'TypeScript', isBrand: false },
+  { label: 'Docker', isBrand: false },
   { label: '✦ EDUMANAGE BD & MEDISHEBA BD', isBrand: true },
-  { label: 'Docker & Containerized Pods', isBrand: false },
-  { label: '✦ ENTERPRISE SYSTEMS', isBrand: true },
-  { label: 'TypeScript Strict Protocol', isBrand: false },
-  { label: 'Redis Ultra-Fast Cache', isBrand: false },
-  { label: 'OWASP Top 10 Hardened Security', isBrand: false },
+  { label: 'REST APIs', isBrand: false },
+  { label: 'Role-Based Access Control', isBrand: false },
 ];
 
 export default async function HomePage() {
@@ -497,6 +495,17 @@ export default async function HomePage() {
     .slice(0, 4);
   const latestPosts: PublishedBlogPost[] = apiBlogPosts.slice(0, 3);
   const heroTickerItems = buildOrderedHeroTicker(products, services);
+
+  // Only real, CMS-backed figures are shown; a tile disappears when its count is zero.
+  const technologyCount = new Set(
+    apiProjects.flatMap((p) => [...(p.frontendTechSummary ?? []), ...(p.backendTechSummary ?? [])]),
+  ).size;
+  const statTiles = [
+    { value: apiProducts.length, label: 'Software Products', caption: 'Platforms we build and operate', suffix: '' },
+    { value: apiServices.length, label: 'Service Lines', caption: 'Web, software, cloud and design', suffix: '' },
+    { value: apiProjects.length, label: 'Projects Showcased', caption: 'Documented in our portfolio', suffix: '' },
+    { value: technologyCount, label: 'Technologies', caption: 'Used across delivered projects', suffix: '' },
+  ].filter((tile) => tile.value > 0);
 
   return (
     <div className="min-h-screen bg-[var(--theme-bg-canvas)] text-[var(--theme-text-primary)] overflow-x-clip selection:bg-[var(--theme-accent)] selection:text-[var(--theme-accent-text)]">
@@ -771,48 +780,24 @@ export default async function HomePage() {
           ===================================================================== */}
       <AmbientSection variant="horizon" className="py-14 z-10">
         <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-5 pb-10 border-b border-[var(--theme-border)]/50">
-            <div className="p-6 rounded-3xl bg-[var(--theme-bg-surface)]/70 backdrop-blur-2xl border border-[var(--theme-border-glass)] hover:border-[var(--theme-accent)]/40 hover:shadow-[0_0_25px_var(--theme-accent-subtle)] transition-all group">
-              <div className="text-3xl sm:text-5xl font-black text-[var(--theme-text-primary)] font-mono">
-                <CountUp end={99.9} decimals={1} suffix="%" />
-              </div>
-              <p className="text-xs font-bold uppercase tracking-wider text-[var(--theme-accent)] mt-2">
-                Uptime SLA
-              </p>
-              <p className="text-[11px] text-[var(--theme-text-secondary)]/70 mt-0.5">Enterprise resilience guaranteed</p>
+          {statTiles.length >= 2 && (
+            <div
+              className={`grid grid-cols-2 ${statTiles.length >= 4 ? 'md:grid-cols-4' : statTiles.length === 3 ? 'md:grid-cols-3' : 'md:grid-cols-2'} gap-5 pb-10 border-b border-[var(--theme-border)]/50`}
+            >
+              {statTiles.map((tile) => (
+                <div
+                  key={tile.label}
+                  className="p-6 rounded-3xl bg-[var(--theme-bg-surface)]/70 backdrop-blur-2xl border border-[var(--theme-border-glass)] hover:border-[var(--theme-accent)]/40 hover:shadow-[0_0_25px_var(--theme-accent-subtle)] transition-all group"
+                >
+                  <div className="text-3xl sm:text-5xl font-black text-[var(--theme-text-primary)] font-mono">
+                    <CountUp end={tile.value} suffix={tile.suffix} />
+                  </div>
+                  <p className="text-xs font-bold uppercase tracking-wider text-[var(--theme-accent)] mt-2">{tile.label}</p>
+                  <p className="text-[11px] text-[var(--theme-text-secondary)]/70 mt-0.5">{tile.caption}</p>
+                </div>
+              ))}
             </div>
-
-            <div className="p-6 rounded-3xl bg-[var(--theme-bg-surface)]/70 backdrop-blur-2xl border border-[var(--theme-border-glass)] hover:border-[var(--theme-accent)]/40 hover:shadow-[0_0_25px_var(--theme-accent-subtle)] transition-all group">
-              <div className="text-3xl sm:text-5xl font-black text-[var(--theme-text-primary)] font-mono">
-                <CountUp end={14} suffix="+" />
-              </div>
-              <p className="text-xs font-bold uppercase tracking-wider text-[var(--theme-accent)] mt-2">
-                Disciplines
-              </p>
-              <p className="text-[11px] text-[var(--theme-text-secondary)]/70 mt-0.5">Full-stack software engineering</p>
-            </div>
-
-            <div className="p-6 rounded-3xl bg-[var(--theme-bg-surface)]/70 backdrop-blur-2xl border border-[var(--theme-border-glass)] hover:border-[var(--theme-accent)]/40 hover:shadow-[0_0_25px_var(--theme-accent-subtle)] transition-all group">
-              <div className="text-3xl sm:text-5xl font-black text-[var(--theme-text-primary)] font-mono">
-                <CountUp end={100} suffix="%" />
-              </div>
-              <p className="text-xs font-bold uppercase tracking-wider text-[var(--theme-accent)] mt-2">
-                Verified Code
-              </p>
-              <p className="text-[11px] text-[var(--theme-text-secondary)]/70 mt-0.5">Security &amp; audit compliant</p>
-            </div>
-
-            <div className="p-6 rounded-3xl bg-[var(--theme-bg-surface)]/70 backdrop-blur-2xl border border-[var(--theme-border-glass)] hover:border-[var(--theme-accent)]/40 hover:shadow-[0_0_25px_var(--theme-accent-subtle)] transition-all group">
-              <div className="text-3xl sm:text-5xl font-black text-[var(--theme-text-primary)] font-mono">
-                24/7
-              </div>
-              <p className="text-xs font-bold uppercase tracking-wider text-[var(--theme-accent)] mt-2">
-                System Telemetry
-              </p>
-              <p className="text-[11px] text-[var(--theme-text-secondary)]/70 mt-0.5">Active cloud observability</p>
-            </div>
-          </div>
-
+          )}
           <div className="pt-8">
             <div className="text-[11px] font-extrabold uppercase tracking-widest text-[var(--theme-text-secondary)]/60 mb-5 text-center">
               ENGINEERED WITH MODERN ENTERPRISE TECH STACKS &amp; STANDARDS

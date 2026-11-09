@@ -115,7 +115,7 @@ export default function CoreValues() {
 
             <div className="pt-6 mt-6 border-t border-[var(--theme-border-glass)] flex items-center justify-between text-xs font-mono text-[var(--theme-text-muted)] relative z-10">
               <span>ZERO TECHNICAL DEBT</span>
-              <span className="text-[var(--theme-accent)] font-bold">100% VERIFIED</span>
+              <span className="text-[var(--theme-accent)] font-bold">PEER REVIEWED</span>
             </div>
           </div>
 

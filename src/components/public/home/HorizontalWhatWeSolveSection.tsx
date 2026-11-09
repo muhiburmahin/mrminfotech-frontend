@@ -85,7 +85,7 @@ const PROBLEMS_DATA: ProblemSolutionItem[] = [
     solutionBadge: 'HIGH-CONCURRENCY ARCHITECTURE',
     solutionTitle: 'Overcome with NestJS Microservices & PostgreSQL Pooling',
     solutionDescription:
-      'Connection pooling, Redis caching, transaction isolation, and containerized Docker architecture engineered for indefinite scale.',
+      'Connection pooling, caching, transaction isolation, and containerized Docker architecture designed to scale with demand.',
     solutionHref: '/services/custom-software-development',
     icon: TrendingUp,
   },
