@@ -172,3 +172,69 @@ test('seo: sitemap is generated from the API and has no hardcoded project/blog s
   assert.doesNotMatch(sitemap, /medisheba-bd-hospital-core/);
   assert.doesNotMatch(sitemap, /architecting-multi-tenant-cloud-saas/);
 });
+
+// ───────────── Strict form validation ─────────────
+import { findEmailProblem } from '../src/lib/validation/email.ts';
+import { validateEmail, validateMessage, validateName, validatePhone } from '../src/lib/validation/fields.ts';
+
+test('email: accepts real business and plus-addressed emails', () => {
+  for (const e of ['name@company.com', 'First.Last@Sub.Acme-Industries.co.uk', 'zoe+quote@acme.io', "o'brien@acme.org"]) {
+    assert.equal(findEmailProblem(e), null, e);
+  }
+});
+
+test('email: rejects malformed, fake-domain and disposable addresses with a clear message', () => {
+  const cases = {
+    '': 'required',
+    plainaddress: 'format',
+    'name@': 'format',
+    '@company.com': 'format',
+    'a@b@company.com': 'format',
+    'na..me@company.com': 'format',
+    'name@company': 'domain',
+    'name@company.c': 'domain',
+    'name@192.168.0.1': 'domain',
+    'name@-company.com': 'domain',
+    'name@example.com': 'fake_domain',
+    'name@company.test': 'fake_domain',
+    'name@mailinator.com': 'disposable',
+    'name@box.yopmail.com': 'disposable',
+  };
+  for (const [email, problem] of Object.entries(cases)) {
+    assert.equal(findEmailProblem(email), problem, email);
+    assert.ok(validateEmail(email), `a message must be shown for ${email}`);
+  }
+});
+
+test('fields: names, phones and messages are validated', () => {
+  assert.equal(validateName("Zoë O'Brien-Müller"), null);
+  assert.ok(validateName('R4him'));
+  assert.ok(validateName('x'));
+  assert.ok(validateName('http://spam.biz'));
+  assert.equal(validatePhone(''), null);
+  assert.equal(validatePhone('+1 415 555 0132'), null);
+  assert.ok(validatePhone('abc'));
+  assert.ok(validatePhone('12345'));
+  assert.equal(validateMessage('We need a logistics platform.', 10, 2000), null);
+  assert.ok(validateMessage('short', 10, 2000));
+  assert.ok(validateMessage('Hello <script>alert(1)</script> there', 10, 2000));
+  assert.ok(validateMessage('see http://a.io http://b.io http://c.io for deals', 10, 2000));
+  assert.ok(validateMessage('x'.repeat(2001), 10, 2000));
+});
+
+test('forms: contact, start-project and job-application validate before any network request', () => {
+  const forms = {
+    'src/components/public/contact/ContactInquiryForm.tsx': 'submitContactInquiryAction(',
+    'src/components/public/contact/StartProjectForm.tsx': 'submitStartProjectAction(',
+    'src/components/public/careers/JobApplicationForm.tsx': 'submitJobApplicationAction(',
+  };
+  for (const [file, action] of Object.entries(forms)) {
+    const src = read(file);
+    const validateAt = src.indexOf('validateEmail(email)');
+    const callAt = src.indexOf('await ' + action);
+    assert.ok(validateAt > 0 && callAt > validateAt, `${file}: validation must precede the request`);
+    assert.match(src, /noValidate/);
+    assert.match(src, /aria-invalid=\{Boolean\(fieldErrors\.email\)\}/);
+    assert.match(src, /<FieldError id="[a-z]+-email-error"/);
+  }
+});

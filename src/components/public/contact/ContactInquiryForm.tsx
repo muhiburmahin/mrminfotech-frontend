@@ -2,11 +2,14 @@
 
 import React, { useState } from 'react';
 import { Send, Loader2, CheckCircle2, AlertCircle, Copy, Check, MessageSquare } from 'lucide-react';
+import { FieldError } from '@/components/ui/FieldError';
+import { compactErrors, validateEmail, validateMessage, validateName, validatePhone } from '@/lib/validation/fields';
 import { submitContactInquiryAction } from '@/actions/public.actions';
 
 export function ContactInquiryForm() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [fieldErrors, setFieldErrors] = useState<Partial<Record<string, string>>>({});
   const [phone, setPhone] = useState('');
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
@@ -20,6 +23,19 @@ export function ContactInquiryForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+
+    const nextErrors = compactErrors({
+      name: validateName(name),
+      email: validateEmail(email),
+      phone: validatePhone(phone),
+      message: validateMessage(message, 10, 2000),
+    });
+    setFieldErrors(nextErrors);
+    const firstInvalid = Object.keys(nextErrors)[0];
+    if (firstInvalid) {
+      document.getElementById('contact-' + firstInvalid)?.focus();
+      return;
+    }
 
     if (!consentGiven) {
       setError('Please acknowledge consent to receive communications.');
@@ -127,7 +143,7 @@ export function ContactInquiryForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="rounded-2xl p-7 sm:p-8 space-y-4 bg-[var(--theme-bg-surface)] border border-[var(--theme-border-glass)] shadow-xl">
+    <form noValidate onSubmit={handleSubmit} className="rounded-2xl p-7 sm:p-8 space-y-4 bg-[var(--theme-bg-surface)] border border-[var(--theme-border-glass)] shadow-xl">
       <div>
         <h2 className="text-xl font-bold text-[var(--theme-text-primary)] flex items-center gap-2">
           <MessageSquare className="w-5 h-5 text-[var(--theme-accent)]" />
@@ -151,6 +167,10 @@ export function ContactInquiryForm() {
             Your Name *
           </label>
           <input
+            id="contact-name"
+            aria-invalid={Boolean(fieldErrors.name)}
+            aria-describedby={fieldErrors.name ? 'contact-name-error' : undefined}
+            onBlur={() => setFieldErrors((p) => ({ ...p, name: validateName(name) ?? undefined }))}
             type="text"
             required
             minLength={2}
@@ -160,12 +180,17 @@ export function ContactInquiryForm() {
             placeholder="e.g. Md. Tanvir Ahmed"
             className="w-full px-3.5 py-2.5 rounded-xl border border-[var(--theme-border-glass)] bg-[var(--theme-bg-card)] text-[var(--theme-text-primary)] placeholder:text-[var(--theme-text-muted)] text-xs focus:outline-none focus:border-[var(--theme-accent)] transition-colors"
           />
+          <FieldError id="contact-name-error" message={fieldErrors.name} />
         </div>
         <div>
           <label className="block text-xs font-bold text-[var(--theme-text-primary)] mb-1">
             Corporate Email *
           </label>
           <input
+            id="contact-email"
+            aria-invalid={Boolean(fieldErrors.email)}
+            aria-describedby={fieldErrors.email ? 'contact-email-error' : undefined}
+            onBlur={() => setFieldErrors((p) => ({ ...p, email: validateEmail(email) ?? undefined }))}
             type="email"
             required
             maxLength={254}
@@ -174,6 +199,7 @@ export function ContactInquiryForm() {
             placeholder="tanvir@company.com"
             className="w-full px-3.5 py-2.5 rounded-xl border border-[var(--theme-border-glass)] bg-[var(--theme-bg-card)] text-[var(--theme-text-primary)] placeholder:text-[var(--theme-text-muted)] text-xs focus:outline-none focus:border-[var(--theme-accent)] transition-colors"
           />
+          <FieldError id="contact-email-error" message={fieldErrors.email} />
         </div>
       </div>
 
@@ -183,12 +209,17 @@ export function ContactInquiryForm() {
             Phone Number
           </label>
           <input
+            id="contact-phone"
+            aria-invalid={Boolean(fieldErrors.phone)}
+            aria-describedby={fieldErrors.phone ? 'contact-phone-error' : undefined}
+            onBlur={() => setFieldErrors((p) => ({ ...p, phone: validatePhone(phone) ?? undefined }))}
             type="tel"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
             placeholder="+8801700000000"
             className="w-full px-3.5 py-2.5 rounded-xl border border-[var(--theme-border-glass)] bg-[var(--theme-bg-card)] text-[var(--theme-text-primary)] placeholder:text-[var(--theme-text-muted)] text-xs focus:outline-none focus:border-[var(--theme-accent)] transition-colors"
           />
+          <FieldError id="contact-phone-error" message={fieldErrors.phone} />
         </div>
         <div>
           <label className="block text-xs font-bold text-[var(--theme-text-primary)] mb-1">
@@ -210,6 +241,10 @@ export function ContactInquiryForm() {
           Project Details or Message * (minimum 10 characters)
         </label>
         <textarea
+            id="contact-message"
+            aria-invalid={Boolean(fieldErrors.message)}
+            aria-describedby={fieldErrors.message ? 'contact-message-error' : undefined}
+            onBlur={() => setFieldErrors((p) => ({ ...p, message: validateMessage(message, 10, 2000) ?? undefined }))}
           rows={4}
           required
           minLength={10}
@@ -219,6 +254,7 @@ export function ContactInquiryForm() {
           placeholder="Briefly describe your requirements, current tech stack, or questions..."
           className="w-full px-3.5 py-2.5 rounded-xl border border-[var(--theme-border-glass)] bg-[var(--theme-bg-card)] text-[var(--theme-text-primary)] placeholder:text-[var(--theme-text-muted)] text-xs focus:outline-none focus:border-[var(--theme-accent)] transition-colors"
         />
+          <FieldError id="contact-message-error" message={fieldErrors.message} />
       </div>
 
       <div className="flex items-start gap-2.5 pt-1">

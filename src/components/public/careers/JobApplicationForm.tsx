@@ -12,11 +12,14 @@ import {
   Phone,
   Link2,
 } from 'lucide-react';
+import { FieldError } from '@/components/ui/FieldError';
+import { compactErrors, validateEmail, validateMessage, validateName, validatePhone } from '@/lib/validation/fields';
 import { submitJobApplicationAction } from '@/actions/public.actions';
 
 export function JobApplicationForm({ jobSlug, jobTitle }: { jobSlug: string; jobTitle: string }) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [fieldErrors, setFieldErrors] = useState<Partial<Record<string, string>>>({});
   const [phone, setPhone] = useState('');
   const [resumeUrl, setResumeUrl] = useState('');
   const [coverLetter, setCoverLetter] = useState('');
@@ -29,6 +32,19 @@ export function JobApplicationForm({ jobSlug, jobTitle }: { jobSlug: string; job
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+
+    const nextErrors = compactErrors({
+      name: validateName(name),
+      email: validateEmail(email),
+      phone: validatePhone(phone),
+      coverLetter: (coverLetter.trim() ? validateMessage(coverLetter, 1, 5000, 5) : null),
+    });
+    setFieldErrors(nextErrors);
+    const firstInvalid = Object.keys(nextErrors)[0];
+    if (firstInvalid) {
+      document.getElementById('job-' + firstInvalid)?.focus();
+      return;
+    }
 
     if (!consentGiven) {
       setError('Please acknowledge consent to process your application.');
@@ -76,7 +92,7 @@ export function JobApplicationForm({ jobSlug, jobTitle }: { jobSlug: string; job
   }
 
   return (
-    <form onSubmit={handleSubmit} className="liquid-glass rounded-2xl p-7 sm:p-8 space-y-5">
+    <form noValidate onSubmit={handleSubmit} className="liquid-glass rounded-2xl p-7 sm:p-8 space-y-5">
       <div>
         <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
           <FileText className="w-5 h-5 text-[var(--theme-accent)]" />
@@ -102,6 +118,10 @@ export function JobApplicationForm({ jobSlug, jobTitle }: { jobSlug: string; job
           <div className="relative">
             <User className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
             <input
+            id="job-name"
+            aria-invalid={Boolean(fieldErrors.name)}
+            aria-describedby={fieldErrors.name ? 'job-name-error' : undefined}
+            onBlur={() => setFieldErrors((p) => ({ ...p, name: validateName(name) ?? undefined }))}
               type="text"
               required
               minLength={2}
@@ -111,6 +131,7 @@ export function JobApplicationForm({ jobSlug, jobTitle }: { jobSlug: string; job
               placeholder="Your full name"
               className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-50 dark:bg-[var(--theme-bg-surface)] border border-slate-300 dark:border-[var(--theme-border-glass)] text-xs text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-[var(--theme-accent)]"
             />
+          <FieldError id="job-name-error" message={fieldErrors.name} />
           </div>
         </div>
 
@@ -121,6 +142,10 @@ export function JobApplicationForm({ jobSlug, jobTitle }: { jobSlug: string; job
           <div className="relative">
             <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
             <input
+            id="job-email"
+            aria-invalid={Boolean(fieldErrors.email)}
+            aria-describedby={fieldErrors.email ? 'job-email-error' : undefined}
+            onBlur={() => setFieldErrors((p) => ({ ...p, email: validateEmail(email) ?? undefined }))}
               type="email"
               required
               value={email}
@@ -128,6 +153,7 @@ export function JobApplicationForm({ jobSlug, jobTitle }: { jobSlug: string; job
               placeholder="you@domain.com"
               className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-50 dark:bg-[var(--theme-bg-surface)] border border-slate-300 dark:border-[var(--theme-border-glass)] text-xs text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-[var(--theme-accent)]"
             />
+          <FieldError id="job-email-error" message={fieldErrors.email} />
           </div>
         </div>
       </div>
@@ -140,12 +166,17 @@ export function JobApplicationForm({ jobSlug, jobTitle }: { jobSlug: string; job
           <div className="relative">
             <Phone className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
             <input
+            id="job-phone"
+            aria-invalid={Boolean(fieldErrors.phone)}
+            aria-describedby={fieldErrors.phone ? 'job-phone-error' : undefined}
+            onBlur={() => setFieldErrors((p) => ({ ...p, phone: validatePhone(phone) ?? undefined }))}
               type="tel"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               placeholder="+8801700000000"
               className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-50 dark:bg-[var(--theme-bg-surface)] border border-slate-300 dark:border-[var(--theme-border-glass)] text-xs text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-[var(--theme-accent)]"
             />
+          <FieldError id="job-phone-error" message={fieldErrors.phone} />
           </div>
         </div>
 
@@ -171,12 +202,17 @@ export function JobApplicationForm({ jobSlug, jobTitle }: { jobSlug: string; job
           Cover Letter / Introduction
         </label>
         <textarea
+            id="job-coverLetter"
+            aria-invalid={Boolean(fieldErrors.coverLetter)}
+            aria-describedby={fieldErrors.coverLetter ? 'job-coverLetter-error' : undefined}
+            onBlur={() => setFieldErrors((p) => ({ ...p, coverLetter: (coverLetter.trim() ? validateMessage(coverLetter, 1, 5000, 5) : null) ?? undefined }))}
           rows={4}
           value={coverLetter}
           onChange={(e) => setCoverLetter(e.target.value)}
           placeholder="Briefly tell us about your technical background and why you want to join MRM InfoTech..."
           className="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-[var(--theme-bg-surface)] border border-slate-300 dark:border-[var(--theme-border-glass)] text-xs text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-[var(--theme-accent)]"
         />
+          <FieldError id="job-coverLetter-error" message={fieldErrors.coverLetter} />
       </div>
 
       <div className="flex items-start gap-2.5 pt-1">
