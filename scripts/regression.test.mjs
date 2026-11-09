@@ -128,3 +128,47 @@ test('testimonials: related testimonials are requested by slug on service, proje
   assert.match(read('src/app/(public)/projects/[slug]/page.tsx'), /projectSlug: cleanSlug/);
   assert.match(read('src/app/(public)/case-studies/[slug]/page.tsx'), /projectSlug: slug/);
 });
+
+// ───────────── Projects showcase / SEO ─────────────
+test('projects: no stock photos or invented metrics are presented as client evidence', () => {
+  const list = read('src/components/public/projects/ProjectsShowcaseClient.tsx');
+  const detail = read('src/app/(public)/projects/[slug]/page.tsx');
+  for (const src of [list, detail]) {
+    assert.doesNotMatch(src, /images\.unsplash\.com/);
+    assert.doesNotMatch(src, /99\.95%/);
+    assert.doesNotMatch(src, /< 100ms/);
+  }
+  assert.doesNotMatch(detail, /DEFAULT_PROJECT_GALLERIES/);
+  assert.doesNotMatch(detail, /'Next\.js 16'/);
+});
+
+test('projects: cards expose Case Study + Live Preview, accessible filters, and a single h1', () => {
+  const list = read('src/components/public/projects/ProjectsShowcaseClient.tsx');
+  assert.match(list, /View Case Study/);
+  assert.match(list, /Live Preview/);
+  assert.match(list, /aria-pressed=\{active\}/);
+  assert.match(list, /aria-live="polite"/);
+  assert.equal((list.match(/<h1\b/g) || []).length, 1);
+  // The API returns cover as an object; the client must read cover.url.
+  assert.match(list, /p\.cover\.url/);
+});
+
+test('seo: project pages ship JSON-LD with escaped "<", canonical, OG and Twitter metadata', () => {
+  const detail = read('src/app/(public)/projects/[slug]/page.tsx');
+  const list = read('src/app/(public)/projects/page.tsx');
+  for (const src of [detail, list]) {
+    assert.match(src, /application\/ld\+json/);
+    assert.ok(src.includes('\\u003c'), 'JSON-LD must escape "<" with a double-backslash sequence');
+  }
+  assert.match(detail, /SoftwareApplication/);
+  assert.match(detail, /BreadcrumbList/);
+  assert.match(detail, /twitter:/);
+  assert.match(list, /canonical: '\/projects'/);
+});
+
+test('seo: sitemap is generated from the API and has no hardcoded project/blog slugs', () => {
+  const sitemap = read('src/app/sitemap.ts');
+  assert.match(sitemap, /PublicApiService\.getProjects/);
+  assert.doesNotMatch(sitemap, /medisheba-bd-hospital-core/);
+  assert.doesNotMatch(sitemap, /architecting-multi-tenant-cloud-saas/);
+});

@@ -36,138 +36,6 @@ interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
-// Fallback curated showcase screenshots by project slug
-const DEFAULT_PROJECT_GALLERIES: Record<string, ProjectScreenshot[]> = {
-  'edumanage-bd-campus-cloud': [
-    {
-      url: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=1200&auto=format&fit=crop',
-      title: 'ERP Dashboard Cockpit',
-      subtitle: 'Real-time student admissions, daily attendance ratios & institutional metrics',
-      device: 'Dashboard',
-      isFeatured: true,
-      order: 1,
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1200&auto=format&fit=crop',
-      title: 'Digital Gradebook & Results Tabulation',
-      subtitle: 'Automated GPA calculation, batch marksheet generator & transcript exporter',
-      device: 'Desktop',
-      isFeatured: false,
-      order: 2,
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=1200&auto=format&fit=crop',
-      title: 'Digital Fee Collection & Reconciliation',
-      subtitle: 'Automated bKash & Nagad MFS payment webhooks with instant receipt printing',
-      device: 'Desktop',
-      isFeatured: false,
-      order: 3,
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1577896851231-70ef18881754?q=80&w=1200&auto=format&fit=crop',
-      title: 'Guardian Mobile Notification Portal',
-      subtitle: 'Live SMS alerts, student check-in telemetry & tuition billing on mobile',
-      device: 'Mobile',
-      isFeatured: false,
-      order: 4,
-    },
-  ],
-  'medisheba-bd-clinical-diagnostics': [
-    {
-      url: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=1200&auto=format&fit=crop',
-      title: 'Diagnostic Lab Management Cockpit',
-      subtitle: 'Centralized pathology test queuing, patient intake & clinical workload balancing',
-      device: 'Dashboard',
-      isFeatured: true,
-      order: 1,
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=1200&auto=format&fit=crop',
-      title: 'Barcode Specimen Routing & Tracking',
-      subtitle: 'Thermal barcode printer integration eliminating specimen misidentification',
-      device: 'Desktop',
-      isFeatured: false,
-      order: 2,
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?q=80&w=1200&auto=format&fit=crop',
-      title: 'Digital Doctor Prescription & Chamber',
-      subtitle: 'Automated drug library with watermarked PDF report generation and doctor signatures',
-      device: 'Desktop',
-      isFeatured: false,
-      order: 3,
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1505751172876-fa1923c5c528?q=80&w=1200&auto=format&fit=crop',
-      title: 'Patient SMS Report Dispatch Portal',
-      subtitle: 'Secure mobile download portal with automated SMS delivery alerts to patients',
-      device: 'Mobile',
-      isFeatured: false,
-      order: 4,
-    },
-  ],
-  'multi-institution-platform-governance': [
-    {
-      url: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200&auto=format&fit=crop',
-      title: 'Multi-Tenant Governance Control Room',
-      subtitle: 'Centralized oversight across 50+ institutional portals with global role administration',
-      device: 'Dashboard',
-      isFeatured: true,
-      order: 1,
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200&auto=format&fit=crop',
-      title: '1-Click Institutional Portal Deployer',
-      subtitle: 'Instant DNS routing, automated SSL termination & subdomain binding in 120 seconds',
-      device: 'Desktop',
-      isFeatured: false,
-      order: 2,
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1200&auto=format&fit=crop',
-      title: 'Network Notice & Circular Broadcast Engine',
-      subtitle: 'Publish once to distribute critical circulars to all member sub-domains simultaneously',
-      device: 'Desktop',
-      isFeatured: false,
-      order: 3,
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1200&auto=format&fit=crop',
-      title: 'Global High-Availability Edge Telemetry',
-      subtitle: 'Zero-trust audit logs, automated daily Neon snapshots & 99.98% verified uptime',
-      device: 'Dashboard',
-      isFeatured: false,
-      order: 4,
-    },
-  ],
-  'apex-fleet-logistics-engine': [
-    {
-      url: 'https://images.unsplash.com/photo-1519003722824-194d4455a60c?q=80&w=1200&auto=format&fit=crop',
-      title: 'Live GPS Telemetry Dispatch Engine',
-      subtitle: 'Sub-second geospatial tracking across 350+ commercial vehicles with live route overlay',
-      device: 'Dashboard',
-      isFeatured: true,
-      order: 1,
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1508974239320-0a029497e820?q=80&w=1200&auto=format&fit=crop',
-      title: 'Fuel Diagnostics & Sensor Telemetry',
-      subtitle: 'Real-time tank level monitoring and anomaly detection preventing route discrepancies',
-      device: 'Dashboard',
-      isFeatured: false,
-      order: 2,
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=1200&auto=format&fit=crop',
-      title: 'Driver Route Dispatch & Geofence App',
-      subtitle: 'Mobile driver route guidance with digital proof of delivery and timestamped signature',
-      device: 'Mobile',
-      isFeatured: false,
-      order: 3,
-    },
-  ],
-};
-
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const cleanSlug = decodeURIComponent(slug).trim().replace(/\s+/g, '-').replace(/-+/g, '-');
@@ -193,6 +61,15 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       title,
       description,
       type: 'article',
+      url: `/projects/${cleanSlug}`,
+      siteName: 'MRM InfoTech',
+      ...(project.cover?.url ? { images: [{ url: project.cover.url, alt: project.cover.alt || project.title }] } : {}),
+    },
+    twitter: {
+      card: project.cover?.url ? 'summary_large_image' : 'summary',
+      title,
+      description,
+      ...(project.cover?.url ? { images: [project.cover.url] } : {}),
     },
   };
 }
@@ -231,29 +108,24 @@ export default async function ProjectDetailPage({ params }: PageProps) {
     project.frontendTechSummary ||
     (Array.isArray(caseStudy.frontendTechStack) && caseStudy.frontendTechStack.length > 0
       ? caseStudy.frontendTechStack
-      : ['Next.js 16', 'TypeScript', 'Tailwind CSS v4']);
+      : []);
 
   const backendTech: string[] =
     project.backendTechSummary ||
     (Array.isArray(caseStudy.backendTechStack) && caseStudy.backendTechStack.length > 0
       ? caseStudy.backendTechStack
-      : ['NestJS 11', 'PostgreSQL', 'Prisma ORM']);
+      : []);
 
   const dbTools: string[] =
     project.dbToolsSummary ||
-    (Array.isArray(caseStudy.dbToolsSummary) ? caseStudy.dbToolsSummary : ['PostgreSQL 16', 'Redis', 'Docker Compose']);
+    (Array.isArray(caseStudy.dbToolsSummary) ? caseStudy.dbToolsSummary : []);
 
   const metrics: Array<{ label: string; value: string }> =
     project.metrics && project.metrics.length > 0
       ? project.metrics
-      : [
-          { label: 'Uptime SLA', value: '99.95%' },
-          { label: 'Architecture', value: 'Cloud-Native' },
-          { label: 'Security Verification', value: 'RBAC Audited' },
-          { label: 'Performance', value: '< 100ms P95' },
-        ];
+      : [];
 
-  // Resolve screenshot gallery: prioritize uploaded gallery, fallback to curated showcase
+  // Resolve screenshot gallery from the CMS only (no stock imagery is ever substituted)
   let galleryScreenshots: ProjectScreenshot[] = [];
   if (Array.isArray(project.gallery) && project.gallery.length > 0) {
     galleryScreenshots = project.gallery.map((g: any, idx: number) => ({
@@ -267,31 +139,47 @@ export default async function ProjectDetailPage({ params }: PageProps) {
     }));
   } else if (project.body && typeof project.body === 'object' && Array.isArray((project.body as any).gallery)) {
     galleryScreenshots = (project.body as any).gallery;
-  } else if (DEFAULT_PROJECT_GALLERIES[cleanSlug]) {
-    galleryScreenshots = DEFAULT_PROJECT_GALLERIES[cleanSlug];
-  } else {
-    // Standard high-tech fallback
+  } else if (project.cover?.url) {
     galleryScreenshots = [
-      {
-        url: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200&auto=format&fit=crop',
-        title: 'Core System Interface',
-        subtitle: 'Production deployment dashboard & user workflow console',
-        device: 'Dashboard',
-        isFeatured: true,
-      },
-      {
-        url: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200&auto=format&fit=crop',
-        title: 'Data & Telemetry Overview',
-        subtitle: 'Real-time database queries & transactional auditing',
-        device: 'Desktop',
-      },
+      { url: project.cover.url, title: project.cover.alt || `${project.title} interface`, subtitle: '', device: 'Desktop', isFeatured: true },
     ];
   }
+
+  const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'https://mrminfotech.com').replace(/\/$/, '');
+  const isSoftware = Boolean(project.product || liveUrl);
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': isSoftware ? 'SoftwareApplication' : 'CreativeWork',
+        name: title,
+        description: summary || undefined,
+        url: `${siteUrl}/projects/${cleanSlug}`,
+        image: project.cover?.url || undefined,
+        creator: { '@type': 'Organization', name: 'MRM InfoTech', url: siteUrl },
+        ...(isSoftware ? { applicationCategory: 'BusinessApplication', operatingSystem: 'Web' } : {}),
+        ...(liveUrl ? { sameAs: [liveUrl] } : {}),
+        keywords: [...frontendTech, ...backendTech, ...dbTools].join(', ') || undefined,
+      },
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: siteUrl },
+          { '@type': 'ListItem', position: 2, name: 'Projects', item: `${siteUrl}/projects` },
+          { '@type': 'ListItem', position: 3, name: title, item: `${siteUrl}/projects/${cleanSlug}` },
+        ],
+      },
+    ],
+  };
 
   const primaryCover = galleryScreenshots.find((s) => s.isFeatured)?.url || galleryScreenshots[0]?.url;
 
   return (
     <div className="w-full flex flex-col bg-[var(--theme-bg-canvas)] text-[var(--theme-text-primary)] transition-colors duration-200">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
+      />
       {/* ──────────────────────── Top Breadcrumb & Hero ──────────────────────── */}
       <section className="relative pt-24 pb-16 border-b border-[var(--theme-border-glass)] overflow-hidden">
         {/* Ambient Volumetric Glow */}
@@ -427,6 +315,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
       )}
 
       {/* ──────────────────────── Verified Metrics 4-Grid ──────────────────────── */}
+      {metrics.length > 0 && (
       <section className="py-12 bg-[var(--theme-bg-surface)]/40 border-b border-[var(--theme-border-glass)] transition-colors duration-200">
         <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
@@ -446,8 +335,10 @@ export default async function ProjectDetailPage({ params }: PageProps) {
           </div>
         </div>
       </section>
+      )}
 
       {/* ──────────────────────── Interactive Screenshot Gallery ──────────────────────── */}
+      {galleryScreenshots.length > 0 && (
       <section className="py-16 lg:py-24 bg-[var(--theme-bg-surface)]/20 border-b border-[var(--theme-border-glass)]">
         <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
           <div className="max-w-2xl space-y-2">
@@ -469,6 +360,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
           />
         </div>
       </section>
+      )}
 
       {/* ──────────────────────── Case Study Narrative & Architecture ──────────────────────── */}
       <section className="py-16 md:py-24 bg-[var(--theme-bg-canvas)] transition-colors duration-200">
@@ -545,7 +437,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
               </div>
 
               {/* Frontend Stack */}
-              <div className="space-y-2">
+              <div hidden={frontendTech.length === 0} className="space-y-2">
                 <div className="text-xs font-bold text-[var(--theme-text-primary)] flex items-center gap-1.5">
                   <Layers className="w-3.5 h-3.5 text-[var(--theme-accent)]" />
                   <span>Frontend Architecture</span>
@@ -563,7 +455,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
               </div>
 
               {/* Backend Stack */}
-              <div className="space-y-2 pt-2 border-t border-[var(--theme-border-glass)]">
+              <div hidden={backendTech.length === 0} className="space-y-2 pt-2 border-t border-[var(--theme-border-glass)]">
                 <div className="text-xs font-bold text-[var(--theme-text-primary)] flex items-center gap-1.5">
                   <Server className="w-3.5 h-3.5 text-[var(--theme-accent)]" />
                   <span>Backend &amp; Microservices</span>
@@ -581,7 +473,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
               </div>
 
               {/* Database & Cloud Tools */}
-              <div className="space-y-2 pt-2 border-t border-[var(--theme-border-glass)]">
+              <div hidden={dbTools.length === 0} className="space-y-2 pt-2 border-t border-[var(--theme-border-glass)]">
                 <div className="text-xs font-bold text-[var(--theme-text-primary)] flex items-center gap-1.5">
                   <Database className="w-3.5 h-3.5 text-[var(--theme-accent)]" />
                   <span>Data &amp; Cloud Infrastructure</span>

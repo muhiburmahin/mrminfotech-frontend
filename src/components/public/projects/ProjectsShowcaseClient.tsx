@@ -1,22 +1,8 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import Link from 'next/link';
-import {
-  FolderGit2,
-  ExternalLink,
-  ArrowRight,
-  Code2,
-  Sparkles,
-  Search,
-  CheckCircle2,
-  Layers,
-  Cpu,
-  Database,
-  Globe,
-  SlidersHorizontal,
-  Monitor,
-} from 'lucide-react';
+import { FolderGit2, ExternalLink, ArrowRight, Search, X } from 'lucide-react';
 import { GithubIcon } from '@/components/public/shared/SocialIcons';
 import GlassEmptyState from '@/components/ui/GlassEmptyState';
 
@@ -24,7 +10,7 @@ export interface ProjectItem {
   slug: string;
   title: string;
   summary: string;
-  cover?: string | null;
+  cover?: string | { url: string; alt?: string; width?: number | null; height?: number | null } | null;
   liveUrl?: string | null;
   publishedAt?: string | Date;
   sortOrder?: number;
@@ -37,6 +23,7 @@ export interface ProjectItem {
   backendTechSummary?: string[] | null;
   dbToolsSummary?: string[] | null;
   service?: { slug: string; name?: string | null } | null;
+  industry?: { slug: string; name?: string | null } | null;
   product?: { slug: string; name?: string | null } | null;
   clientName?: string | null;
   metrics?: Array<{ label: string; value: string }>;
@@ -46,479 +33,375 @@ interface ProjectsShowcaseClientProps {
   initialProjects: ProjectItem[];
 }
 
-const PROJECT_COVER_MAP: Record<string, string> = {
-  'edumanage-bd-campus-cloud':
-    'https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=1200&auto=format&fit=crop',
-  'medisheba-bd-clinical-diagnostics':
-    'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=1200&auto=format&fit=crop',
-  'multi-institution-platform-governance':
-    'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200&auto=format&fit=crop',
-  'apex-fleet-logistics-engine':
-    'https://images.unsplash.com/photo-1519003722824-194d4455a60c?q=80&w=1200&auto=format&fit=crop',
+const asList = (value: unknown): string[] =>
+  Array.isArray(value) ? value.filter((v): v is string => typeof v === 'string' && v.trim() !== '') : [];
+
+export const projectTech = (p: ProjectItem): string[] =>
+  Array.from(new Set([...asList(p.frontendTechSummary), ...asList(p.backendTechSummary), ...asList(p.dbToolsSummary)]));
+
+export const projectCategory = (p: ProjectItem): string =>
+  p.product?.name || p.service?.name || p.industry?.name || 'Custom Software';
+
+const coverOf = (p: ProjectItem): { url: string; alt: string } | null => {
+  if (!p.cover) return null;
+  if (typeof p.cover === 'string') return { url: p.cover, alt: `${p.title} interface preview` };
+  return p.cover.url ? { url: p.cover.url, alt: p.cover.alt || `${p.title} interface preview` } : null;
 };
 
-export default function ProjectsShowcaseClient({ initialProjects }: ProjectsShowcaseClientProps) {
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
-  const [searchQuery, setSearchQuery] = useState<string>('');
-
-  // Extract unique categories / services
-  const categories = useMemo(() => {
-    const set = new Set<string>();
-    initialProjects.forEach((p) => {
-      if (p.service?.name) set.add(p.service.name);
-      else if (p.product?.name) set.add('Proprietary Products');
-      else set.add('Custom Engineering');
-    });
-    return ['all', ...Array.from(set)];
-  }, [initialProjects]);
-
-  // Filter projects by category and search query
-  const filteredProjects = useMemo(() => {
-    return initialProjects.filter((p) => {
-      const catMatch =
-        selectedCategory === 'all' ||
-        (selectedCategory === 'Proprietary Products' && Boolean(p.product)) ||
-        (p.service?.name && p.service.name.toLowerCase() === selectedCategory.toLowerCase());
-
-      const query = searchQuery.trim().toLowerCase();
-      const searchMatch =
-        !query ||
-        p.title.toLowerCase().includes(query) ||
-        p.summary.toLowerCase().includes(query) ||
-        p.frontendTechSummary?.some((t) => t.toLowerCase().includes(query)) ||
-        p.backendTechSummary?.some((t) => t.toLowerCase().includes(query));
-
-      return catMatch && searchMatch;
-    });
-  }, [initialProjects, selectedCategory, searchQuery]);
-
-  // Featured project spotlight (first featured or first item)
-  const spotlightProject = useMemo(() => {
-    return filteredProjects.find((p) => p.isFeatured) || filteredProjects[0];
-  }, [filteredProjects]);
-
-  // Remaining projects
-  const gridProjects = useMemo(() => {
-    if (!spotlightProject) return filteredProjects;
-    return filteredProjects.filter((p) => p.slug !== spotlightProject.slug);
-  }, [filteredProjects, spotlightProject]);
-
+/** Real cover image when one exists; otherwise a neutral themed tile (never a stock photo). */
+function ProjectVisual({ project, priority = false }: { project: ProjectItem; priority?: boolean }) {
+  const cover = coverOf(project);
   return (
-    <div className="w-full flex flex-col bg-[var(--theme-bg-canvas)] text-[var(--theme-text-primary)] transition-colors duration-200">
-      {/* ──────────────────────── Top Editorial Hero ──────────────────────── */}
-      <section className="relative pt-24 pb-16 border-b border-[var(--theme-border-glass)] overflow-hidden">
-        {/* Ambient Gradient Glow */}
+    <div className="relative aspect-[16/10] w-full overflow-hidden border-b border-[var(--theme-border-glass)] bg-[var(--theme-bg-canvas)]">
+      {cover ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={cover.url}
+          alt={cover.alt}
+          width={1200}
+          height={750}
+          loading={priority ? 'eager' : 'lazy'}
+          fetchPriority={priority ? 'high' : 'auto'}
+          decoding="async"
+          className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
+        />
+      ) : (
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-[var(--theme-accent)]/10 blur-[130px] rounded-full"
+          className="flex h-full w-full flex-col items-center justify-center gap-2 bg-gradient-to-br from-[var(--theme-accent)]/15 to-transparent"
+        >
+          <FolderGit2 className="h-9 w-9 text-[var(--theme-accent)]" />
+          <span className="px-6 text-center text-xs font-bold uppercase tracking-widest text-[var(--theme-text-muted)]">
+            {projectCategory(project)}
+          </span>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function ActionLinks({ project, size = 'sm' }: { project: ProjectItem; size?: 'sm' | 'lg' }) {
+  const pad = size === 'lg' ? 'px-6 py-3' : 'px-4 py-2.5';
+  const base = `inline-flex items-center justify-center gap-2 rounded-xl text-xs font-bold transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--theme-accent)] ${pad}`;
+  return (
+    <div className="flex flex-wrap items-center gap-2.5">
+      <Link
+        href={`/projects/${project.slug}`}
+        className={`${base} bg-[var(--theme-accent)] text-[var(--theme-accent-text)] hover:shadow-lg hover:shadow-[var(--theme-accent-glow)]`}
+      >
+        <span>View Case Study</span>
+        <ArrowRight aria-hidden="true" className="h-3.5 w-3.5" />
+      </Link>
+      {project.liveUrl && (
+        <a
+          href={project.liveUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`${base} border border-[var(--theme-border-glass)] bg-[var(--theme-bg-canvas)] text-[var(--theme-text-primary)] hover:border-[var(--theme-accent)]`}
+        >
+          <ExternalLink aria-hidden="true" className="h-3.5 w-3.5 text-[var(--theme-accent)]" />
+          <span>Live Preview</span>
+          <span className="sr-only"> (opens in a new tab)</span>
+        </a>
+      )}
+      {project.frontendRepoUrl && size === 'lg' && (
+        <a
+          href={project.frontendRepoUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`${base} border border-[var(--theme-border-glass)] bg-[var(--theme-bg-canvas)] text-[var(--theme-text-secondary)] hover:text-[var(--theme-text-primary)]`}
+        >
+          <GithubIcon className="h-3.5 w-3.5" />
+          <span>Source</span>
+          <span className="sr-only"> (opens in a new tab)</span>
+        </a>
+      )}
+    </div>
+  );
+}
+
+function TechBadges({ tech, max }: { tech: string[]; max: number }) {
+  if (tech.length === 0) return null;
+  return (
+    <ul className="flex flex-wrap items-center gap-1.5" aria-label="Technology stack">
+      {tech.slice(0, max).map((t) => (
+        <li
+          key={t}
+          className="rounded-md border border-[var(--theme-border-glass)] bg-[var(--theme-bg-canvas)] px-2 py-0.5 font-mono text-[11px] font-medium text-[var(--theme-text-secondary)]"
+        >
+          {t}
+        </li>
+      ))}
+      {tech.length > max && (
+        <li className="font-mono text-[11px] text-[var(--theme-text-muted)]">+{tech.length - max}</li>
+      )}
+    </ul>
+  );
+}
+
+function FilterGroup({
+  label,
+  options,
+  value,
+  onChange,
+  allLabel,
+}: {
+  label: string;
+  options: string[];
+  value: string;
+  onChange: (v: string) => void;
+  allLabel: string;
+}) {
+  if (options.length === 0) return null;
+  return (
+    <div role="group" aria-label={label} className="flex items-center gap-2 overflow-x-auto pb-1 [scrollbar-width:none]">
+      <span className="shrink-0 text-[11px] font-bold uppercase tracking-wider text-[var(--theme-text-muted)]">{label}</span>
+      {['all', ...options].map((opt) => {
+        const active = value === opt;
+        return (
+          <button
+            key={opt}
+            type="button"
+            aria-pressed={active}
+            onClick={() => onChange(opt)}
+            className={`shrink-0 whitespace-nowrap rounded-xl border px-3.5 py-2 text-xs font-bold transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--theme-accent)] ${
+              active
+                ? 'border-[var(--theme-accent)] bg-[var(--theme-accent)] text-[var(--theme-accent-text)]'
+                : 'border-[var(--theme-border-glass)] bg-[var(--theme-bg-surface)] text-[var(--theme-text-secondary)] hover:text-[var(--theme-text-primary)]'
+            }`}
+          >
+            {opt === 'all' ? allLabel : opt}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+export default function ProjectsShowcaseClient({ initialProjects }: ProjectsShowcaseClientProps) {
+  const [category, setCategory] = useState('all');
+  const [technology, setTechnology] = useState('all');
+  const [query, setQuery] = useState('');
+
+  const categories = useMemo(
+    () => Array.from(new Set(initialProjects.map(projectCategory))).sort(),
+    [initialProjects],
+  );
+
+  // Most-used technologies first, capped so the filter row stays one tidy line.
+  const technologies = useMemo(() => {
+    const counts = new Map<string, number>();
+    initialProjects.forEach((p) => projectTech(p).forEach((t) => counts.set(t, (counts.get(t) ?? 0) + 1)));
+    return [...counts.entries()]
+      .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+      .slice(0, 10)
+      .map(([t]) => t);
+  }, [initialProjects]);
+
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    return initialProjects.filter((p) => {
+      if (category !== 'all' && projectCategory(p) !== category) return false;
+      if (technology !== 'all' && !projectTech(p).includes(technology)) return false;
+      if (!q) return true;
+      return (
+        p.title.toLowerCase().includes(q) ||
+        (p.summary || '').toLowerCase().includes(q) ||
+        projectTech(p).some((t) => t.toLowerCase().includes(q))
+      );
+    });
+  }, [initialProjects, category, technology, query]);
+
+  const isFiltering = category !== 'all' || technology !== 'all' || query.trim() !== '';
+  const spotlight = !isFiltering ? filtered.find((p) => p.isFeatured) : undefined;
+  const grid = spotlight ? filtered.filter((p) => p.slug !== spotlight.slug) : filtered;
+
+  const reset = () => {
+    setCategory('all');
+    setTechnology('all');
+    setQuery('');
+  };
+
+  return (
+    <div className="flex w-full flex-col bg-[var(--theme-bg-canvas)] text-[var(--theme-text-primary)]">
+      {/* Hero + filters */}
+      <section className="relative overflow-hidden border-b border-[var(--theme-border-glass)] pb-12 pt-24">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute left-1/2 top-0 h-[350px] w-[700px] -translate-x-1/2 rounded-full bg-[var(--theme-accent)]/10 blur-[130px]"
         />
-
-        <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="relative z-10 mx-auto max-w-[1240px] px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl space-y-4">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full clear-glass-pill text-xs font-bold text-[var(--theme-accent)] tracking-widest uppercase border border-[var(--theme-accent)]/30 bg-[var(--theme-accent)]/10">
-              <FolderGit2 className="w-3.5 h-3.5" />
-              <span>LIVE CLIENT IMPLEMENTATIONS &amp; PORTFOLIO</span>
-            </div>
-
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.12]">
-              Architected for Reliability.{' '}
-              <span className="font-serif italic font-normal text-[var(--theme-accent)] neon-text-glow">
-                Deployed for Impact.
-              </span>
+            <p className="inline-flex items-center gap-2 rounded-full border border-[var(--theme-accent)]/30 bg-[var(--theme-accent)]/10 px-3.5 py-1.5 text-xs font-bold uppercase tracking-widest text-[var(--theme-accent)]">
+              <FolderGit2 aria-hidden="true" className="h-3.5 w-3.5" />
+              Portfolio &amp; Case Studies
+            </p>
+            <h1 className="text-4xl font-black leading-[1.12] tracking-tight sm:text-5xl lg:text-6xl">
+              Software we have built,{' '}
+              <span className="font-serif font-normal italic text-[var(--theme-accent)]">and the results it delivers.</span>
             </h1>
-
-            <p className="text-base sm:text-lg text-[var(--theme-text-secondary)] leading-relaxed">
-              Explore verified enterprise software deployments, high-concurrency cloud platforms, and institutional
-              operating systems built by MRM InfoTech. Every case study includes full screenshot galleries, technology
-              breakdowns, and verified business outcomes.
+            <p className="text-base leading-relaxed text-[var(--theme-text-secondary)] sm:text-lg">
+              Production platforms and client projects from MRM InfoTech. Open any case study for the business problem,
+              our technical solution, key features and measurable outcomes.
             </p>
           </div>
 
-          {/* Search & Filter Bar */}
-          <div className="mt-12 pt-8 border-t border-[var(--theme-border-glass)] flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
-            {/* Category Pills */}
-            <div className="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0 scrollbar-none">
-              {categories.map((cat) => {
-                const isActive = selectedCategory === cat;
-                const label = cat === 'all' ? 'All Deployments' : cat;
-                return (
+          <div className="mt-10 space-y-4 border-t border-[var(--theme-border-glass)] pt-6">
+            <div className="flex flex-col items-stretch justify-between gap-4 md:flex-row md:items-center">
+              <FilterGroup label="Category" options={categories} value={category} onChange={setCategory} allLabel="All" />
+              <div className="relative w-full md:w-72 md:shrink-0">
+                <Search aria-hidden="true" className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--theme-text-muted)]" />
+                <input
+                  type="search"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  placeholder="Search projects or technology"
+                  aria-label="Search projects"
+                  className="w-full rounded-xl border border-[var(--theme-border-glass)] bg-[var(--theme-bg-surface)] py-2 pl-9 pr-9 text-xs text-[var(--theme-text-primary)] placeholder-[var(--theme-text-muted)] focus:border-[var(--theme-accent)] focus:outline-none"
+                />
+                {query && (
                   <button
-                    key={cat}
                     type="button"
-                    onClick={() => setSelectedCategory(cat)}
-                    className={`px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer ${
-                      isActive
-                        ? 'bg-[var(--theme-accent)] text-[var(--theme-accent-text)] shadow-md shadow-[var(--theme-accent-glow)]'
-                        : 'bg-[var(--theme-bg-surface)] text-[var(--theme-text-secondary)] hover:text-[var(--theme-text-primary)] border border-[var(--theme-border-glass)]'
-                    }`}
+                    onClick={() => setQuery('')}
+                    aria-label="Clear search"
+                    className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded p-1 text-[var(--theme-text-muted)] hover:text-[var(--theme-text-primary)]"
                   >
-                    {label}
+                    <X aria-hidden="true" className="h-3.5 w-3.5" />
                   </button>
-                );
-              })}
+                )}
+              </div>
             </div>
-
-            {/* Search Input */}
-            <div className="relative min-w-[260px] md:w-72">
-              <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--theme-text-muted)] pointer-events-none" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search tech, stack, title..."
-                className="w-full pl-9 pr-4 py-2 rounded-xl bg-[var(--theme-bg-surface)] border border-[var(--theme-border-glass)] text-xs text-[var(--theme-text-primary)] placeholder-[var(--theme-text-muted)] focus:outline-hidden focus:border-[var(--theme-accent)] transition-colors"
-              />
-              {searchQuery && (
-                <button
-                  type="button"
-                  onClick={() => setSearchQuery('')}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-[var(--theme-text-muted)] hover:text-[var(--theme-text-primary)]"
-                >
-                  ✕
-                </button>
-              )}
-            </div>
+            <FilterGroup label="Technology" options={technologies} value={technology} onChange={setTechnology} allLabel="All" />
           </div>
         </div>
       </section>
 
-      {/* ──────────────────────── Main Content Area ──────────────────────── */}
-      <section className="py-16 md:py-24 bg-[var(--theme-bg-surface)]/20 transition-colors duration-200">
-        <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
-          {filteredProjects.length === 0 ? (
+      {/* Results */}
+      <section className="bg-[var(--theme-bg-surface)]/20 py-14 md:py-20" aria-labelledby="projects-heading">
+        <div className="mx-auto max-w-[1240px] space-y-12 px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between gap-4">
+            <h2 id="projects-heading" className="text-xl font-black tracking-tight">
+              {isFiltering ? 'Matching projects' : 'All projects'}
+            </h2>
+            <p role="status" aria-live="polite" className="text-xs font-medium text-[var(--theme-text-muted)]">
+              {filtered.length} {filtered.length === 1 ? 'project' : 'projects'}
+              {isFiltering && (
+                <button type="button" onClick={reset} className="ml-3 font-bold text-[var(--theme-accent)] hover:underline">
+                  Reset filters
+                </button>
+              )}
+            </p>
+          </div>
+
+          {filtered.length === 0 ? (
             <GlassEmptyState
               badge="Portfolio Filters"
-              title="No Projects Match Your Criteria"
-              description="Try selecting a different category or clearing your search query to see our active enterprise deployments."
+              title="No projects match these filters"
+              description="Try a different category or technology, or clear the search."
               adminHref="/admin/dashboard/projects"
               adminLabel="Manage Projects in CMS"
               publicHref="/start-project"
-              publicLabel="Start a New Project"
+              publicLabel="Start a Project"
             />
           ) : (
             <>
-              {/* ──────────────── Featured Spotlight Banner ──────────────── */}
-              {spotlightProject && (
-                <div className="relative rounded-3xl bg-[var(--theme-bg-surface)] border border-[var(--theme-border-glass)] hover:border-[var(--theme-accent)]/50 shadow-2xl overflow-hidden transition-all duration-300 group">
-                  <div className="p-8 sm:p-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                    <div className="lg:col-span-7 space-y-5">
-                      <div className="flex flex-wrap items-center gap-2.5">
-                        <span className="px-3 py-1 rounded-full text-[11px] font-black uppercase tracking-wider bg-[var(--theme-accent)] text-[var(--theme-accent-text)] shadow-xs">
-                          Featured System
+              {spotlight && (
+                <article className="group overflow-hidden rounded-3xl border border-[var(--theme-border-glass)] bg-[var(--theme-bg-surface)] shadow-xl transition-colors hover:border-[var(--theme-accent)]/50">
+                  <div className="grid grid-cols-1 lg:grid-cols-12">
+                    <div className="space-y-5 p-8 sm:p-10 lg:col-span-6">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="rounded-full bg-[var(--theme-accent)] px-3 py-1 text-[11px] font-black uppercase tracking-wider text-[var(--theme-accent-text)]">
+                          Featured
                         </span>
-                        <span className="px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
-                          {spotlightProject.projectWorkStatus || 'LIVE PRODUCTION'}
+                        <span className="rounded-full border border-[var(--theme-border-glass)] bg-[var(--theme-bg-canvas)] px-3 py-1 text-[11px] font-semibold text-[var(--theme-text-secondary)]">
+                          {projectCategory(spotlight)}
                         </span>
-                        {spotlightProject.service?.name && (
-                          <span className="px-3 py-1 rounded-full text-[11px] font-medium bg-[var(--theme-bg-canvas)] text-[var(--theme-text-secondary)] border border-[var(--theme-border-glass)]">
-                            {spotlightProject.service.name}
-                          </span>
-                        )}
                       </div>
-
-                      <h2 className="text-2xl sm:text-4xl font-black text-[var(--theme-text-primary)] tracking-tight group-hover:text-[var(--theme-accent)] transition-colors">
-                        <Link href={`/projects/${spotlightProject.slug}`}>
-                          {spotlightProject.title}
+                      <h3 className="text-2xl font-black tracking-tight sm:text-3xl">
+                        <Link href={`/projects/${spotlight.slug}`} className="hover:text-[var(--theme-accent)]">
+                          {spotlight.title}
                         </Link>
-                      </h2>
-
-                      <p className="text-sm sm:text-base text-[var(--theme-text-secondary)] leading-relaxed">
-                        {spotlightProject.summary}
-                      </p>
-
-                      {/* Tech Stack Pills */}
-                      <div className="space-y-2 pt-2">
-                        <div className="text-[11px] font-bold text-[var(--theme-text-muted)] uppercase tracking-wider">
-                          Core Architecture &amp; Stack:
-                        </div>
-                        <div className="flex flex-wrap items-center gap-1.5">
-                          {[
-                            ...(spotlightProject.frontendTechSummary || []),
-                            ...(spotlightProject.backendTechSummary || []),
-                          ]
-                            .slice(0, 6)
-                            .map((tech) => (
-                              <span
-                                key={tech}
-                                className="px-2.5 py-1 rounded-lg text-xs font-mono font-semibold bg-[var(--theme-bg-canvas)] text-[var(--theme-text-secondary)] border border-[var(--theme-border-glass)]"
-                              >
-                                {tech}
-                              </span>
-                            ))}
-                        </div>
-                      </div>
-
-                      {/* Action Links */}
-                      <div className="flex flex-wrap items-center gap-3 pt-4">
-                        <Link
-                          href={`/projects/${spotlightProject.slug}`}
-                          className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-xs bg-[var(--theme-accent)] text-[var(--theme-accent-text)] hover:shadow-lg hover:shadow-[var(--theme-accent-glow)] transition-all cursor-pointer"
-                        >
-                          <span>Explore Architecture &amp; Gallery</span>
-                          <ArrowRight className="w-4 h-4" />
-                        </Link>
-
-                        {spotlightProject.liveUrl && (
-                          <a
-                            href={spotlightProject.liveUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 px-5 py-3 rounded-xl font-semibold text-xs bg-[var(--theme-bg-canvas)] text-[var(--theme-text-secondary)] hover:text-[var(--theme-text-primary)] border border-[var(--theme-border-glass)] transition-colors"
-                          >
-                            <ExternalLink className="w-3.5 h-3.5 text-[var(--theme-accent)]" />
-                            <span>Live System</span>
-                          </a>
-                        )}
-
-                        {spotlightProject.frontendRepoUrl && (
-                          <a
-                            href={spotlightProject.frontendRepoUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 px-5 py-3 rounded-xl font-semibold text-xs bg-[var(--theme-bg-canvas)] text-[var(--theme-text-secondary)] hover:text-[var(--theme-text-primary)] border border-[var(--theme-border-glass)] transition-colors"
-                          >
-                            <GithubIcon className="w-3.5 h-3.5" />
-                            <span>Repository</span>
-                          </a>
-                        )}
-                      </div>
+                      </h3>
+                      <p className="text-sm leading-relaxed text-[var(--theme-text-secondary)] sm:text-base">{spotlight.summary}</p>
+                      <TechBadges tech={projectTech(spotlight)} max={8} />
+                      {spotlight.metrics && spotlight.metrics.length > 0 && (
+                        <dl className="grid grid-cols-2 gap-3">
+                          {spotlight.metrics.slice(0, 4).map((m) => (
+                            <div key={m.label} className="rounded-xl border border-[var(--theme-border-glass)] bg-[var(--theme-bg-canvas)] p-3">
+                              <dd className="font-mono text-lg font-black text-[var(--theme-accent)]">{m.value}</dd>
+                              <dt className="truncate text-[11px] text-[var(--theme-text-muted)]">{m.label}</dt>
+                            </div>
+                          ))}
+                        </dl>
+                      )}
+                      <ActionLinks project={spotlight} size="lg" />
                     </div>
-
-                    {/* Spotlight Visual Mockup & Metrics */}
-                    <div className="lg:col-span-5 space-y-4">
-                      {/* Screenshot Mockup */}
-                      <div className="rounded-2xl overflow-hidden border border-[var(--theme-border-glass)] bg-black/60 shadow-xl group-hover:border-[var(--theme-accent)]/40 transition-all">
-                        <div className="px-3.5 py-2 bg-black/80 border-b border-white/10 flex items-center justify-between text-[11px] font-mono text-white/50">
-                          <div className="flex items-center gap-1.5">
-                            <span className="w-2.5 h-2.5 rounded-full bg-rose-500/80" />
-                            <span className="w-2.5 h-2.5 rounded-full bg-amber-500/80" />
-                            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" />
-                            <span className="ml-2 truncate max-w-[150px]">{spotlightProject.slug}</span>
-                          </div>
-                          <span className="text-[10px] font-mono uppercase text-emerald-400">VERIFIED</span>
-                        </div>
-                        <div className="relative aspect-[16/10] w-full overflow-hidden">
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img
-                            src={
-                              spotlightProject.cover ||
-                              PROJECT_COVER_MAP[spotlightProject.slug] ||
-                              'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200&auto=format&fit=crop'
-                            }
-                            alt={spotlightProject.title}
-                            className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
-                          />
-                        </div>
-                      </div>
-
-                      {/* Metrics 2-Grid */}
-                      <div className="bg-[var(--theme-bg-canvas)]/60 rounded-2xl p-4 sm:p-5 border border-[var(--theme-border-glass)]">
-                        <div className="grid grid-cols-2 gap-3">
-                          {(spotlightProject.metrics && spotlightProject.metrics.length > 0
-                            ? spotlightProject.metrics
-                            : [
-                                { label: 'Uptime SLA', value: '99.95%' },
-                                { label: 'Verification', value: 'Verified' },
-                                { label: 'Cloud Architecture', value: 'Microservices' },
-                                { label: 'Turnaround Speed', value: '< 100ms' },
-                              ]
-                          )
-                            .slice(0, 4)
-                            .map((metric, idx) => (
-                              <div
-                                key={idx}
-                                className="p-3 rounded-xl bg-[var(--theme-bg-surface)] border border-[var(--theme-border-glass)]"
-                              >
-                                <div className="text-lg sm:text-xl font-black text-[var(--theme-accent)] font-mono">
-                                  {metric.value}
-                                </div>
-                                <div className="text-[10px] font-medium text-[var(--theme-text-muted)] mt-0.5 truncate">
-                                  {metric.label}
-                                </div>
-                              </div>
-                            ))}
-                        </div>
-                      </div>
+                    <div className="lg:col-span-6 lg:border-l lg:border-[var(--theme-border-glass)] [&>div]:h-full [&>div]:border-b-0 [&>div]:aspect-auto min-h-[260px]">
+                      <ProjectVisual project={spotlight} priority />
                     </div>
                   </div>
-                </div>
+                </article>
               )}
 
-              {/* ──────────────── Projects Cards Grid ──────────────── */}
-              {gridProjects.length > 0 && (
-                <div className="space-y-6">
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-xl font-black text-[var(--theme-text-primary)] tracking-tight">
-                      All Deployed Solutions ({filteredProjects.length})
-                    </h3>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {gridProjects.map((project) => {
-                      const allTech = [
-                        ...(project.frontendTechSummary || []),
-                        ...(project.backendTechSummary || []),
-                      ];
-                      const coverImg =
-                        project.cover ||
-                        PROJECT_COVER_MAP[project.slug] ||
-                        'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200&auto=format&fit=crop';
-
-                      return (
-                        <div
-                          key={project.slug}
-                          className="rounded-3xl bg-[var(--theme-bg-surface)] border border-[var(--theme-border-glass)] hover:border-[var(--theme-accent)]/50 shadow-xl overflow-hidden transition-all duration-300 flex flex-col justify-between group"
-                        >
-                          {/* Visual Screenshot Preview */}
-                          <div className="relative aspect-[16/10] w-full overflow-hidden bg-black/60 border-b border-[var(--theme-border-glass)]">
-                            <div className="px-3.5 py-1.5 bg-black/80 backdrop-blur-md border-b border-white/10 flex items-center justify-between text-[10px] font-mono text-white/50 z-10 relative">
-                              <div className="flex items-center gap-1.5">
-                                <span className="w-2 h-2 rounded-full bg-rose-500/80" />
-                                <span className="w-2 h-2 rounded-full bg-amber-500/80" />
-                                <span className="w-2 h-2 rounded-full bg-emerald-500/80" />
-                                <span className="ml-2 truncate max-w-[140px]">{project.slug}</span>
-                              </div>
-                              <span className="text-[10px] font-mono text-emerald-400">
-                                {project.projectWorkStatus || 'COMPLETED'}
-                              </span>
+              {grid.length > 0 && (
+                <ul className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+                  {grid.map((project, i) => {
+                    const tech = projectTech(project);
+                    return (
+                      <li key={project.slug} className="flex">
+                        <article className="group flex w-full flex-col overflow-hidden rounded-3xl border border-[var(--theme-border-glass)] bg-[var(--theme-bg-surface)] shadow-lg transition-colors hover:border-[var(--theme-accent)]/50">
+                          <ProjectVisual project={project} priority={i < 2 && !spotlight} />
+                          <div className="flex flex-1 flex-col gap-4 p-6">
+                            <span className="w-fit rounded-full border border-[var(--theme-accent)]/30 bg-[var(--theme-accent)]/15 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[var(--theme-accent)]">
+                              {projectCategory(project)}
+                            </span>
+                            <div className="space-y-2">
+                              <h3 className="text-lg font-black leading-snug">
+                                <Link href={`/projects/${project.slug}`} className="hover:text-[var(--theme-accent)]">
+                                  {project.title}
+                                </Link>
+                              </h3>
+                              <p className="line-clamp-3 text-sm leading-relaxed text-[var(--theme-text-secondary)]">{project.summary}</p>
                             </div>
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img
-                              src={coverImg}
-                              alt={project.title}
-                              className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
-                              loading="lazy"
-                            />
-                          </div>
-
-                          <div className="p-6 space-y-4 flex-1 flex flex-col justify-between">
-                            <div className="space-y-3">
-                              {/* Badges */}
-                              <div className="flex items-center justify-between gap-2">
-                                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[var(--theme-accent)]/15 text-[var(--theme-accent)] border border-[var(--theme-accent)]/30">
-                                  {project.service?.name || project.product?.name || 'Custom Solution'}
-                                </span>
-
-                                <span className="text-[10px] font-semibold text-emerald-400 flex items-center gap-1 font-mono">
-                                  <CheckCircle2 className="w-3 h-3 text-emerald-400" />
-                                  <span>Verified</span>
-                                </span>
+                            <TechBadges tech={tech} max={4} />
+                            {project.metrics && project.metrics[0] && (
+                              <div className="flex items-center justify-between gap-3 rounded-xl border border-[var(--theme-border-glass)] bg-[var(--theme-bg-canvas)] px-3 py-2">
+                                <span className="truncate text-[11px] text-[var(--theme-text-muted)]">{project.metrics[0].label}</span>
+                                <span className="font-mono text-xs font-bold text-[var(--theme-accent)]">{project.metrics[0].value}</span>
                               </div>
-
-                              {/* Title & Summary */}
-                              <div>
-                                <h4 className="text-base sm:text-lg font-black text-[var(--theme-text-primary)] group-hover:text-[var(--theme-accent)] transition-colors leading-snug">
-                                  <Link href={`/projects/${project.slug}`}>
-                                    {project.title}
-                                  </Link>
-                                </h4>
-                                <p className="text-xs text-[var(--theme-text-secondary)] mt-2 leading-relaxed line-clamp-3">
-                                  {project.summary}
-                                </p>
-                              </div>
-
-                              {/* Tech Stack Chips */}
-                              {allTech.length > 0 && (
-                                <div className="flex flex-wrap items-center gap-1.5 pt-1">
-                                  {allTech.slice(0, 3).map((tech) => (
-                                    <span
-                                      key={tech}
-                                      className="px-2 py-0.5 rounded text-[10px] font-mono font-medium bg-[var(--theme-bg-canvas)] text-[var(--theme-text-muted)] border border-[var(--theme-border-glass)]"
-                                    >
-                                      {tech}
-                                    </span>
-                                  ))}
-                                  {allTech.length > 3 && (
-                                    <span className="text-[10px] text-[var(--theme-text-muted)] font-mono">
-                                      +{allTech.length - 3} more
-                                    </span>
-                                  )}
-                                </div>
-                              )}
-
-                              {/* Primary Metric Pill */}
-                              {project.metrics && project.metrics[0] && (
-                                <div className="px-3 py-2 rounded-xl bg-[var(--theme-bg-canvas)] border border-[var(--theme-border-glass)] flex items-center justify-between">
-                                  <span className="text-[10px] text-[var(--theme-text-muted)] font-medium truncate max-w-[150px]">
-                                    {project.metrics[0].label}
-                                  </span>
-                                  <span className="text-xs font-bold text-[var(--theme-accent)] font-mono">
-                                    {project.metrics[0].value}
-                                  </span>
-                                </div>
-                              )}
-                            </div>
-
-                            {/* Footer Actions */}
-                            <div className="pt-4 border-t border-[var(--theme-border-glass)] flex items-center justify-between">
-                              <Link
-                                href={`/projects/${project.slug}`}
-                                className="text-xs font-bold text-[var(--theme-accent)] inline-flex items-center gap-1.5 hover:gap-2.5 transition-all cursor-pointer"
-                              >
-                                <span>View Case Study &amp; Gallery</span>
-                                <ArrowRight className="w-3.5 h-3.5" />
-                              </Link>
-
-                              <div className="flex items-center gap-2">
-                                {project.liveUrl && (
-                                  <a
-                                    href={project.liveUrl}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="p-1.5 rounded-lg text-[var(--theme-text-muted)] hover:text-[var(--theme-accent)] hover:bg-[var(--theme-bg-canvas)] transition-colors"
-                                    title="Launch Live System"
-                                  >
-                                    <ExternalLink className="w-4 h-4" />
-                                  </a>
-                                )}
-
-                                {project.frontendRepoUrl && (
-                                  <a
-                                    href={project.frontendRepoUrl}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="p-1.5 rounded-lg text-[var(--theme-text-muted)] hover:text-[var(--theme-text-primary)] hover:bg-[var(--theme-bg-canvas)] transition-colors"
-                                    title="View Public Repository"
-                                  >
-                                    <GithubIcon className="w-4 h-4" />
-                                  </a>
-                                )}
-                              </div>
+                            )}
+                            <div className="mt-auto border-t border-[var(--theme-border-glass)] pt-4">
+                              <ActionLinks project={project} />
                             </div>
                           </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
+                        </article>
+                      </li>
+                    );
+                  })}
+                </ul>
               )}
             </>
           )}
 
-          {/* ──────────────── Bottom Enterprise Consultation CTA ──────────────── */}
-          <div className="rounded-3xl bg-[var(--theme-bg-surface)] border border-[var(--theme-border-glass)] p-8 sm:p-12 relative overflow-hidden text-center space-y-4">
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute -bottom-10 -right-10 w-80 h-80 bg-[var(--theme-accent)]/15 rounded-full blur-[100px]"
-            />
-            <h3 className="text-2xl sm:text-3xl font-black text-[var(--theme-text-primary)] tracking-tight">
-              Have a Mission-Critical System in Mind?
-            </h3>
-            <p className="text-sm text-[var(--theme-text-secondary)] max-w-xl mx-auto leading-relaxed">
-              Partner with our systems engineers to architect, build, and deploy high-availability digital software tailored to your organization’s scale.
+          {/* CTA */}
+          <div className="relative space-y-4 overflow-hidden rounded-3xl border border-[var(--theme-border-glass)] bg-[var(--theme-bg-surface)] p-8 text-center sm:p-12">
+            <div aria-hidden="true" className="pointer-events-none absolute -bottom-10 -right-10 h-80 w-80 rounded-full bg-[var(--theme-accent)]/15 blur-[100px]" />
+            <h2 className="text-2xl font-black tracking-tight sm:text-3xl">Planning a similar system?</h2>
+            <p className="mx-auto max-w-xl text-sm leading-relaxed text-[var(--theme-text-secondary)]">
+              Tell us about your requirements and we will respond with a structured technical proposal.
             </p>
-            <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
+            <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
               <Link
                 href="/start-project"
-                className="px-6 py-3 rounded-xl font-bold text-xs bg-[var(--theme-accent)] text-[var(--theme-accent-text)] hover:shadow-lg hover:shadow-[var(--theme-accent-glow)] transition-all cursor-pointer"
+                className="rounded-xl bg-[var(--theme-accent)] px-6 py-3 text-xs font-bold text-[var(--theme-accent-text)] transition-all hover:shadow-lg hover:shadow-[var(--theme-accent-glow)]"
               >
-                Start an Enterprise Project
+                Start a Project
               </Link>
               <Link
                 href="/services"
-                className="px-6 py-3 rounded-xl font-bold text-xs bg-[var(--theme-bg-canvas)] text-[var(--theme-text-primary)] border border-[var(--theme-border-glass)] hover:border-[var(--theme-accent)] transition-colors cursor-pointer"
+                className="rounded-xl border border-[var(--theme-border-glass)] bg-[var(--theme-bg-canvas)] px-6 py-3 text-xs font-bold transition-colors hover:border-[var(--theme-accent)]"
               >
-                Explore Engineering Services
+                Explore Services
               </Link>
             </div>
           </div>
