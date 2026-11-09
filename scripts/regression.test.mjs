@@ -162,8 +162,8 @@ test('seo: project pages ship JSON-LD with escaped "<", canonical, OG and Twitte
   }
   assert.match(detail, /SoftwareApplication/);
   assert.match(detail, /BreadcrumbList/);
-  assert.match(detail, /twitter:/);
-  assert.match(list, /canonical: '\/projects'/);
+  assert.ok(detail.includes('buildMetadata('));
+  assert.ok(list.includes("path: '/projects'"));
 });
 
 test('seo: sitemap is generated from the API and has no hardcoded project/blog slugs', () => {
@@ -237,4 +237,39 @@ test('forms: contact, start-project and job-application validate before any netw
     assert.match(src, /aria-invalid=\{Boolean\(fieldErrors\.email\)\}/);
     assert.match(src, /<FieldError id="[a-z]+-email-error"/);
   }
+});
+
+// ───────────── Shared SEO helper ─────────────
+import { buildMetadata, cleanTitle, clampDescription } from '../src/lib/seo.ts';
+
+test('seo helper: brand is never duplicated by the title template', () => {
+  assert.equal(cleanTitle('Services | MRM InfoTech'), 'Services');
+  assert.equal(cleanTitle('Services — MRM InfoTech'), 'Services');
+  assert.equal(cleanTitle('MRM InfoTech Services'), 'MRM InfoTech Services');
+});
+
+test('seo helper: every page gets canonical, Open Graph and Twitter metadata', () => {
+  const m = buildMetadata({ title: 'About Us | MRM InfoTech', description: 'x'.repeat(300), path: '/about' });
+  assert.equal(m.title, 'About Us');
+  assert.equal(m.alternates.canonical, '/about');
+  assert.equal(m.openGraph.url, '/about');
+  assert.ok(m.openGraph.images.length > 0, 'default social image');
+  assert.equal(m.twitter.card, 'summary_large_image');
+  assert.ok(m.description.length <= 160);
+  assert.deepEqual(m.robots, { index: true, follow: true });
+});
+
+test('seo helper: noIndex and CMS canonical overrides are honoured', () => {
+  const m = buildMetadata({ title: 'Draft', description: 'ok', path: '/p', canonical: 'https://mrminfotech.com/p', noIndex: true });
+  assert.deepEqual(m.robots, { index: false, follow: false });
+  assert.equal(m.alternates.canonical, 'https://mrminfotech.com/p');
+  assert.ok(clampDescription('word '.repeat(100)).endsWith('…'));
+});
+
+test('config: type errors fail the build and admin is not indexable', () => {
+  const cfg = read('next.config.ts');
+  assert.doesNotMatch(cfg, /ignoreBuildErrors:\s*true/);
+  assert.match(cfg, /remotePatterns/);
+  assert.match(cfg, /noindex, nofollow/);
+  assert.doesNotMatch(read('src/app/layout.tsx'), /canonical: 'https:\/\/mrminfotech\.com'/);
 });

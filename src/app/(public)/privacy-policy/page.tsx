@@ -1,10 +1,13 @@
 import React from 'react';
 import type { Metadata } from 'next';
+import { buildMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Privacy Policy | MRM InfoTech',
-  description: 'Privacy Policy and data governance principles for MRM InfoTech.',
-};
+export const metadata: Metadata = buildMetadata({
+  title: "Privacy Policy",
+  description:
+    "How MRM InfoTech collects, uses and protects personal data, and the rights you have over it.",
+  path: "/privacy-policy",
+});
 
 export default function PrivacyPolicyPage() {
   return (

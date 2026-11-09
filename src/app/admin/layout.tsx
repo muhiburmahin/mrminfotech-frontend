@@ -3,7 +3,8 @@ import type { Metadata } from 'next';
 import { AuthProvider } from '@/context/AuthContext';
 
 export const metadata: Metadata = {
-  title: 'MRM InfoTech Admin CMS',
+  title: 'Admin CMS',
+  robots: { index: false, follow: false, nocache: true },
   description: 'Enterprise Administrative Dashboard & Content Management System',
 };
 

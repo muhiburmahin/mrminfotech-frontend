@@ -20,39 +20,16 @@ import { getHomepageConfig } from '@/lib/api/public';
 import { AmbientSection } from '@/components/ui/AmbientSection';
 import { CTAButton } from '@/components/ui/design-system/CTAButton';
 import { ScrollReveal, CountUp, TiltCard, InfiniteMarquee } from '@/components/ui/animations';
+import { buildMetadata } from '@/lib/seo';
 
 export const metadata: Metadata = {
-  title: 'Custom Software & Web Development Company',
-  description:
-    'MRM InfoTech is a global custom software and web development company. We engineer high-performance cloud SaaS platforms, web applications, and enterprise digital solutions.',
-  alternates: {
-    canonical: 'https://mrminfotech.com',
-  },
-  openGraph: {
-    title: 'MRM InfoTech | Custom Software & Web Development Company',
+  ...buildMetadata({
+    title: 'Custom Software & Web Development Company',
     description:
-      'Global custom software and web development company engineering scalable SaaS products, web applications, and enterprise digital solutions.',
-    url: 'https://mrminfotech.com',
-    siteName: 'MRM InfoTech',
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'MRM InfoTech | Custom Software & Web Development Company',
-    description:
-      'Global custom software and web development company engineering scalable SaaS products and enterprise solutions.',
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
+      'MRM InfoTech is a custom software and web development company building cloud SaaS platforms, web applications and enterprise digital solutions.',
+    path: '/',
+  }),
+  title: { absolute: 'MRM InfoTech | Custom Software & Web Development Company' },
 };
 
 export const revalidate = 60;

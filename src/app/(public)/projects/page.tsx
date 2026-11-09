@@ -2,20 +2,18 @@ import React from 'react';
 import type { Metadata } from 'next';
 import { PublicApiService } from '@/services/public-api.service';
 import ProjectsShowcaseClient, { type ProjectItem } from '@/components/public/projects/ProjectsShowcaseClient';
+import { buildMetadata } from '@/lib/seo';
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || 'https://mrminfotech.com').replace(/\/$/, '');
 const TITLE = 'Portfolio & Case Studies | MRM InfoTech';
 const DESCRIPTION =
   'Production software, SaaS platforms and client projects built by MRM InfoTech, with the business problem, technical solution and measurable results for each.';
 
-export const metadata: Metadata = {
-  title: TITLE,
+export const metadata: Metadata = buildMetadata({
+  title: 'Portfolio & Case Studies',
   description: DESCRIPTION,
-  alternates: { canonical: '/projects' },
-  robots: { index: true, follow: true },
-  openGraph: { title: TITLE, description: DESCRIPTION, url: '/projects', type: 'website', siteName: 'MRM InfoTech' },
-  twitter: { card: 'summary_large_image', title: TITLE, description: DESCRIPTION },
-};
+  path: '/projects',
+});
 
 export const revalidate = 60;
 

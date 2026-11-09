@@ -3,15 +3,14 @@ import type { Metadata } from 'next';
 import { Loader2 } from 'lucide-react';
 import { PublicApiService } from '@/services/public-api.service';
 import { StartProjectForm } from '@/components/public/contact/StartProjectForm';
+import { buildMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Start a Project | MRM InfoTech',
+export const metadata: Metadata = buildMetadata({
+  title: "Start a Project",
   description:
-    'Initiate a new software project or SaaS onboarding with MRM InfoTech. Receive an architectural proposal within 48 hours.',
-  alternates: {
-    canonical: 'https://mrminfotech.com/start-project',
-  },
-};
+    "Tell us about your software project. MRM InfoTech responds with a structured technical proposal within 48 hours.",
+  path: "/start-project",
+});
 
 export default async function StartProjectPage() {
   const services = await PublicApiService.getServices('en');

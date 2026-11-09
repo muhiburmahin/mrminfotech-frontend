@@ -1,10 +1,13 @@
 import React from 'react';
 import type { Metadata } from 'next';
+import { buildMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Terms of Service | MRM InfoTech',
-  description: 'Terms of Service governing the use of MRM InfoTech websites and applications.',
-};
+export const metadata: Metadata = buildMetadata({
+  title: "Terms of Service",
+  description:
+    "The terms that govern use of MRM InfoTech websites, products and applications.",
+  path: "/terms",
+});
 
 export default function TermsPage() {
   return (

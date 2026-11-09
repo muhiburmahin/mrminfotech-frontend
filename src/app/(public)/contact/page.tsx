@@ -3,15 +3,14 @@ import type { Metadata } from 'next';
 import { Mail, Phone, MapPin, Clock, Globe } from 'lucide-react';
 import { PublicApiService } from '@/services/public-api.service';
 import { ContactInquiryForm } from '@/components/public/contact/ContactInquiryForm';
+import { buildMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Contact Software Development Team',
+export const metadata: Metadata = buildMetadata({
+  title: "Contact Us",
   description:
-    'Contact MRM InfoTech for custom software development consultations, web application inquiries, and cloud SaaS partnerships.',
-  alternates: {
-    canonical: 'https://mrminfotech.com/contact',
-  },
-};
+    "Contact MRM InfoTech for custom software development, web application projects and cloud platform consultations. We reply within one business day.",
+  path: "/contact",
+});
 
 export default async function ContactPage() {
   const company = await PublicApiService.getCompanyProfile();

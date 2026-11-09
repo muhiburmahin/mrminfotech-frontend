@@ -1,12 +1,37 @@
 import type { NextConfig } from "next";
 
+type RemotePatterns = NonNullable<NonNullable<NextConfig['images']>['remotePatterns']>;
+
+/**
+ * Hosts that next/image may optimise. The API/uploads host is derived from the environment so staging and
+ * production work without code changes; Cloudinary is the configured media provider.
+ */
+function remoteImagePatterns(): RemotePatterns {
+  const patterns: RemotePatterns = [{ protocol: 'https', hostname: 'res.cloudinary.com' }];
+  for (const raw of [process.env.NEXT_PUBLIC_API_URL, process.env.NEXT_PUBLIC_SITE_URL]) {
+    if (!raw) continue;
+    try {
+      const url = new URL(raw);
+      patterns.push({
+        protocol: url.protocol === 'http:' ? 'http' : 'https',
+        hostname: url.hostname,
+        ...(url.port ? { port: url.port } : {}),
+      });
+    } catch {
+      /* ignore malformed env value */
+    }
+  }
+  return patterns;
+}
+
 const nextConfig: NextConfig = {
   experimental: {
     cpus: 1,
     workerThreads: false,
   },
-  typescript: {
-    ignoreBuildErrors: true,
+  images: {
+    formats: ['image/avif', 'image/webp'],
+    remotePatterns: remoteImagePatterns(),
   },
   turbopack: {
     rules: {
@@ -68,7 +93,11 @@ const nextConfig: NextConfig = {
         ],
       },
       {
-        source: '/((?!api|_next/static|_next/image|favicon.ico).*)',
+        source: '/admin/:path*',
+        headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }],
+      },
+      {
+        source: '/((?!api|admin|_next/static|_next/image|favicon.ico).*)',
         headers: [
           {
             key: 'X-Robots-Tag',

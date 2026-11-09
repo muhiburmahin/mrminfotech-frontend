@@ -4,6 +4,7 @@ import { notFound, redirect } from 'next/navigation';
 import { PublicApiService } from '@/services/public-api.service';
 import BlogPostReadingView from '@/components/public/blog/BlogPostReadingView';
 import { unwrapList, type ListResponse, type PublicBlogPost } from '@/types/public-content';
+import { buildMetadata } from '@/lib/seo';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -15,29 +16,20 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const post = await PublicApiService.getBlogPostBySlug<PublicBlogPost | null>(cleanSlug, 'en');
 
   if (!post) {
-    return { title: 'Post Not Found | MRM InfoTech' };
+    return buildMetadata({ title: 'Post Not Found', description: 'This article could not be found.', path: `/blog/${cleanSlug}`, noIndex: true });
   }
 
-  const title = post.seoTitle || `${post.title} | MRM InfoTech Insights`;
-  const description =
-    post.seoDescription ||
-    post.excerpt ||
-    post.summary ||
-    'Read this technical publication and system design deep-dive by MRM InfoTech.';
-
-  return {
-    title,
-    description: description.slice(0, 160),
-    alternates: {
-      canonical: `/blog/${cleanSlug}`,
-    },
-    openGraph: {
-      title,
-      description,
-      type: 'article',
-      publishedTime: post.publishedAt ? new Date(post.publishedAt).toISOString() : undefined,
-    },
-  };
+  return buildMetadata({
+    title: post.seoTitle || post.title,
+    description:
+      post.seoDescription ||
+      post.excerpt ||
+      post.summary ||
+      'Technical insights and system design deep-dives from the MRM InfoTech engineering team.',
+    path: `/blog/${cleanSlug}`,
+    type: 'article',
+    publishedTime: post.publishedAt ? new Date(post.publishedAt).toISOString() : undefined,
+  });
 }
 
 export const revalidate = 60;

@@ -1,10 +1,13 @@
 import React from 'react';
 import type { Metadata } from 'next';
+import { buildMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Cookie Policy | MRM InfoTech',
-  description: 'Information regarding cookie usage on MRM InfoTech websites.',
-};
+export const metadata: Metadata = buildMetadata({
+  title: "Cookie Policy",
+  description:
+    "How MRM InfoTech uses cookies and similar technologies on its websites, and how you can control them.",
+  path: "/cookie-policy",
+});
 
 export default function CookiePolicyPage() {
   return (

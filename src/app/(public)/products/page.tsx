@@ -8,21 +8,14 @@ import ProductsCatalogClient from '@/components/public/products/ProductsCatalogC
 import ProductsCaseStudiesSection from '@/components/public/products/ProductsCaseStudiesSection';
 import ProductsFinalCta from '@/components/public/products/ProductsFinalCta';
 import type { PublicCaseStudy } from '@/types/public-content';
+import { buildMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Cloud SaaS Products & Digital Platforms | MRM InfoTech',
+export const metadata: Metadata = buildMetadata({
+  title: "Cloud SaaS Products & Digital Platforms",
   description:
-    'Discover MRM InfoTech’s proprietary cloud software platforms: EduManage BD for institutional education, MediSheba BD for healthcare, and Multi-Institution Platform.',
-  alternates: {
-    canonical: '/products',
-  },
-  openGraph: {
-    title: 'Cloud SaaS Products & Digital Platforms | MRM InfoTech',
-    description:
-      'Purpose-built digital software platforms engineered for automated workflows, sovereign data security, and enterprise efficiency.',
-    type: 'website',
-  },
-};
+    "Proprietary cloud platforms from MRM InfoTech: EduManage BD for institutional education, MediSheba BD for healthcare and a multi-institution platform.",
+  path: "/products",
+});
 
 export const revalidate = 60; // ISR revalidation every 60 seconds
 

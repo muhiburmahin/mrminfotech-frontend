@@ -11,6 +11,7 @@ import ProductFeaturesView from '@/components/public/products/ProductFeaturesVie
 import ProductDemoTabs from '@/components/public/products/ProductDemoTabs';
 import ProductFaqAccordion from '@/components/public/products/ProductFaqAccordion';
 import ProductsCaseStudiesSection from '@/components/public/products/ProductsCaseStudiesSection';
+import { buildMetadata } from '@/lib/seo';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -23,44 +24,19 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const product: ProductRecord | null = await PublicApiService.getProductBySlug(cleanSlug, 'en');
 
   if (!product) {
-    return {
-      title: 'Product Not Found | MRM InfoTech',
-      description: 'The requested software product platform could not be found.',
-    };
+    return buildMetadata({ title: 'Product Not Found', description: 'The requested software product could not be found.', path: `/products/${cleanSlug}`, noIndex: true });
   }
 
-  const title = product.seoTitle || `${product.title} | Cloud SaaS Platform | MRM InfoTech`;
-  let rawDesc = product.seoDescription || product.shortDescription || product.description || '';
-  if (rawDesc.length > 155) {
-    rawDesc = rawDesc.slice(0, 152) + '...';
-  }
+  const ogImg = product.ogImage || product.thumbnailUrl || product.images?.[0];
 
-  const canonicalUrl = product.canonicalUrl || `https://mrminfotech.com/products/${slug}`;
-  const ogImg = product.ogImage || product.thumbnailUrl || product.images?.[0] || '/logo.png';
-
-  return {
-    title,
-    description: rawDesc,
-    alternates: {
-      canonical: canonicalUrl,
-    },
-    robots: product.noIndex
-      ? { index: false, follow: false }
-      : { index: true, follow: true },
-    openGraph: {
-      title: product.ogTitle || title,
-      description: product.ogDescription || rawDesc,
-      url: canonicalUrl,
-      type: 'website',
-      images: [{ url: ogImg }],
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: product.ogTitle || title,
-      description: product.ogDescription || rawDesc,
-      images: [product.twitterImage || ogImg],
-    },
-  };
+  return buildMetadata({
+    title: product.seoTitle || `${product.title} — Cloud SaaS Platform`,
+    description: product.seoDescription || product.shortDescription || product.description || 'A cloud software platform by MRM InfoTech.',
+    path: `/products/${cleanSlug}`,
+    canonical: product.canonicalUrl || undefined,
+    noIndex: Boolean(product.noIndex),
+    image: ogImg ? { url: ogImg, alt: product.title } : undefined,
+  });
 }
 
 export const revalidate = 60;

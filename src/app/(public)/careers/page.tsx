@@ -14,19 +14,14 @@ import {
 } from 'lucide-react';
 import { PublicApiService } from '@/services/public-api.service';
 import GlassEmptyState from '@/components/ui/GlassEmptyState';
+import { buildMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Careers & Engineering Culture',
+export const metadata: Metadata = buildMetadata({
+  title: "Careers",
   description:
-    'Join MRM InfoTech. Build high-concurrency SaaS platforms, clean software architectures, and mission-critical digital systems in Bangladesh.',
-  alternates: {
-    canonical: '/careers',
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
-};
+    "Join MRM InfoTech and build SaaS platforms, clean software architectures and mission-critical digital systems with an experienced engineering team.",
+  path: "/careers",
+});
 
 export default async function CareersPage() {
   const jobs = await PublicApiService.getCareers('en');

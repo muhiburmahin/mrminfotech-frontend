@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { ArrowLeft, MapPin, Briefcase } from 'lucide-react';
 import { PublicApiService } from '@/services/public-api.service';
 import { JobApplicationForm } from '@/components/public/careers/JobApplicationForm';
+import { buildMetadata } from '@/lib/seo';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -14,12 +15,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { slug } = await params;
   const job = await PublicApiService.getCareerBySlug(slug, 'en');
   if (!job) {
-    return { title: 'Career Opportunity | MRM InfoTech' };
+    return buildMetadata({ title: 'Career Opportunity', description: 'This position is no longer available.', path: `/careers/${slug}`, noIndex: true });
   }
-  return {
-    title: `${job.title} | Careers at MRM InfoTech`,
+  return buildMetadata({
+    title: `${job.title} — Careers`,
     description: `Join MRM InfoTech as ${job.title}. Based in Dhaka, Bangladesh.`,
-  };
+    path: `/careers/${slug}`,
+  });
 }
 
 export default async function JobDetailPage({ params }: PageProps) {

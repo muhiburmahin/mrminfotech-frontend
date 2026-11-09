@@ -8,6 +8,7 @@ import { PublicApiService } from '@/services/public-api.service';
 import type { ServiceRecord } from '@/types/service.types';
 import { ClientTestimonials } from '@/components/home/ClientTestimonials';
 import type { TestimonialItem } from '@/lib/api/types';
+import { buildMetadata } from '@/lib/seo';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -20,63 +21,25 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const service: ServiceRecord | null = await PublicApiService.getServiceBySlug(cleanSlug, 'en');
 
   if (!service) {
-    return {
-      title: 'Service Not Found | MRM InfoTech',
-      description: 'The requested enterprise software service could not be found.',
-    };
+    return buildMetadata({ title: 'Service Not Found', description: 'The requested service could not be found.', path: `/services/${cleanSlug}`, noIndex: true });
   }
 
-  const title =
-    service.seoTitle ||
-    service.seo?.seoTitle ||
-    `${service.title || service.name} | MRM InfoTech`;
-  const desc =
-    service.seoDescription ||
-    service.seo?.seoDescription ||
-    service.shortDescription ||
-    service.tagline ||
-    'High-craft enterprise software architecture, cloud platforms, and bespoke digital solutions in Bangladesh.';
-  const canonical =
-    service.canonicalUrl ||
-    service.seo?.canonicalUrl ||
-    `https://mrminfotech.com/services/${service.slug}`;
-  const ogImg =
-    service.coverImage ||
-    service.mediaItems?.[0]?.url ||
-    'https://mrminfotech.com/og-default.png';
+  const name = service.title || service.name || service.slug;
+  const ogImg = service.coverImage || service.coverImageUrl || service.mediaGallery?.[0]?.url || service.mediaItems?.[0]?.url;
 
-  return {
-    title,
-    description: desc.slice(0, 160),
-    alternates: {
-      canonical,
-    },
-    robots: {
-      index: !service.noIndex,
-      follow: !service.noIndex,
-      googleBot: {
-        index: !service.noIndex,
-        follow: !service.noIndex,
-        'max-video-preview': -1,
-        'max-image-preview': 'large',
-        'max-snippet': -1,
-      },
-    },
-    openGraph: {
-      type: 'website',
-      title,
-      description: desc.slice(0, 160),
-      url: canonical,
-      siteName: 'MRM InfoTech',
-      images: [{ url: ogImg, width: 1200, height: 630, alt: title }],
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title,
-      description: desc.slice(0, 160),
-      images: [ogImg],
-    },
-  };
+  return buildMetadata({
+    title: service.seoTitle || service.seo?.seoTitle || name,
+    description:
+      service.seoDescription ||
+      service.seo?.seoDescription ||
+      service.shortDescription ||
+      service.tagline ||
+      'Custom software, cloud platforms and bespoke digital solutions from MRM InfoTech.',
+    path: `/services/${service.slug}`,
+    canonical: service.canonicalUrl || service.seo?.canonicalUrl || undefined,
+    noIndex: Boolean(service.noIndex),
+    image: ogImg ? { url: ogImg, alt: name } : undefined,
+  });
 }
 
 export const revalidate = 60;

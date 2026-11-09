@@ -1,12 +1,14 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import { ShieldCheck, Lock, Server, Key, Eye, FileCode2 } from 'lucide-react';
+import { buildMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Enterprise Security Architecture | MRM InfoTech',
+export const metadata: Metadata = buildMetadata({
+  title: "Security & Data Protection",
   description:
-    'Overview of MRM InfoTech’s security standards, OWASP compliance, and data sovereignty safeguards.',
-};
+    "How MRM InfoTech secures its platforms: OWASP-aligned engineering practices, access control, encryption and data protection safeguards.",
+  path: "/security",
+});
 
 export default function SecurityPage() {
   const securityPillars = [

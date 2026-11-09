@@ -11,15 +11,14 @@ import WhatWeDo from '@/components/public/about/WhatWeDo';
 import OurMission from '@/components/public/about/OurMission';
 import OurVision from '@/components/public/about/OurVision';
 import CoreValues from '@/components/public/about/CoreValues';
+import { buildMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'About Us | Custom Software Engineering Team',
+export const metadata: Metadata = buildMetadata({
+  title: "About Us",
   description:
-    'Discover MRM InfoTech: our story, dual-engine software vision, senior engineering culture, and commitment to building resilient enterprise cloud platforms.',
-  alternates: {
-    canonical: 'https://mrminfotech.com/about',
-  },
-};
+    "Learn about MRM InfoTech: our story, engineering culture and how we build resilient enterprise software and cloud platforms for clients worldwide.",
+  path: "/about",
+});
 
 export default async function AboutPage() {
   const team = await PublicApiService.getTeamMembers('en');

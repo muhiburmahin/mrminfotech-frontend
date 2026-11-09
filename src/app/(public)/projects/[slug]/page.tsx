@@ -8,6 +8,7 @@ import { PublicApiService } from '@/services/public-api.service';
 import { ClientTestimonials } from '@/components/home/ClientTestimonials';
 import type { TestimonialItem } from '@/lib/api/types';
 import type { LegacyCaseStudy, PublicProjectDetail } from '@/types/public-content';
+import { buildMetadata } from '@/lib/seo';
 import {
   ProjectLightboxGallery,
   ProjectScreenshot,
@@ -23,36 +24,19 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const project = await PublicApiService.getProjectBySlug<PublicProjectDetail | null>(cleanSlug, 'en');
 
   if (!project) {
-    return { title: 'Project Not Found | MRM InfoTech' };
+    return buildMetadata({ title: 'Project Not Found', description: 'This project could not be found.', path: `/projects/${cleanSlug}`, noIndex: true });
   }
 
-  const title = project.seoTitle || `${project.title} | Case Study | MRM InfoTech`;
-  const description =
-    project.seoDescription ||
-    project.summary ||
-    'Read the complete technical case study and system architecture by MRM InfoTech.';
-
-  return {
-    title,
-    description: description.slice(0, 160),
-    alternates: {
-      canonical: `/projects/${cleanSlug}`,
-    },
-    openGraph: {
-      title,
-      description,
-      type: 'article',
-      url: `/projects/${cleanSlug}`,
-      siteName: 'MRM InfoTech',
-      ...(project.cover?.url ? { images: [{ url: project.cover.url, alt: project.cover.alt || project.title }] } : {}),
-    },
-    twitter: {
-      card: project.cover?.url ? 'summary_large_image' : 'summary',
-      title,
-      description,
-      ...(project.cover?.url ? { images: [project.cover.url] } : {}),
-    },
-  };
+  return buildMetadata({
+    title: project.seoTitle || `${project.title} — Case Study`,
+    description:
+      project.seoDescription ||
+      project.summary ||
+      'Read the business problem, technical solution and results of this MRM InfoTech project.',
+    path: `/projects/${cleanSlug}`,
+    type: 'article',
+    image: project.cover?.url ? { url: project.cover.url, alt: project.cover.alt || project.title } : undefined,
+  });
 }
 
 export const revalidate = 60;

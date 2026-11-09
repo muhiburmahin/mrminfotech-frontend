@@ -37,9 +37,6 @@ export const metadata: Metadata = {
   authors: [{ name: 'MRM InfoTech', url: 'https://mrminfotech.com' }],
   creator: 'MRM InfoTech',
   publisher: 'MRM InfoTech',
-  alternates: {
-    canonical: 'https://mrminfotech.com',
-  },
   robots: {
     index: true,
     follow: true,
@@ -59,6 +56,14 @@ export const metadata: Metadata = {
     title: 'MRM InfoTech — IDEAS • PRODUCTS • IMPACT',
     description:
       'Proprietary cloud SaaS platforms and mission-critical enterprise engineering in Bangladesh.',
+    images: [{ url: '/banner.jpg', width: 1024, height: 390, alt: 'MRM InfoTech' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'MRM InfoTech — IDEAS • PRODUCTS • IMPACT',
+    description:
+      'Proprietary cloud SaaS platforms and mission-critical enterprise engineering in Bangladesh.',
+    images: ['/banner.jpg'],
   },
   icons: {
     icon: [

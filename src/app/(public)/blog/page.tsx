@@ -3,19 +3,14 @@ import type { Metadata } from 'next';
 import { PublicApiService } from '@/services/public-api.service';
 import BlogShowcaseClient, { BlogPostItem } from '@/components/public/blog/BlogShowcaseClient';
 import { unwrapList, type ListResponse } from '@/types/public-content';
+import { buildMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Engineering Blog & Insights | MRM InfoTech',
+export const metadata: Metadata = buildMetadata({
+  title: "Engineering Blog & Insights",
   description:
-    'Technical articles, software architecture insights, and system design benchmarks published by MRM InfoTech.',
-  alternates: {
-    canonical: '/blog',
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
-};
+    "Technical articles on software architecture, cloud infrastructure and product engineering from the MRM InfoTech team.",
+  path: "/blog",
+});
 
 export const revalidate = 60;
 

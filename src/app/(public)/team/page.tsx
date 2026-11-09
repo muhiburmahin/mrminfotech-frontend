@@ -3,19 +3,14 @@ import type { Metadata } from 'next';
 import { PublicApiService } from '@/services/public-api.service';
 import { TeamGrid, PublicTeamMemberItem } from '@/components/public/team/TeamGrid';
 import { Users, ShieldCheck, Cpu, Code2, Terminal } from 'lucide-react';
+import { buildMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Our Team & Leadership',
+export const metadata: Metadata = buildMetadata({
+  title: "Our Team & Leadership",
   description:
-    'Meet the engineering leaders, systems architects, and product creators behind MRM InfoTech in Dhaka, Bangladesh.',
-  alternates: {
-    canonical: '/team',
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
-};
+    "Meet the engineers, architects and product leaders behind MRM InfoTech.",
+  path: "/team",
+});
 
 export default async function TeamPage() {
   const rawTeam = await PublicApiService.getTeamMembers('en');

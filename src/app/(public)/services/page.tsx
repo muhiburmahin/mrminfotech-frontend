@@ -5,26 +5,14 @@ import { Cpu, Layers, Sparkles, ArrowRight, ShieldCheck, Users, Zap, Globe, Grad
 import { PublicApiService } from '@/services/public-api.service';
 import type { ServiceRecord, ServiceCategory } from '@/types/service.types';
 import { ServicesShowcaseClient } from '@/components/public/services/ServicesShowcaseClient';
+import { buildMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Custom Software & Web Development Services',
+export const metadata: Metadata = buildMetadata({
+  title: "Custom Software & Web Development Services",
   description:
-    'Explore MRM InfoTech custom software and web development services: scalable SaaS platform engineering, enterprise web applications, and technical SEO architecture.',
-  alternates: {
-    canonical: 'https://mrminfotech.com/services',
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
-};
+    "Custom software, web application, cloud and UI/UX services from MRM InfoTech: scalable SaaS platform engineering and enterprise web applications.",
+  path: "/services",
+});
 
 export const revalidate = 60;
 

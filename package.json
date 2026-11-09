@@ -9,7 +9,8 @@
     "typecheck": "node scripts/lint-design-tokens.mjs && tsc --noEmit",
     "lint:tokens": "node scripts/lint-design-tokens.mjs",
     "lint": "eslint",
-    "test": "node --test scripts/regression.test.mjs"
+    "test": "node --test scripts/regression.test.mjs",
+    "audit:seo": "node scripts/seo-audit.mjs"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.3.1",
